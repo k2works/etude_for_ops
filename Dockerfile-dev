@@ -1,0 +1,16 @@
+FROM app:base
+
+ENV APP_ROOT /container
+ADD . $APP_ROOT
+WORKDIR $APP_ROOT
+COPY Gemfile $APP_ROOT
+COPY Gemfile.lock $APP_ROOT
+COPY etude_for_ruby.gemspec $APP_ROOT
+
+COPY . $APP_ROOT
+RUN bundle
+RUN bundle exec rspec
+RUn bundle exec rake build
+
+EXPOSE  5000
+CMD ["bin/console"]
