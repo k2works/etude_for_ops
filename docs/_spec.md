@@ -38,7 +38,7 @@ rectangle EtudeForOps {
 Environment <|-- Development
 Environment <|-- Staging
 Environment <|-- Production
-Environment *--r Share
+Environment <|-- Share
 Environment *--r Config
 Environment *--r Source
 Source *-- Build
