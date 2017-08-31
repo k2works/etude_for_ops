@@ -111,4 +111,30 @@ describe 'EtudeForOps::Ops' do
       end
     end
   end
+
+  context 'share' do
+    context 'onpremis' do
+      describe '#create_onpremis_production_env' do
+        it 'create production environment' do
+          env = ops.create_onpremis_share_env(root_dir)
+
+          expect(env.class).to be EtudeForOps::Share
+          set_expect_dir.call('99_share')
+          check_dir_exist(dir, root_dir)
+        end
+      end
+    end
+
+    context 'cloud' do
+      describe '#create_aws_production_env' do
+        it 'create production environment' do
+          env = ops.create_aws_share_env(root_dir)
+
+          expect(env.class).to be EtudeForOps::Share
+          set_expect_dir.call('99_share')
+          check_dir_exist(dir, root_dir)
+        end
+      end
+    end
+  end
 end

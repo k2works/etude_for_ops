@@ -22,6 +22,12 @@ module EtudeForOps
       @builder.environment
     end
 
+    def create_onpremis_share_env(root_dir)
+      @builder.set_env(Share.new(root_dir))
+      @builder.create_directory
+      @builder.environment
+    end
+
     def create_aws_development_env(root_dir)
       @builder.set_env(Development.new(root_dir))
       @builder.create_directory
@@ -36,6 +42,12 @@ module EtudeForOps
 
     def create_aws_production_env(root_dir)
       @builder.set_env(Production.new(root_dir))
+      @builder.create_directory
+      @builder.environment
+    end
+
+    def create_aws_share_env(root_dir)
+      @builder.set_env(Share.new(root_dir))
       @builder.create_directory
       @builder.environment
     end
