@@ -1,5 +1,17 @@
 require "etude_for_ops/version"
-
-module EtudeForOps
-  # Your code goes here...
-end
+require "etude_for_ops/ops"
+require "etude_for_ops/environment_builder"
+require "etude_for_ops/strategies/strategy"
+require "etude_for_ops/strategies/onpremis"
+require "etude_for_ops/strategies/cloud"
+require "etude_for_ops/strategies/aws/aws"
+require "etude_for_ops/environments/environment"
+require "etude_for_ops/environments/development"
+require "etude_for_ops/environments/staging"
+require "etude_for_ops/environments/production"
+require "etude_for_ops/environments/sources/build"
+require "etude_for_ops/environments/sources/ship"
+require "etude_for_ops/environments/sources/run"
+require "etude_for_ops/environments/configs/config"
+require "etude_for_ops/environments/configs/environment_variable"
+require "etude_for_ops/environments/configs/secure"
