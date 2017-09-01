@@ -1,3 +1,5 @@
+require 'erb'
+require 'yaml'
 require "etude_for_ops/version"
 require "etude_for_ops/ops"
 require "etude_for_ops/environment_builder"

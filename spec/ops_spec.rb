@@ -30,19 +30,24 @@ describe 'EtudeForOps::Ops' do
     dir[:env_src_run_dir] = Pathname.new("#{dir[:env_dir]}/src/run")
   end
 
-  context 'development' do
-    before(:each) do
-      FileUtils.rm_rf(root_dir)
-    end
+  before(:all) do
+    FileUtils.rm_rf(root_dir)
+  end
 
+  context 'development' do
     context 'onpremis' do
       describe '#create_onpremis_development_env' do
         it 'create development environment' do
-          env = ops.create_onpremis_development_env(root_dir)
+          env,stg = ops.create_onpremis_development_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Development
+          expect(stg.class).to be EtudeForOps::Onpremis
           set_expect_dir.call('01_development')
           check_dir_exist(dir, root_dir)
+          env_dir_file = Pathname.new(dir[:env_dir] + 'README.md')
+          set_dev_env_file = Pathname.new(dir[:env_conf_env_dir] + 'set-dev-env.sh')
+          expect(env_dir_file).to exist
+          expect(set_dev_env_file).to exist
         end
       end
     end

@@ -1,5 +1,15 @@
 module EtudeForOps
   class Environment
+    attr_reader :root_dir,
+                :env_dir,
+                :config_dir,
+                :config_env_dir,
+                :config_secure_dir,
+                :src_dir,
+                :src_build_dir,
+                :src_ship_dir,
+                :src_run_dir
+
     def initialize(root_dir='ops')
       @root_dir = root_dir
       @env_dir = "#{@root_dir}/#{@env_dir_name}"

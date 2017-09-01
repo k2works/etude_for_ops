@@ -7,7 +7,9 @@ module EtudeForOps
     def create_onpremis_development_env(root_dir)
       @builder.set_env(Development.new(root_dir))
       @builder.create_directory
-      @builder.environment
+      @builder.set_strategy(Onpremis.new)
+      @builder.apply_strategy
+      return @builder.environment, @builder.strategy
     end
 
     def create_onpremis_staging_env(root_dir)

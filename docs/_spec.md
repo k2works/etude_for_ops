@@ -48,13 +48,14 @@ Config *-- EnvironmentVariable
 Config *-- Secure
 Strategy <|-- Onpremis
 Strategy <|-- Cloud
+Strategy *--r Environment
 Ops --r> EnvironmentBuilder
 EnvironmentBuilder --r> Environment
 EnvironmentBuilder --r> Strategy
 Cloud <|-- AWS
 
 class Ops
-Interface Environment
+abstract Environment
 class Development
 class Staging
 class Production
