@@ -30,115 +30,102 @@ describe 'EtudeForOps::Ops' do
     dir[:env_src_run_dir] = Pathname.new("#{dir[:env_dir]}/src/run")
   end
 
-  before(:all) do
-    FileUtils.rm_rf(root_dir)
-  end
+  context 'onpremis' do
+    before(:all) do
+      FileUtils.rm_rf(root_dir)
+    end
 
-  context 'development' do
-    context 'onpremis' do
-      describe '#create_onpremis_development_env' do
-        it 'create development environment' do
-          env,stg = ops.create_onpremis_development_env(root_dir)
+    describe '#create_onpremis_development_env' do
+      it 'create development environment' do
+        env,stg = ops.create_onpremis_development_env(root_dir)
 
-          expect(env.class).to be EtudeForOps::Development
-          expect(stg.class).to be EtudeForOps::Onpremis
-          set_expect_dir.call('01_development')
-          check_dir_exist(dir, root_dir)
-          env_dir_file = Pathname.new(dir[:env_dir] + 'README.md')
-          set_dev_env_file = Pathname.new(dir[:env_conf_env_dir] + 'set-dev-env.sh')
-          expect(env_dir_file).to exist
-          expect(set_dev_env_file).to exist
-        end
+        expect(env.class).to be EtudeForOps::Development
+        expect(stg.class).to be EtudeForOps::Onpremis
+        set_expect_dir.call('01_development')
+        check_dir_exist(dir, root_dir)
+      end
+
+      it 'create development files' do
+        env_dir_file = Pathname.new(dir[:env_dir] + 'README.md')
+        set_dev_env_file = Pathname.new(dir[:env_conf_env_dir] + 'set-dev-env.sh')
+        expect(env_dir_file).to exist
+        expect(set_dev_env_file).to exist
       end
     end
 
-    context 'cloud' do
-      describe '#create_aws_development_env' do
-        it 'create development environment' do
-          env = ops.create_aws_development_env(root_dir)
+    describe '#create_onpremis_staging_env' do
+      it 'create staging environment' do
+        env = ops.create_onpremis_staging_env(root_dir)
 
-          expect(env.class).to be EtudeForOps::Development
-          set_expect_dir.call('01_development')
-          check_dir_exist(dir, root_dir)
-        end
-      end
-    end
-  end
-
-  context 'staging' do
-    context 'onpremis' do
-      describe '#create_onpremis_staging_env' do
-        it 'create staging environment' do
-          env = ops.create_onpremis_staging_env(root_dir)
-
-          expect(env.class).to be EtudeForOps::Staging
-          set_expect_dir.call('02_staging')
-          check_dir_exist(dir, root_dir)
-        end
+        expect(env.class).to be EtudeForOps::Staging
+        set_expect_dir.call('02_staging')
+        check_dir_exist(dir, root_dir)
       end
     end
 
-    context 'cloud' do
-      describe '#create_aws_staging_env' do
-        it 'create staging environment' do
-          env = ops.create_aws_staging_env(root_dir)
+    describe '#create_onpremis_production_env' do
+      it 'create production environment' do
+        env = ops.create_onpremis_production_env(root_dir)
 
-          expect(env.class).to be EtudeForOps::Staging
-          set_expect_dir.call('02_staging')
-          check_dir_exist(dir, root_dir)
-        end
+        expect(env.class).to be EtudeForOps::Production
+        set_expect_dir.call('03_production')
+        check_dir_exist(dir, root_dir)
+      end
+    end
+
+    describe '#create_onpremis_share_env' do
+      it 'create production environment' do
+        env = ops.create_onpremis_share_env(root_dir)
+
+        expect(env.class).to be EtudeForOps::Share
+        set_expect_dir.call('99_share')
+        check_dir_exist(dir, root_dir)
       end
     end
   end
 
-  context 'production' do
-    context 'onpremis' do
-      describe '#create_onpremis_production_env' do
-        it 'create production environment' do
-          env = ops.create_onpremis_production_env(root_dir)
+  context 'cloud' do
+    before(:all) do
+      FileUtils.rm_rf(root_dir)
+    end
 
-          expect(env.class).to be EtudeForOps::Production
-          set_expect_dir.call('03_production')
-          check_dir_exist(dir, root_dir)
-        end
+    describe '#create_aws_development_env' do
+      it 'create development environment' do
+        env = ops.create_aws_development_env(root_dir)
+
+        expect(env.class).to be EtudeForOps::Development
+        set_expect_dir.call('01_development')
+        check_dir_exist(dir, root_dir)
       end
     end
 
-    context 'cloud' do
-      describe '#create_aws_production_env' do
-        it 'create production environment' do
-          env = ops.create_aws_production_env(root_dir)
+    describe '#create_aws_staging_env' do
+      it 'create staging environment' do
+        env = ops.create_aws_staging_env(root_dir)
 
-          expect(env.class).to be EtudeForOps::Production
-          set_expect_dir.call('03_production')
-          check_dir_exist(dir, root_dir)
-        end
-      end
-    end
-  end
-
-  context 'share' do
-    context 'onpremis' do
-      describe '#create_onpremis_production_env' do
-        it 'create production environment' do
-          env = ops.create_onpremis_share_env(root_dir)
-
-          expect(env.class).to be EtudeForOps::Share
-          set_expect_dir.call('99_share')
-          check_dir_exist(dir, root_dir)
-        end
+        expect(env.class).to be EtudeForOps::Staging
+        set_expect_dir.call('02_staging')
+        check_dir_exist(dir, root_dir)
       end
     end
 
-    context 'cloud' do
-      describe '#create_aws_production_env' do
-        it 'create production environment' do
-          env = ops.create_aws_share_env(root_dir)
+    describe '#create_aws_production_env' do
+      it 'create production environment' do
+        env = ops.create_aws_production_env(root_dir)
 
-          expect(env.class).to be EtudeForOps::Share
-          set_expect_dir.call('99_share')
-          check_dir_exist(dir, root_dir)
-        end
+        expect(env.class).to be EtudeForOps::Production
+        set_expect_dir.call('03_production')
+        check_dir_exist(dir, root_dir)
+      end
+    end
+
+    describe '#create_aws_share_env' do
+      it 'create production environment' do
+        env = ops.create_aws_share_env(root_dir)
+
+        expect(env.class).to be EtudeForOps::Share
+        set_expect_dir.call('99_share')
+        check_dir_exist(dir, root_dir)
       end
     end
   end
