@@ -3,7 +3,8 @@ module EtudeForOps
     def apply_env
       create_ops_yml
       create_env_file
-      create_readme
+      create_readme_file
+      create_vagrant_file
     end
 
     def apply_env_config
@@ -31,9 +32,9 @@ module EtudeForOps
       end
     end
 
-    def create_readme
+    def create_readme_file
       config = YAML.load_file(get_ops_yml)
-      params = @environment.get_template_params
+      params = @environment.get_template_params(config)
       erb_file = @environment.get_readme_erb_file
       template = File.read(erb_file)
       erb = ERB.new(template, nil, "%")
@@ -42,9 +43,20 @@ module EtudeForOps
       end
     end
 
+    def create_vagrant_file
+      config = YAML.load_file(get_ops_yml)
+      params = @environment.get_template_params(config)
+      erb_file = @environment.get_vagrant_erb_file
+      template = File.read(erb_file)
+      erb = ERB.new(template, nil, "%")
+      File.open("#{@environment.env_dir}/Vagrantfile", 'w') do |file|
+        file.puts(erb.result(binding))
+      end
+    end
+
     def create_set_env_sh
       config = YAML.load_file(get_ops_yml)
-      params = @environment.get_template_params
+      params = @environment.get_template_params(config)
       erb_file = @environment.get_set_dev_env_erb_file
       template = File.read(erb_file)
       erb = ERB.new(template, nil, "%")

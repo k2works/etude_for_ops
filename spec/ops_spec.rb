@@ -47,8 +47,10 @@ describe 'EtudeForOps::Ops' do
 
       it 'create development files' do
         env_dir_file = Pathname.new(dir[:env_dir] + 'README.md')
+        vagrant_file = Pathname.new(dir[:env_dir] + 'Vagrantfile')
         set_dev_env_file = Pathname.new(dir[:env_conf_env_dir] + 'set-dev-env.sh')
         expect(env_dir_file).to exist
+        expect(vagrant_file).to exist
         expect(set_dev_env_file).to exist
       end
     end
@@ -86,7 +88,7 @@ describe 'EtudeForOps::Ops' do
 
   context 'cloud' do
     before(:all) do
-      FileUtils.rm_rf(root_dir)
+      #FileUtils.rm_rf(root_dir)
     end
 
     describe '#create_aws_development_env' do
