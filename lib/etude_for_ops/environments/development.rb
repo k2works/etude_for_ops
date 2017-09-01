@@ -18,11 +18,15 @@ module EtudeForOps
       'lib/etude_for_ops/templates/Vagrantfile.erb'
     end
 
+    def get_platform_ruby_chef_erb_file(file)
+      "lib/etude_for_ops/templates/development/platform/ruby/chef/#{file}.erb"
+    end
+
     def get_template_params(config)
       params = {}
       params[:env_name] = '開発環境'
-      params[:config_vm_box] = 'hiroshima-arc/manhattan'
-      params[:config_vm_version] = '1.1.0'
+      params[:config_vm_box] = 'bento/ubuntu-16.04'
+      params[:config_vm_version] = '>=0'
       params[:config_vm_networks] = []
       params[:config_vm_networks] << 'config.vm.network :forwarded_port, guest:3000, host:3000, id:"rails"'
       params[:config_vm_networks] << 'config.vm.network :forwarded_port, guest:8808, host:8808, id:"yard"'

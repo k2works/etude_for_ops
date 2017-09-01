@@ -49,6 +49,8 @@ Config *-- Secure
 Strategy <|-- Onpremis
 Strategy <|-- Cloud
 Strategy *--r Environment
+Environment *--u Platform
+Platform <|--u Ruby
 Ops --r> EnvironmentBuilder
 EnvironmentBuilder --r> Environment
 EnvironmentBuilder --r> Strategy
@@ -69,4 +71,5 @@ class Run
 class Onpremis
 class Cloud
 class AWS
+class Platform
 ```

@@ -12,6 +12,7 @@ module EtudeForOps
     end
 
     def apply_env_src
+      create_platform_files
     end
 
     private
@@ -62,6 +63,37 @@ module EtudeForOps
       erb = ERB.new(template, nil, "%")
       File.open("#{@environment.config_env_dir}/set-dev-env.sh", 'w') do |file|
         file.puts(erb.result(binding))
+      end
+    end
+
+    def create_platform_files
+      config = YAML.load_file(get_ops_yml)
+      params = @environment.get_template_params(config)
+      platform_ruby_chef_files = %w[attributes_default.rb
+                                    metadata.rb
+                                    chef.json
+                                    recipes_default.rb
+                                    ]
+      src_build_dir = "#{@environment.src_build_dir}/chef"
+      FileUtils.mkdir_p(src_build_dir, mode:0755)
+      platform_ruby_chef_files.each do |platform_file|
+        erb_file = @environment.get_platform_ruby_chef_erb_file(platform_file)
+        template = File.read(erb_file)
+        erb = ERB.new(template, nil, "%")
+        File.open("#{src_build_dir}/#{platform_file}", 'w') do |file|
+          file.puts(erb.result(binding))
+        end
+      end
+
+      platform_ruby_chef_erb_template_files = %w[
+          templates_default_banner
+          templates_default_bash_profile
+          templates_default_grants.sql
+          templates_default_my_extra_settings
+      ]
+      platform_ruby_chef_erb_template_files.each do |erb_template|
+        erb_file = @environment.get_platform_ruby_chef_erb_file(erb_template)
+        FileUtils.cp(erb_file,"#{src_build_dir}/#{erb_template}.erb")
       end
     end
   end
