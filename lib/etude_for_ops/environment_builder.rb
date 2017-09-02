@@ -1,12 +1,8 @@
 module EtudeForOps
   class EnvironmentBuilder
-    def set_env(env)
-      @environment = env
-    end
-
-    def set_strategy(strategy)
-      @strategy = strategy
-    end
+    attr_accessor :environment,
+                  :platform,
+                  :strategy
 
     def create_directory
       @environment.make_root_dir
@@ -21,6 +17,7 @@ module EtudeForOps
     end
 
     def apply_strategy
+      @environment.platform = @platform
       @strategy.environment = @environment
       @strategy.apply_env
       @strategy.apply_env_config
@@ -29,6 +26,10 @@ module EtudeForOps
 
     def environment
       @environment
+    end
+
+    def platform
+      @platform
     end
 
     def strategy

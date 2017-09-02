@@ -37,9 +37,10 @@ describe 'EtudeForOps::Ops' do
 
     describe '#create_onpremis_development_env' do
       it 'create development environment' do
-        env,stg = ops.create_onpremis_development_env(root_dir)
+        env,plt,stg = ops.create_onpremis_development_env(root_dir)
 
         expect(env.class).to be EtudeForOps::Development
+        expect(plt.class).to be EtudeForOps::Ruby
         expect(stg.class).to be EtudeForOps::Onpremis
         set_expect_dir.call('01_development')
         check_dir_exist(dir, root_dir)
@@ -52,6 +53,11 @@ describe 'EtudeForOps::Ops' do
         expect(env_dir_file).to exist
         expect(vagrant_file).to exist
         expect(set_dev_env_file).to exist
+
+        chef_dir = Pathname.new(dir[:env_src_build_dir] + 'chef')
+        expect(chef_dir).to exist
+        chef_file = Pathname.new(chef_dir + 'chef.json')
+        expect(chef_file).to exist
       end
     end
 

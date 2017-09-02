@@ -10,10 +10,5 @@ module EtudeForOps
 
     def apply_env_src
     end
-
-    protected
-    def get_ops_yml
-      "#{@environment.root_dir}/ops.yml"
-    end
   end
 end

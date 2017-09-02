@@ -1,5 +1,10 @@
 module EtudeForOps
   class Environment
+    attr_accessor :platform,
+                  :source,
+                  :config,
+                  :template_root_path
+
     attr_reader :root_dir,
                 :env_dir,
                 :config_dir,
@@ -20,6 +25,8 @@ module EtudeForOps
       @src_build_dir = "#{@src_dir}/build"
       @src_ship_dir = "#{@src_dir}/ship"
       @src_run_dir = "#{@src_dir}/run"
+      @source = Source.new
+      @config = Config.new
     end
 
     def name
@@ -64,6 +71,10 @@ module EtudeForOps
 
     def make_env_src_run_dir
       FileUtils.mkdir_p(@src_run_dir, mode:0755)
+    end
+
+    def ops_yml_file_path
+      "#{@root_dir}/ops.yml"
     end
   end
 end
