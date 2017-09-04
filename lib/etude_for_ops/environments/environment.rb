@@ -57,6 +57,10 @@ module EtudeForOps
       raise 'abstract method is called'
     end
 
+    def tmp_share_file_dir
+      "#{template_root_path}/share"
+    end
+
     def get_template_params(config)
       raise 'abstract method is called'
     end

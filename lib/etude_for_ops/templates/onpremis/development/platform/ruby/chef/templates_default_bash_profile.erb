@@ -7,8 +7,7 @@ fi
 
 # User specific environment and startup programs
 PATH=$PATH:$HOME/bin
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+export PATH="/opt/ruby_build/builds/app/bin:$PATH"
 
 source /vagrant/config/env/set-dev-env.sh
 source /vagrant/config/env/set-share-env.sh
