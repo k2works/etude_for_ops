@@ -41,6 +41,18 @@ module EtudeForOps
       self.class.to_s
     end
 
+    def make_dir
+      make_root_dir
+      make_env_dir
+      make_env_config_dir
+      make_env_config_env_dir
+      make_env_config_secure_dir
+      make_env_src_dir
+      make_env_src_build_dir
+      make_env_src_ship_dir
+      make_env_src_run_dir
+    end
+
     def create_ops_yml
       template = File.read("#{template_root_path}/ops.yml.erb")
       erb = ERB.new(template, nil, '%')

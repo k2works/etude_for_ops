@@ -4,11 +4,10 @@ module EtudeForOps
       @builder = EnvironmentBuilder.new
     end
 
-    def create_onpremis_development_env(root_dir)
-      @builder.environment = Development.new(root_dir)
-      @builder.create_directory
-      @builder.platform = Ruby.new
+    def create_onpremis_ruby_development_env(root_dir)
       @builder.strategy = Onpremis.new
+      @builder.platform = Ruby.new
+      @builder.environment = Development.new(root_dir)
       @builder.apply_strategy
       return @builder.environment, @builder.platform, @builder.strategy
     end
@@ -51,7 +50,6 @@ module EtudeForOps
 
     def create_aws_share_env(root_dir)
       @builder.environment = Share.new(root_dir)
-      @builder.create_directory
       @builder.environment
     end
   end
