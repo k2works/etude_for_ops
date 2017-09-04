@@ -113,43 +113,19 @@ describe 'EtudeForOps::Ops' do
     context 'amazon web service' do
       context 'ruby platform' do
         describe '#create_aws_ruby_development_env' do
-          it 'create development environment' do
-            env = ops.create_aws_ruby_development_env(root_dir)
-
-            expect(env.class).to be EtudeForOps::Development
-            set_expect_dir.call('01_development')
-            check_dir_exist(dir, root_dir)
-          end
+          it 'create development environment'
         end
 
         describe '#create_aws_ruby_staging_env' do
-          it 'create staging environment' do
-            env = ops.create_aws_ruby_staging_env(root_dir)
-
-            expect(env.class).to be EtudeForOps::Staging
-            set_expect_dir.call('02_staging')
-            check_dir_exist(dir, root_dir)
-          end
+          it 'create staging environment'
         end
 
         describe '#create_aws_ruby_production_env' do
-          it 'create production environment' do
-            env = ops.create_aws_ruby_production_env(root_dir)
-
-            expect(env.class).to be EtudeForOps::Production
-            set_expect_dir.call('03_production')
-            check_dir_exist(dir, root_dir)
-          end
+          it 'create production environment'
         end
 
         describe '#create_aws_ruby_share_env' do
-          it 'create production environment' do
-            env = ops.create_aws_ruby_share_env(root_dir)
-
-            expect(env.class).to be EtudeForOps::Share
-            set_expect_dir.call('99_share')
-            check_dir_exist(dir, root_dir)
-          end
+          it 'create production environment'
         end
       end
     end
