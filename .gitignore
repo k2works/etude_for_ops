@@ -112,3 +112,4 @@ build-iPhoneSimulator/
 etude_for_ops.iml
 ops
 .env
+.env.*

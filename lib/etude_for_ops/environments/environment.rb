@@ -74,11 +74,11 @@ module EtudeForOps
       end
     end
 
-    def create_env_file
+    def create_env_file(file='.env')
       config = YAML.load_file(ops_yml_file_path)
       template = File.read("#{template_root_path}/.env.erb")
       erb = ERB.new(template, nil, '%')
-      File.open('.env', 'w') do |file|
+      File.open(file, 'w') do |file|
         file.puts(erb.result(binding))
       end
     end

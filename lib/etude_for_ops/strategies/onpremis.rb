@@ -1,7 +1,9 @@
 module EtudeForOps
   class Onpremis < Strategy
+    TEMPLATE_ROOT_PAHT = 'lib/etude_for_ops/templates/onpremis'
+
     def apply_env
-      @environment.template_root_path = 'lib/etude_for_ops/templates/onpremis'
+      @environment.template_root_path = TEMPLATE_ROOT_PAHT
       create_ops_yml
       create_env_file
       create_readme_file
