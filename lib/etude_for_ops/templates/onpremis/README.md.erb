@@ -12,35 +12,7 @@
 ## 概要
 ## 構築
 ### インフラのセットアップ
-```bash
-cd ops/01_development
-vagrant up
-vagrant ssh
-```
-
-```bash
-sudo apt-get update
-sudo apt-get -y install curl
-curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk -c stable -v 1.6.1
-```
-
-```bash
-cd /vagrant
-sudo chef generate cookbook chef
-cd chef
-cp ../src/build/chef/chef.json .
-cp ../src/build/chef/metadata.rb .
-cp ../src/build/chef/recipes_default.rb recipes/default.rb
-chef generate attribute default
-cp ../src/build/chef/attributes_default.rb attributes/default.rb
-chef generate template default
-cp ../src/build/chef/templates_default_banner.erb templates/default/banner.erb
-cp ../src/build/chef/templates_default_bash_profile.erb templates/default/.bash_profile.erb
-cp ../src/build/chef/templates_default_grants.sql.erb templates/default/grants.sql.erb
-cp ../src/build/chef/templates_default_my_extra_settings.erb templates/default/my_extra_settings.erb
-berks vendor cookbooks
-sudo chef-client -z -j chef.json
-```
+<%= render 'setup_infra.md.erb' %>
 
 ### アプリケーションのセットアップ
 ### 環境の構築
