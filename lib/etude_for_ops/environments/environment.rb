@@ -122,19 +122,21 @@ module EtudeForOps
       @source.create_platform_files
     end
 
-    def render file
-      file_path = "#{tmp_file_dir}/readme/#{file}"
-      if File.exists?(file_path)
-        content = File.read(File.expand_path(file_path))
-        t = ERB.new(content)
-        t.result(binding)
-      end
+    def render_platform file
+      file_path = "#{tmp_file_dir}/platform/readme/#{file}"
+      render file_path if File.exists?(file_path)
     end
 
     private
 
     def ops_yml_file_path
       "#{@root_dir}/ops.yml"
+    end
+
+    def render file
+      content = File.read(File.expand_path(file))
+      t = ERB.new(content)
+      t.result(binding)
     end
 
     def get_readme_erb_file
