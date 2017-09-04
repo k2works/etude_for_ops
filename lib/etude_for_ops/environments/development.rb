@@ -16,7 +16,7 @@ module EtudeForOps
       params[:config_vm_box] = 'bento/ubuntu-16.04'
       params[:config_vm_version] = '>=0'
       params[:config_vm_networks] = []
-      params[:config_private_network_ip] = config['ops']['production']['ip_address']
+      params[:config_private_network_ip] = config['ops']['development']['ip_address']
       @platform.get_template_params(params)
       params
     end
