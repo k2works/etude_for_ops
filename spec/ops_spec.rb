@@ -91,9 +91,13 @@ describe 'EtudeForOps::Ops' do
 
       describe '#create_onpremis_ruby_share_env' do
         it 'create production environment' do
-          env = ops.create_onpremis_ruby_share_env(root_dir)
+          env,plt,stg = ops.create_onpremis_ruby_share_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Share
+          expect(plt.class).to be EtudeForOps::Ruby
+          expect(stg.class).to be EtudeForOps::Onpremis
+
+
           set_expect_dir.call('99_share')
           check_dir_exist(dir, root_dir)
         end

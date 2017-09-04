@@ -6,12 +6,19 @@ module EtudeForOps
       super
     end
 
-    def get_set_dev_env_template
-      template = <<TEMPLATE
-#!/usr/bin/env bash
-export ORGANIZATION=<%= config['ops']['share']['organization'] %>
-TEMPLATE
-      template
+    def tmp_file_dir
+      "#{template_root_path}/share"
+    end
+
+    def get_template_params(config)
+      params = {}
+      params[:env_name] = '共通環境'
+      params[:config_vm_box] = 'bento/ubuntu-16.04'
+      params[:config_vm_version] = '>=0'
+      params[:config_vm_networks] = []
+      params[:config_private_network_ip] = '127.0.0.1'
+      @platform.get_template_params(params)
+      params
     end
   end
 end
