@@ -54,10 +54,15 @@ module EtudeForOps
     end
 
     def create_ops_yml
-      template = File.read("#{template_root_path}/ops.yml.erb")
-      erb = ERB.new(template, nil, '%')
-      File.open(ops_yml_file_path, 'w') do |file|
-        file.puts(erb.result(binding))
+      erb_file = "#{template_root_path}/ops.yml.erb"
+      if File.exists?(erb_file)
+        template = File.read(erb_file)
+        erb = ERB.new(template, nil, '%')
+        File.open(ops_yml_file_path, 'w') do |file|
+          file.puts(erb.result(binding))
+        end
+      else
+        raise "ops.yml.erb is not exist in #{template_root_path}"
       end
     end
 
