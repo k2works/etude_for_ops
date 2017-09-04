@@ -21,9 +21,11 @@ module EtudeForOps
     end
 
     def create_onpremis_ruby_production_env(root_dir)
+      @builder.strategy = Onpremis.new
+      @builder.platform = Ruby.new
       @builder.environment = Production.new(root_dir)
-      @builder.create_directory
-      @builder.environment
+      @builder.apply_strategy
+      return @builder.environment, @builder.platform, @builder.strategy
     end
 
     def create_onpremis_ruby_share_env(root_dir)

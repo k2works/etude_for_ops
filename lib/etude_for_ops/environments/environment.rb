@@ -53,6 +53,14 @@ module EtudeForOps
       make_env_src_run_dir
     end
 
+    def tmp_file_dir
+      raise 'abstract method is called'
+    end
+
+    def get_template_params(config)
+      raise 'abstract method is called'
+    end
+
     def create_ops_yml
       erb_file = "#{template_root_path}/ops.yml.erb"
       if File.exists?(erb_file)
