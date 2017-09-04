@@ -32,10 +32,12 @@ module EtudeForOps
 
       platform_ruby_chef_files.each do |platform_file|
         erb_file = chef_erb_file(platform_file)
-        template = File.read(erb_file)
-        erb = ERB.new(template, nil, '%')
-        File.open("#{chef_src_build_dir}/#{platform_file}", 'w') do |file|
-          file.puts(erb.result(binding))
+        if File.exists?(erb_file)
+          template = File.read(erb_file)
+          erb = ERB.new(template, nil, '%')
+          File.open("#{chef_src_build_dir}/#{platform_file}", 'w') do |file|
+            file.puts(erb.result(binding))
+          end
         end
       end
     end
@@ -49,7 +51,7 @@ module EtudeForOps
       ]
       erb_template_files.each do |erb_template|
         erb_file = chef_erb_file(erb_template)
-        FileUtils.cp(erb_file, "#{chef_src_build_dir}/#{erb_template}.erb")
+        FileUtils.cp(erb_file, "#{chef_src_build_dir}/#{erb_template}.erb") if File.exists?(erb_file)
       end
     end
 

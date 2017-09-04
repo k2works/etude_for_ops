@@ -43,6 +43,7 @@ describe 'EtudeForOps::Ops' do
           expect(env.class).to be EtudeForOps::Development
           expect(plt.class).to be EtudeForOps::Ruby
           expect(stg.class).to be EtudeForOps::Onpremis
+
           set_expect_dir.call('01_development')
           check_dir_exist(dir, root_dir)
         end
@@ -62,19 +63,22 @@ describe 'EtudeForOps::Ops' do
         end
       end
 
-      describe '#create_onpremis_staging_env' do
+      describe '#create_onpremis_ruby_staging_env' do
         it 'create staging environment' do
-          env = ops.create_onpremis_staging_env(root_dir)
+          env,plt,stg = ops.create_onpremis_ruby_staging_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Staging
+          expect(plt.class).to be EtudeForOps::Ruby
+          expect(stg.class).to be EtudeForOps::Onpremis
+
           set_expect_dir.call('02_staging')
           check_dir_exist(dir, root_dir)
         end
       end
 
-      describe '#create_onpremis_production_env' do
+      describe '#create_onpremis_ruby_production_env' do
         it 'create production environment' do
-          env = ops.create_onpremis_production_env(root_dir)
+          env = ops.create_onpremis_ruby_production_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Production
           set_expect_dir.call('03_production')
@@ -82,9 +86,9 @@ describe 'EtudeForOps::Ops' do
         end
       end
 
-      describe '#create_onpremis_share_env' do
+      describe '#create_onpremis_ruby_share_env' do
         it 'create production environment' do
-          env = ops.create_onpremis_share_env(root_dir)
+          env = ops.create_onpremis_ruby_share_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Share
           set_expect_dir.call('99_share')
@@ -99,43 +103,47 @@ describe 'EtudeForOps::Ops' do
       #FileUtils.rm_rf(root_dir)
     end
 
-    describe '#create_aws_development_env' do
-      it 'create development environment' do
-        env = ops.create_aws_development_env(root_dir)
+    context 'amazon web service' do
+      context 'ruby platform' do
+        describe '#create_aws_ruby_development_env' do
+          it 'create development environment' do
+            env = ops.create_aws_ruby_development_env(root_dir)
 
-        expect(env.class).to be EtudeForOps::Development
-        set_expect_dir.call('01_development')
-        check_dir_exist(dir, root_dir)
-      end
-    end
+            expect(env.class).to be EtudeForOps::Development
+            set_expect_dir.call('01_development')
+            check_dir_exist(dir, root_dir)
+          end
+        end
 
-    describe '#create_aws_staging_env' do
-      it 'create staging environment' do
-        env = ops.create_aws_staging_env(root_dir)
+        describe '#create_aws_ruby_staging_env' do
+          it 'create staging environment' do
+            env = ops.create_aws_ruby_staging_env(root_dir)
 
-        expect(env.class).to be EtudeForOps::Staging
-        set_expect_dir.call('02_staging')
-        check_dir_exist(dir, root_dir)
-      end
-    end
+            expect(env.class).to be EtudeForOps::Staging
+            set_expect_dir.call('02_staging')
+            check_dir_exist(dir, root_dir)
+          end
+        end
 
-    describe '#create_aws_production_env' do
-      it 'create production environment' do
-        env = ops.create_aws_production_env(root_dir)
+        describe '#create_aws_ruby_production_env' do
+          it 'create production environment' do
+            env = ops.create_aws_ruby_production_env(root_dir)
 
-        expect(env.class).to be EtudeForOps::Production
-        set_expect_dir.call('03_production')
-        check_dir_exist(dir, root_dir)
-      end
-    end
+            expect(env.class).to be EtudeForOps::Production
+            set_expect_dir.call('03_production')
+            check_dir_exist(dir, root_dir)
+          end
+        end
 
-    describe '#create_aws_share_env' do
-      it 'create production environment' do
-        env = ops.create_aws_share_env(root_dir)
+        describe '#create_aws_ruby_share_env' do
+          it 'create production environment' do
+            env = ops.create_aws_ruby_share_env(root_dir)
 
-        expect(env.class).to be EtudeForOps::Share
-        set_expect_dir.call('99_share')
-        check_dir_exist(dir, root_dir)
+            expect(env.class).to be EtudeForOps::Share
+            set_expect_dir.call('99_share')
+            check_dir_exist(dir, root_dir)
+          end
+        end
       end
     end
   end

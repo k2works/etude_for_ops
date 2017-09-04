@@ -4,10 +4,12 @@ module EtudeForOps
 
     def create_set_env_sh(config,params,config_env_dir)
       erb_file = get_set_dev_env_erb_file
-      template = File.read(erb_file)
-      erb = ERB.new(template, nil, '%')
-      File.open("#{config_env_dir}/set-dev-env.sh", 'w') do |file|
-        file.puts(erb.result(binding))
+      if File.exists?(erb_file)
+        template = File.read(erb_file)
+        erb = ERB.new(template, nil, '%')
+        File.open("#{config_env_dir}/set-dev-env.sh", 'w') do |file|
+          file.puts(erb.result(binding))
+        end
       end
     end
 

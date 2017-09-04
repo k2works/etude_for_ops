@@ -111,9 +111,11 @@ module EtudeForOps
 
     def render file
       file_path = "#{tmp_file_dir}/readme/#{file}"
-      content = File.read(File.expand_path(file_path))
-      t = ERB.new(content)
-      t.result(binding)
+      if File.exists?(file_path)
+        content = File.read(File.expand_path(file_path))
+        t = ERB.new(content)
+        t.result(binding)
+      end
     end
 
     private
