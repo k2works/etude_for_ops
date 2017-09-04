@@ -20,7 +20,7 @@ module EtudeForOps
     private
 
     def create_chef_dir
-      FileUtils.mkdir_p(chef_src_build_dir, mode: 0o755)
+      FileUtils.mkdir_p(chef_src_build_dir, mode: 0755)
     end
 
     def create_chef_files

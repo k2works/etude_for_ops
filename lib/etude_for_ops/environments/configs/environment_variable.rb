@@ -1,6 +1,6 @@
 module EtudeForOps
   class EnvironmentVariable
-    attr_accessor :tmp_file_dir
+    attr_accessor :tmp_file_dir,:tmp_share_file_dir
 
     def create_set_env_sh(config,params,config_env_dir)
       erb_file = get_set_dev_env_erb_file

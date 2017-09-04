@@ -114,6 +114,7 @@ module EtudeForOps
       params = get_template_params(config)
       @config.config_env_dir = config_env_dir
       @config.tmp_file_dir = tmp_file_dir
+      @config.tmp_share_file_dir = tmp_share_file_dir
       @config.create_set_env_sh(config,params)
     end
 
