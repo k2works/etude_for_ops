@@ -1,3 +1,5 @@
+### インフラのセットアップ
+
 ```bash
 cd ops/01_development
 vagrant up
@@ -27,3 +29,7 @@ cp ../src/build/chef/templates_default_my_extra_settings.erb templates/default/m
 berks vendor cookbooks
 sudo chef-client -z -j chef.json
 ```
+
+### アプリケーションのセットアップ
+### 環境の構築
+
