@@ -4,9 +4,10 @@
 #
 # Copyright (c) 2017 The Authors, All Rights Reserved.
 include_recipe 'ruby_platform::setup'
-include_recipe 'ruby_platform::setup_ruby-env'
-include_recipe 'ruby_platform::setup_mysql-env'
-include_recipe 'ruby_platform::setup_postgres-env'
-include_recipe 'ruby_platform::setup_redis-env'
-include_recipe 'ruby_platform::setup_mongodb-env'
+include_recipe 'ruby_platform::setup_ruby'
+include_recipe 'ruby_platform::setup_node'
+include_recipe 'ruby_platform::setup_mysql'
+include_recipe 'ruby_platform::setup_postgres'
+include_recipe 'ruby_platform::setup_redis'
+include_recipe 'ruby_platform::setup_mongodb'
 include_recipe 'ruby_platform::configure'

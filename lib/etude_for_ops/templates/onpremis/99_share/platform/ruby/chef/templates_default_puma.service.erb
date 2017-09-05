@@ -1,0 +1,13 @@
+[Unit]
+Description=puma
+
+[Service]
+Environment=RAILS_ENV=production
+WorkingDirectory=/var/app
+ExecStart=/opt/ruby_build/builds/2.4.1/bin/bundle exec ./script/delayed_job start
+ExecStop=/opt/ruby_build/builds/2.4.1/bin/bundle exec ./script/delayed_job stop
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target

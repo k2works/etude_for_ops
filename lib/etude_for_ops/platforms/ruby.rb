@@ -33,6 +33,8 @@ module EtudeForOps
         recipes_setup_redis.rb
         recipes_setup_mongodb.rb
         recipes_setup_node.rb
+        recipes_setup_nginx.rb
+        recipes_setup_service.rb
       ]
 
       platform_ruby_chef_files.each do |platform_file|
@@ -57,6 +59,10 @@ module EtudeForOps
         templates_default_bash_profile
         templates_default_grants.sql
         templates_default_my_extra_settings
+        templates_default_nginx.default.conf
+        templates_default_nginx.proxy.conf
+        templates_default_puma
+        templates_default_puma.service
       ]
 
       erb_template_files.each do |erb_template|

@@ -1,15 +1,14 @@
 ### アプリケーションのデプロイ
 
 ```ruby:Gemfile
+# Use Capistrano for deployment
 group :development do
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'capistrano', '~> 3.3.0'
   gem 'capistrano-scm-copy'
   gem 'capistrano-safe-deploy-to', '~> 1.1.1'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-bundler'
 end
 ```
 
@@ -26,6 +25,11 @@ require 'capistrano/setup'
 require 'capistrano/deploy'
 require 'capistrano/safe_deploy_to'
 require 'capistrano/copy'
+require 'capistrano/rails'
+require 'capistrano/rbenv'
+require 'capistrano/rails/assets'
+require 'capistrano/rails/migrations'
+require 'capistrano/bundler'
 
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 ```

@@ -5,6 +5,8 @@ packages.each do |pkg|
   end
 end
 
+ruby_version = node['ruby']['version']
+
 ruby_runtime 'app' do
   provider :ruby_build
   version ruby_version

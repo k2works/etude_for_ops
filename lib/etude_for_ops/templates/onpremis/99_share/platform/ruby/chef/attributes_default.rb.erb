@@ -20,3 +20,7 @@ default['postgresql']['pg_hba'] = [
     {:comment => '# Optional comment', :type => 'host', :db => 'all', :user => 'all', :addr => '10.0.2.2/32', :method => 'md5'},
     {:comment => '# Optional comment', :type => 'host', :db => 'all', :user => 'all', :addr => '127.0.0.1/32', :method => 'md5'}
 ]
+default['nginx']['rack_upstream']['server'] = 'localhost:8000'
+default['nginx']['proxy']['send_timeout']= '3000'
+default['nginx']['proxy']['read_timeout']= '3000'
+default['nginx']['proxy']['max_body_size']= '100M'
