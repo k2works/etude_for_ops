@@ -7,7 +7,7 @@ module EtudeForOps
     end
 
     def tmp_file_dir
-      "#{template_root_path}/production"
+      "#{template_root_path}/03_production"
     end
 
     def get_template_params(config)

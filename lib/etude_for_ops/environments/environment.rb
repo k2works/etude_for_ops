@@ -58,7 +58,7 @@ module EtudeForOps
     end
 
     def tmp_share_file_dir
-      "#{template_root_path}/share"
+      "#{template_root_path}/99_share"
     end
 
     def get_template_params(config)

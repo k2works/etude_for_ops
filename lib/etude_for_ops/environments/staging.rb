@@ -7,7 +7,7 @@ module EtudeForOps
     end
 
     def tmp_file_dir
-      "#{template_root_path}/staging"
+      "#{template_root_path}/02_staging"
     end
 
     def get_template_params(config)
