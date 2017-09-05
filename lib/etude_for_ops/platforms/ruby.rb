@@ -1,9 +1,5 @@
 module EtudeForOps
   class Ruby < Platform
-    attr_accessor :params,
-                  :tmp_file_dir,
-                  :src_build_dir
-
     def create_files
       create_chef_dir
       create_chef_files
@@ -32,14 +28,18 @@ module EtudeForOps
       ]
 
       platform_ruby_chef_files.each do |platform_file|
-        erb_file = chef_erb_file(platform_file)
-        if File.exists?(erb_file)
+        file_put = ->(erb_file) do
           template = File.read(erb_file)
           erb = ERB.new(template, nil, '%')
           File.open("#{chef_src_build_dir}/#{platform_file}", 'w') do |file|
             file.puts(erb.result(binding))
           end
         end
+
+        erb_file = chef_erb_file(platform_file)
+        file_put.call(erb_file) if File.exists?(erb_file)
+        erb_file = chef_erb_share_file(platform_file)
+        file_put.call(erb_file) if File.exists?(erb_file)
       end
     end
 
@@ -50,9 +50,16 @@ module EtudeForOps
         templates_default_grants.sql
         templates_default_my_extra_settings
       ]
+
       erb_template_files.each do |erb_template|
+        file_cp = ->(erb_file) do
+          FileUtils.cp(erb_file, "#{chef_src_build_dir}/#{erb_template}.erb")
+        end
+
         erb_file = chef_erb_file(erb_template)
-        FileUtils.cp(erb_file, "#{chef_src_build_dir}/#{erb_template}.erb") if File.exists?(erb_file)
+        file_cp.call(erb_file) if File.exists?(erb_file)
+        erb_file = chef_erb_share_file(erb_template)
+        file_cp.call(erb_file) if File.exists?(erb_file)
       end
     end
 
@@ -62,6 +69,10 @@ module EtudeForOps
 
     def chef_erb_file(file)
       "#{@tmp_file_dir}/platform/ruby/chef/#{file}.erb"
+    end
+
+    def chef_erb_share_file(file)
+      "#{@tmp_share_file_dir}/platform/ruby/chef/#{file}.erb"
     end
   end
 end

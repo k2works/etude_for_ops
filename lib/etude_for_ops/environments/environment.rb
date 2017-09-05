@@ -123,6 +123,7 @@ module EtudeForOps
       @platform.params = get_template_params(config)
       @platform.tmp_file_dir = tmp_file_dir
       @platform.src_build_dir = @src_build_dir
+      @platform.tmp_share_file_dir = tmp_share_file_dir
       @source.platform = @platform
       @source.create_platform_files
     end
