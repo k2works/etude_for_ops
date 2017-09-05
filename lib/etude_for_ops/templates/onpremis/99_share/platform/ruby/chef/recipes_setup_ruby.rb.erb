@@ -12,6 +12,11 @@ ruby_runtime 'app' do
   version ruby_version
 end
 
+gems = %w{bundler puma}
+gems.each do |gem|
+  ruby_gem gem
+end
+
 if node['etc']['passwd']['vagrant']
   user = node['ruby-env']['user']
   group = node['ruby-env']['group']

@@ -2,10 +2,10 @@
 Description=puma
 
 [Service]
-Environment=RAILS_ENV=production
-WorkingDirectory=/var/app
-ExecStart=/opt/ruby_build/builds/2.4.1/bin/bundle exec ./script/delayed_job start
-ExecStop=/opt/ruby_build/builds/2.4.1/bin/bundle exec ./script/delayed_job stop
+Environment=RAILS_ENV=development
+WorkingDirectory=/var/app/current
+ExecStart=/opt/ruby_build/builds/app/bin/puma -C config/puma.rb -d
+ExecStop=kill -s SIGTERM `cat /var/app/shared/tmp/pids/puma.pid`
 Restart = always
 Type = simple
 

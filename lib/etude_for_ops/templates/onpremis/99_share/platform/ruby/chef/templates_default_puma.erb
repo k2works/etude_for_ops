@@ -3,14 +3,14 @@
 NAME=puma
 USER=vagrant
 APP_NAME=app
-APP_DIR=/home/$USER/$APP_NAME
-TMP_DIR=$APP_DIR/tmp
-PID_DIR=$TMP_DIR/pids
+APP_DIR=/var/app/current
+TMP_DIR=/var/app/shared/tmp
+PID_DIR=/var/app/shared/pids
 SOCKET_DIR=$TMP_DIR/sockets
-LOG_DIR=$TMP_DIR/logs
-PUMA_BIN=/home/$USER/.rbenv/shims/puma
+LOG_DIR=$TMP_DIR
+PUMA_BIN=/opt/ruby_build/builds/app/bin/puma
 
-RAILS_ENV=staging
+RAILS_ENV=development
 
 sudo -u $USER -H sh -c "mkdir -p $PID_DIR"
 sudo -u $USER -H sh -c "mkdir -p $SOCKET_DIR"

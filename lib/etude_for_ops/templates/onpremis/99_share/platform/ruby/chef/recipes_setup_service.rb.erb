@@ -34,3 +34,8 @@ case node["platform"]
       mode 0751
     end
 end
+
+service "puma" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end

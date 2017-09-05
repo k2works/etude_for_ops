@@ -1,6 +1,5 @@
 upstream app {
-    # Path to Unicorn SOCK file, as defined previously
-    server unix:/var/app/current/tmp/sockets/puma.sock fail_timeout=0;
+    server unix:/var/app/shared/tmp/sockets/puma.sock fail_timeout=0;
 }
 
 server {
