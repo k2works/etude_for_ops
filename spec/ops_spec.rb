@@ -58,7 +58,7 @@ describe 'EtudeForOps::Ops' do
 
           chef_dir = Pathname.new(dir[:env_src_build_dir] + 'chef')
           expect(chef_dir).to exist
-          chef_file = Pathname.new(chef_dir + 'chef.json')
+          chef_file = Pathname.new(chef_dir + 'provision.json')
           expect(chef_file).to exist
         end
       end

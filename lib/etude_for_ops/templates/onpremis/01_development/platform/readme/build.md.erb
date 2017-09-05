@@ -19,6 +19,14 @@ cd build
 cp ../src/build/chef/chef.json .
 cp ../src/build/chef/metadata.rb .
 cp ../src/build/chef/recipes_default.rb recipes/default.rb
+cp ../src/build/chef/recipes_setup.rb recipes/setup.rb
+cp ../src/build/chef/recipes_setup_ruby.rb recipes/setup_ruby.rb
+cp ../src/build/chef/recipes_setup_mysql.rb recipes/setup_mysql.rb
+cp ../src/build/chef/recipes_setup_postgres.rb recipes/setup_postgres.rb
+cp ../src/build/chef/recipes_setup_redis.rb recipes/setup_redis.rb
+cp ../src/build/chef/recipes_setup_mongodb.rb recipes/setup_mongodb.rb
+cp ../src/build/chef/recipes_setup_node.rb recipes/setup_node.rb
+cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
 chef generate attribute default
 cp ../src/build/chef/attributes_default.rb attributes/default.rb
 chef generate template default

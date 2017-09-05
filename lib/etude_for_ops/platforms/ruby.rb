@@ -23,8 +23,16 @@ module EtudeForOps
       platform_ruby_chef_files = %w[
         attributes_default.rb
         metadata.rb
-        chef.json
+        provision.json
         recipes_default.rb
+        recipes_setup.rb
+        recipes_configure.rb
+        recipes_setup_ruby.rb
+        recipes_setup_mysql.rb
+        recipes_setup_postgres.rb
+        recipes_setup_redis.rb
+        recipes_setup_mongodb.rb
+        recipes_setup_node.rb
       ]
 
       platform_ruby_chef_files.each do |platform_file|

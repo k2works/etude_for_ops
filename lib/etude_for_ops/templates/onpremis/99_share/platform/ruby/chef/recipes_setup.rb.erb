@@ -1,0 +1,13 @@
+include_recipe 'apt::default'
+
+packages = %W{ }
+packages.each do |pkg|
+  package "#{pkg}" do
+    action [ :install, :upgrade ]
+  end
+end
+
+include_recipe 'nginx::repo'
+package 'nginx' do
+  action :install
+end
