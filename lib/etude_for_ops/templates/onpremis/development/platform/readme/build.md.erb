@@ -14,8 +14,8 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk -c stable 
 
 ```bash
 cd /vagrant
-sudo chef generate cookbook chef
-cd chef
+sudo chef generate cookbook build
+cd build
 cp ../src/build/chef/chef.json .
 cp ../src/build/chef/metadata.rb .
 cp ../src/build/chef/recipes_default.rb recipes/default.rb
@@ -28,8 +28,14 @@ cp ../src/build/chef/templates_default_grants.sql.erb templates/default/grants.s
 cp ../src/build/chef/templates_default_my_extra_settings.erb templates/default/my_extra_settings.erb
 berks vendor cookbooks
 sudo chef-client -z -j chef.json
+exit
+vagrant reload
 ```
 
 ### アプリケーションのセットアップ
-### 環境の構築
-
+```bash
+cd ../..
+sudo gem install bundler
+sudo gem install rails
+rails new dev -d mysql
+```

@@ -1,2 +1,63 @@
 ### アプリケーションのデプロイ
+
+```ruby:Gemfile
+group :development do
+  gem 'web-console', '>= 3.3.0'
+  gem 'listen', '>= 3.0.5', '< 3.2'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'capistrano', '~> 3.3.0'
+  gem 'capistrano-scm-copy'
+  gem 'capistrano-safe-deploy-to', '~> 1.1.1'
+end
+```
+
+```bash
+bundle
+bundle exec cap install STAGES=development
+```
+
+```ruby:Capfile
+# Load DSL and set up stages
+require 'capistrano/setup'
+
+# Include default deployment tasks
+require 'capistrano/deploy'
+require 'capistrano/safe_deploy_to'
+require 'capistrano/copy'
+
+Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
+```
+
+```ruby:config/deploy/development.rb
+role :server, %w(127.0.0.1)
+set(
+    :ssh_options,
+    port: 2222,
+    auth_methods: %w(publickey),
+    keys: [File.expand_path("../../../../ops/01_development/.vagrant/machines/default/virtualbox/private_key", __FILE__)],
+    user: "vagrant"
+)
+```
+
+```ruby:config/deploy.rb
+# config valid only for current version of Capistrano
+lock '3.3.5'
+
+set :application, "app"
+set :deploy_to, "/var/app"
+set :keep_releases, 5
+set :log_level, :info
+
+set :bundle_without, %i(development test)
+
+# capistrano-scm-copyの設定
+set :scm, :copy
+```
+
+```bash
+bundle exec cap development deploy
+```
+
 ### アプリケーション・サーバー仮想マシンへのログイン
