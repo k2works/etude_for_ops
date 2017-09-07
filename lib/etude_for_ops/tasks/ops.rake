@@ -1,6 +1,13 @@
 require 'etude_for_ops'
 
-namespace :Ops do
+namespace :ops do
+  desc 'Setup ruby development environment'
+  task :create_onpremis_ruby_development_env do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.create_onpremis_ruby_development_env(root_dir)
+  end
+
   desc 'Create .env file for onpremis development'
   task :create_env_onpremis_dev do
     root_dir = Pathname.new('ops')
