@@ -16,7 +16,7 @@ end
 describe 'EtudeForOps::Ops' do
   let(:ops) { EtudeForOps::Ops.new }
 
-  root_dir = Pathname.new('ops')
+  root_dir = Pathname.new('spec/ops')
   dir = {}
   set_expect_dir = ->(env_name) do
     dir[:env_name] = env_name
