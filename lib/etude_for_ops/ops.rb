@@ -1,5 +1,7 @@
 module EtudeForOps
   class Ops
+    TEMPLATE_ROOT_PAHT = "#{File.dirname(__FILE__)}/templates"
+
     def initialize
       @builder = EnvironmentBuilder.new
     end
