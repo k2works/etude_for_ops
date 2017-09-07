@@ -4,6 +4,7 @@ module EtudeForOps
       create_chef_dir
       create_chef_files
       create_chef_erb_template_files
+      create_sh_dir
       create_sh_files
     end
 
@@ -18,6 +19,10 @@ module EtudeForOps
 
     def create_chef_dir
       FileUtils.mkdir_p(chef_src_build_dir, mode: 0755)
+    end
+
+    def create_sh_dir
+      FileUtils.mkdir_p(sh_src_build_dir, mode: 0755)
     end
 
     def create_chef_files
@@ -83,16 +88,16 @@ module EtudeForOps
          build.sh
       ]
 
-      erb_sh_files.each do |erb_file|
+      erb_sh_files.each do |erb_sh_file|
         file_put = ->(erb_file) do
           template = File.read(erb_file)
           erb = ERB.new(template, nil, '%')
-          File.open("#{sh_src_build_dir}/#{platform_file}", 'w') do |file|
+          File.open("#{sh_src_build_dir}/#{erb_sh_file}", 'w') do |file|
             file.puts(erb.result(binding))
           end
         end
 
-        erb_file = sh_erb_file(platform_file)
+        erb_file = sh_erb_file(erb_sh_file)
         file_put.call(erb_file) if File.exists?(erb_file)
       end
     end
