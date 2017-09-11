@@ -4,7 +4,7 @@ Description=puma
 [Service]
 Environment=RAILS_ENV=development
 WorkingDirectory=/var/app/current
-ExecStart=/opt/ruby_build/builds/app/bin/puma -C config/puma.rb
+ExecStart=/home/vagrant/.rbenv/shims/bundle exec puma -C /var/app/shared/puma.rb
 ExecStop=kill -s SIGTERM `cat /var/app/shared/tmp/pids/puma.pid`
 Restart = always
 Type = simple

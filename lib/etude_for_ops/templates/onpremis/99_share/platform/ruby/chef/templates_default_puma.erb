@@ -5,10 +5,10 @@ USER=vagrant
 APP_NAME=app
 APP_DIR=/var/app/current
 TMP_DIR=/var/app/shared/tmp
-PID_DIR=/var/app/shared/pids
+PID_DIR=/var/app/shared/tmp/pids
 SOCKET_DIR=$TMP_DIR/sockets
 LOG_DIR=$TMP_DIR
-PUMA_BIN=/opt/ruby_build/builds/app/bin/puma
+PUMA_BIN=/home/$USER/.rbenv/shims/bundle exec puma
 
 RAILS_ENV=development
 
