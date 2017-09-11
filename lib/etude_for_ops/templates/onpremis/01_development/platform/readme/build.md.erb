@@ -14,6 +14,11 @@ exit
 vagrant reload
 ```
 
+```bash
+cd /vagrant/ops/01_development/build
+sudo chef-client -z -j provision.json
+```
+
 ### アプリケーションのセットアップ
 ```bash
 sudo gem install bundler
