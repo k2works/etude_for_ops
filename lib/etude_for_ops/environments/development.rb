@@ -17,6 +17,7 @@ module EtudeForOps
       params[:config_vm_version] = '>=0'
       params[:config_vm_networks] = []
       params[:config_private_network_ip] = config['ops']['development']['ip_address']
+      params[:config_vb_name] = "Dev#{config['ops']['share']['application']}"
       @platform.get_template_params(params)
       params
     end

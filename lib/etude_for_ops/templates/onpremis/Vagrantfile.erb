@@ -24,6 +24,7 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/vagrant", mount_options: ['dmode=777','fmode=777']
 
   config.vm.provider "virtualbox" do |vb|
+    vb.name = "<%= params[:config_vb_name] %>"
     vb.gui = false
 
     # Use VBoxManage to customize the VM. For example to change memory:
