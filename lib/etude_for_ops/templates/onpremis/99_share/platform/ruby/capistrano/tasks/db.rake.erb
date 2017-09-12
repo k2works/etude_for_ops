@@ -1,4 +1,4 @@
-namespace :database do
+namespace :db do
   desc 'Create MySQL Database'
   task :mysql_db_create do
     on roles(:db) do |host|
@@ -24,6 +24,33 @@ namespace :database do
         execute "mkdir -p #{shared_path}/config"
       end
       upload!('config/database.yml', "#{shared_path}/config/database.yml")
+    end
+  end
+
+  desc 'Upload latest dumpfile'
+  task :dump_upload do
+    on roles(:app) do |host|
+      environment = fetch(:rails_env)
+      dump_dir = "db/dumps/#{environment}"
+      if test "[ ! -d #{current_path}/#{dump_dir} ]"
+        execute "mkdir -p #{current_path}/#{dump_dir}"
+      end
+      days = []
+      Dir.glob("#{dump_dir}/*").each do |file|
+        days << Date.parse(File.basename(file, '.dump'))
+      end
+      dump_file = "#{days.max}.dump"
+      upload!("#{dump_dir}/#{dump_file}", "#{current_path}/#{dump_dir}")
+    end
+  end
+
+  desc 'Download latest dumpfile'
+  task :dump_download do
+    on roles(:app) do |host|
+      environment = fetch(:rails_env)
+      dump_dir = "db/dumps/#{environment}"
+      dump_file = "#{Date.today.strftime("%Y-%m-%d")}.dump"
+      download!("#{current_path}/#{dump_dir}/#{dump_file}" ,"#{dump_dir}/#{dump_file}")
     end
   end
 
@@ -77,6 +104,28 @@ namespace :database do
       with rails_env: fetch(:rails_env) do
         within current_path do
           execute :bundle, :exec, :rake, 'db:seed'
+        end
+      end
+    end
+  end
+
+  desc 'Dumps the database by date'
+  task :dump_all do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, :rake, 'db:dump_all'
+        end
+      end
+    end
+  end
+
+  desc 'Import latest dumps'
+  task :import_all do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, :rake, 'db:import_all'
         end
       end
     end

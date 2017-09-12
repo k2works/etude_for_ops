@@ -6,6 +6,8 @@ module EtudeForOps
       create_chef_erb_template_files
       create_sh_dir
       create_sh_files
+      create_rake_dir
+      create_rake_files
       create_capistrano_dir
       create_capistrano_files
     end
@@ -26,6 +28,10 @@ module EtudeForOps
     def create_sh_dir
       FileUtils.mkdir_p(sh_src_build_dir, mode: 0755)
       FileUtils.mkdir_p(sh_src_ship_dir, mode: 0755)
+    end
+
+    def create_rake_dir
+      FileUtils.mkdir_p(rake_src_run_dir, mode: 0755)
     end
 
     def create_capistrano_dir
@@ -118,6 +124,26 @@ module EtudeForOps
       end
     end
 
+    def create_rake_files
+      file_put = ->(rake_dir, erb_file, rake_file) do
+        template = File.read(erb_file)
+        erb = ERB.new(template, nil, '%')
+        File.open("#{rake_dir}/#{rake_file}", 'w') do |file|
+          file.puts(erb.result(binding))
+        end
+      end
+
+      erb_rake_files = %w[
+         db.rake
+      ]
+      erb_rake_files.each do |rake_file|
+        erb_file = rake_erb_file(rake_file)
+        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exists?(erb_file)
+        erb_file = rake_erb_share_file(rake_file)
+        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exists?(erb_file)
+      end
+    end
+
     def create_capistrano_files
       file_put = ->(cap_ship_dir, erb_file, cap_file) do
         template = File.read(erb_file)
@@ -163,6 +189,10 @@ module EtudeForOps
       "#{@src_ship_dir}/sh"
     end
 
+    def rake_src_run_dir
+      "#{@src_run_dir}/rake"
+    end
+
     def capistrano_dir
       "#{@src_ship_dir}/capistrano"
     end
@@ -181,6 +211,14 @@ module EtudeForOps
 
     def sh_erb_file(file)
       "#{@tmp_file_dir}/platform/ruby/sh/#{file}.erb"
+    end
+
+    def rake_erb_file(file)
+      "#{@tmp_file_dir}/platform/ruby/rake/#{file}.erb"
+    end
+
+    def rake_erb_share_file(file)
+      "#{@tmp_share_file_dir}/platform/ruby/rake/#{file}.erb"
     end
 
     def capistrano_erb_file(dir,file)

@@ -55,8 +55,8 @@ namespace :deploy do
   task :initial do
     on roles(:app) do
       before 'deploy:restart', 'puma:start'
-      invoke 'database:mysql_db_create'
-      invoke 'database:pg_db_create'
+      invoke 'db:mysql_db_create'
+      invoke 'db:pg_db_create'
       invoke 'deploy'
     end
   end
