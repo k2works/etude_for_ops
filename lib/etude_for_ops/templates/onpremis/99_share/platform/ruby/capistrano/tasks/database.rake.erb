@@ -1,4 +1,22 @@
 namespace :database do
+  desc 'Create MySQL Database'
+  task :mysql_db_create do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        execute "mysql -h#{fetch(:db_host_ip)} -uroot -p#{fetch(:db_root_pass)} -e 'CREATE DATABASE IF NOT EXISTS #{fetch(:db_name)};'"
+      end
+    end
+  end
+
+  desc 'Create Postgresql Database'
+  task :pg_db_create do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        execute "PGPASSWORD=#{fetch(:db_root_pass)} psql -h #{fetch(:db_host_ip)} -U postgres -c 'CREATE DATABASE #{fetch(:db_name)};'"
+      end
+    end
+  end
+
   desc 'Upload database.yml'
   task :config_upload do
     on roles(:app) do |host|
@@ -15,6 +33,39 @@ namespace :database do
       with rails_env: fetch(:rails_env) do
         within current_path do
           execute :bundle, :exec, :rake, 'db:create'
+        end
+      end
+    end
+  end
+
+  desc 'Drop Database'
+  task :drop do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, :rake, 'db:drop'
+        end
+      end
+    end
+  end
+
+  desc 'Migrate Database'
+  task :create do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, :rake, 'db:migrate'
+        end
+      end
+    end
+  end
+
+  desc 'Rollback Database'
+  task :create do
+    on roles(:db) do |host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, :rake, 'db:rollback'
         end
       end
     end

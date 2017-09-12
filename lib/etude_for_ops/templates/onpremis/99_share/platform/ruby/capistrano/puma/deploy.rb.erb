@@ -10,6 +10,8 @@ set :log_level, :debug
 set :use_sudo, false
 set :pty, true
 set :rbenv_ruby, '2.4.1'
+set :db_root_pass, 'password'
+set :db_host_ip, '127.0.0.1'
 
 # 必要に応じて、gitignoreしているファイルにLinkを貼る
 #set :linked_files, fetch(:linked_files, []).push('config/secrets.yml')
@@ -53,6 +55,8 @@ namespace :deploy do
   task :initial do
     on roles(:app) do
       before 'deploy:restart', 'puma:start'
+      invoke 'database:mysql_db_create'
+      invoke 'database:pg_db_create'
       invoke 'deploy'
     end
   end
