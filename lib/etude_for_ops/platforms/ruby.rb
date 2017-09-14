@@ -10,6 +10,7 @@ module EtudeForOps
       create_rake_files
       create_capistrano_dir
       create_capistrano_files
+      create_cap_erb_template_files            
     end
 
     def get_template_params(params)
@@ -174,6 +175,23 @@ module EtudeForOps
         file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exists?(erb_file)
         erb_file = capistrano_erb_share_file(:tasks,cap_file)
         file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exists?(erb_file)
+      end
+    end
+
+    def create_cap_erb_template_files
+      erb_template_files = %w[
+        maintenance.html
+      ]
+
+      erb_template_files.each do |erb_template|
+        file_cp = ->(erb_file) do
+          FileUtils.cp(erb_file, "#{capistrano_puma_dir}/#{erb_template}.erb")
+        end
+
+        erb_file = capistrano_erb_file(:puma, erb_template)
+        file_cp.call(erb_file) if File.exists?(erb_file)
+        erb_file = capistrano_erb_share_file(:puma, erb_template)
+        file_cp.call(erb_file) if File.exists?(erb_file)
       end
     end
 

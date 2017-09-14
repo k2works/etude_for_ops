@@ -9,8 +9,6 @@ server {
 
     client_max_body_size 4G;
 
-    root /home/ubuntu/app/public;
-
     try_files $uri/index.html $uri @app;
 
     location / {
@@ -23,10 +21,21 @@ server {
           proxy_send_timeout 300s;
     }
 
-    # You can override error pages by redirecting the requests to a file in your
-    # application's public folder, if you so desire:
-    error_page 500 502 503 504 /500.html;
-    location = /500.html {
-            root /home/ubuntu/app/public;
+    error_page 503 @503;
+
+    # Return a 503 error if the maintenance page exists.
+    if (-f /var/app/shared/public/system/maintenance.html) {
+      return 503;
     }
+
+    location @503 {
+    # Serve static assets if found.
+    if (-f $request_filename) {
+      break;
+    }
+
+    # Set root to the shared directory.
+    root /var/app/shared/public;
+    rewrite ^(.*)$ /system/maintenance.html break;
+  }
 }

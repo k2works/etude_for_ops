@@ -1,2 +1,80 @@
+```bash
+chmod 0766 ops/01_development/src/ship/sh/run.sh
+ops/01_development/src/ship/sh/run.sh
+```
+
+### メンテナンスモード
+メンテナンス開始
+
+```bash
+bundle exec cap maintenance:enable
+```
+理由と時間付き
+```bash
+bundle exec cap maintenance:enable REASON="アプリケーション保守" UNTIL="午前７時"
+```
+メンテナンス終了
+```bash
+bundle exec cap maintenance:disable
+```
+
 ### データのバックアップ
-### 環境の廃棄
+#### エクスポート
+ローカル
+```bash
+./bin/rake db:dump_all
+```
+
+リモート
+```bash
+bundle exec cap db:dump_all
+```
+
+#### インポート
+ローカル
+```bash
+./bin/rake db:import_all
+```
+
+ファイル名オプション
+```bash
+./bin/rake db:import_all[2017-09-12]
+```
+
+リモート
+```bash
+bundle exec cap db:import_all
+```
+
+ファイル名オプション
+```bash
+bundle exec cap db:import_all[2017-09-12]
+```
+
+#### バックアップファイルの管理
+アップロード
+```bash
+bundle exec cap db:dump_upload
+```
+
+ファイル名オプション
+```bash
+bundle exec cap db:dump_upload[2017-09-12]
+```
+
+
+ダウンロード
+```bash
+bundle exec cap db:dump_download
+```
+
+#### バックアップファイルの整理
+ローカル
+```bash
+./bin/rake db:dump_clean
+```
+
+リモート
+```bash
+bundle exec cap db:dump_clean
+```

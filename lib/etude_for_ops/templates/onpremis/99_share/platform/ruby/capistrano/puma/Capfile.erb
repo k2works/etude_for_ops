@@ -10,6 +10,7 @@ require 'capistrano/rbenv'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/bundler'
+require 'capistrano/maintenance'
 
 require 'capistrano/puma'
 install_plugin Capistrano::Puma

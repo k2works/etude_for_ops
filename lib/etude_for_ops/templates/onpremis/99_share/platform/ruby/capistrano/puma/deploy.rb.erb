@@ -39,6 +39,9 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 
+# Maintenance
+set :maintenance_template_path, File.expand_path("../../app/views/layouts/maintenance.html.erb", __FILE__)
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
@@ -48,6 +51,20 @@ namespace :deploy do
         puts "Run `git push` to sync changes."
         exit
       end
+    end
+  end
+
+  desc 'Start Maintenance'
+  task :maintenance_start do
+    on roles(:app) do
+      invoke 'maintenance:enable'
+    end
+  end
+
+  desc 'End Maintenance'
+  task :maintenance_end do
+    on roles(:app) do
+      invoke 'maintenance:disable'
     end
   end
 
@@ -68,8 +85,10 @@ namespace :deploy do
     end
   end
 
+  before :starting,     :maintenance_start
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
+  after  :finishing,    :maintenance_end
 end

@@ -4,6 +4,7 @@
 # Use Capistrano for deployment
 group :development do
   gem 'capistrano'
+  gem 'capistrano-maintenance', '~> 1.0', require: false
   gem 'capistrano-scm-copy'
   gem 'capistrano-safe-deploy-to'
   gem 'capistrano-rails'
