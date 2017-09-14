@@ -42,6 +42,9 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # Maintenance
 set :maintenance_template_path, File.expand_path("../../app/views/layouts/maintenance.html.erb", __FILE__)
 
+# crontab管理
+set :whenever_ident
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do

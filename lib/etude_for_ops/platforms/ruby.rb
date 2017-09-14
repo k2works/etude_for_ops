@@ -11,6 +11,8 @@ module EtudeForOps
       create_capistrano_dir
       create_capistrano_files
       create_cap_erb_template_files
+      create_config_dir
+      create_config_files
     end
 
     def get_template_params(params)
@@ -40,6 +42,10 @@ module EtudeForOps
       FileUtils.mkdir_p(capistrano_dir, mode: 0o755)
       FileUtils.mkdir_p(capistrano_puma_dir, mode: 0o755)
       FileUtils.mkdir_p(capistrano_tasks_dir, mode: 0o755)
+    end
+
+    def create_config_dir
+      FileUtils.mkdir_p(config_src_run_dir, mode: 0o755)
     end
 
     def create_chef_files
@@ -204,6 +210,24 @@ module EtudeForOps
       end
     end
 
+    def create_config_files
+      file_put = lambda do |rake_dir, erb_file, rake_file|
+        template = File.read(erb_file)
+        erb = ERB.new(template, nil, '%')
+        File.open("#{rake_dir}/#{rake_file}", 'w') do |file|
+          file.puts(erb.result(binding))
+        end
+      end
+
+      erb_config_files = %w[
+        schedule.rb
+      ]
+      erb_config_files.each do |config_file|
+        erb_file = config_erb_file(config_file)
+        file_put.call(config_src_run_dir, erb_file, config_file) if File.exist?(erb_file)
+      end
+    end
+
     def chef_src_build_dir
       "#{@src_build_dir}/chef"
     end
@@ -236,6 +260,10 @@ module EtudeForOps
       "#{@src_ship_dir}/capistrano/tasks"
     end
 
+    def config_src_run_dir
+      "#{@src_run_dir}/config"
+    end
+
     def chef_erb_file(file)
       "#{@tmp_file_dir}/platform/ruby/chef/#{file}.erb"
     end
@@ -263,5 +291,9 @@ module EtudeForOps
     def capistrano_erb_share_file(dir, file)
       "#{@tmp_share_file_dir}/platform/ruby/capistrano/#{dir}/#{file}.erb"
     end
+
+    def config_erb_file(file)
+      "#{@tmp_file_dir}/platform/ruby/config/#{file}.erb"
+    end    
   end
 end

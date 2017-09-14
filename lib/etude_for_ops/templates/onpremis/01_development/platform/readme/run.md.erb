@@ -1,6 +1,6 @@
 ```bash
-chmod 0766 ops/01_development/src/ship/sh/run.sh
-ops/01_development/src/ship/sh/run.sh
+chmod 0766 ops/01_development/src/run/sh/run.sh
+ops/01_development/src/run/sh/run.sh
 ```
 
 ### メンテナンスモード
@@ -78,3 +78,11 @@ bundle exec cap db:dump_download
 ```bash
 bundle exec cap db:dump_clean
 ```
+
+### スケジューラの設定
+```ruby:Gemfile
+# crontab管理
+gem 'whenever', require: false
+```
+
+`config/schedule.rb`を編集する
