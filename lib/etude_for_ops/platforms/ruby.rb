@@ -10,7 +10,7 @@ module EtudeForOps
       create_rake_files
       create_capistrano_dir
       create_capistrano_files
-      create_cap_erb_template_files            
+      create_cap_erb_template_files
     end
 
     def get_template_params(params)
@@ -23,22 +23,23 @@ module EtudeForOps
     private
 
     def create_chef_dir
-      FileUtils.mkdir_p(chef_src_build_dir, mode: 0755)
+      FileUtils.mkdir_p(chef_src_build_dir, mode: 0o755)
     end
 
     def create_sh_dir
-      FileUtils.mkdir_p(sh_src_build_dir, mode: 0755)
-      FileUtils.mkdir_p(sh_src_ship_dir, mode: 0755)
+      FileUtils.mkdir_p(sh_src_build_dir, mode: 0o755)
+      FileUtils.mkdir_p(sh_src_ship_dir, mode: 0o755)
+      FileUtils.mkdir_p(sh_src_run_dir, mode: 0o755)
     end
 
     def create_rake_dir
-      FileUtils.mkdir_p(rake_src_run_dir, mode: 0755)
+      FileUtils.mkdir_p(rake_src_run_dir, mode: 0o755)
     end
 
     def create_capistrano_dir
-      FileUtils.mkdir_p(capistrano_dir, mode: 0755)
-      FileUtils.mkdir_p(capistrano_puma_dir, mode: 0755)
-      FileUtils.mkdir_p(capistrano_tasks_dir, mode: 0755)
+      FileUtils.mkdir_p(capistrano_dir, mode: 0o755)
+      FileUtils.mkdir_p(capistrano_puma_dir, mode: 0o755)
+      FileUtils.mkdir_p(capistrano_tasks_dir, mode: 0o755)
     end
 
     def create_chef_files
@@ -60,7 +61,7 @@ module EtudeForOps
       ]
 
       platform_ruby_chef_files.each do |platform_file|
-        file_put = ->(erb_file) do
+        file_put = lambda do |erb_file|
           template = File.read(erb_file)
           erb = ERB.new(template, nil, '%')
           File.open("#{chef_src_build_dir}/#{platform_file}", 'w') do |file|
@@ -69,9 +70,9 @@ module EtudeForOps
         end
 
         erb_file = chef_erb_file(platform_file)
-        file_put.call(erb_file) if File.exists?(erb_file)
+        file_put.call(erb_file) if File.exist?(erb_file)
         erb_file = chef_erb_share_file(platform_file)
-        file_put.call(erb_file) if File.exists?(erb_file)
+        file_put.call(erb_file) if File.exist?(erb_file)
       end
     end
 
@@ -88,19 +89,19 @@ module EtudeForOps
       ]
 
       erb_template_files.each do |erb_template|
-        file_cp = ->(erb_file) do
+        file_cp = lambda do |erb_file|
           FileUtils.cp(erb_file, "#{chef_src_build_dir}/#{erb_template}.erb")
         end
 
         erb_file = chef_erb_file(erb_template)
-        file_cp.call(erb_file) if File.exists?(erb_file)
+        file_cp.call(erb_file) if File.exist?(erb_file)
         erb_file = chef_erb_share_file(erb_template)
-        file_cp.call(erb_file) if File.exists?(erb_file)
+        file_cp.call(erb_file) if File.exist?(erb_file)
       end
     end
 
     def create_sh_files
-      file_put = ->(sh_dir, erb_file, sh_file) do
+      file_put = lambda do |sh_dir, erb_file, sh_file|
         template = File.read(erb_file)
         erb = ERB.new(template, nil, '%')
         File.open("#{sh_dir}/#{sh_file}", 'w') do |file|
@@ -109,24 +110,32 @@ module EtudeForOps
       end
 
       erb_sh_files = %w[
-         build.sh
+        build.sh
       ]
       erb_sh_files.each do |sh_file|
         erb_file = sh_erb_file(sh_file)
-        file_put.call(sh_src_build_dir, erb_file, sh_file) if File.exists?(erb_file)
+        file_put.call(sh_src_build_dir, erb_file, sh_file) if File.exist?(erb_file)
       end
 
       erb_sh_files = %w[
-         ship.sh
+        ship.sh
       ]
       erb_sh_files.each do |sh_file|
         erb_file = sh_erb_file(sh_file)
-        file_put.call(sh_src_ship_dir, erb_file, sh_file) if File.exists?(erb_file)
+        file_put.call(sh_src_ship_dir, erb_file, sh_file) if File.exist?(erb_file)
+      end
+
+      erb_sh_files = %w[
+        run.sh
+      ]
+      erb_sh_files.each do |sh_file|
+        erb_file = sh_erb_file(sh_file)
+        file_put.call(sh_src_run_dir, erb_file, sh_file) if File.exist?(erb_file)
       end
     end
 
     def create_rake_files
-      file_put = ->(rake_dir, erb_file, rake_file) do
+      file_put = lambda do |rake_dir, erb_file, rake_file|
         template = File.read(erb_file)
         erb = ERB.new(template, nil, '%')
         File.open("#{rake_dir}/#{rake_file}", 'w') do |file|
@@ -135,18 +144,18 @@ module EtudeForOps
       end
 
       erb_rake_files = %w[
-         db.rake
+        db.rake
       ]
       erb_rake_files.each do |rake_file|
         erb_file = rake_erb_file(rake_file)
-        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exists?(erb_file)
+        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exist?(erb_file)
         erb_file = rake_erb_share_file(rake_file)
-        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exists?(erb_file)
+        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exist?(erb_file)
       end
     end
 
     def create_capistrano_files
-      file_put = ->(cap_ship_dir, erb_file, cap_file) do
+      file_put = lambda do |cap_ship_dir, erb_file, cap_file|
         template = File.read(erb_file)
         erb = ERB.new(template, nil, '%')
         File.open("#{cap_ship_dir}/#{cap_file}", 'w') do |file|
@@ -155,26 +164,26 @@ module EtudeForOps
       end
 
       erb_cap_puma_files = %w[
-         development.rb
-         Capfile
-         deploy.rb
+        development.rb
+        Capfile
+        deploy.rb
       ]
       erb_cap_puma_files.each do |cap_file|
         erb_file = capistrano_erb_file(:puma, cap_file)
-        file_put.call(capistrano_puma_dir, erb_file, cap_file) if File.exists?(erb_file)
-        erb_file = capistrano_erb_share_file(:puma,cap_file)
-        file_put.call(capistrano_puma_dir, erb_file, cap_file) if File.exists?(erb_file)
+        file_put.call(capistrano_puma_dir, erb_file, cap_file) if File.exist?(erb_file)
+        erb_file = capistrano_erb_share_file(:puma, cap_file)
+        file_put.call(capistrano_puma_dir, erb_file, cap_file) if File.exist?(erb_file)
       end
 
       erb_cap_tasks_files = %w[
-         database.rake
-         puma.rake
+        database.rake
+        puma.rake
       ]
       erb_cap_tasks_files.each do |cap_file|
-        erb_file = capistrano_erb_file(:tasks,cap_file)
-        file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exists?(erb_file)
-        erb_file = capistrano_erb_share_file(:tasks,cap_file)
-        file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exists?(erb_file)
+        erb_file = capistrano_erb_file(:tasks, cap_file)
+        file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exist?(erb_file)
+        erb_file = capistrano_erb_share_file(:tasks, cap_file)
+        file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exist?(erb_file)
       end
     end
 
@@ -184,14 +193,14 @@ module EtudeForOps
       ]
 
       erb_template_files.each do |erb_template|
-        file_cp = ->(erb_file) do
+        file_cp = lambda do |erb_file|
           FileUtils.cp(erb_file, "#{capistrano_puma_dir}/#{erb_template}.erb")
         end
 
         erb_file = capistrano_erb_file(:puma, erb_template)
-        file_cp.call(erb_file) if File.exists?(erb_file)
+        file_cp.call(erb_file) if File.exist?(erb_file)
         erb_file = capistrano_erb_share_file(:puma, erb_template)
-        file_cp.call(erb_file) if File.exists?(erb_file)
+        file_cp.call(erb_file) if File.exist?(erb_file)
       end
     end
 
@@ -205,6 +214,10 @@ module EtudeForOps
 
     def sh_src_ship_dir
       "#{@src_ship_dir}/sh"
+    end
+
+    def sh_src_run_dir
+      "#{@src_run_dir}/sh"
     end
 
     def rake_src_run_dir
@@ -239,17 +252,16 @@ module EtudeForOps
       "#{@tmp_share_file_dir}/platform/ruby/rake/#{file}.erb"
     end
 
-    def capistrano_erb_file(dir,file)
-      "#{@tmp_file_dir}/platform/ruby/capistrano/#{dir.to_s}/#{file}.erb"
+    def capistrano_erb_file(dir, file)
+      "#{@tmp_file_dir}/platform/ruby/capistrano/#{dir}/#{file}.erb"
     end
 
     def chef_erb_share_file(file)
       "#{@tmp_share_file_dir}/platform/ruby/chef/#{file}.erb"
     end
 
-    def capistrano_erb_share_file(dir,file)
-      "#{@tmp_share_file_dir}/platform/ruby/capistrano/#{dir.to_s}/#{file}.erb"
+    def capistrano_erb_share_file(dir, file)
+      "#{@tmp_share_file_dir}/platform/ruby/capistrano/#{dir}/#{file}.erb"
     end
-
   end
 end
