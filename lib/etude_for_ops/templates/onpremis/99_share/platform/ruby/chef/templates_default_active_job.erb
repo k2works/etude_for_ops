@@ -1,0 +1,50 @@
+#!/bin/bash
+
+NAME=active_job
+USER=vagrant
+APP_NAME=app
+APP_DIR=/var/app/current
+TMP_DIR=/var/app/shared/tmp
+PID_DIR=/var/app/shared/tmp/pids
+LOG_DIR=/var/app/shared/log
+PUMA_BIN=/home/vagrant/.rbenv/shims/bundle exec sidekiq
+
+RAILS_ENV=development
+
+sudo -u $USER -H sh -c "mkdir -p $PID_DIR"
+sudo -u $USER -H sh -c "mkdir -p $LOG_DIR"
+
+PIDFILE=$PID_DIR/sidekiq.pid
+
+
+start() {
+cd $APP_DIR;
+sudo -u $USER -H sh -c "echo \$\$ > $PIDFILE; RAILS_ENV=$RAILS_ENV $PUMA_BIN -C $APP_DIR/config/sidekiq.yml -d"
+}
+
+stop() {
+echo -n "Stopping Active Job"
+kill -s SIGTERM `cat $PIDFILE`
+}
+
+restart() {
+stop
+start
+}
+
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+restart)
+restart
+;;
+*)
+N=/etc/init.d/$NAME
+echo "Usage: $N {start|stop|restart}" >&2
+exit 1
+;;
+esac

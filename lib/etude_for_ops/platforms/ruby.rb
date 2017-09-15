@@ -92,6 +92,8 @@ module EtudeForOps
         templates_default_nginx.proxy.conf
         templates_default_puma
         templates_default_puma.service
+        templates_default_active_job                
+        templates_default_active_job.service                
       ]
 
       erb_template_files.each do |erb_template|
@@ -221,6 +223,8 @@ module EtudeForOps
 
       erb_config_files = %w[
         schedule.rb
+        sidekiq.rb
+        sidekiq.yml
       ]
       erb_config_files.each do |config_file|
         erb_file = config_erb_file(config_file)

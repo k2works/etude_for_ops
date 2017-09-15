@@ -86,3 +86,21 @@ gem 'whenever', require: false
 ```
 
 `config/schedule.rb`を編集する
+
+### Active Jobの設定
+```ruby:Gemfile
+# Sidekiq
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'redis-namespace'
+```
+
+```ruby:config/application.rb
+config.active_job.queue_adapter = :sidekiq
+````
+
+```ruby:config/routes.rb
+require 'sidekiq/web'
+mount Sidekiq::Web => '/sidekiq'
+```
+
