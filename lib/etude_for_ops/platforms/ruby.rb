@@ -184,8 +184,9 @@ module EtudeForOps
       end
 
       erb_cap_tasks_files = %w[
-        database.rake
+        db.rake
         puma.rake
+        active_job.rake
       ]
       erb_cap_tasks_files.each do |cap_file|
         erb_file = capistrano_erb_file(:tasks, cap_file)
