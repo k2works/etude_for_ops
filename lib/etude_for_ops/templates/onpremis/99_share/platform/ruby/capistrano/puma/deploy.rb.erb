@@ -43,7 +43,7 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 set :maintenance_template_path, File.expand_path("../../app/views/layouts/maintenance.html.erb", __FILE__)
 
 # crontab管理
-set :whenever_ident
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
@@ -60,14 +60,18 @@ namespace :deploy do
   desc 'Start Maintenance'
   task :maintenance_start do
     on roles(:app) do
-      invoke 'maintenance:enable'
+      if test "[ -d #{shared_path} ]"
+        invoke 'maintenance:enable'
+      end
     end
   end
 
   desc 'End Maintenance'
   task :maintenance_end do
     on roles(:app) do
-      invoke 'maintenance:disable'
+      if test "[ -d #{shared_path} ]"
+        invoke 'maintenance:disable'
+      end
     end
   end
 
