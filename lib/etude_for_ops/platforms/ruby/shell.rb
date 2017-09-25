@@ -69,13 +69,5 @@ module EtudeForOps
         put_bind_template_file(sh_src_run_dir, erb_file, sh_file) if File.exist?(erb_file)
       end
     end
-
-    def put_bind_template_file(dir, erb_file, file)
-      template = File.read(erb_file)
-      erb = ERB.new(template, nil, '%')
-      File.open("#{dir}/#{file}", 'w') do |file|
-        file.puts(erb.result(binding))
-      end
-    end
   end
 end

@@ -55,18 +55,14 @@ module EtudeForOps
       ]
 
       platform_ruby_chef_files.each do |platform_file|
-        file_put = lambda do |erb_file|
-          template = File.read(erb_file)
-          erb = ERB.new(template, nil, '%')
-          File.open("#{chef_src_build_dir}/#{platform_file}", 'w') do |file|
-            file.puts(erb.result(binding))
-          end
-        end
-
         erb_file = chef_erb_file(platform_file)
-        file_put.call(erb_file) if File.exist?(erb_file)
-        erb_file = chef_erb_share_file(platform_file)
-        file_put.call(erb_file) if File.exist?(erb_file)
+
+        if File.exist?(erb_file)
+          put_bind_template_file(chef_src_build_dir,erb_file,platform_file)
+        else
+          erb_file = chef_erb_share_file(platform_file)
+          put_bind_template_file(chef_src_build_dir,erb_file,platform_file)
+        end
       end
     end
 
@@ -90,9 +86,12 @@ module EtudeForOps
         end
 
         erb_file = chef_erb_file(erb_template)
-        file_cp.call(erb_file) if File.exist?(erb_file)
-        erb_file = chef_erb_share_file(erb_template)
-        file_cp.call(erb_file) if File.exist?(erb_file)
+        if File.exist?(erb_file)
+          copy_template_file(chef_src_build_dir,erb_file,erb_template)
+        else
+          erb_file = chef_erb_share_file(erb_template)
+          copy_template_file(chef_src_build_dir,erb_file,erb_template)
+        end
       end
     end
   end

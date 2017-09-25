@@ -107,7 +107,7 @@ describe 'EtudeForOps::Ops' do
 
   context 'cloud' do
     before(:all) do
-      #FileUtils.rm_rf(root_dir)
+      FileUtils.rm_rf(root_dir)
     end
 
     context 'amazon web service' do

@@ -48,24 +48,21 @@ module EtudeForOps
     end
 
     def create_files
-      file_put = lambda do |cap_ship_dir, erb_file, cap_file|
-        template = File.read(erb_file)
-        erb = ERB.new(template, nil, '%')
-        File.open("#{cap_ship_dir}/#{cap_file}", 'w') do |file|
-          file.puts(erb.result(binding))
-        end
-      end
-
       erb_cap_puma_files = %w[
         development.rb
         Capfile
         deploy.rb
       ]
+
       erb_cap_puma_files.each do |cap_file|
         erb_file = capistrano_erb_file(:puma, cap_file)
-        file_put.call(capistrano_puma_dir, erb_file, cap_file) if File.exist?(erb_file)
-        erb_file = capistrano_erb_share_file(:puma, cap_file)
-        file_put.call(capistrano_puma_dir, erb_file, cap_file) if File.exist?(erb_file)
+
+        if File.exist?(erb_file)
+          put_bind_template_file(capistrano_puma_dir, erb_file, cap_file)
+        else
+          erb_file = capistrano_erb_share_file(:puma, cap_file)
+          put_bind_template_file(capistrano_puma_dir, erb_file, cap_file)
+        end
       end
 
       erb_cap_tasks_files = %w[
@@ -73,11 +70,16 @@ module EtudeForOps
         puma.rake
         active_job.rake
       ]
+
       erb_cap_tasks_files.each do |cap_file|
         erb_file = capistrano_erb_file(:tasks, cap_file)
-        file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exist?(erb_file)
-        erb_file = capistrano_erb_share_file(:tasks, cap_file)
-        file_put.call(capistrano_tasks_dir, erb_file, cap_file) if File.exist?(erb_file)
+
+        if File.exist?(erb_file)
+          put_bind_template_file(capistrano_tasks_dir, erb_file, cap_file)
+        else
+          erb_file = capistrano_erb_share_file(:tasks, cap_file)
+          put_bind_template_file(capistrano_tasks_dir, erb_file, cap_file)
+        end
       end
     end
 
@@ -87,14 +89,14 @@ module EtudeForOps
       ]
 
       erb_template_files.each do |erb_template|
-        file_cp = lambda do |erb_file|
-          FileUtils.cp(erb_file, "#{capistrano_puma_dir}/#{erb_template}.erb")
-        end
-
         erb_file = capistrano_erb_file(:puma, erb_template)
-        file_cp.call(erb_file) if File.exist?(erb_file)
-        erb_file = capistrano_erb_share_file(:puma, erb_template)
-        file_cp.call(erb_file) if File.exist?(erb_file)
+
+        if File.exist?(erb_file)
+          copy_template_file(capistrano_puma_dir,erb_file,erb_template)
+        else
+          erb_file = capistrano_erb_share_file(:puma, erb_template)
+          copy_template_file(capistrano_puma_dir,erb_file,erb_template) if File.exist?(erb_file)
+        end
       end
     end
   end

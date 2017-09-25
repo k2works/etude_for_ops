@@ -1,5 +1,8 @@
+require_relative '../utiles/file_utile'
+
 module EtudeForOps
   class Platform
+    include FileUtile
     attr_accessor :params,
                   :tmp_file_dir,
                   :src_build_dir,

@@ -36,22 +36,17 @@ module EtudeForOps
     end
 
     def create_files
-      file_put = lambda do |rake_dir, erb_file, rake_file|
-        template = File.read(erb_file)
-        erb = ERB.new(template, nil, '%')
-        File.open("#{rake_dir}/#{rake_file}", 'w') do |file|
-          file.puts(erb.result(binding))
-        end
-      end
-
       erb_rake_files = %w[
         db.rake
       ]
       erb_rake_files.each do |rake_file|
         erb_file = rake_erb_file(rake_file)
-        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exist?(erb_file)
-        erb_file = rake_erb_share_file(rake_file)
-        file_put.call(rake_src_run_dir, erb_file, rake_file) if File.exist?(erb_file)
+        if File.exist?(erb_file)
+          put_bind_template_file(rake_src_run_dir, erb_file, rake_file)
+        else
+          erb_file = rake_erb_share_file(rake_file)
+          put_bind_template_file(rake_src_run_dir, erb_file, rake_file)
+        end
       end
     end
   end
