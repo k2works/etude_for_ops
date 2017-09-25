@@ -2,7 +2,7 @@ module EtudeForOps
   class Build
 
     def create_platform_files(platform)
-      platform.create_build_files
+      platform.build
     end
   end
 end

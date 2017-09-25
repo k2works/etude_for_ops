@@ -4,12 +4,21 @@ module EtudeForOps
       @platform = platform
     end
 
-    def setup_files
+    def build
+
+    end
+
+    def ship
+
+    end
+
+    def run
       create_dir
       create_files
     end
 
     private
+
     def rake_erb_file(file)
       "#{@platform.tmp_file_dir}/platform/ruby/rake/#{file}.erb"
     end

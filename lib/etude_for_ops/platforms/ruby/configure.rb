@@ -4,7 +4,15 @@ module EtudeForOps
       @platform = platform
     end
 
-    def setup_files
+    def build
+
+    end
+
+    def ship
+
+    end
+
+    def run
       create_dir
       create_files
     end

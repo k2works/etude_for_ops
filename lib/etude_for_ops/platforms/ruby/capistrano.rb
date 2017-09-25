@@ -4,10 +4,18 @@ module EtudeForOps
       @platform = platform
     end
 
-    def setup_files
+    def build
+
+    end
+
+    def ship
       create_dir
       create_files
       create_erb_template_files
+    end
+
+    def run
+
     end
 
     private

@@ -31,6 +31,7 @@ module EtudeForOps
       @src_run_dir = "#{@src_dir}/run"
       @source = Source.new
       @config = Config.new
+      @template_root_path = Onpremis::TEMPLATE_ROOT_PAHT
     end
 
     def name
@@ -123,11 +124,6 @@ module EtudeForOps
     def create_platform_files
       config = YAML.load_file(ops_yml_file_path)
       @platform.params = get_template_params(config)
-      @platform.tmp_file_dir = tmp_file_dir
-      @platform.src_build_dir = @src_build_dir
-      @platform.src_ship_dir = @src_ship_dir
-      @platform.src_run_dir = @src_run_dir
-      @platform.tmp_share_file_dir = tmp_share_file_dir
       @source.platform = @platform
       @source.create_platform_files
     end

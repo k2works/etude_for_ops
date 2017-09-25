@@ -7,33 +7,43 @@ module EtudeForOps
     end
 
     def create_onpremis_ruby_development_env(root_dir)
-      @builder.strategy = Onpremis.new
-      @builder.platform = Ruby.new
-      @builder.environment = Development.new(root_dir)
+      env = Development.new(root_dir)
+      @builder.strategy = Onpremis.new(env)
+      ruby = Ruby.new(env)
+      @builder.platform = ruby
+      @builder.platform.components << EtudeForOps::Shell.new(ruby)
+      @builder.platform.components << EtudeForOps::Chef.new(ruby)
+      @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
+      @builder.platform.components << EtudeForOps::Rake.new(ruby)
+      @builder.platform.components << EtudeForOps::Configure.new(ruby)
+      @builder.environment = env
       @builder.apply_strategy
       return @builder.environment, @builder.platform, @builder.strategy
     end
 
     def create_onpremis_ruby_staging_env(root_dir)
-      @builder.strategy = Onpremis.new
-      @builder.platform = Ruby.new
-      @builder.environment = Staging.new(root_dir)
+      env = Staging.new(root_dir)
+      @builder.strategy = Onpremis.new(env)
+      @builder.platform = Ruby.new(env)
+      @builder.environment = env
       @builder.apply_strategy
       return @builder.environment, @builder.platform, @builder.strategy
     end
 
     def create_onpremis_ruby_production_env(root_dir)
-      @builder.strategy = Onpremis.new
-      @builder.platform = Ruby.new
-      @builder.environment = Production.new(root_dir)
+      env = Production.new(root_dir)
+      @builder.strategy = Onpremis.new(env)
+      @builder.platform = Ruby.new(env)
+      @builder.environment = env
       @builder.apply_strategy
       return @builder.environment, @builder.platform, @builder.strategy
     end
 
     def create_onpremis_ruby_share_env(root_dir)
-      @builder.strategy = Onpremis.new
-      @builder.platform = Ruby.new
-      @builder.environment = Share.new(root_dir)
+      env = Share.new(root_dir)
+      @builder.strategy = Onpremis.new(env)
+      @builder.platform = Ruby.new(env)
+      @builder.environment = env
       @builder.apply_strategy
       return @builder.environment, @builder.platform, @builder.strategy
     end

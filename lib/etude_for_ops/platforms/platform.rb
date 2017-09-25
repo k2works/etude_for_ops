@@ -5,19 +5,36 @@ module EtudeForOps
                   :src_build_dir,
                   :src_ship_dir,
                   :src_run_dir,
-                  :tmp_share_file_dir
+                  :tmp_share_file_dir,
+                  :components
 
-  end
+    def initialize(env=nil)
+      unless env.nil?
+        @tmp_file_dir = env.tmp_file_dir
+        @src_build_dir = env.src_build_dir
+        @src_ship_dir = env.src_ship_dir
+        @src_run_dir = env.src_run_dir
+        @tmp_share_file_dir = env.tmp_share_file_dir
+        @components = []
+      end
+    end
 
-  def create_build_files
-    raise 'abstract method is called'
-  end
+    def build
+      @components.each do |component|
+        component.build
+      end
+    end
 
-  def create_ship_files
-    raise 'abstract method is called'
-  end
+    def ship
+      @components.each do |component|
+        component.ship
+      end
+    end
 
-  def create_run_files
-    raise 'abstract method is called'
+    def run
+      @components.each do |component|
+        component.run
+      end
+    end
   end
 end

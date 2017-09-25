@@ -7,7 +7,6 @@ module EtudeForOps
     def apply_strategy
       @environment.make_dir
       @environment.platform = @platform
-      @strategy.environment = @environment
       @strategy.apply_env
       @strategy.apply_env_config
       @strategy.apply_env_src
