@@ -52,6 +52,8 @@ module EtudeForOps
         recipes_setup_node.rb
         recipes_setup_nginx.rb
         recipes_setup_service.rb
+        recipes.setup_td-agent.rb
+        recipes.setup_elasticsearch.rb
       ]
 
       platform_ruby_chef_files.each do |platform_file|
@@ -78,6 +80,7 @@ module EtudeForOps
         templates_default_puma.service
         templates_default_active_job
         templates_default_active_job.service
+        templates_default_td-agent.conf
       ]
 
       erb_template_files.each do |erb_template|
