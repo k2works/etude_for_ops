@@ -10,6 +10,8 @@ module EtudeForOps
 
     def create_platform_files
       @build.create_platform_files(@platform)
+      @ship.create_platform_files(@platform)
+      @run.create_platform_files(@platform)
     end
   end
 end

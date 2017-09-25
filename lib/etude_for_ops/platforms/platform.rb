@@ -8,4 +8,16 @@ module EtudeForOps
                   :tmp_share_file_dir
 
   end
+
+  def create_build_files
+    raise 'abstract method is called'
+  end
+
+  def create_ship_files
+    raise 'abstract method is called'
+  end
+
+  def create_run_files
+    raise 'abstract method is called'
+  end
 end
