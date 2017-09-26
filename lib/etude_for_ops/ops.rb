@@ -16,6 +16,7 @@ module EtudeForOps
       @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
       @builder.platform.components << EtudeForOps::Rake.new(ruby)
       @builder.platform.components << EtudeForOps::Configure.new(ruby)
+      @builder.platform.components << EtudeForOps::Vagrant.new(ruby)
       @builder.environment = env
       @builder.apply_strategy
       return @builder.environment, @builder.platform, @builder.strategy
