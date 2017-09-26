@@ -19,16 +19,16 @@ module EtudeForOps
 
     private
 
-    def config_src_run_dir
+    def src_run_dir
       "#{@platform.src_run_dir}/config"
     end
 
-    def config_erb_file(file)
+    def erb_file(file)
       "#{@platform.tmp_file_dir}/platform/ruby/config/#{file}.erb"
     end
 
     def create_dir
-      FileUtils.mkdir_p(config_src_run_dir, mode: 0o755)
+      FileUtils.mkdir_p(src_run_dir, mode: 0o755)
     end
 
     def create_files
@@ -37,10 +37,8 @@ module EtudeForOps
         sidekiq.rb
         sidekiq.yml
       ]
-      erb_config_files.each do |config_file|
-        erb_file = config_erb_file(config_file)
-        put_bind_template_file(config_src_run_dir, erb_file, config_file) if File.exist?(erb_file)
-      end
+
+      create_put_bind_template_files(src_run_dir,erb_config_files)
     end
   end
 end

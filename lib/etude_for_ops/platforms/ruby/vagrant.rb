@@ -32,6 +32,10 @@ module EtudeForOps
       "#{@platform.tmp_file_dir}/platform/ruby/vagrant/#{file}.erb"
     end
 
+    def erb_share_file(file)
+
+    end
+
     def create_build_files
       erb_files = %w[
       ]
@@ -50,15 +54,6 @@ module EtudeForOps
       erb_files = %w[
       ]
       create_put_bind_template_files(src_run_dir,erb_files)
-    end
-
-    def create_put_bind_template_files(src_dir,erb_files, params={})
-      FileUtils.mkdir_p(src_dir, mode: 0o755)
-
-      erb_files.each do |file|
-        erb_file = erb_file(file)
-        put_bind_template_file(src_dir, erb_file, file) if File.exist?(erb_file)
-      end
     end
   end
 end

@@ -21,18 +21,18 @@ module EtudeForOps
     private
 
     def create_dir
-      FileUtils.mkdir_p(chef_src_build_dir, mode: 0o755)
+      FileUtils.mkdir_p(src_build_dir, mode: 0o755)
     end
 
-    def chef_src_build_dir
+    def src_build_dir
       "#{@platform.src_build_dir}/chef"
     end
 
-    def chef_erb_file(file)
+    def erb_file(file)
       "#{@platform.tmp_file_dir}/platform/ruby/chef/#{file}.erb"
     end
 
-    def chef_erb_share_file(file)
+    def erb_share_file(file)
       "#{@platform.tmp_share_file_dir}/platform/ruby/chef/#{file}.erb"
     end
 
@@ -56,16 +56,7 @@ module EtudeForOps
         recipes.setup_elasticsearch.rb
       ]
 
-      platform_ruby_chef_files.each do |platform_file|
-        erb_file = chef_erb_file(platform_file)
-
-        if File.exist?(erb_file)
-          put_bind_template_file(chef_src_build_dir,erb_file,platform_file)
-        else
-          erb_file = chef_erb_share_file(platform_file)
-          put_bind_template_file(chef_src_build_dir,erb_file,platform_file)
-        end
-      end
+      create_put_bind_template_files(src_build_dir,platform_ruby_chef_files)
     end
 
     def create_erb_template_files
@@ -83,19 +74,7 @@ module EtudeForOps
         templates_default_td-agent.conf
       ]
 
-      erb_template_files.each do |erb_template|
-        file_cp = lambda do |erb_file|
-          FileUtils.cp(erb_file, "#{chef_src_build_dir}/#{erb_template}.erb")
-        end
-
-        erb_file = chef_erb_file(erb_template)
-        if File.exist?(erb_file)
-          copy_template_file(chef_src_build_dir,erb_file,erb_template)
-        else
-          erb_file = chef_erb_share_file(erb_template)
-          copy_template_file(chef_src_build_dir,erb_file,erb_template)
-        end
-      end
+      create_copy_template_files(src_build_dir,erb_template_files)
     end
   end
 end
