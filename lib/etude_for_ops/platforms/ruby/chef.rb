@@ -52,8 +52,12 @@ module EtudeForOps
         recipes_setup_node.rb
         recipes_setup_nginx.rb
         recipes_setup_service.rb
-        recipes.setup_td-agent.rb
-        recipes.setup_elasticsearch.rb
+        recipes_setup_td-agent.rb
+        recipes_setup_elasticsearch.rb
+        recipes_setup_docker.rb
+        recipes_setup_jenkins.rb
+        recipes_setup_aws.rb
+        recipes_setup_vagrant.rb
       ]
 
       create_put_bind_template_files(src_build_dir,platform_ruby_chef_files)
