@@ -8,20 +8,9 @@ template "td-agent.conf" do
   mode "0666"
 end
 
-group 'root' do
-  action [:modify]
-  members ['td-agent']
-  append true
-end
-
 td_agent_gem "elasticsearch" do
   plugin true
 end
 
-td_agent_gem "fluent-plugin-parser" do
-  plugin true
-end
-
-td_agent_gem "fluent-plugin-record-reformer" do
-  plugin true
-end
+td_agent_plugin "fluent-plugin-parser"
+td_agent_plugin "fluent-plugin-record-reformer"
