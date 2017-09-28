@@ -71,11 +71,13 @@ module EtudeForOps
         templates_default_my_extra_settings
         templates_default_nginx.default.conf
         templates_default_nginx.proxy.conf
+        templates_default_nginx.kibana.conf
         templates_default_puma
         templates_default_puma.service
         templates_default_active_job
         templates_default_active_job.service
         templates_default_td-agent.conf
+        templates_default_kibana.yml
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files)
