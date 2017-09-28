@@ -72,6 +72,7 @@ module EtudeForOps
         templates_default_nginx.default.conf
         templates_default_nginx.proxy.conf
         templates_default_nginx.kibana.conf
+        templates_default_nginx.jenkins.conf
         templates_default_puma
         templates_default_puma.service
         templates_default_active_job

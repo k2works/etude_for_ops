@@ -1,0 +1,23 @@
+server {
+  listen *:80;
+  server_name 192.168.33.10;
+  access_log /var/log/nginx/jenkins_access.log;
+  error_log  /var/log/nginx/jenkins_error.log;
+
+  location ~ /jenkins {
+    auth_basic 'closed site';
+    auth_basic_user_file /etc/nginx/htpasswd;
+
+    proxy_read_timeout      300;
+    proxy_connect_timeout   300;
+    proxy_redirect          off;
+
+    proxy_set_header        X-Forwarded-Proto       $scheme;
+    proxy_set_header        Host                    $http_host;
+    proxy_set_header        Host                    $host;
+    proxy_set_header        X-Real-IP               $remote_addr;
+    proxy_set_header        X-Forwarded-For         $proxy_add_x_forwarded_for;
+
+    proxy_pass              http://127.0.0.1:8080;
+  }
+}

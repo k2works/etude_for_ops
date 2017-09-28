@@ -35,6 +35,11 @@ template '/etc/nginx/conf.d/kibana.conf' do
   mode '0644'
 end
 
+template '/etc/nginx/conf.d/jenkins.conf' do
+  source 'nginx.jenkins.conf.erb'
+  mode '0644'
+end
+
 htpasswd "/etc/nginx/htpassword" do
   user "kibana"
   password "kibana"
