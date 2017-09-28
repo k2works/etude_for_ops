@@ -79,6 +79,7 @@ module EtudeForOps
         templates_default_active_job.service
         templates_default_td-agent.conf
         templates_default_kibana.yml
+        templates_default_jenkins
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files)
