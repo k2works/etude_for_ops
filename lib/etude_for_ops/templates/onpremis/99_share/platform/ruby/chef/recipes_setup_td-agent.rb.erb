@@ -1,16 +1,17 @@
 include_recipe 'td-agent'
 
-template "td-agent.conf" do
-  source "td-agent.conf.erb"
-  path "/etc/td-agent/td-agent.conf"
-  owner "td-agent"
-  group "td-agent"
-  mode "0666"
-end
-
 td_agent_gem "elasticsearch" do
   plugin true
 end
 
 td_agent_plugin "fluent-plugin-parser"
 td_agent_plugin "fluent-plugin-record-reformer"
+
+template "td-agent.conf" do
+  source "td-agent.conf.erb"
+  path "/etc/td-agent/td-agent.conf"
+  owner "td-agent"
+  group "td-agent"
+  mode "0644"
+end
+
