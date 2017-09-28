@@ -32,10 +32,13 @@ cp ../src/build/chef/templates_default_grants.sql.erb templates/default/grants.s
 cp ../src/build/chef/templates_default_my_extra_settings.erb templates/default/my_extra_settings.erb
 cp ../src/build/chef/templates_default_nginx.default.conf.erb templates/default/nginx.default.conf.erb
 cp ../src/build/chef/templates_default_nginx.proxy.conf.erb templates/default/nginx.proxy.conf.erb
+cp ../src/build/chef/templates_default_nginx.kibana.conf.erb templates/default/kibana.conf.erb
 cp ../src/build/chef/templates_default_td-agent.conf.erb templates/default/td-agent.conf.erb
 cp ../src/build/chef/templates_default_puma.erb templates/default/puma.erb
 cp ../src/build/chef/templates_default_puma.service.erb templates/default/puma.service.erb
 cp ../src/build/chef/templates_default_active_job.erb templates/default/active_job.erb
 cp ../src/build/chef/templates_default_active_job.service.erb templates/default/active_job.service.erb
+cp ../src/build/chef/templates_default_kibana.yml.erb templates/default/kibana.yml.erb
+
 berks vendor cookbooks
 sudo chef-client -z -j provision.json

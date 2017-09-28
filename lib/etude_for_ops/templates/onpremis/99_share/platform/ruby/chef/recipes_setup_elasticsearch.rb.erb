@@ -1,3 +1,8 @@
 include_recipe 'java'
 include_recipe 'elasticsearch'
 include_recipe 'kibana5'
+
+template '/opt/kibana/5.5.2/current/config/kibana.yml' do
+  source 'kibana.yml.erb'
+  mode '0644'
+end

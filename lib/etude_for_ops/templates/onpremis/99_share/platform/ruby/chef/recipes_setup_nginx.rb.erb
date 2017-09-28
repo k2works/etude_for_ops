@@ -29,3 +29,14 @@ template '/etc/nginx/conf.d/proxy.conf' do
                 :proxy_client_max_body_size => node['nginx']['proxy']['max_body_size']
             })
 end
+
+template '/etc/nginx/conf.d/kibana.conf' do
+  source 'nginx.kibana.conf.erb'
+  mode '0644'
+end
+
+htpasswd "/etc/nginx/htpassword" do
+  user "kibana"
+  password "kibana"
+end
+
