@@ -12,7 +12,6 @@ end
 td_agent_plugin "fluent-plugin-record-reformer" do
   url 'https://raw.githubusercontent.com/sonots/fluent-plugin-record-reformer/master/lib/fluent/plugin/out_record_reformer.rb'
 end
-=end
 
 template "td-agent.conf" do
   source "td-agent.conf.erb"
@@ -21,4 +20,4 @@ template "td-agent.conf" do
   group "td-agent"
   mode "0644"
 end
-
+=end
