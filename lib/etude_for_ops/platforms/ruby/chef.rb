@@ -77,7 +77,7 @@ module EtudeForOps
         templates_default_puma.service
         templates_default_active_job
         templates_default_active_job.service
-        templates_default_td-agent.conf
+        templates_default_td-agent
         templates_default_kibana.yml
         templates_default_jenkins
       ]

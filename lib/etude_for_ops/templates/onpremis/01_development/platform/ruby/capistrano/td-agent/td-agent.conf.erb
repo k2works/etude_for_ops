@@ -1,0 +1,51 @@
+<source>
+  @type forward
+  port 24224
+</source>
+
+<match app.development>
+  @type rewrite_tag_filter
+  rewriterule1 severity INFO app.development.info
+  rewriterule2 severity FATAL app.development.fatal
+</match>
+
+<match app.development.info>
+  @type parser
+  key_name messages
+  format json
+  tag rails
+</match>
+
+<match rails>
+  type record_reformer
+  enable_ruby true
+  tag rails.timestamp
+<record>
+  @timestamp ${time.strftime('%Y-%m-%dT%H: %M:%S%z')}
+</record>
+</match>
+
+<match rails.timestamp>
+  @type elasticsearch
+  host localhost
+  port 9200
+  index_name app-development
+  type_name fluentd
+</match>
+
+<match app.development.fatal>
+  type record_reformer
+  enable_ruby true
+  tag rails.fatal.timestamp
+<record>
+  @timestamp ${time.strftime('%Y-%m-%dT%H:%M:%S%z')}
+</record>
+</match>
+
+<match rails.fatal.timestamp>
+  @type elasticsearch
+  host localhost
+  port 9200
+  index_name app-development-fatal
+  type_name app-fatal
+</match>

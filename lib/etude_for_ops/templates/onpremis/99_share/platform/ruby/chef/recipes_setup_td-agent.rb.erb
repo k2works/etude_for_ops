@@ -4,20 +4,10 @@ td_agent_gem "elasticsearch" do
   plugin true
 end
 
-=begin
-td_agent_plugin "fluent-plugin-parser" do
-  url 'https://raw.githubusercontent.com/tagomoris/fluent-plugin-parser/master/lib/fluent/plugin/out_parser.rb'
+template "td-agent" do
+  source "td-agent.erb"
+  path "/etc/init.d/td-agent"
+  owner "root"
+  group "root"
+  mode "0755"
 end
-
-td_agent_plugin "fluent-plugin-record-reformer" do
-  url 'https://raw.githubusercontent.com/sonots/fluent-plugin-record-reformer/master/lib/fluent/plugin/out_record_reformer.rb'
-end
-
-template "td-agent.conf" do
-  source "td-agent.conf.erb"
-  path "/etc/td-agent/td-agent.conf"
-  owner "td-agent"
-  group "td-agent"
-  mode "0644"
-end
-=end

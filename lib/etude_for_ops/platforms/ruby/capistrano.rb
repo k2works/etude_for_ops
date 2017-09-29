@@ -28,6 +28,10 @@ module EtudeForOps
       "#{@platform.src_ship_dir}/capistrano/puma"
     end
 
+    def capistrano_td_agent_dir
+      "#{@platform.src_ship_dir}/capistrano/td-agent"
+    end
+
     def capistrano_tasks_dir
       "#{@platform.src_ship_dir}/capistrano/tasks"
     end
@@ -44,6 +48,7 @@ module EtudeForOps
     def create_dir
       FileUtils.mkdir_p(capistrano_dir, mode: 0o755)
       FileUtils.mkdir_p(capistrano_puma_dir, mode: 0o755)
+      FileUtils.mkdir_p(capistrano_td_agent_dir, mode: 0o755)
       FileUtils.mkdir_p(capistrano_tasks_dir, mode: 0o755)
     end
 
@@ -65,10 +70,28 @@ module EtudeForOps
         end
       end
 
+      erb_cap_td_agent_files = %w[
+        td-agent.conf
+        fluent-logger.yml
+      ]
+
+      erb_cap_td_agent_files.each do |cap_file|
+        erb_file = capistrano_erb_file('td-agent', cap_file)
+
+        if File.exist?(erb_file)
+          put_bind_template_file(capistrano_td_agent_dir, erb_file, cap_file)
+        else
+          erb_file = capistrano_erb_share_file('td-agent', cap_file)
+          put_bind_template_file(capistrano_td_agent_dir, erb_file, cap_file)
+        end
+      end
+
+
       erb_cap_tasks_files = %w[
         db.rake
         puma.rake
         active_job.rake
+        td-agent.rake
       ]
 
       erb_cap_tasks_files.each do |cap_file|

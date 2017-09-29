@@ -27,6 +27,44 @@ bundle exec cap development deploy:initial
 bundle exec cap development deploy
 ```
 
+### ロギングの設定
+
+セットアップ
+```ruby:Gemfile
+gem 'fluent-logger'
+gem 'act-fluent-logger-rails'
+gem 'lograge'
+```
+
+```ruby:config/environments
+  config.log_level = :info
+  config.logger = ActFluentLoggerRails::Logger.new
+  config.lograge.enabled = true
+  config.lograge.formatter = Lograge::Formatters::Json.new
+
+  config.web_console.whitelisted_ips = '0.0.0.0/0'
+```
+
+```bash
+bundle exec cap td_agent:init
+```
+
+td-agentの起動
+```bash
+bundle exec cap td_agent:start_service
+```
+
+td-agentの停止
+```bash
+bundle exec cap td_agent:stop_service
+```
+
+td-agentの再起動
+```bash
+bundle exec cap td_agent:restart_service
+```
+
+
 ### アプリケーション・サーバー仮想マシンへのログイン
 ```
 vagrant ssh
