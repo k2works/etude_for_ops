@@ -20,9 +20,9 @@
   type record_reformer
   enable_ruby true
   tag rails.timestamp
-<record>
-  @timestamp ${time.strftime('%Y-%m-%dT%H: %M:%S%z')}
-</record>
+  <record>
+    @timestamp ${time.strftime('%Y-%m-%dT%H:%M:%S.%N%z')}
+  </record>
 </match>
 
 <match rails.timestamp>
@@ -37,9 +37,9 @@
   type record_reformer
   enable_ruby true
   tag rails.fatal.timestamp
-<record>
-  @timestamp ${time.strftime('%Y-%m-%dT%H:%M:%S%z')}
-</record>
+  <record>
+    @timestamp ${time.strftime('%Y-%m-%dT%H:%M:%S.%N%z')}
+  </record>
 </match>
 
 <match rails.fatal.timestamp>

@@ -74,3 +74,11 @@ vagrant ssh
 vagrant ssh-config --host 192.168.33.10 >> ~/.ssh/config
 ssh 192.168.33.10
 ```
+
+### 作成した仮想マシンのパッケージング
+
+```bash
+cd ops/01_development
+chmod 0766 ./create_box.sh
+./create_box.sh
+```
