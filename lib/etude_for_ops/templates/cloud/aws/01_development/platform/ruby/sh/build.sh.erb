@@ -8,7 +8,7 @@ sudo chef generate cookbook build
 cd build
 cp ../src/build/chef/provision.json .
 cp ../src/build/chef/metadata.rb .
-cp ../src/build/chef/Vagrant .
+cp ../src/build/chef/Vagrantfile .
 cp ../src/build/chef/.kitchen.yml .
 cp ../src/build/chef/recipes_default.rb recipes/default.rb
 cp ../src/build/chef/recipes_setup.rb recipes/setup.rb
@@ -24,6 +24,8 @@ cp ../src/build/chef/recipes_setup_td-agent.rb recipes/setup_td-agent.rb
 cp ../src/build/chef/recipes_setup_elasticsearch.rb recipes/setup_elasticsearch.rb
 cp ../src/build/chef/recipes_setup_docker.rb recipes/setup_docker.rb
 cp ../src/build/chef/recipes_setup_jenkins.rb recipes/setup_jenkins.rb
+cp ../src/build/chef/recipes_setup_vagrant.rb recipes/setup_vagrant.rb
+cp ../src/build/chef/recipes_setup_aws.rb recipes/setup_aws.rb
 cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
 chef generate attribute default
 cp ../src/build/chef/attributes_default.rb attributes/default.rb
