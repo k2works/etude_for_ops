@@ -7,7 +7,8 @@ module EtudeForOps
     attr_accessor :platform,
                   :source,
                   :config,
-                  :template_root_path
+                  :template_root_path,
+                  :common_template_root_path
 
     attr_reader :root_dir,
                 :env_dir,
@@ -32,6 +33,7 @@ module EtudeForOps
       @source = Source.new
       @config = Config.new
       @template_root_path = Onpremis::TEMPLATE_ROOT_PAHT
+      @common_template_root_path = Ops::COMMON_TEMPLATE_ROOT_PAHT
     end
 
     def name
@@ -59,7 +61,7 @@ module EtudeForOps
     end
 
     def tmp_share_file_dir
-      "#{template_root_path}/99_share"
+      "#{common_template_root_path}/99_share"
     end
 
     def get_template_params(config)

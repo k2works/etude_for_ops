@@ -1,4 +1,4 @@
 module EtudeForOps
-  class AWS < Cloud
+  module AWS
   end
 end

@@ -1,0 +1,101 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+# http://qiita.com/suthio/items/817d54cf075a67778a0a
+VAGRANTFILE_API_VERSION = "2"
+
+$script = <<SCRIPT
+#
+echo 'Start ShellScript'
+# タイムゾーンを日本に変更
+sudo cp -p /usr/share/zoneinfo/Japan /etc/localtime
+# AWSのVolumeのリサイズ（デフォルトだと8GBのため）
+sudo resize2fs /dev/sda1
+SCRIPT
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Box名
+  config.vm.box = "dummy"
+  # 「vagrant box add」をしなくていいように設定
+  config.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+  # 同期するフォルダを選択（vagrant-awsでは常に同期される訳ではなく、provisionやupなどのコマンド実行時に同期される）
+  config.vm.synced_folder "./", "/home/ec2-user/vagrant", disabled: true
+  config.vm.provider :aws do |aws, override|
+    # アクセスキー（リポジトリに入れたいので環境変数に保持）
+    aws.access_key_id     = ENV['AWS_ACCESS_KEY_ID']
+    # シークレットアクセスキー（リポジトリに入れたいので環境変数に保持）
+    aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+    # キー名
+    aws.keypair_name = ENV['DEV_SSH_KEY_NAME']
+    # インスタンスタイプ（http://aws.amazon.com/jp/ec2/pricing/ を参照）
+    aws.instance_type = ENV['STG_EC2_TYPE']
+    # リージョン
+    aws.region = ENV['AWS_DEFAULT_REGION']
+    # アベイラビリティゾーン
+    aws.availability_zone =  ENV['AWS_AZ1']
+    # 使用するAMIのID
+    aws.ami = ENV['DEV_EC2_AMIID']
+    # セキュリティグループ（複数指定でor判定）
+    aws.security_groups = [ENV['DEV_EC2_SG_ID']]
+    # タグ
+    aws.tags = {
+        'Name' => ENV['STG_APPLICATION_NAME'],
+        'Description' => "#{ENV['DEV_APPLICATION_NAME']} Environments"
+    }
+    # 最初に実行されるシェルスクリプト（sudoできるamiを作成した方が良い）
+    aws.user_data = "#!/bin/sh\nsed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers\n"
+    # EBSの指定が可能
+    aws.block_device_mapping = [
+        {
+            # デバイス名
+            # Amazon Linux (t2.micro) : /dev/xvda
+            # Ubuntu (t2.micro) : /dev/sda1
+            'DeviceName' => "/dev/xvda",
+            # 名称
+            'VirtualName' => ENV['DEV_SSH_KEY_NAME'],
+            # ボリュームサイズ（GB単位）
+            'Ebs.VolumeSize' => 50,
+            # ターミネートした際に削除するかどうか
+            'Ebs.DeleteOnTermination' => true,
+            # EBSのタイプを指定
+            'Ebs.VolumeType' => 'gp2',
+            #'Ebs.VolumeType' => 'io1',
+            # standardでIOPSを指定するとエラーが発生するので注意
+            #'Ebs.Iops' => 1000
+        }
+    ]
+    # -----
+    # ここからはVPCを使用する際の設定
+    # サブネットID（マネジメントコンソールから取得）
+    aws.subnet_id = ENV['DEV_EC2_SUBNET']
+    # VPC内のローカルIPアドレスを指定
+    #aws.private_ip_address = '192.168.0.33'
+    # 自動的にEIPを割り当てる場合（EIPの取得上限は5個のためそれ以上の指定はエラーとなる）
+    #aws.elastic_ip = true
+
+    # -----
+    # SSHのユーザー名を指定（AMIはec2-user、ubuntuはubuntu）
+    override.ssh.username = "ec2-user"
+    # SSHのKeyのパスを指定
+    override.ssh.private_key_path = "~/.ssh/#{ENV['DEV_SSH_KEY']}"
+  end
+  # シェルを実行
+  config.vm.provision "shell", inline: $script
+  # Chefを実行
+  config.vm.provision :chef_zero do |chef|
+    chef.cookbooks_path = ["./cookbooks"]
+    chef.data_bags_path = "data_bags"
+    chef.nodes_path = "nodes"
+    chef.roles_path = "roles"
+
+    chef.add_recipe     "ruby_platform::default"
+    # ログレベル
+    #chef.log_level = :debug
+  end
+  # 仮想環境にインストールするchefのバージョン（latestは最新バージョンという意味）
+  config.omnibus.chef_version = '12.21.1'
+end

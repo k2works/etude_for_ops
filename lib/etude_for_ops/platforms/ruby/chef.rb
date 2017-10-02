@@ -58,6 +58,8 @@ module EtudeForOps
         recipes_setup_jenkins.rb
         recipes_setup_aws.rb
         recipes_setup_vagrant.rb
+        Vagrantfile
+        .kitchen.yml
       ]
 
       create_put_bind_template_files(src_build_dir,platform_ruby_chef_files)

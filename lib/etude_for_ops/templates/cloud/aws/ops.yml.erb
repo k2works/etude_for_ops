@@ -1,0 +1,29 @@
+version: '0'
+ops:
+  development:
+    ip_address: 192.168.33.10
+    repository: YourRepository
+    aws_access_key_id: xxxxxxxx
+    aws_secret_access_key: xxxxxxxxxx
+    aws_default_region: ap-northeast-1
+    aws_az_1: ap-northeast-1
+    ec2_type: xxxxx
+    ec2_amiid: xxxx
+    ec2_sg_id: xxxx
+    ec2_subnet: xxxxx
+  staging:
+    ip_address: 192.168.33.20
+    repository: YourRepository
+  production:
+    ip_address: 192.168.33.30
+    repository: YourRepository
+  share:
+    organization: YourOrganization
+    application:
+      name: YourApplication
+      prefix: YAP
+  env:
+    aws_access_key_id: xxxxxxxx
+    aws_secret_access_key: xxxxxxxxxx
+    aws_default_region: ap-northeast-1
+    aws_az_1: ap-northeast-1

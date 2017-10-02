@@ -113,7 +113,33 @@ describe 'EtudeForOps::Ops' do
     context 'amazon web service' do
       context 'ruby platform' do
         describe '#create_aws_ruby_development_env' do
-          it 'create development environment'
+          it 'create development environment' do
+            env,plt,stg = ops.create_aws_ruby_development_env(root_dir)
+
+            expect(env.class).to be EtudeForOps::Development
+            expect(plt.class).to be EtudeForOps::Ruby
+            expect(stg.class).to be EtudeForOps::Cloud
+
+            set_expect_dir.call('01_development')
+            check_dir_exist(dir, root_dir)
+          end
+
+          it 'create development files' do
+            env_dir_file = Pathname.new(dir[:env_dir] + 'README.md')
+            vagrant_file = Pathname.new(dir[:env_dir] + 'Vagrantfile')
+            set_dev_env_file = Pathname.new(dir[:env_conf_env_dir] + 'set-dev-env.sh')
+            expect(env_dir_file).to exist
+            expect(vagrant_file).to exist
+            expect(set_dev_env_file).to exist
+
+            chef_dir = Pathname.new(dir[:env_src_build_dir] + 'chef')
+            expect(chef_dir).to exist
+            chef_file = Pathname.new(chef_dir + 'provision.json')
+            expect(chef_file).to exist
+
+            sh_dir = Pathname.new(dir[:env_src_build_dir] + 'sh')
+            expect(sh_dir).to exist
+          end
         end
 
         describe '#create_aws_ruby_staging_env' do

@@ -1,0 +1,13 @@
+include_recipe 'td-agent'
+
+td_agent_gem "elasticsearch" do
+  plugin true
+end
+
+template "td-agent" do
+  source "td-agent.erb"
+  path "/etc/init.d/td-agent"
+  owner "root"
+  group "root"
+  mode "0755"
+end

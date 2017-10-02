@@ -1,0 +1,27 @@
+### インフラのセットアップ
+
+```bash
+cd ops/01_development
+vagrant up
+vagrant ssh
+```
+
+```bash
+cd /vagrant
+./src/build/sh/build.sh
+source ~/.bash_profile
+exit
+vagrant reload
+```
+
+```bash
+cd /vagrant/build
+sudo chef-client -z -j provision.json
+```
+
+### アプリケーションのセットアップ
+```bash
+sudo gem install bundler
+sudo gem install rails
+rails new . -d mysql
+```
