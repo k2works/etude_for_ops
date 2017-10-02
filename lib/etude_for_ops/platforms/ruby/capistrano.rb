@@ -61,13 +61,10 @@ module EtudeForOps
 
       erb_cap_puma_files.each do |cap_file|
         erb_file = capistrano_erb_file(:puma, cap_file)
+        put_bind_template_file(capistrano_puma_dir, erb_file, cap_file) unless check_file_nil_or_not_exist(erb_file)
 
-        if File.exist?(erb_file)
-          put_bind_template_file(capistrano_puma_dir, erb_file, cap_file)
-        else
-          erb_file = capistrano_erb_share_file(:puma, cap_file)
-          put_bind_template_file(capistrano_puma_dir, erb_file, cap_file)
-        end
+        erb_file = capistrano_erb_share_file(:puma, cap_file)
+        put_bind_template_file(capistrano_puma_dir, erb_file, cap_file) unless check_file_nil_or_not_exist(erb_file)
       end
 
       erb_cap_td_agent_files = %w[
@@ -77,13 +74,10 @@ module EtudeForOps
 
       erb_cap_td_agent_files.each do |cap_file|
         erb_file = capistrano_erb_file('td-agent', cap_file)
+        put_bind_template_file(capistrano_td_agent_dir, erb_file, cap_file) unless check_file_nil_or_not_exist(erb_file)
 
-        if File.exist?(erb_file)
-          put_bind_template_file(capistrano_td_agent_dir, erb_file, cap_file)
-        else
-          erb_file = capistrano_erb_share_file('td-agent', cap_file)
-          put_bind_template_file(capistrano_td_agent_dir, erb_file, cap_file)
-        end
+        erb_file = capistrano_erb_share_file('td-agent', cap_file)
+        put_bind_template_file(capistrano_td_agent_dir, erb_file, cap_file) unless check_file_nil_or_not_exist(erb_file)
       end
 
 
@@ -96,13 +90,10 @@ module EtudeForOps
 
       erb_cap_tasks_files.each do |cap_file|
         erb_file = capistrano_erb_file(:tasks, cap_file)
+        put_bind_template_file(capistrano_tasks_dir, erb_file, cap_file) unless check_file_nil_or_not_exist(erb_file)
 
-        if File.exist?(erb_file)
-          put_bind_template_file(capistrano_tasks_dir, erb_file, cap_file)
-        else
-          erb_file = capistrano_erb_share_file(:tasks, cap_file)
-          put_bind_template_file(capistrano_tasks_dir, erb_file, cap_file)
-        end
+        erb_file = capistrano_erb_share_file(:tasks, cap_file)
+        put_bind_template_file(capistrano_tasks_dir, erb_file, cap_file) unless check_file_nil_or_not_exist(erb_file)
       end
     end
 
@@ -113,13 +104,10 @@ module EtudeForOps
 
       erb_template_files.each do |erb_template|
         erb_file = capistrano_erb_file(:puma, erb_template)
+        copy_template_file(capistrano_puma_dir,erb_file,erb_template) unless check_file_nil_or_not_exist(erb_file)
 
-        if File.exist?(erb_file)
-          copy_template_file(capistrano_puma_dir,erb_file,erb_template)
-        else
-          erb_file = capistrano_erb_share_file(:puma, erb_template)
-          copy_template_file(capistrano_puma_dir,erb_file,erb_template) if File.exist?(erb_file)
-        end
+        erb_file = capistrano_erb_share_file(:puma, erb_template)
+        copy_template_file(capistrano_puma_dir,erb_file,erb_template) unless check_file_nil_or_not_exist(erb_file)
       end
     end
   end

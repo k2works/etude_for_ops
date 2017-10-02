@@ -41,11 +41,9 @@ module EtudeForOps
     end
 
     def erb_file(file)
-      raise 'abstract method is called'
     end
 
     def erb_share_file(file)
-      raise 'abstract method is called'
     end
 
     protected
@@ -55,12 +53,10 @@ module EtudeForOps
 
       erb_files.each do |file|
         erb_file = erb_file(file)
-        if File.exist?(erb_file)
-          put_bind_template_file(src_dir, erb_file, file)
-        else
-          erb_file = erb_share_file(file)
-          put_bind_template_file(src_dir, erb_file, file)
-        end
+        put_bind_template_file(src_dir, erb_file, file) unless check_file_nil_or_not_exist(erb_file)
+
+        erb_file = erb_share_file(file)
+        put_bind_template_file(src_dir, erb_file, file) unless check_file_nil_or_not_exist(erb_file)
       end
     end
 
@@ -69,12 +65,20 @@ module EtudeForOps
 
       erb_files.each do |file|
         erb_file = erb_file(file)
-        if File.exist?(erb_file)
-          copy_template_file(src_dir, erb_file, file)
-        else
-          erb_file = erb_share_file(file)
-          copy_template_file(src_dir, erb_file, file)
-        end
+        copy_template_file(src_dir, erb_file, file) unless check_file_nil_or_not_exist(erb_file)
+
+        erb_file = erb_share_file(file)
+        copy_template_file(src_dir, erb_file, file) unless check_file_nil_or_not_exist(erb_file)
+      end
+    end
+
+    def check_file_nil_or_not_exist(file)
+      if file.nil?
+        true
+      elsif !File.exist?(file)
+        true
+      else
+        false
       end
     end
   end
