@@ -1,1 +1,8 @@
-include_recipe 'redis::install_from_package'
+case node["platform"]
+  when "debian", "ubuntu"
+    include_recipe 'redis::install_from_package'
+  when "redhat", "centos", "fedora"
+
+  when "amazon"
+    include_recipe 'redis::default'
+end

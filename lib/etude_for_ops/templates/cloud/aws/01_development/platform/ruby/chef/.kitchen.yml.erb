@@ -24,8 +24,25 @@ platforms:
 
 suites:
   - name: default
+    driver:
+      customize:
+        memory: 2048
+        cpus: 2
     run_list:
-      - recipe[ruby_platform::default]
+      - recipe[ruby_platform::ec2]
+      #- recipe[ruby_platform::setup_ruby]
+      #- recipe[ruby_platform::setup_node]
+      #- recipe[ruby_platform::setup_mysql]
+      #- recipe[ruby_platform::setup_postgres]
+      #- recipe[ruby_platform::setup_redis]
+      #- recipe[ruby_platform::setup_mongodb]
+      #- recipe[ruby_platform::setup_nginx]
+      #- recipe[ruby_platform::setup_docker]
+      #- recipe[ruby_platform::setup_jenkins]
+      #- recipe[ruby_platform::setup_td-agent]
+      #- recipe[ruby_platform::setup_elasticsearch]
+      #- recipe[ruby_platform::setup_service]
+      #- recipe[ruby_platform::configure]
     verifier:
       inspec_tests:
         - test/recipes

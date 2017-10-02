@@ -42,6 +42,7 @@ module EtudeForOps
         metadata.rb
         provision.json
         recipes_default.rb
+        recipes_ec2.rb
         recipes_setup.rb
         recipes_configure.rb
         recipes_setup_ruby.rb

@@ -1,4 +1,12 @@
-packages = %W{ libmysqlclient-dev }
+case node["platform"]
+  when "debian", "ubuntu"
+    packages = %W{ libmysqlclient-dev }
+  when "redhat", "centos", "fedora"
+    packages = %W{ }
+  when "amazon"
+    packages = %W{ }
+end
+
 packages.each do |pkg|
   package "#{pkg}" do
     action [ :install, :upgrade ]

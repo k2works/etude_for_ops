@@ -43,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.security_groups = [ENV['DEV_EC2_SG_ID']]
     # タグ
     aws.tags = {
-        'Name' => ENV['STG_APPLICATION_NAME'],
+        'Name' => ENV['DEV_APPLICATION_NAME'],
         'Description' => "#{ENV['DEV_APPLICATION_NAME']} Environments"
     }
     # 最初に実行されるシェルスクリプト（sudoできるamiを作成した方が良い）
@@ -92,7 +92,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.nodes_path = "nodes"
     chef.roles_path = "roles"
 
-    chef.add_recipe     "ruby_platform::default"
+    chef.add_recipe     "ruby_platform::ec2"
     # ログレベル
     #chef.log_level = :debug
   end

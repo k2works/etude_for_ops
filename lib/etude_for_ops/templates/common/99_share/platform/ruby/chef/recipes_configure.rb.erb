@@ -11,9 +11,17 @@ template '/etc/update-motd.d/99-banner' do
   mode '0755'
 end
 
-bash "Update MOTD" do
-  code "chmod 766 /run/motd.dynamic"
-  code "run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic"
+case node["platform"]
+  when "debian", "ubuntu"
+    bash "Update MOTD" do
+      code "chmod 766 /run/motd.dynamic"
+      code "run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic"
+    end
+
+  when "redhat", "centos", "fedora"
+
+  when "amazon"
+
 end
 
 template ".bash_profile" do
