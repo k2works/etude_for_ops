@@ -15,6 +15,13 @@ namespace :ops do
     ops.create_onpremis_ruby_staging_env(root_dir)
   end
 
+  desc 'Setup ruby production environment'
+  task :create_onpremis_ruby_production_env do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.create_onpremis_ruby_production_env(root_dir)
+  end
+
   desc 'Create .env file for onpremis development'
   task :create_env_onpremis_dev do
     root_dir = Pathname.new('ops')
