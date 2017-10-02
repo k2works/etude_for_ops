@@ -57,7 +57,14 @@ module EtudeForOps
     def create_onpremis_ruby_share_env(root_dir)
       env = Share.new(root_dir)
       @builder.strategy = Onpremis.new(env)
-      @builder.platform = Ruby.new(env)
+      ruby = Ruby.new(env)
+      @builder.platform = ruby
+      @builder.platform.components << EtudeForOps::Shell.new(ruby)
+      @builder.platform.components << EtudeForOps::Chef.new(ruby)
+      @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
+      @builder.platform.components << EtudeForOps::Rake.new(ruby)
+      @builder.platform.components << EtudeForOps::Configure.new(ruby)
+      @builder.platform.components << EtudeForOps::Vagrant.new(ruby)
       @builder.environment = env
       @builder.apply_strategy
       return @builder.environment, @builder.platform, @builder.strategy
