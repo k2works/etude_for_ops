@@ -48,13 +48,16 @@ Config *-- EnvironmentVariable
 Config *-- Secure
 Strategy <|-- Onpremis
 Strategy <|-- Cloud
+Strategy *--r Environment
+Environment *--u Platform
+Platform <|--u Ruby
 Ops --r> EnvironmentBuilder
 EnvironmentBuilder --r> Environment
 EnvironmentBuilder --r> Strategy
 Cloud <|-- AWS
 
 class Ops
-Interface Environment
+abstract Environment
 class Development
 class Staging
 class Production
@@ -68,4 +71,5 @@ class Run
 class Onpremis
 class Cloud
 class AWS
+class Platform
 ```

@@ -1,0 +1,15 @@
+[Unit]
+Description=ActiveJob
+
+[Service]
+Environment=RAILS_ENV=development
+WorkingDirectory=/var/app/current
+ExecStart=/home/vagrant/.rbenv/shims/bundle exec sidekiq -C config/sidekiq.yml
+ExecStop=kill -s SIGTERM `cat /var/app/shared/tmp/pids/sidekiq.pid`
+Restart=always
+Type=simple
+User=vagrant
+Group=vagrant
+
+[Install]
+WantedBy = multi-user.target
