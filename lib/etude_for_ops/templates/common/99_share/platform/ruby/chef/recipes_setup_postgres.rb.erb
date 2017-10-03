@@ -1,1 +1,14 @@
-include_recipe 'postgresql::server'
+case node["platform"]
+  when "debian", "ubuntu"
+    include_recipe 'postgresql::server'
+  when "redhat", "centos", "fedora"
+
+  when "amazon"
+    packages = %W{ postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs }
+end
+
+packages.each do |pkg|
+  package "#{pkg}" do
+    action [ :install, :upgrade ]
+  end
+end
