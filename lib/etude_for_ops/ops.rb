@@ -10,82 +10,95 @@ module EtudeForOps
     def create_onpremis_ruby_development_env(root_dir)
       env = Development.new(root_dir)
       @builder.strategy = Onpremis.new(env)
+
       ruby = Ruby.new(env)
-      @builder.platform = ruby
-      @builder.platform.components << EtudeForOps::Shell.new(ruby)
-      @builder.platform.components << EtudeForOps::Chef.new(ruby)
-      @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
-      @builder.platform.components << EtudeForOps::Rake.new(ruby)
-      @builder.platform.components << EtudeForOps::Configure.new(ruby)
-      @builder.platform.components << EtudeForOps::Vagrant.new(ruby)
+      ruby.components << EtudeForOps::Shell.new(ruby)
+      ruby.components << EtudeForOps::Chef.new(ruby)
+      ruby.components << EtudeForOps::Capistrano.new(ruby)
+      ruby.components << EtudeForOps::Rake.new(ruby)
+      ruby.components << EtudeForOps::Configure.new(ruby)
+      ruby.components << EtudeForOps::Vagrant.new(ruby)
+      @builder.platforms <<  ruby
+
       @builder.environment = env
       @builder.apply_strategy
-      return @builder.environment, @builder.platform, @builder.strategy
+      return @builder.environment, @builder.platforms, @builder.strategy
     end
 
     def create_onpremis_ruby_staging_env(root_dir)
       env = Staging.new(root_dir)
       @builder.strategy = Onpremis.new(env)
+
       ruby = Ruby.new(env)
-      @builder.platform = ruby
-      @builder.platform.components << EtudeForOps::Shell.new(ruby)
-      @builder.platform.components << EtudeForOps::Chef.new(ruby)
-      @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
-      @builder.platform.components << EtudeForOps::Rake.new(ruby)
-      @builder.platform.components << EtudeForOps::Configure.new(ruby)
-      @builder.platform.components << EtudeForOps::Vagrant.new(ruby)
+      ruby.components << EtudeForOps::Shell.new(ruby)
+      ruby.components << EtudeForOps::Chef.new(ruby)
+      ruby.components << EtudeForOps::Capistrano.new(ruby)
+      ruby.components << EtudeForOps::Rake.new(ruby)
+      ruby.components << EtudeForOps::Configure.new(ruby)
+      ruby.components << EtudeForOps::Vagrant.new(ruby)
+      @builder.platforms <<  ruby
+
       @builder.environment = env
       @builder.apply_strategy
-      return @builder.environment, @builder.platform, @builder.strategy
+      return @builder.environment, @builder.platforms, @builder.strategy
     end
 
     def create_onpremis_ruby_production_env(root_dir)
       env = Production.new(root_dir)
       @builder.strategy = Onpremis.new(env)
+
       ruby = Ruby.new(env)
-      @builder.platform = ruby
-      @builder.platform.components << EtudeForOps::Shell.new(ruby)
-      @builder.platform.components << EtudeForOps::Chef.new(ruby)
-      @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
-      @builder.platform.components << EtudeForOps::Rake.new(ruby)
-      @builder.platform.components << EtudeForOps::Configure.new(ruby)
-      @builder.platform.components << EtudeForOps::Vagrant.new(ruby)
+      ruby.components << EtudeForOps::Shell.new(ruby)
+      ruby.components << EtudeForOps::Chef.new(ruby)
+      ruby.components << EtudeForOps::Capistrano.new(ruby)
+      ruby.components << EtudeForOps::Rake.new(ruby)
+      ruby.components << EtudeForOps::Configure.new(ruby)
+      ruby.components << EtudeForOps::Vagrant.new(ruby)
+      @builder.platforms <<  ruby
+
       @builder.environment = env
       @builder.apply_strategy
-      return @builder.environment, @builder.platform, @builder.strategy
+      return @builder.environment, @builder.platforms, @builder.strategy
     end
 
     def create_onpremis_ruby_share_env(root_dir)
       env = Share.new(root_dir)
       @builder.strategy = Onpremis.new(env)
+
       ruby = Ruby.new(env)
-      @builder.platform = ruby
-      @builder.platform.components << EtudeForOps::Shell.new(ruby)
-      @builder.platform.components << EtudeForOps::Chef.new(ruby)
-      @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
-      @builder.platform.components << EtudeForOps::Rake.new(ruby)
-      @builder.platform.components << EtudeForOps::Configure.new(ruby)
-      @builder.platform.components << EtudeForOps::Vagrant.new(ruby)
+      ruby.components << EtudeForOps::Shell.new(ruby)
+      ruby.components << EtudeForOps::Chef.new(ruby)
+      ruby.components << EtudeForOps::Capistrano.new(ruby)
+      ruby.components << EtudeForOps::Rake.new(ruby)
+      ruby.components << EtudeForOps::Configure.new(ruby)
+      ruby.components << EtudeForOps::Vagrant.new(ruby)
+      @builder.platforms <<  ruby
+
       @builder.environment = env
       @builder.apply_strategy
-      return @builder.environment, @builder.platform, @builder.strategy
+      return @builder.environment, @builder.platforms, @builder.strategy
     end
 
     def create_aws_ruby_development_env(root_dir)
       env = Development.new(root_dir)
-      provider = AWS::EC2.new
-      @builder.strategy = Cloud.new(provider,env)
+      aws = EtudeForOps::AWS.new(env)
+
+      @builder.strategy = Cloud.new(aws,env)
+      aws.components << EtudeForOps::EC2.new(aws)
+      @builder.platforms << aws
+
       ruby = Ruby.new(env)
-      @builder.platform = ruby
-      @builder.platform.components << EtudeForOps::Shell.new(ruby)
-      @builder.platform.components << EtudeForOps::Chef.new(ruby)
-      @builder.platform.components << EtudeForOps::Capistrano.new(ruby)
-      @builder.platform.components << EtudeForOps::Rake.new(ruby)
-      @builder.platform.components << EtudeForOps::Configure.new(ruby)
-      @builder.platform.components << EtudeForOps::Vagrant.new(ruby)
+      ruby.components << EtudeForOps::Shell.new(ruby)
+      ruby.components << EtudeForOps::Chef.new(ruby)
+      ruby.components << EtudeForOps::Capistrano.new(ruby)
+      ruby.components << EtudeForOps::Rake.new(ruby)
+      ruby.components << EtudeForOps::Configure.new(ruby)
+      ruby.components << EtudeForOps::Vagrant.new(ruby)
+      @builder.platforms <<  ruby
+
       @builder.environment = env
       @builder.apply_strategy
-      return @builder.environment, @builder.platform, @builder.strategy
+      return @builder.environment, @builder.platforms, @builder.strategy
     end
 
     def create_aws_ruby_staging_env(root_dir)

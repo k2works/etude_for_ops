@@ -41,7 +41,7 @@ describe 'EtudeForOps::Ops' do
           env,plt,stg = ops.create_onpremis_ruby_development_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Development
-          expect(plt.class).to be EtudeForOps::Ruby
+          expect(plt[0].class).to be EtudeForOps::Ruby
           expect(stg.class).to be EtudeForOps::Onpremis
 
           set_expect_dir.call('01_development')
@@ -68,7 +68,7 @@ describe 'EtudeForOps::Ops' do
           env,plt,stg = ops.create_onpremis_ruby_staging_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Staging
-          expect(plt.class).to be EtudeForOps::Ruby
+          expect(plt[0].class).to be EtudeForOps::Ruby
           expect(stg.class).to be EtudeForOps::Onpremis
 
           set_expect_dir.call('02_staging')
@@ -81,7 +81,7 @@ describe 'EtudeForOps::Ops' do
           env,plt,stg = ops.create_onpremis_ruby_production_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Production
-          expect(plt.class).to be EtudeForOps::Ruby
+          expect(plt[0].class).to be EtudeForOps::Ruby
           expect(stg.class).to be EtudeForOps::Onpremis
 
           set_expect_dir.call('03_production')
@@ -94,7 +94,7 @@ describe 'EtudeForOps::Ops' do
           env,plt,stg = ops.create_onpremis_ruby_share_env(root_dir)
 
           expect(env.class).to be EtudeForOps::Share
-          expect(plt.class).to be EtudeForOps::Ruby
+          expect(plt[0].class).to be EtudeForOps::Ruby
           expect(stg.class).to be EtudeForOps::Onpremis
 
 
@@ -117,7 +117,8 @@ describe 'EtudeForOps::Ops' do
             env,plt,stg = ops.create_aws_ruby_development_env(root_dir)
 
             expect(env.class).to be EtudeForOps::Development
-            expect(plt.class).to be EtudeForOps::Ruby
+            expect(plt[0].class).to be EtudeForOps::AWS
+            expect(plt[1].class).to be EtudeForOps::Ruby
             expect(stg.class).to be EtudeForOps::Cloud
 
             set_expect_dir.call('01_development')
