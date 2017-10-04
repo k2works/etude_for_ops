@@ -5,7 +5,7 @@ module EtudeForOps
     end
 
     def get_template_params(params)
-
+      params[:strategy] = 'cloud_aws'
     end
   end
 end

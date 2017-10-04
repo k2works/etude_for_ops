@@ -1,3 +1,8 @@
+if node['etc']['passwd']['vagrant']
+  user = node['ruby-env']['user']
+  group = node['ruby-env']['group']
+end
+
 case node["platform"]
   when "debian", "ubuntu"
     packages = %W{ libmysqlclient-dev }
@@ -5,6 +10,11 @@ case node["platform"]
     packages = %W{ }
   when "amazon"
     packages = %W{ }
+
+    if node['etc']['passwd']['ec2-user']
+      user = 'ec2-user'
+      group = 'ec2-user'
+    end
 end
 
 packages.each do |pkg|
@@ -23,14 +33,6 @@ end
 gems = %w{bundler puma}
 gems.each do |gem|
   ruby_gem gem
-end
-
-if node['etc']['passwd']['vagrant']
-  user = node['ruby-env']['user']
-  group = node['ruby-env']['group']
-else
-  user = 'kitchen'
-  group = 'kitchen'
 end
 
 git "/home/#{user}/.rbenv" do

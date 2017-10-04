@@ -12,6 +12,7 @@ module EtudeForOps
 
     def get_template_params(config)
       params = {}
+      params[:env] = 'Development'
       params[:env_name] = '開発環境'
       params[:config_vm_box] = 'bento/ubuntu-16.04'
       params[:config_vm_version] = '>=0'

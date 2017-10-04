@@ -32,7 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # キー名
     aws.keypair_name = ENV['DEV_SSH_KEY_NAME']
     # インスタンスタイプ（http://aws.amazon.com/jp/ec2/pricing/ を参照）
-    aws.instance_type = ENV['STG_EC2_TYPE']
+    aws.instance_type = ENV['DEV_EC2_TYPE']
     # リージョン
     aws.region = ENV['AWS_DEFAULT_REGION']
     # アベイラビリティゾーン

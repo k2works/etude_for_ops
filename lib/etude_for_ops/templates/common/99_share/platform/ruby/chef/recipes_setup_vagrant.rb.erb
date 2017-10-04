@@ -1,7 +1,27 @@
+if node['etc']['passwd']['vagrant']
+  user = node['ruby-env']['user']
+  group = node['ruby-env']['group']
+else
+  user = 'kitchen'
+  group = 'kitchen'
+end
+
 include_recipe 'vagrant'
 
-vagrant_plugin 'vagrant-omnibus'
-vagrant_plugin 'vagrant-berkshelf'
-vagrant_plugin 'vagrant-aws'
-vagrant_plugin 'vagrant-env'
+vagrant_plugin 'vagrant-omnibus' do
+   user user
+end
+
+vagrant_plugin 'vagrant-berkshelf' do
+   user user
+end
+
+vagrant_plugin 'vagrant-aws' do
+   user user
+end
+
+vagrant_plugin 'vagrant-env' do
+   user user
+end
+
 

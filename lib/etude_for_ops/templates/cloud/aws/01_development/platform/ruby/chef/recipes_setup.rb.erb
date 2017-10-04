@@ -1,0 +1,15 @@
+include_recipe 'apt::default'
+include_recipe 'htpasswd'
+chef_gem 'htauth'
+
+user "ec2-user" do
+  password "$1$9UsnR95k$SIUMtvADFQbU/PV6nLtZl1"
+  supports :manage_home => true
+  action :create
+end
+
+group "ec2-user" do
+  action [:modify]
+  members ["ec2-user"]
+  append true
+end

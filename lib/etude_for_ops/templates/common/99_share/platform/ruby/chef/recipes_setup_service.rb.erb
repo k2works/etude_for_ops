@@ -3,17 +3,27 @@ case node["platform"]
     template "puma" do
       path "/etc/systemd/system/puma.service"
       source "puma.service.erb"
-      owner "root"
-      group "root"
+      owner "<%= params[:user] %>"
+      group "<%= params[:group] %>"
       mode 0751
+
+      variables(
+          :user     => "<%= params[:user] %>",
+          :group    => "<%= params[:group] %>"
+      )
     end
 
     template "active_job" do
       path "/etc/systemd/system/active_job.service"
       source "active_job.service.erb"
-      owner "root"
-      group "root"
+      owner "<%= params[:user] %>"
+      group "<%= params[:group] %>"
       mode 0751
+
+      variables(
+          :user     => "<%= params[:user] %>",
+          :group    => "<%= params[:group] %>"
+      )
     end
 
     service "puma" do
@@ -30,33 +40,51 @@ case node["platform"]
       template "puma" do
         path "/etc/systemd/system/puma.service"
         source "puma.service.erb"
-        owner "root"
-        group "root"
+        owner "<%= params[:user] %>"
+        group "<%= params[:group] %>"
         mode 0751
+
+        variables(
+            :user     => "<%= params[:user] %>",
+            :group    => "<%= params[:group] %>"
+        )
       end
     elsif platform_family?('rhel') && node['platform_version'].to_i == 6 then
       template "puma" do
         path "/etc/init.d/puma"
         source "puma.erb"
-        owner "root"
-        group "root"
+        owner "<%= params[:user] %>"
+        group "<%= params[:group] %>"
         mode 0751
+
+        variables(
+            :user     => "<%= params[:user] %>",
+            :group    => "<%= params[:group] %>"
+        )
       end
     end
   when "amazon"
     template "puma" do
       path "/etc/init.d/puma"
       source "puma.erb"
-      owner "root"
-      group "root"
+      owner "<%= params[:aws_user] %>"
+      group "<%= params[:aws_group] %>"
       mode 0751
+
+      variables(
+          :user     => "<%= params[:aws_user] %>"
+      )
     end
 
     template "active_job" do
       path "/etc/init.d/active_job"
       source "active_job.erb"
-      owner "root"
-      group "root"
+      owner "<%= params[:aws_user] %>"
+      group "<%= params[:aws_group] %>"
       mode 0751
+
+      variables(
+          :user     => "<%= params[:aws_user] %>"
+      )
     end    
 end

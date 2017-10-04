@@ -1,8 +1,9 @@
 case node["platform"]
   when "debian", "ubuntu"
     include_recipe 'postgresql::server'
+    packages = {}
   when "redhat", "centos", "fedora"
-
+    packages = {}
   when "amazon"
     packages = %W{ postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs }
 end

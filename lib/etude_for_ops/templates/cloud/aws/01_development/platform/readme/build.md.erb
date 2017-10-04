@@ -19,6 +19,63 @@ cd /vagrant/build
 sudo chef-client -z -j provision.json
 ```
 
+#### EC2キーペアの作成
+```bash
+cd /vagrant/config/secure/
+aws ec2 create-key-pair --key-name $DEV_SSH_KEY_NAME --query 'KeyMaterial' --output text > $DEV_SSH_KEY
+$ cp $DEV_SSH_KEY  ~/.ssh/
+$ chmod 0400 ~/.ssh/$DEV_SSH_KEY
+```
+再作成をする場合は以下のコマンドで秘密鍵を削除してからコピーする
+```bash
+$ rm  ~/.ssh/$DEV_SSH_KEY
+```
+
+#### VPCの作成
+```bash
+$ cd /vagrant/ops/03_production/src/build/aws/vpc/
+$ aws cloudformation validate-template --template-body file://$PRD_VPC_TEMPLATE
+$ chmod 0755 ./vpc-create-stack.sh
+$ ./vpc-create-stack.sh
+$ aws cloudformation list-stack-resources --stack-name $PRD_VPC_STACKNAME --output table
+```
+
+#### セキュリティグループを作成する
+```bash
+$ cd /vagrant/ops/03_production/src/ship/aws/ec2/
+$ ./ec2-create-security-group.sh
+```
+作成されたセキュリティグループIDを環境変数に設定して環境変数を読み込み直した後に以下のコマンドを実行する
+```bash
+$ ./ec2-security-group-rule.sh
+```
+
+#### 仮想マシンセットアップ
+仮想マシンを構築する、初回起動時はvagrantプラグインをインストールしてから実行する。
+```bash
+$ cd /vagrant/ops/03_production/src/ship/chef
+$ vagrant plugin install vagrant-aws
+$ vagrant plugin install vagrant-chef-zero
+$ vagrant plugin install vagrant-omnibus
+$ vagrant up --provider=aws
+```
+起動完了後にインスタンスIDを環境変数に登録する
+```bash
+$ PRD_EC2_INSTANCE_ID=`cat .vagrant/machines/default/aws/id | sed  "s/$//g"`
+$ echo $PRD_EC2_INSTANCE_ID
+  i-05a331dc8dc22a47b
+```
+インスタンスのパブリックIPアドレスを`/vagrant/scripts/install_dependencies`のPRD_URL設定する
+```bash
+$ PRD_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${PRD_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
+$ echo $PRD_EC2_PUBLIC_IP
+13.114.39.124
+```
+リソース名を統一する
+```bash
+$ /vagrant/ops/03_production/src/ship/aws/ec2/ec2-setup-resources.sh
+```
+
 ### アプリケーションのセットアップ
 ```bash
 sudo gem install bundler

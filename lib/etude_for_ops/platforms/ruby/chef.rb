@@ -63,7 +63,13 @@ module EtudeForOps
         .kitchen.yml
       ]
 
-      create_put_bind_template_files(src_build_dir,platform_ruby_chef_files)
+      params = {}
+      params[:user] = 'vagrant'
+      params[:group] = 'vagrant'
+      params[:aws_user] = 'ec2-user'
+      params[:aws_group] = 'ec2-user'
+
+      create_put_bind_template_files(src_build_dir,platform_ruby_chef_files, params)
     end
 
     def create_erb_template_files
@@ -85,7 +91,7 @@ module EtudeForOps
         templates_default_jenkins
       ]
 
-      create_copy_template_files(src_build_dir,erb_template_files)
+      create_copy_template_files(src_build_dir,erb_template_files,params)
     end
   end
 end
