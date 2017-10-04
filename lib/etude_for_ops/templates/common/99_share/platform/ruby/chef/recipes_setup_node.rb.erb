@@ -1,3 +1,18 @@
+if node['etc']['passwd']['vagrant']
+  user = node['ruby-env']['user']
+  group = node['ruby-env']['group']
+end
+
+case node["platform"]
+  when "debian", "ubuntu"
+  when "redhat", "centos", "fedora"
+  when "amazon"
+    if node['etc']['passwd']['ec2-user']
+      user = 'ec2-user'
+      group = 'ec2-user'
+    end
+end
+
 include_recipe 'nodejs'
 include_recipe 'nodejs::npm'
 
@@ -8,27 +23,14 @@ v6.11.2
 v8.4.0
 ]
 
-if node['etc']['passwd']['kitchen']
-  versions.each do |ver|
-    nvm_install ver  do
-      user 'kitchen'
-      group 'kitchen'
-      from_source false
-      from_source false
-      alias_as_default true
-      action :create
-    end
-  end
-else
-  versions.each do |ver|
-    nvm_install ver  do
-      user 'vagrant'
-      group 'vagrant'
-      from_source false
-      from_source false
-      alias_as_default true
-      action :create
-    end
+versions.each do |ver|
+  nvm_install ver  do
+    user user
+    group group
+    from_source false
+    from_source false
+    alias_as_default true
+    action :create
   end
 end
 
