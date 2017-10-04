@@ -31,11 +31,11 @@ $ rm  ~/.ssh/$DEV_SSH_KEY
 
 #### VPCの作成
 ```bash
-$ cd /vagrant/ops/03_production/src/build/aws/vpc/
-$ aws cloudformation validate-template --template-body file://$PRD_VPC_TEMPLATE
-$ chmod 0755 ./vpc-create-stack.sh
-$ ./vpc-create-stack.sh
-$ aws cloudformation list-stack-resources --stack-name $PRD_VPC_STACKNAME --output table
+cd /vagrant/src/build/aws/vpc/
+aws cloudformation validate-template --template-body file://$DEV_VPC_TEMPLATE
+chmod 0755 ./vpc_create_stack.sh
+./vpc_create_stack.sh
+aws cloudformation list-stack-resources --stack-name $DEV_VPC_STACKNAME --output table
 ```
 
 #### セキュリティグループを作成する
@@ -52,6 +52,10 @@ $ ./ec2-security-group-rule.sh
 ```bash
 cd /vagrant/build
 vagrant up --provider=aws
+vagrant ssh
+cd /vagrant
+sudo chef-client -z -j ec2_provision.json
+sudo reboot
 ```
 起動完了後にインスタンスIDを環境変数に登録する
 ```bash

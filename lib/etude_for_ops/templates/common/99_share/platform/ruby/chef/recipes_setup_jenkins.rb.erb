@@ -17,7 +17,7 @@ include_recipe 'java'
 include_recipe 'jenkins::master'
 
 # For Jenkins
-user "jnekins" do
+user "jenkins" do
   password "$1$NK7CEczt$84diJRinF934T6F/ytIGy1" # openssl passwd -1 'jenkins'
   supports :manage_home => true
   action :create
@@ -25,6 +25,16 @@ end
 
 if node['etc']['passwd']['vagrant']
   %w[vagrant docker].each do |gr|
+    group gr do
+      action [:modify]
+      members ["jenkins"]
+      append true
+    end
+  end
+end
+
+if node['etc']['passwd']['ec2-user']
+  %w[ec2-user docker].each do |gr|
     group gr do
       action [:modify]
       members ["jenkins"]

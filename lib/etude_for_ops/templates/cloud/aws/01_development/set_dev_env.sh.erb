@@ -11,6 +11,12 @@ export AWS_ACCESS_KEY_ID=<%= config['ops']['development']['aws_access_key_id'] %
 export AWS_SECRET_ACCESS_KEY=<%= config['ops']['development']['aws_secret_access_key'] %>
 export AWS_DEFAULT_REGION=<%= config['ops']['development']['aws_default_region'] %>
 export AWS_AZ1=<%= config['ops']['development']['aws_az_1'] %>
+
+export DEV_VPC_STACKNAME=$ORGANIZATION-VPC-$DEV_APPLICATION_NAME
+export DEV_VPC_TEMPLATE=<%= config['ops']['development']['vpc_template'] %>
+export DEV_TAGKEY=Name
+export DEV_TAGVALUE=$DEV_APPLICATION_NAME
+
 export DEV_EC2_TYPE=<%= config['ops']['development']['ec2_type'] %>
 export DEV_EC2_AMIID=<%= config['ops']['development']['ec2_amiid'] %>
 export DEV_EC2_SG_ID=<%= config['ops']['development']['ec2_sg_id'] %>

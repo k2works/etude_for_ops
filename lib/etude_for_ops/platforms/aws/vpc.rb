@@ -1,0 +1,63 @@
+module EtudeForOps
+  class VPC < Platform
+    def initialize(platform)
+      @platform = platform
+    end
+
+    def build
+      create_build_files
+    end
+
+    def ship
+      create_ship_files
+    end
+
+    def run
+      create_run_files
+    end
+
+    private
+
+    def src_build_dir
+      "#{@platform.src_build_dir}/aws/vpc"
+    end
+
+    def erb_file(file)
+      "#{@platform.tmp_file_dir}/platform/aws/vpc/#{file}.erb"
+    end
+
+    def erb_share_file(file)
+      "#{@platform.tmp_share_file_dir}/platform/aws/vpc/#{file}.erb"
+    end
+
+    def create_build_files
+      FileUtils.mkdir_p(src_build_dir, mode: 0o755)
+
+      erb_files = %w[
+        vpc-2az-2subnet-pri.template
+        vpc-2az-4subnet-pub-pri.template
+        vpc_create_stack.sh
+      ]
+
+      params = {}
+      if @platform.params[:env] = 'Development'
+        params[:vpc_stackname] = 'DEV_VPC_STACKNAME'
+        params[:vpc_template]  = 'DEV_VPC_TEMPLATE'
+        params[:tagkey] = 'DEV_TAGKEY'
+        params[:tagvalue] = 'DEV_TAGVALUE'
+        params[:default_az1] = 'ap-northeast-1b'
+        params[:default_az2] = 'ap-northeast-1c'
+      end
+
+      create_put_bind_template_files(src_build_dir,erb_files,params)
+    end
+
+    def create_ship_files
+
+    end
+
+    def create_run_files
+
+    end
+  end
+end

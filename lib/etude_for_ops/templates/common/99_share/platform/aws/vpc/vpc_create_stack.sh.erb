@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+STACKNAME=${<%= params[:vpc_stackname] %>}
+TEMPLATE=${<%= params[:vpc_template] %>}
+TAGKEY=${<%= params[:tagkey] %>}
+TAGVALUE=${<%= params[:tagvalue] %>}
+
+echo "**********************************"
+echo STACKNAME:${STACKNAME}
+echo TEMPLATE:${TEMPLATE}
+echo TAGKEY:${TAGKEY}
+echo TAGVALUE:${TAGVALUE}
+echo "**********************************"
+
+aws cloudformation create-stack --stack-name ${STACKNAME} \
+                                --template-body file://${TEMPLATE} \
+                                --tags Key=${TAGKEY},Value=${TAGVALUE}
