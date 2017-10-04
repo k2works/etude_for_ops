@@ -24,8 +24,8 @@ end
 if node['etc']['passwd']['ubuntu']
   members << 'ubuntu'
 end
-if node['etc']['passwd']['kitchen']
-  members << 'kitchen'
+if node['etc']['passwd']['ec2-uer']
+  members << 'ec2-user'
 end
 
 unless members.empty?

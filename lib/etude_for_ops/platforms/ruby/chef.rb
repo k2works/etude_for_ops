@@ -41,6 +41,7 @@ module EtudeForOps
         attributes_default.rb
         metadata.rb
         provision.json
+        ec2_provision.json
         recipes_default.rb
         recipes_ec2.rb
         recipes_setup.rb
@@ -78,6 +79,7 @@ module EtudeForOps
         templates_default_bash_profile
         templates_default_grants.sql
         templates_default_my_extra_settings
+        templates_default_nginx.conf
         templates_default_nginx.default.conf
         templates_default_nginx.proxy.conf
         templates_default_nginx.kibana.conf

@@ -7,6 +7,7 @@ cd /vagrant
 sudo chef generate cookbook build
 cd build
 cp ../src/build/chef/provision.json .
+cp ../src/build/chef/ec2_provision.json .
 cp ../src/build/chef/metadata.rb .
 cp ../src/build/chef/Vagrantfile .
 cp ../src/build/chef/.kitchen.yml .
@@ -35,6 +36,7 @@ cp ../src/build/chef/templates_default_banner.erb templates/default/banner.erb
 cp ../src/build/chef/templates_default_bash_profile.erb templates/default/.bash_profile.erb
 cp ../src/build/chef/templates_default_grants.sql.erb templates/default/grants.sql.erb
 cp ../src/build/chef/templates_default_my_extra_settings.erb templates/default/my_extra_settings.erb
+cp ../src/build/chef/templates_default_nginx.conf.erb templates/default/nginx.conf.erb
 cp ../src/build/chef/templates_default_nginx.default.conf.erb templates/default/nginx.default.conf.erb
 cp ../src/build/chef/templates_default_nginx.proxy.conf.erb templates/default/nginx.proxy.conf.erb
 cp ../src/build/chef/templates_default_nginx.kibana.conf.erb templates/default/nginx.kibana.conf.erb
