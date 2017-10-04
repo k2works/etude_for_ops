@@ -130,8 +130,8 @@ module EtudeForOps
       @source.create_platform_files
     end
 
-    def render_platform file
-      file_path = "#{tmp_file_dir}/platform/readme/#{file}"
+    def render_platform(dir='docs', file)
+      file_path = "#{tmp_file_dir}/platform/#{dir}/#{file}"
       render file_path if File.exists?(file_path)
     end
 
