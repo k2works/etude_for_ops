@@ -77,6 +77,7 @@ module EtudeForOps
       erb_template_files = %w[
         templates_default_banner
         templates_default_bash_profile
+        templates_default_bash_profile_aws
         templates_default_grants.sql
         templates_default_my_extra_settings
         templates_default_nginx.conf

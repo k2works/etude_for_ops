@@ -26,15 +26,6 @@ case node["platform"]
       )
     end
 
-    service "puma" do
-      supports :status => true, :restrart => true, :reload => true
-      action [ :enable, :start ]
-    end
-
-    service "active_job" do
-      supports :status => true, :restrart => true, :reload => true
-      action [ :enable, :start ]
-    end
   when "redhat", "centos", "fedora"
     if platform_family?('rhel') && node['platform_version'].to_i == 7 then
       template "puma" do

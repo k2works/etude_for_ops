@@ -29,16 +29,47 @@ case node["platform"]
       code "run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic"
     end
 
+    template ".bash_profile" do
+      source ".bash_profile.erb"
+      path "/home/#{user}/.bash_profile"
+      mode 0644
+      owner user
+      group group
+    end
+
+    service "puma" do
+      supports :status => true, :restrart => true, :reload => true
+      action [ :enable, :start ]
+    end
+
+    service "active_job" do
+      supports :status => true, :restrart => true, :reload => true
+      action [ :enable, :start ]
+    end
+
   when "redhat", "centos", "fedora"
 
   when "amazon"
+      template ".bash_profile" do
+        source ".bash_profile_aws.erb"
+        path "/home/#{user}/.bash_profile"
+        mode 0644
+        owner user
+        group group
+      end
 
-end
+      service "nginx" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
 
-template ".bash_profile" do
-  source ".bash_profile.erb"
-  path "/home/#{user}/.bash_profile"
-  mode 0644
-  owner user
-  group group
+      service "puma" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+
+      service "active_job" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
 end
