@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+VPC_ID=$<%= params[:vpc_id] %>
+SGNAME=$<%= params[:ec2_sg_name] %>
+DESC=$<%= params[:ec2_sg_desc] %>
+
+echo "**********************************"
+echo VPC_ID:$VPC_ID
+echo SGNAME:$SGNAME
+echo DESC:$DESC
+echo "**********************************"
+
+aws ec2 create-security-group --vpc-id $VPC_ID \
+                              --group-name $SGNAME \
+                              --description "$DESC"

@@ -29,6 +29,8 @@ cp ../src/build/chef/recipes_setup_jenkins.rb recipes/setup_jenkins.rb
 cp ../src/build/chef/recipes_setup_vagrant.rb recipes/setup_vagrant.rb
 cp ../src/build/chef/recipes_setup_aws.rb recipes/setup_aws.rb
 cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
+cp ../src/build/chef/Gemfile .
+cp ../src/build/chef/reprovision.sh .
 chef generate attribute default
 cp ../src/build/chef/attributes_default.rb attributes/default.rb
 chef generate template default

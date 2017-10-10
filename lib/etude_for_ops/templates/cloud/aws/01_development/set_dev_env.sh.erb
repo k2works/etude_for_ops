@@ -16,8 +16,14 @@ export DEV_VPC_STACKNAME=$ORGANIZATION-VPC-$DEV_APPLICATION_NAME
 export DEV_VPC_TEMPLATE=<%= config['ops']['development']['vpc_template'] %>
 export DEV_TAGKEY=Name
 export DEV_TAGVALUE=$DEV_APPLICATION_NAME
+export DEV_VPC_ID=<%= config['ops']['development']['vpc_id'] %>
+
+export DEV_EC2_SG_ID=<%= config['ops']['development']['ec2_sg_id'] %>
+export DEV_EC2_SG_NAME=<%= config['ops']['development']['ec2_sg_name'] %>
+export DEV_EC2_SG_DESC=<%= config['ops']['development']['ec2_sg_desc'] %>
 
 export DEV_EC2_TYPE=<%= config['ops']['development']['ec2_type'] %>
-export DEV_EC2_AMIID=<%= config['ops']['development']['ec2_amiid'] %>
-export DEV_EC2_SG_ID=<%= config['ops']['development']['ec2_sg_id'] %>
+export DEV_EC2_AMI_ID=<%= config['ops']['development']['ec2_ami_id'] %>
 export DEV_EC2_SUBNET=<%= config['ops']['development']['ec2_subnet'] %>
+export DEV_EC2_INSTANCE_ID=<%= config['ops']['development']['ec2_instance_id'] %>
+export DEV_EC2_PUBLIC_IP=<%= config['ops']['development']['ec2_public_ip'] %>

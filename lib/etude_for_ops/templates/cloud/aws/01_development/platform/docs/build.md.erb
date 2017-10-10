@@ -26,7 +26,7 @@ cd /vagrant/config/secure/
 ```
 再作成をする場合は以下のコマンドで秘密鍵を削除してからコピーする
 ```bash
-$ rm  ~/.ssh/$DEV_SSH_KEY
+rm  ~/.ssh/$DEV_SSH_KEY
 ```
 
 #### VPCの作成
@@ -40,15 +40,15 @@ aws cloudformation list-stack-resources --stack-name $DEV_VPC_STACKNAME --output
 
 #### セキュリティグループを作成する
 ```bash
-$ cd /vagrant/ops/03_production/src/ship/aws/ec2/
-$ ./ec2-create-security-group.sh
+cd /vagrant/src/build/aws/ec2/
+./create_security_group.sh
 ```
 作成されたセキュリティグループIDを環境変数に設定して環境変数を読み込み直した後に以下のコマンドを実行する
 ```bash
-$ ./ec2-security-group-rule.sh
+./configure_security_group_rule.sh
 ```
 
-#### 仮想マシンセットアップ
+#### 仮想マシンセットアップ(Vagrant版)
 ```bash
 cd /vagrant/build
 vagrant up --provider=aws
@@ -59,19 +59,65 @@ sudo reboot
 ```
 起動完了後にインスタンスIDを環境変数に登録する
 ```bash
-$ PRD_EC2_INSTANCE_ID=`cat .vagrant/machines/default/aws/id | sed  "s/$//g"`
-$ echo $PRD_EC2_INSTANCE_ID
-  i-05a331dc8dc22a47b
-```
-インスタンスのパブリックIPアドレスを`/vagrant/scripts/install_dependencies`のPRD_URL設定する
-```bash
-$ PRD_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${PRD_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
-$ echo $PRD_EC2_PUBLIC_IP
-13.114.39.124
+DEV_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${DEV_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
+echo $DEV_EC2_PUBLIC_IP
 ```
 リソース名を統一する
 ```bash
-$ /vagrant/ops/03_production/src/ship/aws/ec2/ec2-setup-resources.sh
+cd /vagrant/src/build/aws/ec2/
+./configure_resources.sh
+```
+
+#### 仮想マシンセットアップ(コマンドライン版)
+```bash
+cd /vagrant/src/build/aws/ec2/
+./create_instance.sh
+
+sudo chef-client -z -j ec2_provision.json
+sudo reboot
+```
+起動完了後にインスタンスIDを環境変数に登録する
+```bash
+DEV_EC2_INSTANCE_ID=`cat .vagrant/machines/default/aws/id | sed  "s/$//g"`
+echo $DEV_EC2_INSTANCE_ID
+```
+インスタンスのパブリックIPアドレスを`/vagrant/scripts/install_dependencies`のPRD_URL設定する
+```bash
+DEV_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${DEV_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
+echo $DEV_EC2_PUBLIC_IP
+```
+リソース名を統一する
+```bash
+cd /vagrant/src/build/aws/ec2/
+./configure_resources.sh
+```
+
+仮想マシンへのログイン
+```
+ssh -i ~/.ssh/dev-app.pem ec2-user@$DEV_EC2_PUBLIC_IP
+```
+
+#### アプリケーション・サーバのプロビジョニング
+セットアップ
+```bash
+cd /vagrant/build
+gem install bundler
+bundle
+export server=$DEV_EC2_PUBLIC_IP
+ssh -i ~/.ssh/$DEV_SSH_KEY ec2-user@$server
+exit
+mkdir .chef
+echo 'local_mode true' > .chef/knife.rb
+bundle exec knife zero bootstrap $server -x ec2-user -i ~/.ssh/$DEV_SSH_KEY --hint ec2 --sudo
+bundle exec knife node list
+export node=ip-172-16-1-138.ec2.internal
+bundle exec knife node show $node
+bundle exec knife node run_list add $node ruby_platform::ec2
+bundle exec knife zero converge "name:$node" --attribute ec2.public_ipv4 -x ec2-user -i ~/.ssh/$DEV_SSH_KEY --sudo --client-version 12.21.1
+```
+クックブック更新時のプロビジョニング実行
+```bash
+./reprovision.sh
 ```
 
 ### アプリケーションのセットアップ

@@ -62,6 +62,8 @@ module EtudeForOps
         recipes_setup_vagrant.rb
         Vagrantfile
         .kitchen.yml
+        Gemfile
+        reprovision.sh
       ]
 
       params = {}
@@ -69,6 +71,10 @@ module EtudeForOps
       params[:group] = 'vagrant'
       params[:aws_user] = 'ec2-user'
       params[:aws_group] = 'ec2-user'
+
+      if @platform.params[:env] = 'Development'
+        params[:ssh_key] = 'DEV_SSH_KEY'
+      end
 
       create_put_bind_template_files(src_build_dir,platform_ruby_chef_files, params)
     end
