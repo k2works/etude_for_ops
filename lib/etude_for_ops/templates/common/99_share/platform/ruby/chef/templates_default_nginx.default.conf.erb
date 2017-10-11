@@ -17,7 +17,7 @@ server {
     proxy_set_header X-Forwarded_Proto $scheme;
     proxy_redirect off;
     proxy_pass http://app;
-        proxy_read_timeout 300s;
+    proxy_read_timeout 300s;
     proxy_send_timeout 300s;
   }
 
@@ -30,7 +30,7 @@ server {
 
     proxy_pass http://kibana_server;
 
-        access_log /var/log/nginx/kibana_access.log;
+    access_log /var/log/nginx/kibana_access.log;
     error_log  /var/log/nginx/kibana_error.log;
   }
 
@@ -48,7 +48,7 @@ server {
 
     proxy_pass              http://jenkins_server;
 
-        access_log /var/log/nginx/jenkins_access.log;
+    access_log /var/log/nginx/jenkins_access.log;
     error_log  /var/log/nginx/jenkins_error.log;
   }
 

@@ -23,6 +23,7 @@ cp ../src/build/chef/recipes_setup_elasticsearch.rb recipes/setup_elasticsearch.
 cp ../src/build/chef/recipes_setup_docker.rb recipes/setup_docker.rb
 cp ../src/build/chef/recipes_setup_jenkins.rb recipes/setup_jenkins.rb
 cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
+cp ../src/build/chef/recipes_configure_service.rb recipes/configure_service.rb
 chef generate attribute default
 cp ../src/build/chef/attributes_default.rb attributes/default.rb
 chef generate template default
@@ -35,9 +36,12 @@ cp ../src/build/chef/templates_default_nginx.default.conf.erb templates/default/
 cp ../src/build/chef/templates_default_nginx.proxy.conf.erb templates/default/nginx.proxy.conf.erb
 cp ../src/build/chef/templates_default_nginx.kibana.conf.erb templates/default/nginx.kibana.conf.erb
 cp ../src/build/chef/templates_default_nginx.jenkins.conf.erb templates/default/nginx.jenkins.conf.erb
+cp ../src/build/chef/templates_default_nginx.td-agent-ui.conf.erb templates/default/nginx.td-agent-ui.conf.erb
 cp ../src/build/chef/templates_default_td-agent.erb templates/default/td-agent.erb
 cp ../src/build/chef/templates_default_puma.erb templates/default/puma.erb
 cp ../src/build/chef/templates_default_puma.service.erb templates/default/puma.service.erb
+cp ../src/build/chef/templates_default_td-agent-ui.erb templates/default/td-agent-ui.erb
+cp ../src/build/chef/templates_default_td-agent-ui.service.erb templates/default/td-agent-ui.service.erb
 cp ../src/build/chef/templates_default_active_job.erb templates/default/active_job.erb
 cp ../src/build/chef/templates_default_active_job.service.erb templates/default/active_job.service.erb
 cp ../src/build/chef/templates_default_kibana.yml.erb templates/default/kibana.yml.erb

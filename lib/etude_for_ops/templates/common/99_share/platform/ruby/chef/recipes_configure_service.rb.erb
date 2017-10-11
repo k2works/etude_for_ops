@@ -29,6 +29,10 @@ case node["platform"]
       action [ :enable, :start ]
     end
 
+    service "td-agent-ui" do
+      supports :status => true, :restrart => true, :reload => true
+      action [ :enable, :start ]
+    end
   when "redhat", "centos", "fedora"
 
   when "amazon"
@@ -38,6 +42,11 @@ case node["platform"]
       end
 
       service "active_job" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+
+      service "td-agent-ui" do
         supports :status => true, :restrart => true, :reload => true
         action [ :enable, :start ]
       end

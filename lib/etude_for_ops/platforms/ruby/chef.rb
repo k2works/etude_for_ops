@@ -92,10 +92,13 @@ module EtudeForOps
         templates_default_nginx.proxy.conf
         templates_default_nginx.kibana.conf
         templates_default_nginx.jenkins.conf
+        templates_default_nginx.td-agent-ui.conf
         templates_default_puma
         templates_default_puma.service
         templates_default_active_job
         templates_default_active_job.service
+        templates_default_td-agent-ui
+        templates_default_td-agent-ui.service
         templates_default_td-agent
         templates_default_kibana.yml
         templates_default_jenkins

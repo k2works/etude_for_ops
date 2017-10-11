@@ -26,6 +26,12 @@ case node["platform"]
       )
     end
 
+    template "td-agent-ui" do
+      path "/etc/systemd/system/td-agent-ui.service"
+      source "td-agent-ui.service.erb"
+      mode 0751
+    end
+
   when "redhat", "centos", "fedora"
     if platform_family?('rhel') && node['platform_version'].to_i == 7 then
       template "puma" do
@@ -77,5 +83,11 @@ case node["platform"]
       variables(
           :user     => "<%= params[:aws_user] %>"
       )
-    end    
+    end
+
+    template "td-agent-ui" do
+      path "/etc/init.d/td-agent-ui"
+      source "td-agent-ui.erb"
+      mode 0751
+    end
 end
