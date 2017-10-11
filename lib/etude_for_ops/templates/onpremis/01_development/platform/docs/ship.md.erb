@@ -18,7 +18,7 @@ end
 chmod 0766 ops/01_development/src/ship/sh/ship.sh
 ops/01_development/src/ship/sh/ship.sh
 ```
-
+`config/deploy/development.rb`の`:db_name`を開発用に合わせてから以下のコマンドを実行する。
 ```bash
 bundle exec cap development deploy:initial
 ```
@@ -31,6 +31,7 @@ bundle exec cap development deploy
 
 セットアップ
 ```ruby:Gemfile
+# Logging
 gem 'fluent-logger'
 gem 'act-fluent-logger-rails'
 gem 'lograge'
@@ -42,7 +43,8 @@ gem 'lograge'
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Json.new
 
-  config.web_console.whitelisted_ips = '0.0.0.0/0'
+  # Rails5.1
+  #config.web_console.whitelisted_ips = '0.0.0.0/0'
 ```
 
 ```bash

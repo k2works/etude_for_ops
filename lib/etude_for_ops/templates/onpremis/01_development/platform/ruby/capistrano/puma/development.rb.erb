@@ -6,7 +6,7 @@ set(
     :ssh_options,
     port: 2222,
     auth_methods: %w(publickey),
-    keys: [File.expand_path("../../../ops/01_development/.vagrant/machines/default/virtualbox/private_key", __FILE__)],
+    keys: [File.expand_path("~/.vagrant.d/insecure_private_key", __FILE__)],
     user: "vagrant"
 )
 set :rails_env, :development
@@ -14,6 +14,8 @@ set :branch, 'develop'
 set :bundle_without, []
 # capistrano-scm-copyの設定
 set :scm, :copy
-set :include_dir, ["*", '.ruby-version', '.postcssrc.yml', '.env.development']
+set :include_dir, ["*", '.ruby-version']
+# Rails5.1
+# set :include_dir, ["*", '.ruby-version', '.postcssrc.yml', '.env.development']
 set :exclude_dir, ['vendor/bundle', 'log\/*', 'tmp\/*', 'mydb\/*', 'public\/*', 'node_modules\/*', 'ops\/*']
 set :db_name, 'development'

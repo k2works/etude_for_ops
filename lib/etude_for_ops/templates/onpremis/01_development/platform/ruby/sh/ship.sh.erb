@@ -5,9 +5,10 @@ bundle exec cap install STAGES=development
 cp ops/01_development/src/ship/capistrano/puma/Capfile .
 cp ops/01_development/src/ship/capistrano/puma/deploy.rb config/
 cp ops/01_development/src/ship/capistrano/puma/development.rb config/deploy
+cp ops/01_development/src/ship/capistrano/puma/maintenance.html.erb app/views/layouts
 cp ops/01_development/src/ship/capistrano/td-agent/td-agent.conf config/
 cp ops/01_development/src/ship/capistrano/td-agent/fluent-logger.yml config/
-cp ops/01_development/src/ship/capistrano/tasks/database.rake lib/capistrano/tasks/
+cp ops/01_development/src/ship/capistrano/tasks/db.rake lib/capistrano/tasks/
 cp ops/01_development/src/ship/capistrano/tasks/puma.rake lib/capistrano/tasks/
 cp ops/01_development/src/ship/capistrano/tasks/active_job.rake lib/capistrano/tasks/
 cp ops/01_development/src/ship/capistrano/tasks/td-agent.rake lib/capistrano/tasks/
