@@ -46,6 +46,7 @@ module EtudeForOps
         recipes_ec2.rb
         recipes_setup.rb
         recipes_configure.rb
+        recipes_configure_service.rb
         recipes_setup_ruby.rb
         recipes_setup_mysql.rb
         recipes_setup_postgres.rb

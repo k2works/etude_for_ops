@@ -27,8 +27,8 @@ cd /vagrant/config/secure/
 再作成をする場合は以下のコマンドで秘密鍵を削除してからコピーする
 ```bash
 rm  ~/.ssh/$DEV_SSH_KEY
-cp $SSH_KEY  ~/.ssh/
-chmod 0400 ~/.ssh/$SSH_KEY
+cp $DEV_SSH_KEY  ~/.ssh/
+chmod 0400 ~/.ssh/$DEV_SSH_KEY
 ```
 
 #### VPCの作成
@@ -36,7 +36,7 @@ chmod 0400 ~/.ssh/$SSH_KEY
 cd /vagrant/src/build/aws/vpc/
 aws cloudformation validate-template --template-body file://$DEV_VPC_TEMPLATE
 chmod 0755 ./create_stack.sh
-./vpc_create_stack.sh
+./create_stack.sh
 aws cloudformation list-stack-resources --stack-name $DEV_VPC_STACKNAME --output table
 ```
 
@@ -61,6 +61,11 @@ sudo reboot
 ```
 起動完了後にインスタンスIDを環境変数に登録する
 ```bash
+DEV_EC2_INSTANCE_ID=`cat .vagrant/machines/default/aws/id | sed  "s/$//g"`
+echo $DEV_EC2_INSTANCE_ID
+```
+パブリックIPを登録する
+```bash
 DEV_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${DEV_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
 echo $DEV_EC2_PUBLIC_IP
 ```
@@ -74,16 +79,13 @@ cd /vagrant/src/build/aws/ec2/
 ```bash
 cd /vagrant/src/build/aws/ec2/
 ./create_instance.sh
-
-sudo chef-client -z -j ec2_provision.json
-sudo reboot
 ```
-起動完了後にインスタンスIDを環境変数に登録する
+実行後に表示されるインスタンスIDを環境変数に登録する
+```
+インスタンスのパブリックIPアドレスを環境変数に登録する
 ```bash
-DEV_EC2_INSTANCE_ID=`cat .vagrant/machines/default/aws/id | sed  "s/$//g"`
-echo $DEV_EC2_INSTANCE_ID
+export DEV_EC2_INSTANCE_ID=xxxxxx
 ```
-インスタンスのパブリックIPアドレスを`/vagrant/scripts/install_dependencies`のPRD_URL設定する
 ```bash
 DEV_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${DEV_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
 echo $DEV_EC2_PUBLIC_IP
@@ -112,7 +114,7 @@ mkdir .chef
 echo 'local_mode true' > .chef/knife.rb
 bundle exec knife zero bootstrap $server -x ec2-user -i ~/.ssh/$DEV_SSH_KEY --hint ec2 --sudo
 bundle exec knife node list
-export node=ip-172-16-1-138.ec2.internal
+export node=ip-10-0-0-36.ec2.internal
 bundle exec knife node show $node
 bundle exec knife node run_list add $node ruby_platform::ec2
 bundle exec knife zero converge "name:$node" --attribute ec2.public_ipv4 -x ec2-user -i ~/.ssh/$DEV_SSH_KEY --sudo --client-version 12.21.1
