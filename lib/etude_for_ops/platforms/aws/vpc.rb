@@ -37,8 +37,8 @@ module EtudeForOps
         vpc-2az-2subnet-pub-pri.template
         vpc-2az-4subnet-pub-pri.template
         vpc-parameter.json
-        vpc_create_stack.sh
-        vpc_destroy_stack.sh
+        create_stack.sh
+        destroy_stack.sh
       ]
 
       params = {}

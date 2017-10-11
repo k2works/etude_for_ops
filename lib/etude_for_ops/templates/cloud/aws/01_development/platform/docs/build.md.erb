@@ -27,13 +27,15 @@ cd /vagrant/config/secure/
 再作成をする場合は以下のコマンドで秘密鍵を削除してからコピーする
 ```bash
 rm  ~/.ssh/$DEV_SSH_KEY
+cp $SSH_KEY  ~/.ssh/
+chmod 0400 ~/.ssh/$SSH_KEY
 ```
 
 #### VPCの作成
 ```bash
 cd /vagrant/src/build/aws/vpc/
 aws cloudformation validate-template --template-body file://$DEV_VPC_TEMPLATE
-chmod 0755 ./vpc_create_stack.sh
+chmod 0755 ./create_stack.sh
 ./vpc_create_stack.sh
 aws cloudformation list-stack-resources --stack-name $DEV_VPC_STACKNAME --output table
 ```

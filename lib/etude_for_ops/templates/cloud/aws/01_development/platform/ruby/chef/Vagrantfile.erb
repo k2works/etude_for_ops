@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # アベイラビリティゾーン
     aws.availability_zone =  ENV['AWS_AZ1']
     # 使用するAMIのID
-    aws.ami = ENV['DEV_EC2_AMIID']
+    aws.ami = ENV['DEV_EC2_AMI_ID']
     # セキュリティグループ（複数指定でor判定）
     aws.security_groups = [ENV['DEV_EC2_SG_ID']]
     # タグ
