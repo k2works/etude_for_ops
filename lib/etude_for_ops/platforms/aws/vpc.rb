@@ -34,19 +34,22 @@ module EtudeForOps
       FileUtils.mkdir_p(src_build_dir, mode: 0o755)
 
       erb_files = %w[
-        vpc-2az-2subnet-pri.template
+        vpc-2az-2subnet-pub-pri.template
         vpc-2az-4subnet-pub-pri.template
+        vpc-parameter.json
         vpc_create_stack.sh
+        vpc_destroy_stack.sh
       ]
 
       params = {}
       if @platform.params[:env] = 'Development'
         params[:vpc_stackname] = 'DEV_VPC_STACKNAME'
         params[:vpc_template]  = 'DEV_VPC_TEMPLATE'
+        params[:vpc_template_params]  = 'DEV_VPC_TEMPLATE_PARAMS'
         params[:tagkey] = 'DEV_TAGKEY'
         params[:tagvalue] = 'DEV_TAGVALUE'
-        params[:default_az1] = 'ap-northeast-1b'
-        params[:default_az2] = 'ap-northeast-1c'
+        params[:default_az1] = @platform.params[:default_az1]
+        params[:default_az2] = @platform.params[:default_az2]
       end
 
       create_put_bind_template_files(src_build_dir,erb_files,params)
