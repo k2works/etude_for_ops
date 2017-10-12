@@ -19,9 +19,7 @@ module EtudeForOps
       params[:config_vm_networks] = []
       params[:config_private_network_ip] = config['ops']['development']['ip_address']
       params[:config_vb_name] = "Dev#{config['ops']['share']['application']['name']}"
-      params[:default_az1] = config['ops']['development']['aws_az_1']
-      params[:default_az2] = config['ops']['development']['aws_az_2']
-      @platform.get_template_params(params)
+      @platform.get_template_params(params,config)
       params
     end
   end

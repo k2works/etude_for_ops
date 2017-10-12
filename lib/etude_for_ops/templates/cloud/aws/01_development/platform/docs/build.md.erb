@@ -124,6 +124,19 @@ bundle exec knife zero converge "name:$node" --attribute ec2.public_ipv4 -x ec2-
 ./reprovision.sh
 ```
 
+### RDSのセットアップ
+```bash
+cd /vagrant/src/build/aws/rds/
+aws cloudformation validate-template --template-body file://$DEV_RDS_TEMPLATE
+chmod 0755 ./create_stack.sh
+./create_stack.sh
+aws cloudformation list-stack-resources --stack-name $DEV_RDS_STACKNAME --output table
+```
+インスタンスの起動と停止
+```bash
+aws rds start-db-instance --db-instance-identifier $DEV_RDS_DB_INSTANCE_NAME
+aws rds stop-db-instance --db-instance-identifier $DEV_RDS_DB_INSTANCE_NAME
+```
 ### アプリケーションのセットアップ
 ```bash
 sudo gem install bundler

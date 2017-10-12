@@ -23,9 +23,25 @@ export DEV_VPC_ID=<%= config['ops']['development']['vpc_id'] %>
 export DEV_EC2_SG_ID=<%= config['ops']['development']['ec2_sg_id'] %>
 export DEV_EC2_SG_NAME=<%= config['ops']['development']['ec2_sg_name'] %>
 export DEV_EC2_SG_DESC=<%= config['ops']['development']['ec2_sg_desc'] %>
-
 export DEV_EC2_TYPE=<%= config['ops']['development']['ec2_type'] %>
 export DEV_EC2_AMI_ID=<%= config['ops']['development']['ec2_ami_id'] %>
 export DEV_EC2_SUBNET=<%= config['ops']['development']['ec2_subnet'] %>
 export DEV_EC2_INSTANCE_ID=<%= config['ops']['development']['ec2_instance_id'] %>
 export DEV_EC2_PUBLIC_IP=<%= config['ops']['development']['ec2_public_ip'] %>
+
+export DEV_RDS_STACKNAME=$ORGANIZATION-$DEV_APPLICATION_NAME-RDS
+export DEV_RDS_TEMPLATE=<%= config['ops']['development']['rds_template'] %>
+export DEV_RDS_TEMPLATE_PARAMS=<%= config['ops']['development']['rds_template_params'] %>
+export DEV_RDS_TAGKEY=Name
+export DEV_RDS_TAGVALUE=$DEV_APPLICATION_NAME
+export DEV_RDS_SUBNET_1=<%= config['ops']['development']['rds_subnet_1'] %>
+export DEV_RDS_SUBNET_2=<%= config['ops']['development']['rds_subnet_2'] %>
+export DEV_RDS_ENGINE=<%= config['ops']['development']['rds_engine'] %>
+export DEV_RDS_ENGINE_VERSION=<%= config['ops']['development']['rds_engine_version'] %>
+export DEV_RDS_DB_PARAMETER_GROUP_FAMILY=<%= config['ops']['development']['rds_db_parameter_group_family'] %>
+export DEV_RDS_DB_INSTANCE_NAME=<%= config['ops']['development']['rds_db_instance_name'] %>
+export DEV_RDS_DB_NAME=<%= config['ops']['development']['rds_db_name'] %>
+export DEV_RDS_DB_USER_NAME=<%= config['ops']['development']['rds_db_user_name'] %>
+export DEV_RDS_DB_PASSWORD=<%= config['ops']['development']['rds_db_password'] %>
+export DEV_RDS_DB_CLASS=<%= config['ops']['development']['rds_db_class'] %>
+export DEV_RDS_DB_ALLOCATED_STORAGE=<%= config['ops']['development']['rds_db_allocated_storage'] %>

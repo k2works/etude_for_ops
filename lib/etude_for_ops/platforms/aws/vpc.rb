@@ -35,9 +35,11 @@ module EtudeForOps
 
       erb_files = %w[
         vpc-2az-2subnet-pub-pri.template
+        vpc-2az-2subnet-pub.template
         vpc-2az-4subnet-pub-pri.template
         vpc-parameter.json
         create_stack.sh
+        update_stack.sh
         destroy_stack.sh
       ]
 
