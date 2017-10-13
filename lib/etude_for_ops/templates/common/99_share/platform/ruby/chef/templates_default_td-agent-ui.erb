@@ -4,15 +4,15 @@
 # processname: td-agent-ui
 
 NAME=td-agent-ui
-USER=<%= @user %>
-BIN=/usr/sbin/td-agent-ui
+USER=root
+BIN=/opt/td-agent/usr/sbin/td-agent-ui
 
 start() {
-sudo -u $BIN start
+sudo $BIN start
 }
 
 stop() {
-sudo -u $BIN stop
+sudo $BIN stop
 }
 
 restart() {

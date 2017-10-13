@@ -106,7 +106,7 @@ ssh -i ~/.ssh/dev-app.pem ec2-user@$DEV_EC2_PUBLIC_IP
 ```bash
 cd /vagrant/build
 gem install bundler
-bundle
+bundle install --path vendor/bundler
 export server=$DEV_EC2_PUBLIC_IP
 ssh -i ~/.ssh/$DEV_SSH_KEY ec2-user@$server
 exit
@@ -114,7 +114,7 @@ mkdir .chef
 echo 'local_mode true' > .chef/knife.rb
 bundle exec knife zero bootstrap $server -x ec2-user -i ~/.ssh/$DEV_SSH_KEY --hint ec2 --sudo
 bundle exec knife node list
-export node=ip-10-0-0-36.ec2.internal
+export node=ip-x-x-x-x.ec2.internal
 bundle exec knife node show $node
 bundle exec knife node run_list add $node ruby_platform::ec2
 bundle exec knife zero converge "name:$node" --attribute ec2.public_ipv4 -x ec2-user -i ~/.ssh/$DEV_SSH_KEY --sudo --client-version 12.21.1
@@ -122,6 +122,20 @@ bundle exec knife zero converge "name:$node" --attribute ec2.public_ipv4 -x ec2-
 クックブック更新時のプロビジョニング実行
 ```bash
 ./reprovision.sh
+ssh -i ~/.ssh/dev-app.pem ec2-user@$DEV_EC2_PUBLIC_IP
+sudo /etc/init.d/nginx restart
+```
+
+再プロビジョニング
+```bash
+cd /vagrant/build
+./reprovision.sh
+```
+
+インスタンスの起動と停止
+```bash
+aws ec2 start-instances --instance-ids ${DEV_EC2_INSTANCE_ID}
+aws ec2 stop-instances --instance-ids ${DEV_EC2_INSTANCE_ID}
 ```
 
 ### RDSのセットアップ
@@ -137,6 +151,7 @@ aws cloudformation list-stack-resources --stack-name $DEV_RDS_STACKNAME --output
 aws rds start-db-instance --db-instance-identifier $DEV_RDS_DB_INSTANCE_NAME
 aws rds stop-db-instance --db-instance-identifier $DEV_RDS_DB_INSTANCE_NAME
 ```
+
 ### アプリケーションのセットアップ
 ```bash
 sudo gem install bundler

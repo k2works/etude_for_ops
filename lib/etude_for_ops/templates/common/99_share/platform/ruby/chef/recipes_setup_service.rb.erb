@@ -85,9 +85,4 @@ case node["platform"]
       )
     end
 
-    template "td-agent-ui" do
-      path "/etc/init.d/td-agent-ui"
-      source "td-agent-ui.erb"
-      mode 0751
-    end
 end

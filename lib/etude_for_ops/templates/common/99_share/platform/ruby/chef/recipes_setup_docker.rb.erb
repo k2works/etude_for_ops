@@ -27,6 +27,9 @@ end
 if node['etc']['passwd']['ec2-uer']
   members << 'ec2-user'
 end
+if node['etc']['passwd']['jenkins']
+  members << 'jenkins'
+end
 
 unless members.empty?
   group 'docker' do

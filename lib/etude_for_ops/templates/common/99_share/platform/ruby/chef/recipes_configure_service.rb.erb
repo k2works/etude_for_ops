@@ -36,6 +36,16 @@ case node["platform"]
   when "redhat", "centos", "fedora"
 
   when "amazon"
+      service "nginx" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+
+      service "td-agent-ui" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+
       service "puma" do
         supports :status => true, :restrart => true, :reload => true
         action [ :enable, :start ]
@@ -46,8 +56,4 @@ case node["platform"]
         action [ :enable, :start ]
       end
 
-      service "td-agent-ui" do
-        supports :status => true, :restrart => true, :reload => true
-        action [ :enable, :start ]
-      end
 end
