@@ -47,9 +47,4 @@ case node["platform"]
         owner user
         group group
       end
-
-      service "nginx" do
-        supports :status => true, :restrart => true, :reload => true
-        action [ :enable, :start ]
-      end
 end

@@ -7,17 +7,8 @@ end
 case node["platform"]
   when "debian", "ubuntu"
     packages = %W{ }
-
-    template "td-agent" do
-      source "td-agent.erb"
-      path "/etc/init.d/td-agent"
-      owner "root"
-      group "root"
-      mode "0755"
-    end
   when "redhat", "centos", "fedora"
     packages = %W{ }
-
   when "amazon"
     packages = %W{ }
 

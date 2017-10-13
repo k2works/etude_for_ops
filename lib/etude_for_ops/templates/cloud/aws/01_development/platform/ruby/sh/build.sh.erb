@@ -56,7 +56,6 @@ cp ../src/build/chef/templates_default_td-agent-ui.service.erb templates/default
 cp ../src/build/chef/templates_default_kibana.yml.erb templates/default/kibana.yml.erb
 cp ../src/build/chef/templates_default_jenkins.erb templates/default/jenkins.erb
 
-
-
+rm -rf cookbooks
 berks vendor cookbooks
 sudo chef-client -z -j provision.json
