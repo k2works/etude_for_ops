@@ -37,6 +37,7 @@ module EtudeForOps
         create_stack.sh
         destroy_stack.sh
         rds-mysql.template
+        rds-oracle.template
         rds-parameter.json
       ]
 
