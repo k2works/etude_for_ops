@@ -15,15 +15,12 @@ Parameters:
     Type: String
     Description: Database Engine
   EngineVersion:
-    Default: 12.1.0.2.v8
     Type: String
     Description: Database Engine Version
   DBParameterGroupFamily:
-    Default: oracle-se2-12.1
     Description: Database instance class
     Type: String
   DBInstanceName:
-    Default: oracle-se2
     Description: The database name
     Type: String
     MinLength: '1'
@@ -31,14 +28,12 @@ Parameters:
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
     ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
   DBName:
-    Default: ORCL
     Description: The database name
     Type: String
     MinLength: '1'
     MaxLength: '8'
     ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
   DBUsername:
-    Default: dbuser
     NoEcho: 'true'
     Description: The database admin account username
     Type: String
@@ -47,7 +42,6 @@ Parameters:
     AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
     ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
   DBPassword:
-    Default: password
     NoEcho: 'true'
     Description: The database admin account password
     Type: String
@@ -55,7 +49,6 @@ Parameters:
     MaxLength: '41'
     ConstraintDescription: must contain only alphanumeric characters.
   DBClass:
-    Default: db.t2.micro
     Description: Database instance class
     Type: String
     AllowedValues:
@@ -68,7 +61,6 @@ Parameters:
       - db.m3.2xlarge
     ConstraintDescription: must select a valid database instance type.
   DBAllocatedStorage:
-    Default: 20
     Description: The size of the database (Gb)
     Type: Number
     MinValue: '5'
