@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+SG_ID=$<%= params[:ec2_sg_id] %>
+TAGKEY=$<%= params[:tagkey] %>
+TAGVALUE=$<%= params[:tagvalue] %>
+INSTANCE_ID=$<%= params[:ec2_instance_id] %>
+
+echo "**********************************"
+echo SG_ID:$SG_ID
+echo TAGKEY:$TAGKEY
+echo TAGVALUE:$TAGVALUE
+echo INSTANCE_ID:$INSTANCE_ID
+echo "**********************************"
+
+aws ec2 create-tags --resources $SG_ID --tags Key=${TAGKEY},Value=${TAGVALUE}
+aws ec2 create-tags --resources $INSTANCE_ID --tags Key=${TAGKEY},Value=${TAGVALUE}

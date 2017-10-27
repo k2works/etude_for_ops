@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/k2works/etude_for_ops.svg?style=svg)](https://circleci.com/gh/k2works/etude_for_ops)
+[![Coverage Status](https://coveralls.io/repos/awakia/ruby_stable_sort/badge.png?branch=master)](https://coveralls.io/github/k2works/etude_for_ops?branch=master)
+
 # EtudeForOps
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/etude_for_ops`. To experiment with that code, run `bin/console` for an interactive prompt.

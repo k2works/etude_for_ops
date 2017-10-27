@@ -110,3 +110,10 @@ build-iPhoneSimulator/
 
 .idea/
 etude_for_ops.iml
+ops
+.env
+.env.development
+.env.production
+.env.test
+dev
+vendor
