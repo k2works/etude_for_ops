@@ -34,6 +34,7 @@ module EtudeForOps
       @config = Config.new
       @template_root_path = Onpremis::TEMPLATE_ROOT_PAHT
       @common_template_root_path = Ops::COMMON_TEMPLATE_ROOT_PAHT
+      @ops_yml_gateway = EtudeForOps::OpsYmlGateway.new(@root_dir)
     end
 
     def name
@@ -69,12 +70,12 @@ module EtudeForOps
     end
 
     def create_ops_yml
-      unless File.exists?(ops_yml_file_path)
+      unless File.exists?(@ops_yml_gateway.ops_yml_file_path)
         erb_file = "#{template_root_path}/ops.yml.erb"
         if File.exists?(erb_file)
           template = File.read(erb_file)
           erb = ERB.new(template, nil, '%')
-          File.open(ops_yml_file_path, 'w') do |file|
+          File.open(@ops_yml_gateway.ops_yml_file_path, 'w') do |file|
             file.puts(erb.result(binding))
           end
         else
@@ -84,7 +85,7 @@ module EtudeForOps
     end
 
     def create_env_file(file='.env')
-      config = YAML.load_file(ops_yml_file_path)
+      config = @ops_yml_gateway.select_all
       template = File.read("#{template_root_path}/.env.erb")
       erb = ERB.new(template, nil, '%')
       File.open(file, 'w') do |file|
@@ -93,7 +94,7 @@ module EtudeForOps
     end
 
     def create_readme_file
-      config = YAML.load_file(ops_yml_file_path)
+      config = @ops_yml_gateway.select_all
       params = get_template_params(config)
       erb_file = get_readme_erb_file
       template = File.read(erb_file)
@@ -104,7 +105,7 @@ module EtudeForOps
     end
 
     def create_vagrant_file
-      config = YAML.load_file(ops_yml_file_path)
+      config = @ops_yml_gateway.select_all
       params = get_template_params(config)
       erb_file = get_vagrant_erb_file
       template = File.read(erb_file)
@@ -115,7 +116,7 @@ module EtudeForOps
     end
 
     def create_set_env_sh
-      config = YAML.load_file(ops_yml_file_path)
+      config = @ops_yml_gateway.select_all
       params = get_template_params(config)
       @config.config_env_dir = config_env_dir
       @config.tmp_file_dir = tmp_file_dir
@@ -124,7 +125,7 @@ module EtudeForOps
     end
 
     def create_platform_files
-      config = YAML.load_file(ops_yml_file_path)
+      config = @ops_yml_gateway.select_all
       @platform.params = get_template_params(config)
       @source.platform = @platform
       @source.create_platform_files
@@ -136,10 +137,6 @@ module EtudeForOps
     end
 
     private
-
-    def ops_yml_file_path
-      "#{@root_dir}/ops.yml"
-    end
 
     def render file
       content = File.read(File.expand_path(file))
