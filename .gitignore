@@ -116,3 +116,4 @@ ops
 .env.production
 .env.test
 dev
+vendor
