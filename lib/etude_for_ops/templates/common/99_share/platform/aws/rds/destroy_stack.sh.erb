@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+STACKNAME=$<%= params[:rds_stackname] %>
+
+echo "**********************************"
+echo STACKNAME:${STACKNAME}
+echo "**********************************"
+
+aws cloudformation delete-stack --stack-name ${STACKNAME}

@@ -1,23 +1,30 @@
 module EtudeForOps
   class EnvironmentBuilder
     attr_accessor :environment,
-                  :platform,
+                  :platforms,
                   :strategy
+    def initialize
+      @environment = nil
+      @strategy = nil
+      @platforms = []
+    end
 
     def apply_strategy
       @environment.make_dir
-      @environment.platform = @platform
-      @strategy.apply_env
-      @strategy.apply_env_config
-      @strategy.apply_env_src
+      @platforms.each do |platform|
+        @environment.platform = platform
+        @strategy.apply_env
+        @strategy.apply_env_config
+        @strategy.apply_env_src
+      end
     end
 
     def environment
       @environment
     end
 
-    def platform
-      @platform
+    def platforms
+      @platforms
     end
 
     def strategy

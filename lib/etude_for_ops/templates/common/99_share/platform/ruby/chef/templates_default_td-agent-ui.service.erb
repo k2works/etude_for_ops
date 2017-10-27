@@ -1,0 +1,14 @@
+[Unit]
+Description=puma
+
+[Service]
+Environment=RAILS_ENV=development
+ExecStart=/usr/sbin/td-agent-ui start
+ExecStop=/usr/sbin/td-agent-ui stop
+Restart = always
+Type = simple
+User=<%= @user %>
+Group=<%= @group %>
+
+[Install]
+WantedBy = multi-user.target

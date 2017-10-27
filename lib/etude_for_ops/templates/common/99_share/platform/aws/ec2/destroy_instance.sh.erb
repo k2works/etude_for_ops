@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+INSTANCE_ID=$<%= params[:ec2_instance_id] %>
+
+echo "**********************************"
+echo INSTANCE_ID:$INSTANCE_ID
+echo "**********************************"
+
+aws ec2 terminate-instances --instance-ids $INSTANCE_ID

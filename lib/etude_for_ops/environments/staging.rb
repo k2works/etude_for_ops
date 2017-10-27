@@ -17,7 +17,7 @@ module EtudeForOps
       params[:config_vm_version] = '>=0'
       params[:config_vm_networks] = []
       params[:config_private_network_ip] = config['ops']['staging']['ip_address']
-      @platform.get_template_params(params)
+      @platform.get_template_params(params,config)
       params
     end
   end

@@ -1,0 +1,25 @@
+case node["platform"]
+  when "debian", "ubuntu"
+    include_recipe 'mongodb::default'
+    packages = {}
+  when "redhat", "centos", "fedora"
+    packages = {}
+  when "amazon"
+
+    execute 'setup package' do
+      command '    echo "[MongoDB]
+name=MongoDB Repository
+baseurl=http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/
+gpgcheck=0
+enabled=1" | sudo tee -a /etc/yum.repos.d/mongodb.repo'
+    end
+
+    packages = %W{ mongodb-org }
+end
+
+packages.each do |pkg|
+  package "#{pkg}" do
+    action [ :install, :upgrade ]
+  end
+end
+

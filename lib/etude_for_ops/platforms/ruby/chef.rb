@@ -41,9 +41,12 @@ module EtudeForOps
         attributes_default.rb
         metadata.rb
         provision.json
+        ec2_provision.json
         recipes_default.rb
+        recipes_ec2.rb
         recipes_setup.rb
         recipes_configure.rb
+        recipes_configure_service.rb
         recipes_setup_ruby.rb
         recipes_setup_mysql.rb
         recipes_setup_postgres.rb
@@ -58,31 +61,50 @@ module EtudeForOps
         recipes_setup_jenkins.rb
         recipes_setup_aws.rb
         recipes_setup_vagrant.rb
+        Vagrantfile
+        .kitchen.yml
+        Gemfile
+        reprovision.sh
       ]
 
-      create_put_bind_template_files(src_build_dir,platform_ruby_chef_files)
+      params = {}
+      params[:user] = 'vagrant'
+      params[:group] = 'vagrant'
+      params[:aws_user] = 'ec2-user'
+      params[:aws_group] = 'ec2-user'
+
+      if @platform.params[:env] = 'Development'
+        params[:ssh_key] = 'DEV_SSH_KEY'
+      end
+
+      create_put_bind_template_files(src_build_dir,platform_ruby_chef_files, params)
     end
 
     def create_erb_template_files
       erb_template_files = %w[
         templates_default_banner
         templates_default_bash_profile
+        templates_default_bash_profile_aws
         templates_default_grants.sql
         templates_default_my_extra_settings
+        templates_default_nginx.conf
         templates_default_nginx.default.conf
         templates_default_nginx.proxy.conf
         templates_default_nginx.kibana.conf
         templates_default_nginx.jenkins.conf
+        templates_default_nginx.td-agent-ui.conf
         templates_default_puma
         templates_default_puma.service
         templates_default_active_job
         templates_default_active_job.service
+        templates_default_td-agent-ui
+        templates_default_td-agent-ui.service
         templates_default_td-agent
         templates_default_kibana.yml
         templates_default_jenkins
       ]
 
-      create_copy_template_files(src_build_dir,erb_template_files)
+      create_copy_template_files(src_build_dir,erb_template_files,params)
     end
   end
 end

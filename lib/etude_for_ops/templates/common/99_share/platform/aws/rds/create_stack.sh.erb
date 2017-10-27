@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+STACKNAME=$<%= params[:rds_stackname] %>
+TEMPLATE=$<%= params[:rds_template] %>
+TEMPLATE_PARAMS=$<%= params[:rds_template_params] %>
+TAGKEY=$<%= params[:rds_tagkey] %>
+TAGVALUE=$<%= params[:rds_tagvalue] %>
+
+echo "**********************************"
+echo STACKNAME:$STACKNAME
+echo TEMPLATE:$TEMPLATE
+echo TAGKEY:$TAGKEY
+echo TAGVALUE:$TAGVALUE
+echo "**********************************"
+
+aws cloudformation create-stack --stack-name $STACKNAME \
+                                --template-body file://$TEMPLATE \
+                                --parameters file://$TEMPLATE_PARAMS \
+                                --tags Key=$TAGKEY,Value=$TAGVALUE

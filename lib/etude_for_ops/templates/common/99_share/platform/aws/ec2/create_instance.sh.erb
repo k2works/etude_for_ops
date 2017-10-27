@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+AMI_ID=$<%= params[:ec2_ami_id] %>
+EC2TYPE=$<%= params[:ec2_type] %>
+SSH_KEY=$<%= params[:ssh_key_name] %>
+SG_ID=$<%= params[:ec2_sg_id] %>
+EC2SUBNET=$<%= params[:ec2_subnet] %>
+
+echo "**********************************"
+echo AMI_ID:$AMI_ID
+echo EC2TYPE:$EC2TYPE
+echo SSH_KEY:$SSH_KEY
+echo SG_ID:$SG_ID
+echo EC2SUBNET:$EC2SUBNET
+echo "**********************************"
+
+aws ec2 run-instances --image-id $AMI_ID \
+                      --count 1 --instance-type $EC2TYPE \
+                      --key-name $SSH_KEY \
+                      --security-group-ids $SG_ID \
+                      --subnet-id $EC2SUBNET

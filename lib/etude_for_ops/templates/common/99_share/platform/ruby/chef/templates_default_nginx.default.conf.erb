@@ -1,0 +1,73 @@
+upstream app {
+    server unix:/var/app/shared/tmp/sockets/puma.sock fail_timeout=0;
+}
+
+server {
+  listen  80;
+  server_name localhost;
+  keepalive_timeout 300;
+
+  client_max_body_size 4G;
+
+  try_files $uri/index.html $uri @app;
+
+  location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded_Proto $scheme;
+    proxy_redirect off;
+    proxy_pass http://app;
+    proxy_read_timeout 300s;
+    proxy_send_timeout 300s;
+  }
+
+  location ~ /kibana {
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    rewrite /kibana/(.*)$ /$1 break;
+
+    proxy_pass http://kibana_server;
+
+    access_log /var/log/nginx/kibana_access.log;
+    error_log  /var/log/nginx/kibana_error.log;
+  }
+
+
+  location ~ /jenkins {
+    proxy_read_timeout      300;
+    proxy_connect_timeout   300;
+    proxy_redirect          off;
+
+    proxy_set_header        X-Forwarded-Proto       $scheme;
+    proxy_set_header        Host                    $http_host;
+    proxy_set_header        Host                    $host;
+    proxy_set_header        X-Real-IP               $remote_addr;
+    proxy_set_header        X-Forwarded-For         $proxy_add_x_forwarded_for;
+
+    proxy_pass              http://jenkins_server;
+
+    access_log /var/log/nginx/jenkins_access.log;
+    error_log  /var/log/nginx/jenkins_error.log;
+  }
+
+
+  error_page 503 @503;
+
+  # Return a 503 error if the maintenance page exists.
+  if (-f /var/app/shared/public/system/maintenance.html) {
+    return 503;
+  }
+
+  location @503 {
+    # Serve static assets if found.
+    if (-f $request_filename) {
+      break;
+    }
+
+    # Set root to the shared directory.
+    root /var/app/shared/public;
+    rewrite ^(.*)$ /system/maintenance.html break;
+  }
+}

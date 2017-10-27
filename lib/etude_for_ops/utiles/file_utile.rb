@@ -1,6 +1,7 @@
 module EtudeForOps
   module FileUtile
-    def put_bind_template_file(dir, erb_file, bind_file)
+    def put_bind_template_file(dir, erb_file, bind_file, params={})
+      params = params
       template = File.read(erb_file)
       erb = ERB.new(template, nil, '%')
       File.open("#{dir}/#{bind_file}", 'w') do |file|

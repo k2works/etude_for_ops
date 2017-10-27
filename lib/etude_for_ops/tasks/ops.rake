@@ -1,6 +1,25 @@
 require 'etude_for_ops'
 
 namespace :ops do
+  desc 'Create ops.yml file'
+  task :create_ops_yml_onpremis do
+    root_dir = Pathname.new('ops')
+    FileUtils.mkdir_p(root_dir, mode:0755)
+    env = EtudeForOps::Environment.new(root_dir)
+    env.template_root_path = EtudeForOps::Onpremis::TEMPLATE_ROOT_PAHT
+    env.create_ops_yml
+  end
+
+  desc 'Create ops.yml file for aws cloud'
+  task :create_ops_yml_aws_cloud do
+    root_dir = Pathname.new('ops')
+    FileUtils.mkdir_p(root_dir, mode:0755)
+    env = EtudeForOps::Environment.new(root_dir)
+    aws = EtudeForOps::AWS.new
+    env.template_root_path = aws.template_root_path
+    env.create_ops_yml
+  end
+
   desc 'Setup ruby development environment'
   task :create_onpremis_ruby_development_env do
     root_dir = Pathname.new('ops')
@@ -27,6 +46,13 @@ namespace :ops do
     root_dir = Pathname.new('ops')
     ops = EtudeForOps::Ops.new
     ops.create_onpremis_ruby_share_env(root_dir)
+  end
+
+  desc 'Setup ruby aws development environment'
+  task :create_aws_ruby_development_env do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.create_aws_ruby_development_env(root_dir)
   end
 
   desc 'Create .env file for onpremis development'

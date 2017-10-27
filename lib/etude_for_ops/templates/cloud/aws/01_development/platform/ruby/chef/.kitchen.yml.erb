@@ -1,0 +1,49 @@
+---
+driver:
+  name: vagrant
+
+driver_config:
+  require_chef_omnibus: 12.21.1
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+platforms:
+#  - name: ubuntu-16.04
+#  - name: centos-7.2
+  - name: amazon-linux
+    driver_config:
+      box: mvbcoding/awslinux
+
+suites:
+  - name: default
+    driver:
+      customize:
+        memory: 2048
+        cpus: 2
+    run_list:
+      - recipe[ruby_platform::ec2]
+      #- recipe[ruby_platform::setup_ruby]
+      #- recipe[ruby_platform::setup_node]
+      #- recipe[ruby_platform::setup_mysql]
+      #- recipe[ruby_platform::setup_postgres]
+      #- recipe[ruby_platform::setup_redis]
+      #- recipe[ruby_platform::setup_mongodb]
+      #- recipe[ruby_platform::setup_nginx]
+      #- recipe[ruby_platform::setup_docker]
+      #- recipe[ruby_platform::setup_jenkins]
+      #- recipe[ruby_platform::setup_td-agent]
+      #- recipe[ruby_platform::setup_elasticsearch]
+      #- recipe[ruby_platform::setup_service]
+      #- recipe[ruby_platform::configure]
+    verifier:
+      inspec_tests:
+        - test/recipes
+    attributes:
