@@ -1,3 +1,9 @@
+### セットアップ
+```bash
+chmod 0766 ops/01_development/src/run/sh/run.sh
+ops/01_development/src/run/sh/run.sh
+```
+
 ### メンテナンスモード
 メンテナンス開始
 
@@ -75,11 +81,6 @@ bundle exec cap db:dump_clean
 ```
 
 ### スケジューラの設定
-```bash
-chmod 0766 ops/01_development/src/run/sh/run.sh
-ops/01_development/src/run/sh/run.sh
-```
-
 ```ruby:Gemfile
 # crontab管理
 gem 'whenever', require: false
