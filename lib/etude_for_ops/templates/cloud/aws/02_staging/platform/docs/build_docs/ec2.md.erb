@@ -70,8 +70,7 @@ bundle exec knife zero converge "name:$node" --attribute ec2.public_ipv4 -x ec2-
 クックブック更新時のプロビジョニング実行
 ```bash
 ./reprovision.sh
-ssh -i ~/.ssh/stg-app.pem ec2-user@$STG_EC2_PUBLIC_IP
-sudo /etc/init.d/nginx restart
+ssh -i ~/.ssh/stg-app.pem ec2-user@$STG_EC2_PUBLIC_IP sudo /etc/init.d/nginx restart
 ```
 
 再プロビジョニング
