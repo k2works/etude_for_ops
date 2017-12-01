@@ -55,6 +55,7 @@ module EtudeForOps
     def create_files
       erb_cap_puma_files = %w[
         development.rb
+        staging.rb
         Capfile
         deploy.rb
       ]

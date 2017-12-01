@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+SSH_KEY=$<%= params[:ssh_key] %>
+
+rm -rf cookbooks
+berks vendor cookbooks
+bundle exec knife zero converge "name:*" --attribute ec2.public_ipv4 -x ec2-user -i ~/.ssh/$DEV_SSH_KEY --sudo --client-version 12.21.1

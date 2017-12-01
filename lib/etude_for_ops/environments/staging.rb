@@ -12,11 +12,13 @@ module EtudeForOps
 
     def get_template_params(config)
       params = {}
+      params[:env] = 'Staging'
       params[:env_name] = 'ステージング環境'
       params[:config_vm_box] = 'bento/ubuntu-16.04'
       params[:config_vm_version] = '>=0'
       params[:config_vm_networks] = []
       params[:config_private_network_ip] = config['ops']['staging']['ip_address']
+      params[:config_vb_name] = "Stg#{config['ops']['share']['application']['name']}"
       @platform.get_template_params(params,config)
       params
     end

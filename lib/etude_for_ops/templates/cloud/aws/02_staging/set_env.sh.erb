@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+export STG_APPLICATION_NAME=${APPLICATION_NAME}Staging
+export STG_APP_ENV=staging
+export STG_APP_REPOSITORY=<%= config['ops']['staging']['repository'] %>
+export STG_BRANCH=staging
+export STG_DB=${APPLICATION_PREFIX}_staging
+export STG_SSH_KEY=stg-$APPLICATION_PREFIX.pem
+export STG_SSH_KEY_NAME=stg-$APPLICATION_PREFIX
+
+export AWS_ACCESS_KEY_ID=<%= config['ops']['staging']['aws_access_key_id'] %>
+export AWS_SECRET_ACCESS_KEY=<%= config['ops']['staging']['aws_secret_access_key'] %>
+export AWS_DEFAULT_REGION=<%= config['ops']['staging']['aws_default_region'] %>
+export AWS_AZ1=<%= config['ops']['staging']['aws_az_1'] %>
+export AWS_AZ2=<%= config['ops']['staging']['aws_az_2'] %>
+
+export STG_VPC_STACKNAME=$ORGANIZATION-$STG_APPLICATION_NAME-VPC
+export STG_VPC_TEMPLATE=<%= config['ops']['staging']['vpc_template'] %>
+export STG_VPC_TEMPLATE_PARAMS=<%= config['ops']['staging']['vpc_template_params'] %>
+export STG_TAGKEY=Name
+export STG_TAGVALUE=$STG_APPLICATION_NAME
+export STG_VPC_ID=<%= config['ops']['staging']['vpc_id'] %>
+
+export STG_EC2_SG_ID=<%= config['ops']['staging']['ec2_sg_id'] %>
+export STG_EC2_SG_NAME=<%= config['ops']['staging']['ec2_sg_name'] %>
+export STG_EC2_SG_DESC=<%= config['ops']['staging']['ec2_sg_desc'] %>
+export STG_EC2_TYPE=<%= config['ops']['staging']['ec2_type'] %>
+export STG_EC2_AMI_ID=<%= config['ops']['staging']['ec2_ami_id'] %>
+export STG_EC2_SUBNET=<%= config['ops']['staging']['ec2_subnet'] %>
+export STG_EC2_INSTANCE_ID=<%= config['ops']['staging']['ec2_instance_id'] %>
+export STG_EC2_PUBLIC_IP=<%= config['ops']['staging']['ec2_public_ip'] %>
+
+export STG_RDS_STACKNAME=$ORGANIZATION-$STG_APPLICATION_NAME-RDS
+export STG_RDS_TEMPLATE=<%= config['ops']['staging']['rds_template'] %>
+export STG_RDS_TEMPLATE_PARAMS=<%= config['ops']['staging']['rds_template_params'] %>
+export STG_RDS_TAGKEY=Name
+export STG_RDS_TAGVALUE=$STG_APPLICATION_NAME
+export STG_RDS_SUBNET_1=<%= config['ops']['staging']['rds_subnet_1'] %>
+export STG_RDS_SUBNET_2=<%= config['ops']['staging']['rds_subnet_2'] %>
+export STG_RDS_ENGINE=<%= config['ops']['staging']['rds_engine'] %>
+export STG_RDS_ENGINE_VERSION=<%= config['ops']['staging']['rds_engine_version'] %>
+export STG_RDS_DB_PARAMETER_GROUP_FAMILY=<%= config['ops']['staging']['rds_db_parameter_group_family'] %>
+export STG_RDS_DB_INSTANCE_NAME=<%= config['ops']['staging']['rds_db_instance_name'] %>
+export STG_RDS_DB_NAME=<%= config['ops']['staging']['rds_db_name'] %>
+export STG_RDS_DB_USER_NAME=<%= config['ops']['staging']['rds_db_user_name'] %>
+export STG_RDS_DB_PASSWORD=<%= config['ops']['staging']['rds_db_password'] %>
+export STG_RDS_DB_CLASS=<%= config['ops']['staging']['rds_db_class'] %>
+export STG_RDS_DB_ALLOCATED_STORAGE=<%= config['ops']['staging']['rds_db_allocated_storage'] %>
+export STG_RDS_DB_ENDPOINT=<%= config['ops']['staging']['rds_db_endpoint'] %>

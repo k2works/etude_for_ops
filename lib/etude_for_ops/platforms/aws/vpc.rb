@@ -54,6 +54,16 @@ module EtudeForOps
         params[:default_az2] = @platform.params[:default_az2]
       end
 
+      if @platform.params[:env] = 'Staging'
+        params[:vpc_stackname] = 'STG_VPC_STACKNAME'
+        params[:vpc_template]  = 'STG_VPC_TEMPLATE'
+        params[:vpc_template_params]  = 'STG_VPC_TEMPLATE_PARAMS'
+        params[:tagkey] = 'STG_TAGKEY'
+        params[:tagvalue] = 'STG_TAGVALUE'
+        params[:default_az1] = @platform.params[:default_az1]
+        params[:default_az2] = @platform.params[:default_az2]
+      end
+
       create_put_bind_template_files(src_build_dir,erb_files,params)
     end
 

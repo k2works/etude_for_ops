@@ -63,6 +63,26 @@ module EtudeForOps
         params[:tagvalue] = 'DEV_TAGVALUE'
       end
 
+      if @platform.params[:env] = 'Staging'
+        params[:ssh_key_name] = 'STG_SSH_KEY_NAME'
+        params[:ssh_key] = 'STG_SSH_KEY'
+
+        params[:vpc_id] = 'STG_VPC_ID'
+        params[:ec2_sg_name] = 'STG_EC2_SG_NAME'
+        params[:ec2_sg_desc] = 'STG_EC2_SG_DESC'
+
+        params[:ec2_ami_id] = 'STG_EC2_AMI_ID'
+        params[:ec2_type] = 'STG_EC2_TYPE'
+        params[:ec2_sg_id] = 'STG_EC2_SG_ID'
+        params[:ec2_subnet] = 'STG_EC2_SUBNET'
+
+        params[:ec2_instance_id] = 'STG_EC2_INSTANCE_ID'
+
+        params[:tagkey] = 'STG_TAGKEY'
+        params[:tagvalue] = 'STG_TAGVALUE'
+      end
+
+
       create_put_bind_template_files(src_build_dir,erb_files,params)
     end
 

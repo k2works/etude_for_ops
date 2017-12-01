@@ -1,0 +1,88 @@
+#### 仮想マシンセットアップ(Vagrant版)
+```bash
+cd /vagrant/build
+vagrant up --provider=aws
+vagrant ssh
+cd /vagrant
+sudo chef-client -z -j ec2_provision.json
+sudo reboot
+```
+起動完了後にインスタンスIDを環境変数に登録する
+```bash
+STG_EC2_INSTANCE_ID=`cat .vagrant/machines/default/aws/id | sed  "s/$//g"`
+echo $STG_EC2_INSTANCE_ID
+```
+パブリックIPを登録する
+```bash
+STG_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${STG_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
+echo $STG_EC2_PUBLIC_IP
+```
+リソース名を統一する
+```bash
+cd /vagrant/src/build/aws/ec2/
+./configure_resources.sh
+```
+
+#### 仮想マシンセットアップ(コマンドライン版)
+```bash
+cd /vagrant/src/build/aws/ec2/
+./create_instance.sh
+```
+実行後に表示されるインスタンスIDを環境変数に登録する
+```
+インスタンスのパブリックIPアドレスを環境変数に登録する
+```bash
+export STG_EC2_INSTANCE_ID=xxxxxx
+```
+```bash
+STG_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${STG_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
+echo $STG_EC2_PUBLIC_IP
+```
+リソース名を統一する
+```bash
+cd /vagrant/src/build/aws/ec2/
+./configure_resources.sh
+```
+
+仮想マシンへのログイン
+```
+ssh -i ~/.ssh/stg-app.pem ec2-user@$STG_EC2_PUBLIC_IP
+```
+
+#### アプリケーション・サーバのプロビジョニング
+セットアップ
+```bash
+cd /vagrant/build
+gem install bundler
+bundle install --path vendor/bundler
+export server=$STG_EC2_PUBLIC_IP
+ssh -i ~/.ssh/$STG_SSH_KEY ec2-user@$server
+exit
+mkdir .chef
+echo 'local_mode true' > .chef/knife.rb
+bundle exec knife zero bootstrap $server -x ec2-user -i ~/.ssh/$STG_SSH_KEY --hint ec2 --sudo
+bundle exec knife node list
+export node=ip-x-x-x-x.ec2.internal
+bundle exec knife node show $node
+bundle exec knife node run_list add $node ruby_platform::ec2
+bundle exec knife zero converge "name:$node" --attribute ec2.public_ipv4 -x ec2-user -i ~/.ssh/$STG_SSH_KEY --sudo --client-version 12.21.1
+```
+クックブック更新時のプロビジョニング実行
+```bash
+./reprovision.sh
+ssh -i ~/.ssh/stg-app.pem ec2-user@$STG_EC2_PUBLIC_IP
+sudo /etc/init.d/nginx restart
+```
+
+再プロビジョニング
+```bash
+cd /vagrant/build
+./reprovision.sh
+```
+
+インスタンスの起動と停止
+```bash
+aws ec2 start-instances --instance-ids ${STG_EC2_INSTANCE_ID}
+aws ec2 stop-instances --instance-ids ${STG_EC2_INSTANCE_ID}
+```
+
