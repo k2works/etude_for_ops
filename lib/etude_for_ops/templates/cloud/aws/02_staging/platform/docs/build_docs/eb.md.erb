@@ -1,18 +1,27 @@
+### ElasticBeanstalkのセットアップ
+
 パーミッションを実行可能にする
 ```
-$ chmod 0755 ./eb-create-vpc-rds-env.sh
-$ chmod 0755 ./eb-setenv-staging.sh
+$ cd /vagrant/src/build/aws/eb/
+$ chmod 0755 ./eb_init.sh
+$ chmod 0755 ./eb_create_vpc_env.sh
+$ chmod 0755 ./eb_create_vpc_rds_env.sh
+$ chmod 0755 ./eb_setenv.sh
 ```
 
 作成したアプリケーションにデプロイスクリプトを実行する
 ```
-$ cd /vagrant
-$ eb init $STG_APPLICATION_NAME
-$ ./ops/02_staging/src/ship/aws/elastic-beanstalk/eb-create-vpc-rds-env.sh
-$ eb use $STG_EB_ENVNAME
+$ cd /vagrant/build
+$ ../src/build/aws/eb/eb_init.sh
+$ ../src/build/aws/eb/eb_create_vpc_env.sh
 $ eb list
-
-$ export STG_RDS_HOSTNAME=.ap-northeast-1.rds.amazonaws.com
-$ ./ops/02_staging/src/ship/aws/elastic-beanstalk/eb-setenv-staging.sh
+$ eb use $STG_EB_ENVNAME
+$ ../src/build/aws/eb/eb_setenv.sh
 $ eb printenv
 ```
+
+仮想マシンへのログイン
+```bash
+$ eb ssh
+```
+

@@ -30,6 +30,7 @@ suites:
         cpus: 2
     run_list:
       - recipe[ruby_platform::ec2]
+      - recipe[ruby_platform::eb]
       #- recipe[ruby_platform::setup_ruby]
       #- recipe[ruby_platform::setup_node]
       #- recipe[ruby_platform::setup_mysql]
