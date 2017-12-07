@@ -44,7 +44,7 @@ module EtudeForOps
       ]
 
       params = {}
-      if @platform.params[:env] = 'Development'
+      if @platform.params[:env] == 'Development'
         params[:ssh_key_name] = 'DEV_SSH_KEY_NAME'
         params[:ssh_key] = 'DEV_SSH_KEY'
 
@@ -63,7 +63,7 @@ module EtudeForOps
         params[:tagvalue] = 'DEV_TAGVALUE'
       end
 
-      if @platform.params[:env] = 'Staging'
+      if @platform.params[:env] == 'Staging'
         params[:ssh_key_name] = 'STG_SSH_KEY_NAME'
         params[:ssh_key] = 'STG_SSH_KEY'
 

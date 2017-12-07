@@ -1,0 +1,18 @@
+パーミッションを実行可能にする
+```
+$ chmod 0755 ./eb-create-vpc-rds-env.sh
+$ chmod 0755 ./eb-setenv-staging.sh
+```
+
+作成したアプリケーションにデプロイスクリプトを実行する
+```
+$ cd /vagrant
+$ eb init $STG_APPLICATION_NAME
+$ ./ops/02_staging/src/ship/aws/elastic-beanstalk/eb-create-vpc-rds-env.sh
+$ eb use $STG_EB_ENVNAME
+$ eb list
+
+$ export STG_RDS_HOSTNAME=.ap-northeast-1.rds.amazonaws.com
+$ ./ops/02_staging/src/ship/aws/elastic-beanstalk/eb-setenv-staging.sh
+$ eb printenv
+```

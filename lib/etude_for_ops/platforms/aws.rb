@@ -1,5 +1,14 @@
 module EtudeForOps
   class AWS < Platform
+    def initialize(env=nil)
+      super
+      unless env.nil?
+        env.template_root_path = "#{Cloud::TEMPLATE_ROOT_PAHT}/aws"
+        @tmp_file_dir = env.tmp_file_dir
+      end
+    end
+
+
     def template_root_path
       "#{Cloud::TEMPLATE_ROOT_PAHT}/aws"
     end

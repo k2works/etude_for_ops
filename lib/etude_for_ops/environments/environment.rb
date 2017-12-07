@@ -32,7 +32,6 @@ module EtudeForOps
       @src_run_dir = "#{@src_dir}/run"
       @source = Source.new
       @config = Config.new
-      @template_root_path = Onpremis::TEMPLATE_ROOT_PAHT
       @common_template_root_path = Ops::COMMON_TEMPLATE_ROOT_PAHT
       @ops_yml_gateway = EtudeForOps::OpsYmlGateway.new(@root_dir)
     end

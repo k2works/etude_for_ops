@@ -397,12 +397,59 @@ describe 'EtudeForOps::Ops' do
             end
           end
 
+          it 'create build aws files' do
+            aws_dir = Pathname.new(dir[:env_src_build_dir] + 'aws')
+            aws_ec2_dir = Pathname.new(aws_dir + 'ec2')
+            aws_rds_dir = Pathname.new(aws_dir + 'rds')
+            aws_vpc_dir = Pathname.new(aws_dir + 'vpc')
+            expect(aws_dir).to exist
+            expect(aws_ec2_dir).to exist
+            expect(aws_rds_dir).to exist
+            expect(aws_vpc_dir).to exist
+
+            aws_ec2_files = %w[
+             configure_resources.sh
+             configure_security_group_rule.sh
+             create_instance.sh
+             create_key_pare.sh
+             create_security_group.sh
+             destroy_instance.sh
+             destroy_security_group.sh
+           ]
+            aws_rds_files = %w[
+             create_stack.sh
+             destroy_stack.sh
+             rds-mysql.template
+             rds-oracle.template
+             rds-parameter.json
+           ]
+            aws_vpc_files = %w[
+             create_stack.sh
+             destroy_stack.sh
+             update_stack.sh
+             vpc-2az-2subnet-pub.template
+             vpc-2az-2subnet-pub-pri.template
+             vpc-2az-4subnet-pub-pri.template
+             vpc-parameter.json
+           ]
+
+            aws_ec2_files.each do |file|
+              expect(Pathname.new(aws_ec2_dir + file)).to exist
+            end
+            aws_rds_files.each do |file|
+              expect(Pathname.new(aws_rds_dir + file)).to exist
+            end
+            aws_vpc_files.each do |file|
+              expect(Pathname.new(aws_vpc_dir + file)).to exist
+            end
+          end
+
           it 'create build sh files' do
             sh_dir = Pathname.new(dir[:env_src_build_dir] + 'sh')
             expect(sh_dir).to exist
 
             sh_files = %w[
-          build.sh
+            build.sh
           ]
 
             sh_files.each do |file|
@@ -665,6 +712,66 @@ describe 'EtudeForOps::Ops' do
             cap_td_agent_files.each do |file|
               expect(Pathname.new(cap_td_agent_dir + file)).to exist
             end
+          end
+
+          it 'create build aws files' do
+            aws_dir = Pathname.new(dir[:env_src_build_dir] + 'aws')
+            aws_ec2_dir = Pathname.new(aws_dir + 'ec2')
+            aws_rds_dir = Pathname.new(aws_dir + 'rds')
+            aws_vpc_dir = Pathname.new(aws_dir + 'vpc')
+            aws_eb_dir = Pathname.new(aws_dir + 'eb')
+            expect(aws_dir).to exist
+            expect(aws_ec2_dir).to exist
+            expect(aws_rds_dir).to exist
+            expect(aws_vpc_dir).to exist
+            expect(aws_eb_dir).to exist
+
+            aws_ec2_files = %w[
+             configure_resources.sh
+             configure_security_group_rule.sh
+             create_instance.sh
+             create_key_pare.sh
+             create_security_group.sh
+             destroy_instance.sh
+             destroy_security_group.sh
+           ]
+            aws_rds_files = %w[
+             create_stack.sh
+             destroy_stack.sh
+             rds-mysql.template
+             rds-oracle.template
+             rds-parameter.json
+           ]
+            aws_vpc_files = %w[
+             create_stack.sh
+             destroy_stack.sh
+             update_stack.sh
+             vpc-2az-2subnet-pub.template
+             vpc-2az-2subnet-pub-pri.template
+             vpc-2az-4subnet-pub-pri.template
+             vpc-parameter.json
+           ]
+            aws_eb_files = %w[
+             eb_init.sh
+             eb_create_vpc_env.sh
+             eb_create_vpc_rds_env.sh
+             eb_setenv.sh
+            ]
+
+            aws_ec2_files.each do |file|
+              expect(Pathname.new(aws_ec2_dir + file)).to exist
+            end
+            aws_rds_files.each do |file|
+              expect(Pathname.new(aws_rds_dir + file)).to exist
+            end
+            aws_vpc_files.each do |file|
+              expect(Pathname.new(aws_vpc_dir + file)).to exist
+            end
+
+            aws_eb_files.each do |file|
+              expect(Pathname.new(aws_eb_dir + file)).to exist
+            end
+
           end
 
           it 'create ship sh files' do

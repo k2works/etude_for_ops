@@ -46,3 +46,25 @@ export STG_RDS_DB_PASSWORD=<%= config['ops']['staging']['rds_db_password'] %>
 export STG_RDS_DB_CLASS=<%= config['ops']['staging']['rds_db_class'] %>
 export STG_RDS_DB_ALLOCATED_STORAGE=<%= config['ops']['staging']['rds_db_allocated_storage'] %>
 export STG_RDS_DB_ENDPOINT=<%= config['ops']['staging']['rds_db_endpoint'] %>
+
+export STG_EB_APP_PLATFORM=<%= config['ops']['staging']['eb_app_platform'] %>
+export STG_EB_PREFIX=stg-$APPLICATION_PREFIX
+export STG_EB_SUFFIX=green
+export STG_EB_ENVNAME=$STG_EB_PREFIX-$STG_EB_SUFFIX
+export STG_EB_CNAME=$STG_EB_PREFIX-$STG_EB_SUFFIX
+export STG_EB_URL=stg-$APPLICATION_PREFIX-$STG_EB_SUFFIX.<%= config['ops']['staging']['eb_url'] %>
+export STG_EB_SSH_KEY=$STG_SSH_KEY
+export STG_EB_INSTANCE=<%= config['ops']['staging']['eb_instance'] %>
+export STG_EB_VPC_ID=$STG_VPC_ID
+export STG_EB_EC2_SUBNET=<%= config['ops']['staging']['eb_ec2_subnet'] %>
+export STG_EB_ELB_SUBNET=<%= config['ops']['staging']['eb_elb_subnet'] %>
+export STG_EB_ELB=<%= config['ops']['staging']['eb_elb'] %>
+export STG_EB_SSL_SRT_ID=<%= config['ops']['staging']['eb_ssl_srt_id'] %>
+export STG_EB_DB_ENGINE=<%= config['ops']['staging']['eb_db_engine'] %>
+export STG_EB_DB_SIZE=<%= config['ops']['staging']['eb_db_size'] %>
+export STG_EB_DB_INSTANCE=<%= config['ops']['staging']['eb_db_instance'] %>
+export STG_EB_DB_PASSWORD=<%= config['ops']['staging']['eb_db_password'] %>
+export STG_EB_DB_USERNAME=<%= config['ops']['staging']['eb_db_username'] %>
+export STG_EB_DB_VERSION=<%= config['ops']['staging']['eb_db_version'] %>
+export STG_EB_DB_SUBNET_1=<%= config['ops']['staging']['eb_db_subnet_1'] %>
+export STG_EB_DB_SUBNET_2=<%= config['ops']['staging']['eb_db_subnet_2'] %>

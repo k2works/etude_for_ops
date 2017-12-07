@@ -41,7 +41,7 @@ module EtudeForOps
         rds-parameter.json
       ]
 
-      if @platform.params[:env] = 'Development'
+      if @platform.params[:env] == 'Development'
         @platform.params[:rds_stackname] = 'DEV_RDS_STACKNAME'
         @platform.params[:rds_template]  = 'DEV_RDS_TEMPLATE'
         @platform.params[:rds_template_params]  = 'DEV_RDS_TEMPLATE_PARAMS'
@@ -49,7 +49,7 @@ module EtudeForOps
         @platform.params[:rds_tagvalue] = 'DEV_RDS_TAGVALUE'
       end
 
-      if @platform.params[:env] = 'Staging'
+      if @platform.params[:env] == 'Staging'
         @platform.params[:rds_stackname] = 'STG_RDS_STACKNAME'
         @platform.params[:rds_template]  = 'STG_RDS_TEMPLATE'
         @platform.params[:rds_template_params]  = 'STG_RDS_TEMPLATE_PARAMS'

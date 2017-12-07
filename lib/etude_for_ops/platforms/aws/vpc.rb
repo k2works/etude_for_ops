@@ -44,7 +44,7 @@ module EtudeForOps
       ]
 
       params = {}
-      if @platform.params[:env] = 'Development'
+      if @platform.params[:env] == 'Development'
         params[:vpc_stackname] = 'DEV_VPC_STACKNAME'
         params[:vpc_template]  = 'DEV_VPC_TEMPLATE'
         params[:vpc_template_params]  = 'DEV_VPC_TEMPLATE_PARAMS'
@@ -54,7 +54,7 @@ module EtudeForOps
         params[:default_az2] = @platform.params[:default_az2]
       end
 
-      if @platform.params[:env] = 'Staging'
+      if @platform.params[:env] == 'Staging'
         params[:vpc_stackname] = 'STG_VPC_STACKNAME'
         params[:vpc_template]  = 'STG_VPC_TEMPLATE'
         params[:vpc_template_params]  = 'STG_VPC_TEMPLATE_PARAMS'
