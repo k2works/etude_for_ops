@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+APP_ID=$<%= params[:opsw_app_id] %>
+RDS_DB_INSTANCE_ARN=$<%= params[:opsw_rds_db_instance_arn] %>
+DB_NAME=$<%= params[:opsw_db_name] %>
+RAILS_ENV=$<%= params[:opsw_app_env] %>
+SECRET_KEY_BASE=$<%= params[:opsw_app_secret_key_base] %>
+RDS_DB_NAME=$<%= params[:opsw_rds_db_name]%>
+RDS_USERNAME=$<%= params[:opsw_rds_db_username]%>
+RDS_PASSWORD=$<%= params[:opsw_rds_password]%>
+RDS_HOSTNAME=$<%= params[:opsw_rds_hostname]%>
+RDS_PORT=$<%= params[:opsw_rds_port]%>
+STG_URL=$<%= params[:opsw_eb_url]%>
+BACKET=$<%= params[:opsw_backet]%>
+REVISION=$<%= params[:opsw_app_revision]%>
+
+echo "**********************************"
+echo APP_ID:$APP_ID
+echo REVISION:$REVISION
+echo RDS_DB_INSTANCE_ARN:$RDS_DB_INSTANCE_ARN
+echo DB_NAME:$DB_NAME
+echo RAILS_ENV:$RAILS_ENV
+echo SECRET_KEY_BASE:$SECRET_KEY_BASE
+echo STG_URL:$STG_URL
+echo RDS_DB_NAME:$STG_RDS_DB_NAME
+echo RDS_USERNAME:$STG_RDS_USERNAME
+echo RDS_PASSWORD:$STG_RDS_PASSWORD
+echo RDS_HOSTNAME:$STG_RDS_HOSTNAME
+echo RDS_PORT:$STG_RDS_PORT
+echo S3_BACKET:$STG_S3_BACKET
+echo "**********************************"
+
+aws opsworks update-app  \
+             --region us-east-1   \
+             --app-id $APP_ID  \
+             --app-source  Revision=$REVISION \
+             --data-sources Type=RdsDbInstance,Arn=$RDS_DB_INSTANCE_ARN,DatabaseName=$DB_NAME \
+             --environment Key=RAILS_ENV,Value=$RAILS_ENV,Secure=false \
+                           Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
+                           Key=STG_URL,Value=$STG_URL,Secure=false \
+                           Key=RDS_DB_NAME,Value=$RDS_DB_NAME,Secure=false \
+                           Key=RDS_USERNAME,Value=$RDS_USERNAME,Secure=false \
+                           Key=RDS_PASSWORD,Value=$RDS_PASSWORD,Secure=true \
+                           Key=RDS_HOSTNAME,Value=$RDS_HOSTNAME,Secure=false \
+                           Key=RDS_PORT,Value=$RDS_PORT,Secure=false \
+                           Key=S3_BACKET,Value=$S3_BACKET,Secure=false

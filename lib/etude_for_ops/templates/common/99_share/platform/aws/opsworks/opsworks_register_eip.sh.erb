@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+STACKID=$<%= params[:opsw_stack_id] %>
+EIP=<%= params[:opsw_eip] %>
+
+echo "**********************************"
+echo STACKID:$STACKID
+echo EIP:$EIP
+echo "**********************************"
+
+aws opsworks register-elastic-ip  \
+                           --region us-east-1  \
+                           --stack-id $STACKID  \
+                           --elastic-ip $EIP

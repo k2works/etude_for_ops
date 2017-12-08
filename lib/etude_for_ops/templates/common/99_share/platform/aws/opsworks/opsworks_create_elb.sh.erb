@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+SUBNET1=$<%= params[:opsw_elb_subnet_1] %>
+SUBNET2=$<%= params[:opsw_elb_subnet_2] %>
+ELB_NAME=$<%= params[:opsw_elb_name] %>
+SSL_CERT=$<%= params[:opsw_ssl_cert] %>
+LAYER_ID=$<%= params[:opsw_app_layer_id] %>
+SG=$<%= params[:opsw_layer_sg] %>
+
+echo "**********************************"
+echo ELB_NAME:$ELB_NAME
+echo SSL_CERT:$SSL_CERT
+echo SUBNET1:$SUBNET1
+echo SUBNET2:$SUBNET2
+echo LAYER_ID:$LAYER_ID
+echo SG:$SG
+echo "**********************************"
+
+aws elb create-load-balancer  \
+        --load-balancer-name $ELB_NAME  \
+        --listeners "Protocol=HTTP,LoadBalancerPort=80,InstanceProtocol=HTTP,InstancePort=80"   \
+                    "Protocol=HTTPS,LoadBalancerPort=443,InstanceProtocol=HTTP,InstancePort=80,SSLCertificateId=$SSL_CERT"  \
+        --subnets $SUBNET1  $SUBNET2 \
+        --security-groups $SG
+
+aws opsworks attach-elastic-load-balancer  \
+             --region us-east-1  \
+             --elastic-load-balancer-name $ELB_NAME  \
+             --layer-id $LAYER_ID

@@ -138,6 +138,7 @@ module EtudeForOps
         aws.components << EtudeForOps::VPC.new(aws)
         aws.components << EtudeForOps::RDS.new(aws)
         aws.components << EtudeForOps::EB.new(aws)
+        aws.components << EtudeForOps::OpsWorks.new(aws)
         @builder.platforms << aws
 
         ruby = Ruby.new(env)

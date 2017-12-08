@@ -1,0 +1,253 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: <%= params[:application_name] %> OpsWorks Environment
+Parameters:
+  StackName:
+    Type: String
+    Description: OpsWorks Stack Name
+  VpcId:
+    Type: String
+    Description: VpcId of your existing Virtual Private Cloud (VPC)
+  PublicSubnet1:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  PublicSubnet2:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  PrivateSubnet1:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  PrivateSubnet2:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  EC2InstancClass:
+    Default: t2.small
+    Description: EC2 instance class
+    Type: String
+    AllowedValues:
+      - t1.micro
+      - m1.small
+      - m1.medium
+      - m1.large
+      - t2.micro
+      - t2.small
+      - t2.medium
+    ConstraintDescription: must select a valid EC2 instance type.
+  OS:
+    Default: Amazon Linux 2016.09
+    Description: Default Operationg Syste
+    Type: String
+    AllowedValues:
+      - Amazon Linux 2016.09
+      - Ubuntu 16.04 LTS
+      - CentOS 7
+    ConstraintDescription: must select a valid OS.
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
+    Type: String
+    MinLength: '1'
+    MaxLength: '255'
+    AllowedPattern: '[\x20-\x7E]*'
+    ConstraintDescription: can contain only ASCII characters.
+  CertARN:
+    Type: String
+    Description: Cert ARN..
+Resources:
+  <%= params[:application_name] %>ApplicationIP:
+    Type: 'AWS::EC2::EIP'
+  OpsWorksStack:
+    Type: 'AWS::OpsWorks::Stack'
+    Properties:
+      Attributes:
+        color: red
+      ConfigurationManager:
+        Name: Chef
+        Version: '12'
+      CustomCookbooksSource:
+        Password: <%= params[:opsw_cookbook_password] %>
+        Revision: ''
+        SshKey: ''
+        Type: <%= params[:opsw_cookbook_type] %>
+        Url: >-
+          <%= params[:opsw_cookbook_url] %>
+        Username: <%= params[:opsw_cookbook_username] %>
+      DefaultAvailabilityZone: <%= params[:opsw_az_1] %>
+      DefaultInstanceProfileArn: !GetAtt 
+        - OpsWorksInstanceProfile
+        - Arn
+      DefaultOs: !Ref OS
+      DefaultRootDeviceType: ebs
+      DefaultSshKeyName: !Ref KeyName
+      DefaultSubnetId: !Ref PublicSubnet1
+      Name: !Ref StackName
+      ServiceRoleArn: !GetAtt 
+        - OpsWorksServiceRole
+        - Arn
+      UseCustomCookbooks: 'true'
+      UseOpsworksSecurityGroups: 'true'
+      VpcId: !Ref VpcId
+  OpsWorksLayer<%= params[:application_name] %>:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Rails ApplicationLayer.
+    DependsOn: OpsWorksApps
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: app
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: BusinessApplicationService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+  OpsWorksLayerLogging:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Logging Middleware ApplictionLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: LoggingService
+      Shortname: logging
+      StackId: !Ref OpsWorksStack
+      Type: custom
+  OpsWorksLayerMonitoring:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Monitoring Middleware ApplictionLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: MonitoringService
+      Shortname: monitoring
+      StackId: !Ref OpsWorksStack
+      Type: custom
+  OpsWorksLayerCI:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is CI Middleware ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: ContinuousIntegrationService
+      Shortname: ci
+      StackId: !Ref OpsWorksStack
+      Type: custom
+  OpsWorksApps:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>
+      Type: other
+      AppSource:
+        Type: git
+        SshKey: |
+          <%= params[:opsw_app_ssh_key] %>
+        Url: '<%= params[:opsw_app_repo_url] %>'
+        Revision: <%= params[:opsw_app_repo_revison] %>
+      Domains: <%= params[:opsw_app_domain] %>
+        -
+      Environment:
+        - Key: RAILS_ENV
+          Secure: false
+          Value: staging
+      EnableSsl: 'true'
+      SslConfiguration:
+        Certificate: |-
+          <%= params[:opsw_app_ssl_cert] %>
+        PrivateKey: |-
+          <%= params[:opsw_app_ssl_private_key] %>
+  OpsWorksServiceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - opsworks.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: opsworks-service
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ec2:*'
+                  - 's3:*'
+                  - 'iam:PassRole'
+                  - 'cloudwatch:GetMetricStatistics'
+                  - 'elasticloadbalancing:*'
+                  - 'rds:*'
+                Resource: '*'
+  OpsWorksInstanceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+  OpsWorksInstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Path: /
+      Roles:
+        - !Ref OpsWorksInstanceRole
+  OpsWorksSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Allow inbound requests from the ELB to the OpsWorks instances
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+Outputs:
+  StackId:
+    Value: !Ref OpsWorksStack
+
+}
