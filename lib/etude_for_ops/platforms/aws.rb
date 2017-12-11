@@ -58,12 +58,8 @@ module EtudeForOps
         params[:opsw_cookbook_url] = config['ops']['staging']['opsw_cookbook_url']
         params[:opsw_cookbook_username] = config['ops']['staging']['opsw_cookbook_username']
         params[:opsw_az_1] = config['ops']['staging']['aws_az_1']
-        params[:opsw_app_ssh_key] = config['ops']['staging']['opsw_app_ssh_key']
-        params[:opsw_app_repo_url] = config['ops']['staging']['opsw_app_repo_url']
-        params[:opsw_app_repo_revision] = config['ops']['staging']['opsw_app_repo_revison']
-        params[:opsw_app_domain] = config['ops']['staging']['opsw_app_domain']
-        params[:opsw_app_ssl_cert] = config['ops']['staging']['opsw_app_ssl_cert']
-        params[:opsw_app_ssl_private_key] = config['ops']['staging']['opsw_app_ssl_private_key']
+        params[:opsw_os] = config['ops']['staging']['opsw_os']
+        params[:opsw_ec2_instance_class] = config['ops']['staging']['opsw_ec2_instance_class']
       end
     end
   end

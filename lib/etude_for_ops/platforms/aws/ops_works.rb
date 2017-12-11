@@ -40,7 +40,7 @@ module EtudeForOps
       erb_files = %w[
         opsworks-app.template
         opsworks_create_stack.sh
-        opsworks_update_app.sh
+        opsworks_update_stack.sh
       ]
 
       params = {}
@@ -54,12 +54,8 @@ module EtudeForOps
         params[:opsw_cookbook_url] = @platform.params[:opsw_cookbook_url]
         params[:opsw_cookbook_username] = @platform.params[:opsw_cookbook_username]
         params[:opsw_az_1] = @platform.params[:opsw_az_1]
-        params[:opsw_app_ssh_key] = @platform.params[:opsw_app_ssh_key]
-        params[:opsw_app_repo_url] = @platform.params[:opsw_app_repo_url]
-        params[:opsw_app_repo_revision] = @platform.params[:opsw_app_repo_revision]
-        params[:opsw_app_domain] = @platform.params[:opsw_app_domain]
-        params[:opsw_app_ssl_cert] = @platform.params[:opsw_app_ssl_cert]
-        params[:opsw_app_ssl_private_key] = @platform.params[:opsw_app_ssl_private_key]
+        params[:opsw_os] = @platform.params[:opsw_os]
+        params[:opsw_ec2_instance_class] = @platform.params[:opsw_ec2_instance_class]
 
         params[:cfm_opsw_stackname] = 'STG_CFM_OPSW_STACKNAME'
         params[:opsw_stackname] = 'STG_OPSW_STACKNAME'
@@ -67,13 +63,36 @@ module EtudeForOps
         params[:opsw_tagkey] = 'STG_TAGKEY'
         params[:opsw_tagvalue] = 'STG_TAGVALUE'
         params[:opsw_vpc_id] = 'STG_VPC_ID'
-        params[:opsw_subnet_pub_1] = 'STG_SUBNET_PUB_1'
-        params[:opsw_subnet_pub_2] = 'STG_SUBNET_PUB_2'
-        params[:opsw_subnet_pri_1] = 'STG_SUBNET_PRI_1'
-        params[:opsw_subnet_pri_2]= 'STG_SUBNET_PRI_2'
+        params[:opsw_subnet_pub_1] = 'STG_OPSW_SUBNET_PUB_1'
+        params[:opsw_subnet_pub_2] = 'STG_OPSW_SUBNET_PUB_2'
+        params[:opsw_subnet_pri_1] = 'STG_OPSW_SUBNET_PRI_1'
+        params[:opsw_subnet_pri_2]= 'STG_OPSW_SUBNET_PRI_2'
         params[:opsw_keyname] = 'STG_OPSW_KEYNAME'
-        params[:opsw_ssl_cert] = 'STG_OPSW_SSL_CERT'
+      end
 
+
+      create_put_bind_template_files(src_build_dir,erb_files,params)
+    end
+
+    def create_ship_files
+      FileUtils.mkdir_p(src_ship_dir, mode: 0o755)
+
+      erb_files = %w[
+        opsworks_update_app.sh
+        opsworks_create_elb.sh
+        opsworks_create_instance.sh
+        opsworks_deploy_app.sh
+        opsworks_register_eip.sh
+        opsworks_register_rds.sh
+        opsworks_update_instance.sh
+        opsworks_update_layer.sh
+      ]
+
+      params = {}
+      if @platform.params[:env] == 'Development'
+      end
+
+      if @platform.params[:env] == 'Staging'
         params[:opsw_app_id] = 'STG_OPSW_APP_ID'
         params[:opsw_rds_db_instance_arn] = 'STG_OPSW_RDS_DB_INSTANCE_ARN'
         params[:opsw_db_name] = 'STG_DB_NAME'
@@ -87,31 +106,7 @@ module EtudeForOps
         params[:opsw_eb_url] = 'STG_EB_URL'
         params[:opsw_backet] = 'BACKET'
         params[:opsw_app_revision] = 'STG_OPSW_APP_REVISION'
-      end
 
-
-      create_put_bind_template_files(src_build_dir,erb_files,params)
-    end
-
-    def create_ship_files
-      FileUtils.mkdir_p(src_ship_dir, mode: 0o755)
-
-      erb_files = %w[
-        opsworks_create_elb.sh
-        opsworks_create_instance.sh
-        opsworks_deploy_app.sh
-        opsworks_register_eip.sh
-        opsworks_register_rds.sh
-        opsworks_update_instance.sh
-        opsworks_update_layer.sh
-        opsworks_update_stack.sh
-      ]
-
-      params = {}
-      if @platform.params[:env] == 'Development'
-      end
-
-      if @platform.params[:env] == 'Staging'
         params[:opsw_elb_subnet_1] = 'STG_OPSW_ELB_SUBNET_1'
         params[:opsw_elb_subnet_2] = 'STG_OPSW_ELB_SUBNET_2'
         params[:opsw_elb_name] = 'STG_OPSW_ELB_NAME'
@@ -125,10 +120,10 @@ module EtudeForOps
         params[:opsw_tagkey] = 'STG_TAGKEY'
         params[:opsw_tagvalue] = 'STG_TAGVALUE'
         params[:opsw_vpc_id] = 'STG_VPC_ID'
-        params[:opsw_subnet_pub_1] = 'STG_SUBNET_PUB_1'
-        params[:opsw_subnet_pub_2] = 'STG_SUBNET_PUB_2'
-        params[:opsw_subnet_pri_1] = 'STG_SUBNET_PRI_1'
-        params[:opsw_subnet_pri_2]= 'STG_SUBNET_PRI_2'
+        params[:opsw_subnet_pub_1] = 'STG_OPSW_SUBNET_PUB_1'
+        params[:opsw_subnet_pub_2] = 'STG_OPSW_SUBNET_PUB_2'
+        params[:opsw_subnet_pri_1] = 'STG_OPSW_SUBNET_PRI_1'
+        params[:opsw_subnet_pri_2]= 'STG_OPSW_SUBNET_PRI_2'
         params[:opsw_keyname] = 'STG_OPSW_KEYNAME'
         params[:opsw_ssl_cert] = 'STG_OPSW_SSL_CERT'
 

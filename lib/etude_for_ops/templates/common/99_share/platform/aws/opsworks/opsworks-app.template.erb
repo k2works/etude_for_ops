@@ -20,7 +20,7 @@ Parameters:
     Type: String
     Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
   EC2InstancClass:
-    Default: t2.small
+    Default: <%= params[:opsw_ec2_instance_class] %>
     Description: EC2 instance class
     Type: String
     AllowedValues:
@@ -33,11 +33,11 @@ Parameters:
       - t2.medium
     ConstraintDescription: must select a valid EC2 instance type.
   OS:
-    Default: Amazon Linux 2016.09
+    Default: <%= params[:opsw_os] %>
     Description: Default Operationg Syste
     Type: String
     AllowedValues:
-      - Amazon Linux 2016.09
+      - Amazon Linux 2017.09
       - Ubuntu 16.04 LTS
       - CentOS 7
     ConstraintDescription: must select a valid OS.
@@ -48,9 +48,6 @@ Parameters:
     MaxLength: '255'
     AllowedPattern: '[\x20-\x7E]*'
     ConstraintDescription: can contain only ASCII characters.
-  CertARN:
-    Type: String
-    Description: Cert ARN..
 Resources:
   <%= params[:application_name] %>ApplicationIP:
     Type: 'AWS::EC2::EIP'
@@ -63,14 +60,14 @@ Resources:
         Name: Chef
         Version: '12'
       CustomCookbooksSource:
-        Password: <%= params[:opsw_cookbook_password] %>
+        Password: '<%= params[:opsw_cookbook_password] %>'
         Revision: ''
         SshKey: ''
-        Type: <%= params[:opsw_cookbook_type] %>
+        Type: '<%= params[:opsw_cookbook_type] %>'
         Url: >-
           <%= params[:opsw_cookbook_url] %>
-        Username: <%= params[:opsw_cookbook_username] %>
-      DefaultAvailabilityZone: <%= params[:opsw_az_1] %>
+        Username: '<%= params[:opsw_cookbook_username] %>'
+      DefaultAvailabilityZone: '<%= params[:opsw_az_1] %>'
       DefaultInstanceProfileArn: !GetAtt 
         - OpsWorksInstanceProfile
         - Arn
@@ -167,24 +164,6 @@ Resources:
       StackId: !Ref OpsWorksStack
       Name: <%= params[:application_name] %>
       Type: other
-      AppSource:
-        Type: git
-        SshKey: |
-          <%= params[:opsw_app_ssh_key] %>
-        Url: '<%= params[:opsw_app_repo_url] %>'
-        Revision: <%= params[:opsw_app_repo_revison] %>
-      Domains: <%= params[:opsw_app_domain] %>
-        -
-      Environment:
-        - Key: RAILS_ENV
-          Secure: false
-          Value: staging
-      EnableSsl: 'true'
-      SslConfiguration:
-        Certificate: |-
-          <%= params[:opsw_app_ssl_cert] %>
-        PrivateKey: |-
-          <%= params[:opsw_app_ssl_private_key] %>
   OpsWorksServiceRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -249,5 +228,3 @@ Resources:
 Outputs:
   StackId:
     Value: !Ref OpsWorksStack
-
-}

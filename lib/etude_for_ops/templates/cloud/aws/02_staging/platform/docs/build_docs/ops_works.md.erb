@@ -3,10 +3,10 @@
 
 #### スタックの作成
 ```
-$ cd /vagrant/ops/02_staging/src/build/aws/opsworks/
-$ chmod 0755 ./opsworks-create-stack.sh
+$ cd /vagrant/src/build/aws/opsworks/
+$ chmod 0755 ./opsworks_create_stack.sh
 $ aws cloudformation validate-template --template-body file://$STG_OPSW_TEMPLATE
-$ ./opsworks-create-stack.sh
+$ ./opsworks_create_stack.sh
 ```
 
 作成されたOpsWorksスタックID/アプリケーションID/アプリケーションレイヤーID/EIPを`/vagratn/ops/02_staging/config/env/set-stg-env.sh`に反映させて環境変数を読み込み直す
@@ -17,8 +17,8 @@ $ aws ec2 describe-addresses --output table
 
 スタックの更新
 ```
-$ cd /vagrant/ops/02_staging/src/build/aws/opsworks/
-$ chmod 0755 ./opsworks-update-stack.sh
+$ cd /vagrant/src/build/aws/opsworks/
+$ chmod 0755 ./opsworks_update_stack.sh
 $ aws cloudformation validate-template --template-body file://$STG_OPSW_TEMPLATE
-$ ./opsworks-update-stack.sh
+$ ./opsworks_update_stack.sh
 ```

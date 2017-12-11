@@ -11,8 +11,6 @@ PUBLICSUBNET2=$<%= params[:opsw_subnet_pub_2] %>
 PRIVATESUBNET1=$<%= params[:opsw_subnet_pri_1] %>
 PRIVATESUBNET2=$<%= params[:opsw_subnet_pri_2] %>
 KEYNAME=$<%= params[:opsw_keyname] %>
-CertARN=$<%= params[:opsw_ssl_cert] %>
-
 
 echo "**********************************"
 echo CFM_STACKNAME:$CFM_STACKNAME
@@ -20,13 +18,12 @@ echo STACKNAME:$STACKNAME
 echo TEMPLATE:$TEMPLATE
 echo TAGKEY:$TAGKEY
 echo TAGVALUE:$TAGVALUE
-echo VPCID:$STG_VPCID
+echo VPCID:$VPCID
 echo PUBLICSUBNET1:$PUBLICSUBNET1
 echo PUBLICSUBNET2:$PUBLICSUBNET2
 echo PRIVATESUBNET1:$PRIVATESUBNET1
 echo PRIVATESUBNET2:$PRIVATESUBNET2
-echo KEYNAME:$STG_OPSW_KEYNAME
-echo CertARN:$CertARN
+echo KEYNAME:$KEYNAME
 echo "**********************************"
 
 aws cloudformation update-stack --stack-name $CFM_STACKNAME \
@@ -38,6 +35,5 @@ aws cloudformation update-stack --stack-name $CFM_STACKNAME \
                                              ParameterKey=PublicSubnet2,ParameterValue=$PUBLICSUBNET2 \
                                              ParameterKey=PrivateSubnet1,ParameterValue=$PRIVATESUBNET1 \
                                              ParameterKey=PrivateSubnet2,ParameterValue=$PRIVATESUBNET2 \
-                                             ParameterKey=CertARN,ParameterValue=$CertARN \
                                              ParameterKey=KeyName,ParameterValue=$KEYNAME \
                                 --capabilities CAPABILITY_IAM
