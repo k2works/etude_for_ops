@@ -82,6 +82,8 @@ ops:
     eb_db_version: xxxx
     eb_db_subnet_1: xxxx
     eb_db_subnet_2: xxxx
+    opsw_os: xxxxxxx
+    opsw_ec2_instance_class: xxxxxxx
     opsw_subnet_pub_1: xxxx
     opsw_subnet_pub_2: xxxx
     opsw_subnet_pri_1: xxxx
@@ -97,12 +99,10 @@ ops:
     opsw_app_revision: xxxx
     opsw_elb_subnet_1: xxxx
     opsw_elb_subnet_2: xxxx
-    opsw_cookbook_password: xxxx
     opsw_cookbook_type: xxxx
     opsw_cookbook_url: xxxx
     opsw_cookbook_username: xxxx
-    opsw_os: xxxxxxx
-    opsw_ec2_instance_class: xxxxxxx
+    opsw_cookbook_password: xxxx
     opsw_instance_id: xxxxxx
   production:
     ip_address: 192.168.33.30
@@ -112,6 +112,7 @@ ops:
     application:
       name: YourApplication
       prefix: YAP
+    s3_backet: YourApplication
   env:
     aws_access_key_id: xxxxxxxx
     aws_secret_access_key: xxxxxxxxxx

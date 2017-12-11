@@ -41,6 +41,7 @@ module EtudeForOps
         opsworks-app.template
         opsworks_create_stack.sh
         opsworks_update_stack.sh
+        opsworks_deploy_cookbook.sh
       ]
 
       params = {}
