@@ -85,7 +85,7 @@ Resources:
   OpsWorksLayer<%= params[:application_name] %>:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
-      Comment: This is Rails ApplicationLayer.
+      Comment: This is Business ApplicationLayer.
     DependsOn: OpsWorksApps
     Properties:
       StackId: !Ref OpsWorksStack
@@ -96,7 +96,7 @@ Resources:
       AutoAssignPublicIps: 'true'
       CustomSecurityGroupIds:
         - !Ref OpsWorksSecurityGroup
-      Name: BusinessApplicationService
+      Name: ApplicationService
       LoadBasedAutoScaling:
         Enable: 'true'
         UpScaling:
@@ -116,7 +116,7 @@ Resources:
   OpsWorksLayerLogging:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
-      Comment: This is Logging Middleware ApplictionLayer.
+      Comment: This is Logging Middleware ApplicationLayer.
     Properties:
       AutoAssignElasticIps: 'false'
       AutoAssignPublicIps: 'true'
@@ -131,7 +131,7 @@ Resources:
   OpsWorksLayerMonitoring:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
-      Comment: This is Monitoring Middleware ApplictionLayer.
+      Comment: This is Monitoring Middleware ApplicationLayer.
     Properties:
       AutoAssignElasticIps: 'false'
       AutoAssignPublicIps: 'true'

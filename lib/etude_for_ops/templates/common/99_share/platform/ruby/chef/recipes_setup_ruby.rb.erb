@@ -9,7 +9,7 @@ case node["platform"]
   when "redhat", "centos", "fedora"
     packages = %W{ }
   when "amazon"
-    packages = %W{ }
+    packages = %W{ mysql-devel sqlite-devel}
 
     if node['etc']['passwd']['ec2-user']
       user = 'ec2-user'

@@ -1,0 +1,73 @@
+#### OpsWorksの配置
+
+##### クックブックの配置
+```
+$ aws s3 mb s3://$S3_BACKET
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_deploy_cookbook.sh
+$ ./opsworks_deploy_cookbook.sh
+```
+
+##### クックブックの更新
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ ../../../build/sh/build.sh
+$ ./opsworks_deploy_cookbook.sh
+```
+
+##### アプリケーションのセットアップ
+RDSをResouceに登録する
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_register_rds.sh
+$ ./opsworks_register_rds.sh
+```
+登録したRDSをアプリケーションに関連付ける
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_update_app.sh
+$ ./opsworks_update_app.sh
+```
+EIPをResourceに登録する
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_register_eip.sh
+$ ./opsworks_register_eip.sh
+```
+レシピの登録とEBSの設定更新
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_update_layer.sh
+$ ./opsworks_update_layer.sh
+```
+
+##### OpsWorks用ユーザー権限設定
+
+メニューのPermissionsから対象となるユーザーのSSH/RDP sudo/admin の設定を有効にする
+
+##### インスタンスのセットアップ
+
+インスタンスを作成してEIPを割り当てる(うまく起動しないので手動でセットアップ)
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_create_instance.sh
+$ ./opsworks_create_instance.sh
+$ export STG_OPSW_INSTANCE_ID=xxx
+$ ./opsworks_update_instance.sh
+```
+
+##### DBのセットアップ
+データベースにローカル環境から接続できるようにする
+ステージングRDSのセキュリティグループIDとローカルのIPを調べてセキュリティセキュリティグループを有効にする
+RDSがVPCのパブリックサブネットに配置されているか確認する
+```
+$ export SG_DB_ID=sg-bb369ddc
+$ export LOCAL_IP=118.4.67.44/32
+$ aws ec2 authorize-security-group-ingress --group-id $SG_DB_ID --protocol tcp --port 3306 --cidr $LOCAL_IP
+```
+ステージングDBに接続できるか確認する
+```
+$ mysql -h$STG_RDS_HOSTNAME -u$STG_RDS_USERNAME -p$STG_RDS_PASSWORD $STG_RDS_DB_NAME
+```
+
+

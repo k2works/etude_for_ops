@@ -41,7 +41,6 @@ module EtudeForOps
         opsworks-app.template
         opsworks_create_stack.sh
         opsworks_update_stack.sh
-        opsworks_deploy_cookbook.sh
       ]
 
       params = {}
@@ -79,6 +78,7 @@ module EtudeForOps
       FileUtils.mkdir_p(src_ship_dir, mode: 0o755)
 
       erb_files = %w[
+        opsworks_deploy_cookbook.sh
         opsworks_update_app.sh
         opsworks_create_elb.sh
         opsworks_create_instance.sh
@@ -99,14 +99,15 @@ module EtudeForOps
         params[:opsw_db_name] = 'STG_DB_NAME'
         params[:opsw_app_env] = 'STG_APP_ENV'
         params[:opsw_app_secret_key_base] = 'STG_APP_SECRET_KEY_BASE'
-        params[:opsw_rds_db_name] = 'STG_RDS_DB_NAME'
-        params[:opsw_rds_db_username] = 'STG_RDS_USERNAME'
-        params[:opsw_rds_password] = 'STG_RDS_PASSWORD'
-        params[:opsw_rds_hostname] = 'STG_RDS_HOSTNAME'
-        params[:opsw_rds_port] = 'STG_RDS_PORT'
-        params[:opsw_eb_url] = 'STG_EB_URL'
+        params[:opsw_db_name] = 'STG_RDS_DB_NAME'
+        params[:opsw_db_username] = 'STG_OPSW_DB_USER_NAME'
+        params[:opsw_db_password] = 'STG_OPSW_DB_PASSWORD'
+        params[:opsw_db_hostname] = 'STG_OPSW_DB_HOSTNAME'
+        params[:opsw_db_port] = 'STG_OPSW_DB_PORT'
+        params[:opsw_app_url] = 'STG_OPSW_APP_URL'
         params[:opsw_backet] = 'BACKET'
         params[:opsw_app_revision] = 'STG_OPSW_APP_REVISION'
+        params[:opsw_app_repo_url] = 'STG_OPSW_APP_REPO_URL'
 
         params[:opsw_elb_subnet_1] = 'STG_OPSW_ELB_SUBNET_1'
         params[:opsw_elb_subnet_2] = 'STG_OPSW_ELB_SUBNET_2'
@@ -143,6 +144,9 @@ module EtudeForOps
         params[:opsw_deploy_recipe] = 'STG_OPSW_DEPLOY_RECIPE'
         params[:opsw_undeploy_recipe] = 'STG_OPSW_UNDEPLOY_RECIPE'
         params[:opsw_shutdown_recipe] = 'STG_OPSW_SHUTDOWN_RECIPE'
+        params[:opsw_ec2_instance_class] = 'STG_OPSW_INSTANCE_TYPE'
+        params[:opsw_os] = 'STG_OPSW_OS'
+
       end
 
 

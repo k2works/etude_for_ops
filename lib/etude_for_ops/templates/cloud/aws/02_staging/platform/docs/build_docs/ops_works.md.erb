@@ -22,11 +22,3 @@ $ chmod 0755 ./opsworks_update_stack.sh
 $ aws cloudformation validate-template --template-body file://$STG_OPSW_TEMPLATE
 $ ./opsworks_update_stack.sh
 ```
-
-クックブックのデプロイ
-```
-$ aws s3 mb s3://$S3_BACKET
-$ cd /vagrant/src/build/aws/opsworks/
-$ chmod 0755 ./opsworks_deploy_cookbook.sh
-$ ./opsworks_deploy_cookbook.sh
-```

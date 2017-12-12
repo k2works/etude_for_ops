@@ -67,16 +67,29 @@ module EtudeForOps
         .kitchen.yml
         Gemfile
         reprovision.sh
+        recipes_opsw_deploy.rb
+        recipes_opsw_shutdown.rb
+        recipes_opsw_undeploy.rb
+        recipes_opsw_deploy_rails.rb
       ]
 
       params = {}
-      params[:user] = 'vagrant'
-      params[:group] = 'vagrant'
-      params[:aws_user] = 'ec2-user'
-      params[:aws_group] = 'ec2-user'
+      if @platform.params[:env] == 'Development'
+        params[:user] = 'vagrant'
+        params[:group] = 'vagrant'
+        params[:aws_user] = 'ec2-user'
+        params[:aws_group] = 'ec2-user'
 
-      if @platform.params[:env] = 'Development'
         params[:ssh_key] = 'DEV_SSH_KEY'
+      end
+
+      if @platform.params[:env] == 'Staging'
+        params[:user] = 'ec2-user'
+        params[:group] = 'ec2-user'
+        params[:aws_user] = 'ec2-user'
+        params[:aws_group] = 'ec2-user'
+
+        params[:ssh_key] = 'STG_SSH_KEY'
       end
 
       create_put_bind_template_files(src_build_dir,platform_ruby_chef_files, params)
