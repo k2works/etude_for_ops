@@ -71,6 +71,8 @@ module EtudeForOps
         recipes_opsw_shutdown.rb
         recipes_opsw_undeploy.rb
         recipes_opsw_deploy_rails.rb
+        databag_opsw_app.json
+        databag_opsw_db.json
       ]
 
       params = {}

@@ -1,0 +1,24 @@
+{
+  "name": "APLICATION",
+  "shortname": "app",
+  "environment": {
+    "RAILS_ENV": "staging",
+    "S3_ACCESS_KEY": "xxxxxxxxxx",
+    "S3_SECRET_KEY": "xxxxxxxxxx"
+  },
+  "app_source": {
+    "url": "https://github.com/k2works/etude_for_rails.git",
+    "revision": "develop",
+    "ssh_key": "",
+    "type": "git"
+  },
+  "data_sources":
+  [
+    {"database_name": "db/test.sqlite3"}
+  ],
+  "enable_ssl": false,
+  "ssl_configuration" : {
+    "certificate": "",
+    "private_key": ""
+  }
+}

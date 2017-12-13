@@ -6,8 +6,8 @@ export LANG=en_US.UTF-8
 PACKAGE=$STG_OPS_PACKAGE
 
 cd ../../../../build/
+rm $PACKAGE
 rm -rf cookbooks
 berks vendor cookbooks
 berks package $PACKAGE
 aws s3 cp $PACKAGE s3://$S3_BACKET/staging/src/$PACKAGE
-rm $PACKAGE

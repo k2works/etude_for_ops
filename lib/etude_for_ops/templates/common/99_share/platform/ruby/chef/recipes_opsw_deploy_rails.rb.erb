@@ -15,6 +15,9 @@ end
 application app_path do
   ruby ruby_version
 
+  environment S3_ACCESS_KEY: app['environment']['S3_ACCESS_KEY']
+  environment S3_SECRET_KEY: app['environment']['S3_SECRET_KEY']
+
   git app_path do
     repository app['app_source']['url']
     revision app['app_source']['revision']
@@ -36,8 +39,6 @@ application app_path do
     })
     rails_env app['environment']['RAILS_ENV']
     secret_token app['environment']['SECRET_KEY_BASE']
-    aws_access_key_id app['environment']['S3_ACCESS_KEY']
-    aws_secret_access_key app['environment']['S3_SECRET_KEY']
     migrate true
     precompile_assets true
   end
