@@ -6,7 +6,7 @@ ruby_version = node['ruby']['version']
 case db['engine']
   when 'mysql'
     db_adapter = 'mysql2'
-  when 'postgresql'
+  when 'postgres'
     db_adapter = 'postgresql'
   else
     db_adapter = 'sqlite3'
