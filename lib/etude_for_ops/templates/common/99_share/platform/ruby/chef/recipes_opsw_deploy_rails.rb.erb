@@ -15,8 +15,8 @@ end
 application app_path do
   ruby ruby_version
 
-  environment S3_ACCESS_KEY: app['environment']['S3_ACCESS_KEY']
-  environment S3_SECRET_KEY: app['environment']['S3_SECRET_KEY']
+  ENV['S3_ACCESS_KEY'] = app['environment']['S3_ACCESS_KEY']
+  ENV['S3_SECRET_KEY'] = app['environment']['S3_SECRET_KEY']
 
   git app_path do
     repository app['app_source']['url']
@@ -26,7 +26,7 @@ application app_path do
 
   bundle_install do
     deployment true
-    without %w{development test}
+    #without %w{development test}
   end
 
   rails do
@@ -40,6 +40,13 @@ application app_path do
     rails_env app['environment']['RAILS_ENV']
     secret_token app['environment']['SECRET_KEY_BASE']
     migrate true
-    precompile_assets true
+    precompile_assets false
+  end
+
+  execute 'assets_precompile' do
+    command <<-EOC
+        export PATH="/opt/ruby_build/builds/app/bin/:$PATH"
+        cd #{app_path} && ./bin/rake assets:precompile
+    EOC
   end
 end

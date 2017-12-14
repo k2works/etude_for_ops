@@ -91,7 +91,7 @@ export STG_OPSW_EIP=<%= config['ops']['staging']['opsw_eip'] %>
 export STG_OPSW_EIP_ID=<%= config['ops']['staging']['opsw_eip_id'] %>
 export STG_OPSW_APP_REVISION=<%= config['ops']['staging']['opsw_app_revision'] %>
 export STG_OPSW_APP_REPO_URL=$STG_APP_REPOSITORY
-export STG_OPSW_DB_INSTANCE_ARN=STG_EB_DB_INSTANCE
+export STG_OPSW_DB_INSTANCE_ARN=$STG_RDS_ARN
 export STG_OPSW_DB_NAME=$STG_RDS_DB_NAME
 export STG_OPSW_DB_USER_NAME=$STG_RDS_DB_USER_NAME
 export STG_OPSW_DB_PASSWORD=$STG_RDS_DB_PASSWORD

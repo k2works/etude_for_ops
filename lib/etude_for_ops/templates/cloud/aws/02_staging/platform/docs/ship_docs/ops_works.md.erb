@@ -67,7 +67,10 @@ $ aws ec2 authorize-security-group-ingress --group-id $SG_DB_ID --protocol tcp -
 ```
 ステージングDBに接続できるか確認する
 ```
-$ mysql -h$STG_RDS_HOSTNAME -u$STG_RDS_USERNAME -p$STG_RDS_PASSWORD $STG_RDS_DB_NAME
+$ mysql -h$STG_RDS_DB_ENDPOINT -u$STG_RDS_DB_USER_NAME -p$STG_RDS_DB_PASSWORD $STG_RDS_DB_NAME
 ```
-
+```
+$ echo $STG_RDS_DB_PASSWORD
+$ echo psql -h$STG_RDS_DB_ENDPOINT -U$STG_RDS_DB_USER_NAME $STG_RDS_DB_NAME
+```
 

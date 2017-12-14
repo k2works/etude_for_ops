@@ -132,8 +132,8 @@ module EtudeForOps
         params[:opsw_stack_id] = 'STG_OPSW_STACK_ID'
         params[:opsw_app_id] =  'STG_OPSW_APP_ID'
         params[:opsw_eip] = 'STG_OPSW_EIP'
-        params[:opsw_rds_db_instance_arn] = 'STG_OPSW_RDS_DB_INSTANCE_ARN'
-        params[:opsw_db_user] = 'STG_OPSW_DB_USER'
+        params[:opsw_rds_db_instance_arn] = 'STG_OPSW_DB_INSTANCE_ARN'
+        params[:opsw_db_user] = 'STG_OPSW_DB_USER_NAME'
         params[:opsw_db_password] = 'STG_OPSW_DB_PASSWORD'
 
         params[:opsw_instance_id] = 'STG_OPSW_INSTANCE_ID'
