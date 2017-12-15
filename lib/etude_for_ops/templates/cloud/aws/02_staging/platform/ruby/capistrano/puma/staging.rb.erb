@@ -17,3 +17,9 @@ set :scm, :copy
 set :include_dir, ["*", '.ruby-version', '.postcssrc.yml', '.env.development']
 set :exclude_dir, ['vendor/bundle', 'log\/*', 'tmp\/*', 'mydb\/*', 'public\/*', 'node_modules\/*', 'ops\/*']
 set :db_name, 'staging'
+
+#Whenever
+#set :whenever_environment, "#{fetch(:stage)}"
+#set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
+#SSHKit.config.command_map[:whenever] = "bundle exec whenever"
