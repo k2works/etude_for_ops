@@ -72,3 +72,11 @@ execute "rbenv global #{node['ruby-env']['default']}" do
   group group
   environment 'HOME' => "/home/#{user}"
 end
+
+execute "install bundler" do
+  command "/home/#{user}/.rbenv/shims/gem install bundler"
+  user user
+  group group
+  environment 'HOME' => "/home/#{user}"
+end
+
