@@ -46,7 +46,19 @@ cd /vagrant/src/build/aws/ec2/
 
 仮想マシンへのログイン
 ```
-ssh -i ~/.ssh/stg-app.pem ec2-user@$STG_EC2_PUBLIC_IP
+ssh -i ~/.ssh/$STG_SSH_KEY ec2-user@$STG_EC2_PUBLIC_IP
+```
+
+#### 仮想マシンにレポジトリの秘密鍵と公開鍵を登録する
+```
+scp -i ~/.ssh/$STG_SSH_KEY /vagrant/config/secure/repository_rsa ec2-user@$STG_EC2_PUBLIC_IP:.ssh/
+scp -i ~/.ssh/$STG_SSH_KEY /vagrant/config/secure/repository_rsa.pub ec2-user@$STG_EC2_PUBLIC_IP:.ssh/
+cp -i ~/.ssh/$STG_SSH_KEY /vagrant/build/ssh_config ec2-user@$STG_EC2_PUBLIC_IP:.ssh/configssh_config
+ssh -i ~/.ssh/$STG_SSH_KEY ec2-user@$STG_EC2_PUBLIC_IP
+chmod 700 ~/.ssh/config
+chmod 0400 ~/.ssh/repository_rsa
+chmod 0400 ~/.ssh/repository_rsa.pub
+exit
 ```
 
 #### アプリケーション・サーバのプロビジョニング

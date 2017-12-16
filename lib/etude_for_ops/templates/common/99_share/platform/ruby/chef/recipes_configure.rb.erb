@@ -37,12 +37,28 @@ case node["platform"]
       group group
     end
 
+    template "ssh_config" do
+      source "ssh_config.erb"
+      path "/home/#{user}/.ssh/config"
+      mode 0644
+      owner user
+      group group
+    end
+
   when "redhat", "centos", "fedora"
 
   when "amazon"
       template ".bash_profile" do
         source ".bash_profile_aws.erb"
         path "/home/#{user}/.bash_profile"
+        mode 0644
+        owner user
+        group group
+      end
+
+      template "ssh_config" do
+        source "ssh_config.erb"
+        path "/home/#{user}/.ssh/config"
         mode 0644
         owner user
         group group

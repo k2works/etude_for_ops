@@ -19,6 +19,17 @@ cd /vagrant/build
 sudo chef-client -z -j provision.json
 ```
 
+#### レポジトリ用秘密鍵と公開鍵の作成
+```
+cd /vagrant/config/secure/
+ssh-keygen -f repository_rsa
+cp /vagrant/config/secure/repository_rsa ~/.ssh/
+cp /vagrant/config/secure/repository_rsa.pub ~/.ssh/
+chmod 0400 ~/.ssh/repository_rsa
+chmod 0400 ~/.ssh/repository_rsa.pub
+chmod 700 ~/.ssh/config
+```
+
 #### EC2キーペアの作成
 ```bash
 cd /vagrant/config/secure/

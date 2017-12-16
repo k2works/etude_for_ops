@@ -120,6 +120,7 @@ module EtudeForOps
         templates_default_td-agent
         templates_default_kibana.yml
         templates_default_jenkins
+        templates_default_ssh_config
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)
