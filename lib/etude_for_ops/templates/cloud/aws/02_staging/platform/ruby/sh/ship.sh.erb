@@ -2,14 +2,14 @@
 
 bundle
 bundle exec cap install STAGES=staging
-cp ops/01_development/src/ship/capistrano/puma/Capfile .
-cp ops/01_development/src/ship/capistrano/puma/deploy.rb config/
-cp ops/01_development/src/ship/capistrano/puma/staging.rb config/deploy
-cp ops/01_development/src/ship/capistrano/td-agent/td-agent.conf config/
-cp ops/01_development/src/ship/capistrano/td-agent/fluent-logger.yml config/
-cp ops/01_development/src/ship/capistrano/tasks/database.rake lib/capistrano/tasks/
-cp ops/01_development/src/ship/capistrano/tasks/puma.rake lib/capistrano/tasks/
-cp ops/01_development/src/ship/capistrano/tasks/active_job.rake lib/capistrano/tasks/
-cp ops/01_development/src/ship/capistrano/tasks/td-agent.rake lib/capistrano/tasks/
-cp ops/01_development/src/ship/vagrant/create_box.sh ops/01_development/
-cp ops/01_development/src/ship/vagrant/metadata.json ops/01_development/
+cp ops/02_staging/src/ship/capistrano/puma/Capfile .
+cp ops/02_staging/src/ship/capistrano/puma/deploy.rb config/
+cp ops/02_staging/src/ship/capistrano/puma/staging.rb config/deploy
+cp ops/02_staging/src/ship/capistrano/td-agent/td-agent.conf config/
+cp ops/02_staging/src/ship/capistrano/td-agent/fluent-logger.yml config/
+cp ops/02_staging/src/ship/capistrano/tasks/database.rake lib/capistrano/tasks/
+cp ops/02_staging/src/ship/capistrano/tasks/puma.rake lib/capistrano/tasks/
+cp ops/02_staging/src/ship/capistrano/tasks/active_job.rake lib/capistrano/tasks/
+cp ops/02_staging/src/ship/capistrano/tasks/td-agent.rake lib/capistrano/tasks/
+cp ops/02_staging/src/ship/vagrant/create_box.sh ops/02_staging/
+cp ops/02_staging/src/ship/vagrant/metadata.json ops/02_staging/
