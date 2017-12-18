@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 bundle
-bundle exec cap install STAGES=development
+bundle exec cap install STAGES=staging
 cp ops/01_development/src/ship/capistrano/puma/Capfile .
 cp ops/01_development/src/ship/capistrano/puma/deploy.rb config/
-cp ops/01_development/src/ship/capistrano/puma/development.rb config/deploy
+cp ops/01_development/src/ship/capistrano/puma/staging.rb config/deploy
 cp ops/01_development/src/ship/capistrano/td-agent/td-agent.conf config/
 cp ops/01_development/src/ship/capistrano/td-agent/fluent-logger.yml config/
 cp ops/01_development/src/ship/capistrano/tasks/database.rake lib/capistrano/tasks/
