@@ -64,9 +64,9 @@ describe 'EtudeForOps::Ops' do
           expect(config_dir).to exist
 
           config_files = %w(
-           set-env.sh
+            set-env.sh
            set-share-env.sh
-           )
+          )
           config_files.each do |file|
             expect(Pathname.new(config_dir + file)).to exist
           end
@@ -77,7 +77,7 @@ describe 'EtudeForOps::Ops' do
           expect(chef_dir).to exist
 
           chef_files = %w[
-           attributes_default.rb
+            attributes_default.rb
            metadata.rb
            provision.json
            recipes_default.rb
@@ -105,7 +105,7 @@ describe 'EtudeForOps::Ops' do
           end
 
           chef_erb_template_files = %w[
-           templates_default_banner.erb
+            templates_default_banner.erb
            templates_default_bash_profile.erb
            templates_default_grants.sql.erb
            templates_default_my_extra_settings.erb
@@ -134,7 +134,7 @@ describe 'EtudeForOps::Ops' do
           expect(sh_dir).to exist
 
           sh_files = %w[
-          build.sh
+            build.sh
           ]
 
           sh_files.each do |file|
@@ -153,19 +153,19 @@ describe 'EtudeForOps::Ops' do
           expect(cap_td_agent_dir).to exist
 
           cap_puma_files = %w[
-           Capfile
+            Capfile
            deploy.rb
            development.rb
            maintenance.html.erb
           ]
           cap_tasks_files = %w[
-           active_job.rake
+            active_job.rake
            db.rake
            puma.rake
            td-agent.rake
           ]
           cap_td_agent_files = %w[
-           fluent-logger.yml
+            fluent-logger.yml
            td-agent.conf
           ]
 
@@ -185,7 +185,7 @@ describe 'EtudeForOps::Ops' do
           expect(sh_dir).to exist
 
           sh_files = %w[
-          ship.sh
+            ship.sh
           ]
 
           sh_files.each do |file|
@@ -198,7 +198,7 @@ describe 'EtudeForOps::Ops' do
           expect(vagrant_dir).to exist
 
           vagrant_files = %w[
-          create_box.sh
+            create_box.sh
           metadata.json
           ]
 
@@ -212,7 +212,7 @@ describe 'EtudeForOps::Ops' do
           expect(config_dir).to exist
 
           config_files = %w[
-           schedule.rb
+            schedule.rb
            sidekiq.rb
            sidekiq.yml
           ]
@@ -227,7 +227,7 @@ describe 'EtudeForOps::Ops' do
           expect(rake_dir).to exist
 
           rake_files = %w[
-           db.rake
+            db.rake
           ]
 
           rake_files.each do |file|
@@ -240,7 +240,7 @@ describe 'EtudeForOps::Ops' do
           expect(sh_dir).to exist
 
           sh_files = %w[
-           run.sh
+            run.sh
           ]
 
           sh_files.each do |file|
@@ -325,9 +325,9 @@ describe 'EtudeForOps::Ops' do
             expect(config_dir).to exist
 
             config_files = %w(
-           set-env.sh
-           set-share-env.sh
-           )
+              set-env.sh
+              set-share-env.sh
+            )
             config_files.each do |file|
               expect(Pathname.new(config_dir + file)).to exist
             end
@@ -338,7 +338,7 @@ describe 'EtudeForOps::Ops' do
             expect(chef_dir).to exist
 
             chef_files = %w[
-             attributes_default.rb
+              attributes_default.rb
              metadata.rb
              provision.json
              ec2_provision.json
@@ -372,7 +372,7 @@ describe 'EtudeForOps::Ops' do
             end
 
             chef_erb_template_files = %w[
-             templates_default_banner.erb
+              templates_default_banner.erb
              templates_default_bash_profile.erb
              templates_default_bash_profile_aws.erb
              templates_default_grants.sql.erb
@@ -415,23 +415,23 @@ describe 'EtudeForOps::Ops' do
              create_security_group.sh
              destroy_instance.sh
              destroy_security_group.sh
-           ]
+            ]
             aws_rds_files = %w[
-             create_stack.sh
+              create_stack.sh
              destroy_stack.sh
              rds-mysql.template
              rds-oracle.template
              rds-parameter.json
-           ]
+            ]
             aws_vpc_files = %w[
-             create_stack.sh
+              create_stack.sh
              destroy_stack.sh
              update_stack.sh
              vpc-2az-2subnet-pub.template
              vpc-2az-2subnet-pub-pri.template
              vpc-2az-4subnet-pub-pri.template
              vpc-parameter.json
-           ]
+            ]
 
             aws_ec2_files.each do |file|
               expect(Pathname.new(aws_ec2_dir + file)).to exist
@@ -449,8 +449,8 @@ describe 'EtudeForOps::Ops' do
             expect(sh_dir).to exist
 
             sh_files = %w[
-            build.sh
-          ]
+              build.sh
+            ]
 
             sh_files.each do |file|
               expect(Pathname.new(sh_dir + file)).to exist
@@ -468,21 +468,21 @@ describe 'EtudeForOps::Ops' do
             expect(cap_td_agent_dir).to exist
 
             cap_puma_files = %w[
-             Capfile
+              Capfile
              deploy.rb
              development.rb
              maintenance.html.erb
-           ]
+            ]
             cap_tasks_files = %w[
-             active_job.rake
+              active_job.rake
              db.rake
              puma.rake
              td-agent.rake
-           ]
+            ]
             cap_td_agent_files = %w[
-             fluent-logger.yml
+              fluent-logger.yml
              td-agent.conf
-           ]
+            ]
 
             cap_puma_files.each do |file|
               expect(Pathname.new(cap_puma_dir + file)).to exist
@@ -500,8 +500,8 @@ describe 'EtudeForOps::Ops' do
             expect(sh_dir).to exist
 
             sh_files = %w[
-          ship.sh
-          ]
+              ship.sh
+            ]
 
             sh_files.each do |file|
               expect(Pathname.new(sh_dir + file)).to exist
@@ -513,7 +513,7 @@ describe 'EtudeForOps::Ops' do
             expect(vagrant_dir).to exist
 
             vagrant_files = %w[
-             create_box.sh
+              create_box.sh
              metadata.json
             ]
 
@@ -527,7 +527,7 @@ describe 'EtudeForOps::Ops' do
             expect(config_dir).to exist
 
             config_files = %w[
-             schedule.rb
+              schedule.rb
              sidekiq.rb
              sidekiq.yml
             ]
@@ -542,8 +542,8 @@ describe 'EtudeForOps::Ops' do
             expect(rake_dir).to exist
 
             rake_files = %w[
-           db.rake
-          ]
+              db.rake
+            ]
 
             rake_files.each do |file|
               expect(Pathname.new(rake_dir + file)).to exist
@@ -555,7 +555,7 @@ describe 'EtudeForOps::Ops' do
             expect(sh_dir).to exist
 
             sh_files = %w[
-             run.sh
+              run.sh
             ]
 
             sh_files.each do |file|
@@ -591,9 +591,9 @@ describe 'EtudeForOps::Ops' do
             expect(config_dir).to exist
 
             config_files = %w(
-           set-env.sh
+              set-env.sh
            set-share-env.sh
-           )
+            )
             config_files.each do |file|
               expect(Pathname.new(config_dir + file)).to exist
             end
@@ -604,7 +604,7 @@ describe 'EtudeForOps::Ops' do
             expect(chef_dir).to exist
 
             chef_files = %w[
-             attributes_default.rb
+              attributes_default.rb
              metadata.rb
              provision.json
              ec2_provision.json
@@ -638,7 +638,7 @@ describe 'EtudeForOps::Ops' do
             end
 
             chef_erb_template_files = %w[
-             templates_default_banner.erb
+              templates_default_banner.erb
              templates_default_bash_profile.erb
              templates_default_bash_profile_aws.erb
              templates_default_grants.sql.erb
@@ -668,8 +668,8 @@ describe 'EtudeForOps::Ops' do
             expect(sh_dir).to exist
 
             sh_files = %w[
-          build.sh
-          ]
+              build.sh
+            ]
 
             sh_files.each do |file|
               expect(Pathname.new(sh_dir + file)).to exist
@@ -687,21 +687,21 @@ describe 'EtudeForOps::Ops' do
             expect(cap_td_agent_dir).to exist
 
             cap_puma_files = %w[
-             Capfile
+              Capfile
              deploy.rb
              staging.rb
              maintenance.html.erb
-           ]
+            ]
             cap_tasks_files = %w[
-             active_job.rake
+              active_job.rake
              db.rake
              puma.rake
              td-agent.rake
-           ]
+            ]
             cap_td_agent_files = %w[
-             fluent-logger.yml
+              fluent-logger.yml
              td-agent.conf
-           ]
+            ]
 
             cap_puma_files.each do |file|
               expect(Pathname.new(cap_puma_dir + file)).to exist
@@ -727,32 +727,32 @@ describe 'EtudeForOps::Ops' do
             expect(aws_eb_dir).to exist
 
             aws_ec2_files = %w[
-             configure_resources.sh
+              configure_resources.sh
              configure_security_group_rule.sh
              create_instance.sh
              create_key_pare.sh
              create_security_group.sh
              destroy_instance.sh
              destroy_security_group.sh
-           ]
+            ]
             aws_rds_files = %w[
-             create_stack.sh
+              create_stack.sh
              destroy_stack.sh
              rds-mysql.template
              rds-oracle.template
              rds-parameter.json
-           ]
+            ]
             aws_vpc_files = %w[
-             create_stack.sh
+              create_stack.sh
              destroy_stack.sh
              update_stack.sh
              vpc-2az-2subnet-pub.template
              vpc-2az-2subnet-pub-pri.template
              vpc-2az-4subnet-pub-pri.template
              vpc-parameter.json
-           ]
+            ]
             aws_eb_files = %w[
-             eb_init.sh
+              eb_init.sh
              eb_create_vpc_env.sh
              eb_create_vpc_rds_env.sh
              eb_setenv.sh
@@ -779,8 +779,8 @@ describe 'EtudeForOps::Ops' do
             expect(sh_dir).to exist
 
             sh_files = %w[
-          ship.sh
-          ]
+              ship.sh
+            ]
 
             sh_files.each do |file|
               expect(Pathname.new(sh_dir + file)).to exist
@@ -792,7 +792,7 @@ describe 'EtudeForOps::Ops' do
             expect(vagrant_dir).to exist
 
             vagrant_files = %w[
-             create_box.sh
+              create_box.sh
              metadata.json
             ]
 
@@ -806,7 +806,7 @@ describe 'EtudeForOps::Ops' do
             expect(config_dir).to exist
 
             config_files = %w[
-             schedule.rb
+              schedule.rb
              sidekiq.rb
              sidekiq.yml
             ]
@@ -821,8 +821,8 @@ describe 'EtudeForOps::Ops' do
             expect(rake_dir).to exist
 
             rake_files = %w[
-           db.rake
-          ]
+              db.rake
+            ]
 
             rake_files.each do |file|
               expect(Pathname.new(rake_dir + file)).to exist
@@ -834,7 +834,7 @@ describe 'EtudeForOps::Ops' do
             expect(sh_dir).to exist
 
             sh_files = %w[
-             run.sh
+              run.sh
             ]
 
             sh_files.each do |file|

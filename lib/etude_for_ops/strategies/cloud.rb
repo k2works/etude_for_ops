@@ -1,12 +1,14 @@
 module EtudeForOps
   class Cloud < Strategy
     TEMPLATE_ROOT_PAHT = "#{Ops::TEMPLATE_ROOT_PAHT}/cloud"
+    COMMON_TEMPLATE_ROOT_PAHT = "#{Ops::COMMON_TEMPLATE_ROOT_PAHT}/cloud"
 
     def initialize(provider,env=nil)
       @provider = provider
       unless env.nil?
         @environment = env
         @environment.template_root_path = @provider.template_root_path
+        @environment.common_template_root_path = @provider.tmp_share_file_dir
       end
     end
 

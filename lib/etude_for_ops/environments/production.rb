@@ -13,7 +13,7 @@ module EtudeForOps
     def get_template_params(config)
       params = {}
       params[:env_name] = '本番環境'
-      params[:config_vm_box] = 'bento/ubuntu-16.04'
+      params[:config_vm_box] = 'etude_for_ops/amazonlinux2'
       params[:config_vm_version] = '>=0'
       params[:config_vm_networks] = []
       params[:config_private_network_ip] = config['ops']['production']['ip_address']

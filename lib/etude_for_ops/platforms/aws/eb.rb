@@ -27,7 +27,7 @@ module EtudeForOps
     end
 
     def erb_share_file(file)
-      "#{@platform.tmp_share_file_dir}/platform/aws/eb/#{file}.erb"
+      "#{@platform.tmp_share_file_dir}/99_share/platform/aws/eb/#{file}.erb"
     end
 
     def create_build_files
