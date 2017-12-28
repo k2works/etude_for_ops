@@ -1,59 +1,14 @@
-if node['etc']['passwd']['vagrant']
-  user = node['ruby-env']['user']
-  group = node['ruby-env']['group']
+service "nginx" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
 end
 
-case node["platform"]
-  when "debian", "ubuntu"
-  when "redhat", "centos", "fedora"
-  when "amazon"
-      if node['etc']['passwd']['vagrant']
-        user = node['ruby-env']['user']
-        group = node['ruby-env']['group']
-      else
-        user = 'ec2-user'
-        group = 'ec2-user'
-      end
-  else
+service "puma" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
 end
 
-case node["platform"]
-  when "debian", "ubuntu"
-    service "puma" do
-      supports :status => true, :restrart => true, :reload => true
-      action [ :enable, :start ]
-    end
-
-    service "active_job" do
-      supports :status => true, :restrart => true, :reload => true
-      action [ :enable, :start ]
-    end
-
-    service "td-agent-ui" do
-      supports :status => true, :restrart => true, :reload => true
-      action [ :enable, :start ]
-    end
-  when "redhat", "centos", "fedora"
-
-  when "amazon"
-      service "nginx" do
-        supports :status => true, :restrart => true, :reload => true
-        action [ :enable, :start ]
-      end
-
-      service "td-agent-ui" do
-        supports :status => true, :restrart => true, :reload => true
-        action [ :enable, :start ]
-      end
-
-      service "puma" do
-        supports :status => true, :restrart => true, :reload => true
-        action [ :enable, :start ]
-      end
-
-      service "active_job" do
-        supports :status => true, :restrart => true, :reload => true
-        action [ :enable, :start ]
-      end
-
+service "active_job" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
 end

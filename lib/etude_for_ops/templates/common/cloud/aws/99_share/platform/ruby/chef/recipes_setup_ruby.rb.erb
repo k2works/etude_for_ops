@@ -1,42 +1,21 @@
-if node['etc']['passwd']['vagrant']
-  user = node['ruby-env']['user']
-  group = node['ruby-env']['group']
-end
+user = node['user']
+group = node['group']
+ruby_version = node['ruby_version']
+rbenv_versions = node['rbenv_versions']
+rbenv_url = node['rbenv_url']
+ruby_build_url = node['ruby_build_url']
 
-case node["platform"]
-  when "debian", "ubuntu"
-    packages = %W{ libmysqlclient-dev }
-  when "redhat", "centos", "fedora"
-    packages = %W{ }
-  when "amazon"
-    packages = %W{ postgresql-devel mysql-devel sqlite-devel}
+include_recipe 'git::default'
 
-    if node['etc']['passwd']['ec2-user']
-      user = 'ec2-user'
-      group = 'ec2-user'
-    end
-end
-
+packages = %W{ gcc openssl-devel readline-devel zlib-devel sqlite-devel}
 packages.each do |pkg|
   package "#{pkg}" do
     action [ :install, :upgrade ]
   end
 end
 
-ruby_version = node['ruby']['version']
-
-ruby_runtime 'app' do
-  provider :ruby_build
-  version ruby_version
-end
-
-gems = %w{bundler puma}
-gems.each do |gem|
-  ruby_gem gem
-end
-
 git "/home/#{user}/.rbenv" do
-  repository node["ruby-env"]["rbenv_url"]
+  repository rbenv_url
   action :sync
   user user
   group group
@@ -50,13 +29,13 @@ directory "/home/#{user}/.rbenv/plugins" do
 end
 
 git "/home/#{user}/.rbenv/plugins/ruby-build" do
-  repository node["ruby-env"]["ruby-build_url"]
+  repository ruby_build_url
   action :sync
   user user
   group group
 end
 
-node['ruby-env']['versions'].each do |ver|
+rbenv_versions.each do |ver|
   execute "rbenv install #{ver}" do
     command "/home/#{user}/.rbenv/bin/rbenv install #{ver}"
     user user
@@ -66,8 +45,8 @@ node['ruby-env']['versions'].each do |ver|
   end
 end
 
-execute "rbenv global #{node['ruby-env']['default']}" do
-  command "/home/#{user}/.rbenv/bin/rbenv global #{node['ruby-env']['default']}"
+execute "rbenv global #{ruby_version}" do
+  command "/home/#{user}/.rbenv/bin/rbenv global #{ruby_version}"
   user user
   group group
   environment 'HOME' => "/home/#{user}"
@@ -79,4 +58,3 @@ execute "install bundler" do
   group group
   environment 'HOME' => "/home/#{user}"
 end
-

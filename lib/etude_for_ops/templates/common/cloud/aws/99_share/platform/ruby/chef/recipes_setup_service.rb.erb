@@ -1,88 +1,35 @@
-case node["platform"]
-  when "debian", "ubuntu"
-    template "puma" do
-      path "/etc/systemd/system/puma.service"
-      source "puma.service.erb"
-      owner "<%= params[:user] %>"
-      group "<%= params[:group] %>"
-      mode 0751
+template "puma" do
+  path "/etc/systemd/system/puma.service"
+  source "puma.service.erb"
+  owner "<%= params[:user] %>"
+  group "<%= params[:group] %>"
+  mode 0751
 
-      variables(
-          :user     => "<%= params[:user] %>",
-          :group    => "<%= params[:group] %>"
-      )
-    end
+  variables(
+      :user     => "<%= params[:user] %>",
+      :group    => "<%= params[:group] %>"
+  )
+end
 
-    template "active_job" do
-      path "/etc/systemd/system/active_job.service"
-      source "active_job.service.erb"
-      owner "<%= params[:user] %>"
-      group "<%= params[:group] %>"
-      mode 0751
+template "active_job" do
+  path "/etc/systemd/system/active_job.service"
+  source "active_job.service.erb"
+  owner "<%= params[:user] %>"
+  group "<%= params[:group] %>"
+  mode 0751
 
-      variables(
-          :user     => "<%= params[:user] %>",
-          :group    => "<%= params[:group] %>"
-      )
-    end
+  variables(
+      :user     => "<%= params[:user] %>",
+      :group    => "<%= params[:group] %>"
+  )
+end
 
-    template "td-agent-ui" do
-      path "/etc/systemd/system/td-agent-ui.service"
-      source "td-agent-ui.service.erb"
-      mode 0751
-    end
+service "puma" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
 
-  when "redhat", "centos", "fedora"
-    if platform_family?('rhel') && node['platform_version'].to_i == 7 then
-      template "puma" do
-        path "/etc/systemd/system/puma.service"
-        source "puma.service.erb"
-        owner "<%= params[:user] %>"
-        group "<%= params[:group] %>"
-        mode 0751
-
-        variables(
-            :user     => "<%= params[:user] %>",
-            :group    => "<%= params[:group] %>"
-        )
-      end
-    elsif platform_family?('rhel') && node['platform_version'].to_i == 6 then
-      template "puma" do
-        path "/etc/init.d/puma"
-        source "puma.erb"
-        owner "<%= params[:user] %>"
-        group "<%= params[:group] %>"
-        mode 0751
-
-        variables(
-            :user     => "<%= params[:user] %>",
-            :group    => "<%= params[:group] %>"
-        )
-      end
-    end
-  when "amazon"
-    template "puma" do
-      path "/etc/init.d/puma"
-      source "puma.erb"
-      owner "<%= params[:aws_user] %>"
-      group "<%= params[:aws_group] %>"
-      mode 0751
-
-      variables(
-          :user     => "<%= params[:aws_user] %>"
-      )
-    end
-
-    template "active_job" do
-      path "/etc/init.d/active_job"
-      source "active_job.erb"
-      owner "<%= params[:aws_user] %>"
-      group "<%= params[:aws_group] %>"
-      mode 0751
-
-      variables(
-          :user     => "<%= params[:aws_user] %>"
-      )
-    end
-
+service "active_job" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
 end

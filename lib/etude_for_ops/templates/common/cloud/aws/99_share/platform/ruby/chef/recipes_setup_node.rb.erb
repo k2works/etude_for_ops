@@ -1,67 +1,60 @@
-if node['etc']['passwd']['vagrant']
-  user = node['ruby-env']['user']
-  group = node['ruby-env']['group']
-end
+user = node['user']
+group = node['group']
 
-case node["platform"]
-  when "debian", "ubuntu"
-  when "redhat", "centos", "fedora"
-  when "amazon"
-    if node['etc']['passwd']['ec2-user']
-      user = 'ec2-user'
-      group = 'ec2-user'
-    end
-end
-
-include_recipe 'nodejs'
-include_recipe 'nodejs::npm'
-
-include_recipe 'nvm'
-
-versions = %w[
-v6.11.2
-v8.4.0
+nvm_versions = %w[
+v8.9.3
+v9.3.0
 ]
+node_version = 'v8.9.3'
+nvm_url = 'https://github.com/creationix/nvm.git'
 
-versions.each do |ver|
-  nvm_install ver  do
+git "/home/#{user}/.nvm" do
+  repository nvm_url
+  action :sync
+  user user
+  group group
+end
+
+file "/home/#{user}/.nvm/nvm.sh" do
+  mode '0744'
+  owner user
+  group group
+  action :create
+end
+
+nvm_versions.each do |ver|
+  execute "nvm install #{ver}" do
+    command "~/.nvm/nvm.sh install #{ver}"
     user user
     group group
-    from_source false
-    from_source false
-    alias_as_default true
-    action :create
+    environment 'HOME' => "/home/#{user}"
+    not_if { File.exists?("/home/#{group}/.nvm/versions/#{ver}")}
   end
 end
 
-#https://yarnpkg.com/
+execute "nvm global #{node_version}" do
+  command "~/.nvm/nvm.sh use #{node_version}"
+  user user
+  group group
+  environment 'HOME' => "/home/#{user}"
+end
 
-case node["platform"]
-  when "debian", "ubuntu"
-    execute 'get package' do
-      command 'curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -'
-    end
 
-    execute 'set package' do
-      command 'echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list'
-    end
+execute 'get package' do
+  command 'sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo'
+end
 
-    execute 'install package' do
-      command 'sudo apt-get update && sudo apt-get install yarn -y'
-    end
-  when "redhat", "centos", "fedora"
+execute 'install node' do
+  command 'curl --silent --location https://rpm.nodesource.com/setup_6.x | sudo bash -'
+end
 
-  when "amazon"
-    execute 'get package' do
-      command 'sudo wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo'
-    end
+execute 'install package' do
+  command 'sudo yum install yarn -y'
+end
 
-    execute 'install node' do
-      command 'curl --silent --location https://rpm.nodesource.com/setup_6.x | sudo bash -'
-    end
-
-    execute 'install package' do
-      command 'sudo yum install yarn -y'
-    end
-
+file "/home/#{user}/.nvm/nvm.sh" do
+  mode '0644'
+  owner user
+  group group
+  action :create
 end

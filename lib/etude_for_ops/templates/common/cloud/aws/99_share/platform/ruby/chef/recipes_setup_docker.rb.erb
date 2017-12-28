@@ -1,12 +1,20 @@
-docker_service 'default' do
-  if node['etc']['passwd']['vagrant']
-    action [:create, :start]
-  else
-    action [:create]
-  end
+yum_package 'docker' do
+  action :install
+  flush_cache [:before]
 end
 
-include_recipe 'docker_compose::installation'
+service "docker" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+execute 'install pip' do
+  command 'curl -kL https://bootstrap.pypa.io/get-pip.py | python'
+end
+
+execute 'install docker-compose' do
+  command 'pip install docker-compose'
+end
 
 bash "install docker-machine" do
   code <<-EOC
@@ -20,9 +28,6 @@ end
 members = []
 if node['etc']['passwd']['vagrant']
   members << 'vagrant'
-end
-if node['etc']['passwd']['ubuntu']
-  members << 'ubuntu'
 end
 if node['etc']['passwd']['ec2-uer']
   members << 'ec2-user'

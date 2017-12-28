@@ -1,9 +1,13 @@
-include_recipe 'python'
 include_recipe 'awscli'
 include_recipe 'aws'
 
-python_pip "awsebcli"
-python_pip "--upgrade awsebcli"
+execute 'install pip' do
+  command 'curl -kL https://bootstrap.pypa.io/get-pip.py | python'
+end
+
+execute 'install awsebcli' do
+  command 'pip install awsebcli --upgrade --user'
+end
 
 bash "install Amazon ECS CLI" do
   code <<-EOC

@@ -1,20 +1,40 @@
-if node['etc']['passwd']['vagrant']
-  user = node['ruby-env']['user']
-  group = node['ruby-env']['group']
+user = node['user']
+group = node['group']
+secret_key = node['secret_key']
+url = node['app_url']
+
+directory "/home/#{user}/.ssh" do
+  owner user
+  group user
+  recursive true
+  mode 0755
+  action :create
 end
 
-case node["platform"]
-  when "debian", "ubuntu"
-  when "redhat", "centos", "fedora"
-  when "amazon"
-      if node['etc']['passwd']['vagrant']
-        user = node['ruby-env']['user']
-        group = node['ruby-env']['group']
-      else
-        user = 'ec2-user'
-        group = 'ec2-user'
-      end
-  else
+template ".bash_profile" do
+  source ".bash_profile.erb"
+  path "/home/#{user}/.bash_profile"
+  mode 0644
+  owner user
+  group group
+
+  variables({
+                :stg_db_name => node["mysql"]["db_name"],
+                :stg_db_username => node["mysql"]["user"]["name"],
+                :stg_db_password => node["mysql"]["user"]["password"],
+                :stg_db_hostname => node["mysql"]["db_host"],
+                :stg_db_port => node["mysql"]["db_port"],
+                :stg_app_secret_key_base => secret_key,
+                :stg_url => url
+            })
+end
+
+template "ssh_config" do
+  source "ssh_config.erb"
+  path "/home/#{user}/.ssh/config"
+  mode 0644
+  owner user
+  group group
 end
 
 template '/etc/update-motd.d/99-banner' do
@@ -22,45 +42,6 @@ template '/etc/update-motd.d/99-banner' do
   mode '0755'
 end
 
-case node["platform"]
-  when "debian", "ubuntu"
-    bash "Update MOTD" do
-      code "chmod 766 /run/motd.dynamic"
-      code "run-parts --lsbsysinit /etc/update-motd.d > /run/motd.dynamic"
-    end
-
-    template ".bash_profile" do
-      source ".bash_profile.erb"
-      path "/home/#{user}/.bash_profile"
-      mode 0644
-      owner user
-      group group
-    end
-
-    template "ssh_config" do
-      source "ssh_config.erb"
-      path "/home/#{user}/.ssh/config"
-      mode 0644
-      owner user
-      group group
-    end
-
-  when "redhat", "centos", "fedora"
-
-  when "amazon"
-      template ".bash_profile" do
-        source ".bash_profile_aws.erb"
-        path "/home/#{user}/.bash_profile"
-        mode 0644
-        owner user
-        group group
-      end
-
-      template "ssh_config" do
-        source "ssh_config.erb"
-        path "/home/#{user}/.ssh/config"
-        mode 0644
-        owner user
-        group group
-      end
+bash "Update MOTD" do
+  code "sudo update-motd"
 end

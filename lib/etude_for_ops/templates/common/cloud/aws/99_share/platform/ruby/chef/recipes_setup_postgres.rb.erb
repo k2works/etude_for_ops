@@ -1,15 +1,16 @@
-case node["platform"]
-  when "debian", "ubuntu"
-    include_recipe 'postgresql::server'
-    packages = {}
-  when "redhat", "centos", "fedora"
-    packages = {}
-  when "amazon"
-    packages = %W{ postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs }
+bash "install postgresql" do
+  code <<-EOC
+      amazon-linux-extras install postgresql9.6
+      yum install postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs -y
+  EOC
 end
 
-packages.each do |pkg|
-  package "#{pkg}" do
-    action [ :install, :upgrade ]
-  end
+execute "initdb" do
+  command "/sbin/service postgresql initdb"
+  not_if { File.exists?("/var/lib/pgsql/initdb_postgresql.log")}
+end
+
+service "postgresql" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
 end

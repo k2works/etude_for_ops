@@ -51,6 +51,7 @@ module EtudeForOps
         recipes_configure_service.rb
         recipes_setup_ruby.rb
         recipes_setup_mysql.rb
+        recipes_setup_mariadb.rb
         recipes_setup_postgres.rb
         recipes_setup_redis.rb
         recipes_setup_mongodb.rb
@@ -120,6 +121,10 @@ module EtudeForOps
         templates_default_td-agent
         templates_default_kibana.yml
         templates_default_jenkins
+        templates_default_ssh_config
+        templates_default_secure_install.sql
+        templates_default_create_db.sql
+        templates_default_create_user.sql
         templates_default_ssh_config
       ]
 

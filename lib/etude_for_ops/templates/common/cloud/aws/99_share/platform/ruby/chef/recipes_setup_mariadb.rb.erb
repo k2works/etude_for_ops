@@ -1,33 +1,13 @@
-mysql_rpm = node['mysql_rpm']
-mysql_version = node['mysql_version']
-
-# https://qiita.com/naoyes/items/a49637bfa4bc6a64b87b
-# add mysql yum repository
-remote_file "#{Chef::Config[:file_cache_path]}/#{mysql_rpm}" do
-  source "http://repo.mysql.com/#{mysql_rpm}"
-  action :create
-end
-
-rpm_package "mysql-community-release" do
-  source "#{Chef::Config[:file_cache_path]}/#{mysql_rpm}"
-  action :install
-end
-
-# install mysql community server
-packages = %W{ perl-Data-Dumper mysql-devel }
+# install MariaDB
+packages = %W{ mariadb-devel mariadb mariadb-server }
 packages.each do |pkg|
-  package "#{pkg}" do
-    action [ :install, :upgrade ]
+  yum_package pkg do
+    action :install
+    flush_cache [:before]
   end
 end
 
-yum_package "mysql-community-server" do
-  action :install
-  version mysql_version
-  flush_cache [:before]
-end
-
-service "mysqld" do
+service "mariadb" do
   supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
 end

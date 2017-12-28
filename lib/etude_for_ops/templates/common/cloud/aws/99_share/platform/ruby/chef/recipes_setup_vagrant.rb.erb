@@ -1,10 +1,4 @@
-if node['etc']['passwd']['vagrant']
-  user = node['ruby-env']['user']
-  group = node['ruby-env']['group']
-else
-  user = 'kitchen'
-  group = 'kitchen'
-end
+user = node['user']
 
 include_recipe 'vagrant'
 
