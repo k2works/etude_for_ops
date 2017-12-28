@@ -31,7 +31,7 @@ if node['etc']['passwd']['ec2-user']
   end
 end
 
-template '/etc/default/jenkins' do
+template '/etc/sysconfig/jenkins' do
   source 'jenkins.erb'
   user user
   group group

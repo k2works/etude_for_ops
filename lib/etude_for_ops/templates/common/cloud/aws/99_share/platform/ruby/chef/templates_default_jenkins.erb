@@ -3,65 +3,136 @@
 # Do NOT modify this file by hand.
 #
 
+## Path:        Development/Jenkins
+## Description: Configuration for the Jenkins continuous build server
+## Type:        string
+## Default:     "@@HOME@@"
+## ServiceRestart: jenkins
 #
-# defaults for jenkins continuous integration server
+# Directory where Jenkins store its configuration and working
+# files (checkouts, build reports, artifacts, ...).
+#
+JENKINS_HOME="/var/lib/jenkins"
 
-# pulled in from the init script; makes things easier.
-NAME=jenkins
+## Type:        string
+## Default:     ""
+## ServiceRestart: jenkins
+#
+# Java executable to run Jenkins
+# When left empty, we'll try to find the suitable Java.
+#
+JENKINS_JAVA_CMD="java"
 
-# location of java
-JAVA=java
+## Type:        string
+## Default:     "jenkins"
+## ServiceRestart: jenkins
+#
+# Unix user account that runs the Jenkins daemon
+# Be careful when you change this, as you need to update
+# permissions of $JENKINS_HOME and /var/log/jenkins.
+#
+JENKINS_USER="jenkins"
 
-# arguments to pass to java
-JAVA_ARGS=""
+## Type:        string
+## Default:     "-Djava.awt.headless=true"
+## ServiceRestart: jenkins
+#
+# Options to pass to java when running Jenkins.
+#
+JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true"
 
-PIDFILE=/var/run/jenkins/jenkins.pid
+## Type:        integer(0:65535)
+## Default:     8080
+## ServiceRestart: jenkins
+#
+# Port Jenkins is listening on.
+# Set to -1 to disable
+#
+JENKINS_PORT="8080"
 
-# user and group to be invoked as (default to jenkins)
-JENKINS_USER=jenkins
-JENKINS_GROUP=jenkins
+## Type:        string
+## Default:     "0.0.0.0"
+## ServiceRestart: jenkins
+#
+# IP address Jenkins listens on for HTTP requests.
+# Default is all interfaces (0.0.0.0).
+#
+JENKINS_LISTEN_ADDRESS="0.0.0.0"
 
-# location of the jenkins war file
-JENKINS_WAR=/usr/share/jenkins/jenkins.war
+## Type:        integer(0:65535)
+## Default:     ""
+## ServiceRestart: jenkins
+#
+# HTTPS port Jenkins is listening on.
+# Default is disabled.
+#
+JENKINS_HTTPS_PORT=""
 
-# jenkins home location
-JENKINS_HOME=/var/lib/jenkins
+## Type:        string
+## Default:     ""
+## ServiceRestart: jenkins
+#
+# IP address Jenkins listens on for HTTPS requests.
+# Default is disabled.
+#
+JENKINS_HTTPS_LISTEN_ADDRESS=""
 
-# set this to false if you don't want Hudson to run by itself
-# in this set up, you are expected to provide a servlet container
-# to host jenkins.
-RUN_STANDALONE=true
+## Type:        integer(0:65535)
+## Default:     8009
+## ServiceRestart: jenkins
+#
+# Ajp13 Port Jenkins is listening on.
+# Set to -1 to disable
+#
+JENKINS_AJP_PORT="8009"
 
-# log location.  this may be a syslog facility.priority
-JENKINS_LOG=/var/log/jenkins/$NAME.log
+## Type:        string
+## Default:     ""
+## ServiceRestart: jenkins
+#
+# IP address Jenkins listens on for Ajp13 requests.
+# Default is all interfaces (0.0.0.0).
+#
+JENKINS_AJP_LISTEN_ADDRESS=""
 
-# OS LIMITS SETUP
-#   comment this out to observe /etc/security/limits.conf
-#   this is on by default because http://github.com/jenkinsci/jenkins/commit/2fb288474e980d0e7ff9c4a3b768874835a3e92e
-#   reported that Ubuntu's PAM configuration doesn't include pam_limits.so, and as a result the # of file
-#   descriptors are forced to 1024 regardless of /etc/security/limits.conf
-MAXOPENFILES=8192
+## Type:        integer(1:9)
+## Default:     5
+## ServiceRestart: jenkins
+#
+# Debug level for logs -- the higher the value, the more verbose.
+# 5 is INFO.
+#
+JENKINS_DEBUG_LEVEL="5"
 
-# address bound to HTTP connector (default 0.0.0.0)
-HTTP_LISTEN_ADDRESS="0.0.0.0"
+## Type:        yesno
+## Default:     no
+## ServiceRestart: jenkins
+#
+# Whether to enable access logging or not.
+#
+JENKINS_ENABLE_ACCESS_LOG="no"
 
-# port for HTTP connector (default 8080; disable with -1)
-HTTP_PORT=8080
+## Type:        integer
+## Default:     100
+## ServiceRestart: jenkins
+#
+# Maximum number of HTTP worker threads.
+#
+JENKINS_HANDLER_MAX="100"
 
-# port for AJP connector (disabled by default)
-AJP_PORT=-1
+## Type:        integer
+## Default:     20
+## ServiceRestart: jenkins
+#
+# Maximum number of idle HTTP worker threads.
+#
+JENKINS_HANDLER_IDLE="20"
 
-# servlet context, important if you want to use apache proxying
-PREFIX=/jenkins
-
-# arguments to pass to jenkins.
-# --javahome=$JAVA_HOME
-# --httpPort=$HTTP_PORT (default 8080; disable with -1)
-# --httpsPort=$HTTP_PORT
-# --ajp13Port=$AJP_PORT
-# --argumentsRealm.passwd.$ADMIN_USER=[password]
-# --argumentsRealm.roles.$ADMIN_USER=admin
-# --webroot=~/.jenkins/war
-# --prefix=$PREFIX
-
-JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpListenAddress=$HTTP_LISTEN_ADDRESS --httpPort=$HTTP_PORT --ajp13Port=$AJP_PORT --prefix=/jenkins"
+## Type:        string
+## Default:     ""
+## ServiceRestart: jenkins
+#
+# Pass arbitrary arguments to Jenkins.
+# Full option list: java -jar jenkins.war --help
+#
+JENKINS_ARGS="--prefix=/jenkins"

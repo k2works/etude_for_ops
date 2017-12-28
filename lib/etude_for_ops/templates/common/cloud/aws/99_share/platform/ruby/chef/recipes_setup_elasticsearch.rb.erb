@@ -6,3 +6,13 @@ template '/opt/kibana/5.5.2/current/config/kibana.yml' do
   source 'kibana.yml.erb'
   mode '0644'
 end
+
+service "elasticsearch" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+service "kibana" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
