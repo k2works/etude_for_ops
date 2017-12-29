@@ -14,3 +14,12 @@ packages.each do |pkg|
   end
 end
 
+service "mongod" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+template "/etc/mongod.conf" do
+  mode 0644
+  notifies :restart, "service[mongod]"
+end

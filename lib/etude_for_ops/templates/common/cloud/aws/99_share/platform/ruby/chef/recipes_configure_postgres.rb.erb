@@ -1,0 +1,38 @@
+dbname = node['postgres']['db_name']
+dbuser = node['postgres']['user']['name']
+dbuser_password = node['postgres']['user']['password']
+
+execute "create-root-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='root'" | grep -c root
+  EOH
+  command "createuser -U postgres -s root"
+  not_if code
+end
+
+execute "create-database-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  command "createuser -U postgres -sw #{dbuser}"
+  not_if code
+end
+
+execute "update-database-user-password" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  alter_user = <<-EOH
+    psql -U postgres -c "alter role #{dbuser} with password '#{dbuser_password}'"
+  EOH
+  command alter_user
+  only_if code
+end
+
+execute "create-database" do
+  exists = <<-EOH
+    psql -U postgres -c "select * from pg_database WHERE datname='#{dbname}'" | grep -c #{dbname}
+  EOH
+  command "createdb -U postgres -O #{dbuser} -E utf8 -T template0 #{dbname}"
+  not_if exists
+end

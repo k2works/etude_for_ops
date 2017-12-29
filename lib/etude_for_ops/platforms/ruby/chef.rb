@@ -48,6 +48,7 @@ module EtudeForOps
         recipes_eb.rb
         recipes_setup.rb
         recipes_configure.rb
+        recipes_configure_postgres.rb
         recipes_configure_service.rb
         recipes_setup_ruby.rb
         recipes_setup_mysql.rb
@@ -126,6 +127,10 @@ module EtudeForOps
         templates_default_create_db.sql
         templates_default_create_user.sql
         templates_default_ssh_config
+        templates_default_postgresql.conf
+        templates_default_pg_hba.conf
+        templates_default_mongod.conf
+        templates_default_redis.conf
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)

@@ -32,6 +32,7 @@ cp ../src/build/chef/recipes_setup_jenkins.rb recipes/setup_jenkins.rb
 cp ../src/build/chef/recipes_setup_vagrant.rb recipes/setup_vagrant.rb
 cp ../src/build/chef/recipes_setup_aws.rb recipes/setup_aws.rb
 cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
+cp ../src/build/chef/recipes_configure_postgres.rb recipes/configure_postgres.rb
 cp ../src/build/chef/recipes_configure_service.rb recipes/configure_service.rb
 cp ../src/build/chef/Gemfile .
 cp ../src/build/chef/reprovision.sh .
@@ -62,6 +63,10 @@ cp ../src/build/chef/templates_default_secure_install.sql.erb templates/default/
 cp ../src/build/chef/templates_default_create_db.sql.erb templates/default/create_db.sql.erb
 cp ../src/build/chef/templates_default_create_user.sql.erb templates/default/create_user.sql.erb
 cp ../src/build/chef/templates_default_ssh_config.erb templates/default/ssh_config.erb
+cp ../src/build/chef/templates_default_postgresql.conf.erb templates/default/postgresql.conf.erb
+cp ../src/build/chef/templates_default_pg_hba.conf.erb templates/default/pg_hba.conf.erb
+cp ../src/build/chef/templates_default_mongod.conf.erb templates/default/mongod.conf.erb
+cp ../src/build/chef/templates_default_redis.conf.erb templates/default/redis.conf.erb
 
 rm -rf cookbooks
 berks vendor cookbooks
