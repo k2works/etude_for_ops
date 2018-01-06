@@ -1,0 +1,13 @@
+user = node['user']
+
+user user do
+  password "$1$9UsnR95k$SIUMtvADFQbU/PV6nLtZl1"
+  supports :manage_home => true
+  action :create
+end
+
+group user do
+  action [:modify]
+  members [user]
+  append true
+end

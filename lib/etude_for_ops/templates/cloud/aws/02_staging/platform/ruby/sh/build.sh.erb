@@ -4,6 +4,7 @@ sudo yum update -y
 wget https://packages.chef.io/files/stable/chefdk/1.6.11/el/7/chefdk-1.6.11-1.el7.x86_64.rpm
 sudo rpm --test -Uvh chefdk-1.6.11-1.el7.x86_64.rpm
 sudo rpm -Uvh chefdk-1.6.11-1.el7.x86_64.rpm
+rm chefdk-1.6.11-1.el7.x86_64.rpm
 cd /vagrant
 sudo chef generate cookbook build
 cd build
@@ -15,10 +16,16 @@ cp ../src/build/chef/Vagrantfile .
 cp ../src/build/chef/.kitchen.yml .
 cp ../src/build/chef/recipes_default.rb recipes/default.rb
 cp ../src/build/chef/recipes_ec2.rb recipes/ec2.rb
+cp ../src/build/chef/recipes_ec2_user.rb recipes/ec2_user.rb
+cp ../src/build/chef/recipes_ec2_app.rb recipes/ec2_app.rb
+cp ../src/build/chef/recipes_ec2_web.rb recipes/ec2_web.rb
+cp ../src/build/chef/recipes_ec2_db.rb recipes/ec2_db.rb
+cp ../src/build/chef/recipes_ec2_configure.rb recipes/ec2_configure.rb
 cp ../src/build/chef/recipes_eb.rb recipes/eb.rb
 cp ../src/build/chef/recipes_setup.rb recipes/setup.rb
 cp ../src/build/chef/recipes_setup_ruby.rb recipes/setup_ruby.rb
 cp ../src/build/chef/recipes_setup_mysql.rb recipes/setup_mysql.rb
+cp ../src/build/chef/recipes_setup_mariadb.rb recipes/setup_mariadb.rb
 cp ../src/build/chef/recipes_setup_postgres.rb recipes/setup_postgres.rb
 cp ../src/build/chef/recipes_setup_redis.rb recipes/setup_redis.rb
 cp ../src/build/chef/recipes_setup_mongodb.rb recipes/setup_mongodb.rb
@@ -32,6 +39,7 @@ cp ../src/build/chef/recipes_setup_jenkins.rb recipes/setup_jenkins.rb
 cp ../src/build/chef/recipes_setup_vagrant.rb recipes/setup_vagrant.rb
 cp ../src/build/chef/recipes_setup_aws.rb recipes/setup_aws.rb
 cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
+cp ../src/build/chef/recipes_configure_postgres.rb recipes/configure_postgres.rb
 cp ../src/build/chef/recipes_configure_service.rb recipes/configure_service.rb
 cp ../src/build/chef/recipes_opsw_deploy.rb recipes/opsw_deploy.rb
 cp ../src/build/chef/recipes_opsw_shutdown.rb recipes/opsw_shutdown.rb
@@ -62,11 +70,16 @@ cp ../src/build/chef/templates_default_td-agent-ui.erb templates/default/td-agen
 cp ../src/build/chef/templates_default_td-agent-ui.service.erb templates/default/td-agent-ui.service.erb
 cp ../src/build/chef/templates_default_kibana.yml.erb templates/default/kibana.yml.erb
 cp ../src/build/chef/templates_default_jenkins.erb templates/default/jenkins.erb
+cp ../src/build/chef/templates_default_secure_install.sql.erb templates/default/secure_install.sql.erb
+cp ../src/build/chef/templates_default_create_db.sql.erb templates/default/create_db.sql.erb
+cp ../src/build/chef/templates_default_create_user.sql.erb templates/default/create_user.sql.erb
 cp ../src/build/chef/templates_default_ssh_config.erb templates/default/ssh_config.erb
-mkdir -p test/integration/data_bags/aws_opsworks_app
-mkdir -p test/integration/data_bags/aws_opsworks_rds_db_instance
-cp ../src/build/chef/databag_opsw_app.json test/integration/data_bags/aws_opsworks_app/app.json
-cp ../src/build/chef/databag_opsw_db.json test/integration/data_bags/aws_opsworks_rds_db_instance/db.json
+cp ../src/build/chef/templates_default_postgresql.conf.erb templates/default/postgresql.conf.erb
+cp ../src/build/chef/templates_default_pg_hba.conf.erb templates/default/pg_hba.conf.erb
+cp ../src/build/chef/templates_default_mongod.conf.erb templates/default/mongod.conf.erb
+cp ../src/build/chef/templates_default_redis.conf.erb templates/default/redis.conf.erb
+cp ../src/build/chef/templates_ec2_nginx.default.conf.erb templates/default/nginx.ec2.conf.erb
+
 rm -rf cookbooks
 berks vendor cookbooks
 sudo chef-client -z -j provision.json

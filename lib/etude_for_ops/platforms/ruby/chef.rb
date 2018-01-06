@@ -75,6 +75,11 @@ module EtudeForOps
         recipes_opsw_deploy_rails.rb
         databag_opsw_app.json
         databag_opsw_db.json
+　　　　 recipes_ec2_user.rb
+        recipes_ec2_app.rb
+        recipes_ec2_web.rb
+        recipes_ec2_db.rb
+        recipes_ec2_configure.rb
       ]
 
       params = {}
@@ -131,6 +136,7 @@ module EtudeForOps
         templates_default_pg_hba.conf
         templates_default_mongod.conf
         templates_default_redis.conf
+        templates_ec2_nginx.default.conf
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)
