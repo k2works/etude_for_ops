@@ -1,5 +1,5 @@
 upstream app {
-    server unix:/var/app/shared/tmp/sockets/puma.sock fail_timeout=0;
+    server <%= @server %> fail_timeout=0;
 }
 
 server {

@@ -79,6 +79,14 @@ cp ../src/build/chef/templates_default_pg_hba.conf.erb templates/default/pg_hba.
 cp ../src/build/chef/templates_default_mongod.conf.erb templates/default/mongod.conf.erb
 cp ../src/build/chef/templates_default_redis.conf.erb templates/default/redis.conf.erb
 cp ../src/build/chef/templates_ec2_nginx.default.conf.erb templates/default/nginx.ec2.conf.erb
+cp ../src/build/chef/templates_default_database.yml.erb templates/default/database.yml.erb
+cp ../src/build/chef/templates_default_puma.rb.erb templates/default/puma.rb.erb
+cp ../src/build/chef/templates_default_sidekiq.yml.erb templates/default/sidekiq.yml.erb
+mkdir -p test/integration/data_bags
+mkdir test/integration/data_bags/aws_opsworks_app
+cp ../src/build/chef/databag_opsw_app.json test/integration/data_bags/aws_opsworks_app/app.json
+mkdir test/integration/data_bags/aws_opsworks_rds_db_instance
+cp ../src/build/chef/databag_opsw_db.json test/integration/data_bags/aws_opsworks_rds_db_instance/db.json
 
 rm -rf cookbooks
 berks vendor cookbooks

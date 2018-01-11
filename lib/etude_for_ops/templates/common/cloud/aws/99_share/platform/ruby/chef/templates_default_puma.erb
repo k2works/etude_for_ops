@@ -3,28 +3,43 @@
 # description: Application server
 # processname: puma
 
+# Include RedHat function library
+. /etc/rc.d/init.d/functions
+
 NAME=puma
 USER=<%= @user %>
-APP_NAME=app
-APP_DIR=/var/app/current
-TMP_DIR=/var/app/shared/tmp
-PID_DIR=/var/app/shared/tmp/pids
-SOCKET_DIR=$TMP_DIR/sockets
-LOG_DIR=$TMP_DIR
-PUMA_BIN=/home/$USER/.rbenv/shims/bundle exec puma
-
-RAILS_ENV=development
+APP_NAME=<%= @app %>
+APP_DIR=<%= @app_path %>/current
+SHARE_DIR=<%= @app_path %>/shared
+PID_DIR=<%= @app_path %>/shared/pids
+SOCKET_DIR=<%= @app_path %>/shared/system/sockets
+LOG_DIR=<%= @app_path %>/shared/log
+BUNDLE=/home/$USER/.rbenv/shims/bundle
+RAILS_ENV=<%= @rails_env %>
+S3_ACCESS_KEY=<%= @s3_access_key %>
+S3_SECRET_KEY=<%= @s3_secret_key %>
+SECRET_KEY_BASE=<%= @secret_key_base %>
 
 sudo -u $USER -H sh -c "mkdir -p $PID_DIR"
 sudo -u $USER -H sh -c "mkdir -p $SOCKET_DIR"
 sudo -u $USER -H sh -c "mkdir -p $LOG_DIR"
 
 PIDFILE=$PID_DIR/puma.pid
-
+ULOCK=/var/lock/subsys/$NAME
 
 start() {
-cd $APP_DIR;
-sudo -u $USER -H sh -c "echo \$\$ > $PIDFILE; RAILS_ENV=$RAILS_ENV $PUMA_BIN -C $APP_DIR/config/puma.rb -d"
+cd $APP_DIR
+# Start puma
+echo -n $"Starting $NAME: "
+export S3_ACCESS_KEY=$S3_ACCESS_KEY
+export S3_SECRET_KEY=$S3_SECRET_KEY
+export SECRET_KEY_BASE=$SECRET_KEY_BASE
+daemon --pidfile=$PIDFILE --user=$USER $BUNDLE exec puma -C $SHARE_DIR/config/puma.rb -d
+puma=$?
+[ $puma -eq 0 ] && touch $ULOCK
+echo
+
+return $puma
 }
 
 stop() {

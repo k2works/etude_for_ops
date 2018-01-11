@@ -137,6 +137,9 @@ module EtudeForOps
         templates_default_mongod.conf
         templates_default_redis.conf
         templates_ec2_nginx.default.conf
+        templates_default_database.yml
+        templates_default_puma.rb
+        templates_default_sidekiq.yml
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)

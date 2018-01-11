@@ -3,16 +3,18 @@
 # description: Rails application job
 # processname: activejob
 
+# Include RedHat function library
+. /etc/rc.d/init.d/functions
+
 NAME=active_job
 USER=<%= @user %>
-APP_NAME=app
-APP_DIR=/var/app/current
-TMP_DIR=/var/app/shared/tmp
-PID_DIR=/var/app/shared/tmp/pids
-LOG_DIR=/var/app/shared/log
-PUMA_BIN=/home/vagrant/.rbenv/shims/bundle exec sidekiq
-
-RAILS_ENV=development
+APP_NAME=<%= @app %>
+APP_DIR=<%= @app_path %>/current
+SHARE_DIR=<%= @app_path %>/shared
+PID_DIR=<%= @app_path %>/shared/pids
+LOG_DIR=<%= @app_path %>/shared/log
+BUNDLE=/home/$USER/.rbenv/shims/bundle
+RAILS_ENV=<%= @rails_env %>
 
 sudo -u $USER -H sh -c "mkdir -p $PID_DIR"
 sudo -u $USER -H sh -c "mkdir -p $LOG_DIR"
@@ -21,8 +23,8 @@ PIDFILE=$PID_DIR/sidekiq.pid
 
 
 start() {
-cd $APP_DIR;
-sudo -u $USER -H sh -c "echo \$\$ > $PIDFILE; RAILS_ENV=$RAILS_ENV $PUMA_BIN -C $APP_DIR/config/sidekiq.yml -d"
+cd $APP_DIR
+daemon --pidfile=$PIDFILE --user=$USER $BUNDLE exec sidekiq -C $SHARE_DIR/config/sidekiq.yml -d
 }
 
 stop() {

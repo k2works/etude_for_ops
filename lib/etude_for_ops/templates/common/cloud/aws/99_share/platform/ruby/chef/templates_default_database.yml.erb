@@ -1,0 +1,67 @@
+<% case @adapter
+   when 'sqlite3' %>
+default: &default
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+test:
+  <<: *default
+  database: db/test.<%= @database %>
+development:
+  <<: *default
+  database: db/dev.<%= @database %>
+staging:
+  <<: *default
+  database: db/stg.<%= @database %>
+production:
+  <<: *default
+  database: db/<%= @database %>
+
+<% when 'mysql2' %>
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  collation: utf8_general_ci
+  pool: 5
+  username: <%= @username %>
+  password: <%= @password %>
+  host: <%= @host %>
+  port: <%= @port %>
+
+test:
+  <<: *default
+  database: test_<%= @database %>
+development:
+  <<: *default
+  database: dev_<%= @database %>
+staging:
+  <<: *default
+  database: stg_<%= @database %>
+production:
+  <<: *default
+  database: <%= @database %>
+
+<% when 'postgresql' %>
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= @username %>
+  password: <%= @password %>
+  host: <%= @host %>
+  port: <%= @port %>
+
+test:
+  <<: *default
+  database: test_<%= @database %>
+development:
+  <<: *default
+  database: dev_<%= @database %>
+staging:
+  <<: *default
+  database: stg_<%= @database %>
+production:
+  <<: *default
+  database: <%= @database %>
+<% end %>

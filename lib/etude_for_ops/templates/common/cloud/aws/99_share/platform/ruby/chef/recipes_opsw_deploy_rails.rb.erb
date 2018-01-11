@@ -1,52 +1,170 @@
+# frozen_string_literal: true
+
+user = node['ec2_user']
+group = node['ec2_group']
 app = search(:aws_opsworks_app).first
 db = search(:aws_opsworks_rds_db_instance).first
 app_path = "/srv/#{app['shortname']}"
-ruby_version = node['ruby']['version']
+server = node['nginx_app_server']
+packages = %w[sqlite-devel postgresql-devel mysql-devel]
 
-case db['engine']
-  when 'mysql'
-    db_adapter = 'mysql2'
-  when 'postgres'
-    db_adapter = 'postgresql'
-  else
-    db_adapter = 'sqlite3'
+packages.each do |package_name|
+  package package_name do
+    action :install
+  end
 end
 
-application app_path do
-  ruby ruby_version
 
-  ENV['S3_ACCESS_KEY'] = app['environment']['S3_ACCESS_KEY']
-  ENV['S3_SECRET_KEY'] = app['environment']['S3_SECRET_KEY']
+directory app_path do
+  owner user
+  group group
+  action :create
+end
 
-  git app_path do
-    repository app['app_source']['url']
-    revision app['app_source']['revision']
-    ssh_wrapper '/root/.ssh/git_wrapper.sh'
+deploy_branch app_path do
+  user user
+  group group
+
+  repo app['app_source']['url']
+  branch app['app_source']['revision']
+  action :deploy
+  migrate true
+
+  environment app['environment']['RAILS_ENV']
+
+  migration_command "/home/#{user}/.rbenv/shims/bundle exec rake db:migrate"
+
+  create_dirs_before_symlink %w[tmp]
+
+  symlinks 'system' => 'public/system',
+           'assets' => 'public/assets',
+           'pids' => 'tmp/pids',
+           'log' => 'log',
+           'node_modules' => 'node_modules'
+
+  symlink_before_migrate 'config/database.yml' => 'config/database.yml'
+
+  before_migrate do
+    ENV['S3_ACCESS_KEY'] = app['environment']['S3_ACCESS_KEY']
+    ENV['S3_SECRET_KEY'] = app['environment']['S3_SECRET_KEY']
+    ENV['SECRET_KEY_BASE'] = app['environment']['SECRET_KEY_BASE']
+
+    %w[config pids log assets system localsystem node_modules].each do |dir|
+      directory ::File.join(release_path, '../../shared', dir) do
+        action :create
+      end
+    end
+
+    template ::File.expand_path(::File.join(release_path, '../../shared/config/database.yml')) do
+      cookbook 'ruby_platform'
+      source 'database.yml.erb'
+
+      if db.nil?
+        variables(
+            adapter: 'sqlite3',
+            database: 'DUMMY'
+        )
+      else
+        db_adapter = case db['engine']
+                       when 'mysql'
+                         'mysql2'
+                       when 'postgres'
+                         'postgresql'
+                       else
+                         'sqlite3'
+                     end
+
+        variables(
+            adapter: db_adapter,
+            username: db['db_user'],
+            host: db['address'],
+            database: app['data_sources'][0]['database_name'],
+            password: db['db_password'],
+            port: db['port']
+        )
+      end
+
+      template ::File.expand_path(::File.join(release_path, '../../shared/config/puma.rb')) do
+        cookbook 'ruby_platform'
+        source 'puma.rb.erb'
+        variables(
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV'],
+            server: server
+        )
+      end
+
+      template ::File.expand_path(::File.join(release_path, '../../shared/config/sidekiq.yml')) do
+        cookbook 'ruby_platform'
+        source 'sidekiq.yml.erb'
+        variables(
+            app_path: app_path
+        )
+      end
+    end
+
+    execute 'db-migrate' do
+      user user
+      group group
+      cwd release_path
+      command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/vendor/bundle', release_path)}"
+      action :run
+    end
   end
 
-  bundle_install do
-    deployment true
-    #without %w{development test}
-  end
+  before_restart do
+    execute 'assets-precompile' do
+      user user
+      group group
+      environment 'RAILS_ENV' => app['environment']['RAILS_ENV'],
+                  'RAILS_GROUPS' => 'assets'
+      cwd release_path
+      command <<-EOC
+           export PATH="/home/#{user}/.rbenv/shims/:$PATH"
+           ./bin/yarn
+           ./bin/rake assets:precompile
+      EOC
+    end
 
-  rails do
-    database({
-      adapter: db_adapter,
-      username: db['db_user'],
-      host: db['address'],
-      database: app['data_sources'][0]['database_name'],
-      password: db['db_password'],
-    })
-    rails_env app['environment']['RAILS_ENV']
-    secret_token app['environment']['SECRET_KEY_BASE']
-    migrate true
-    precompile_assets false
-  end
+    template 'puma' do
+      path '/etc/init.d/puma'
+      source 'puma.erb'
+      owner user
+      group group
+      mode 0o755
 
-  execute 'assets_precompile' do
-    command <<-EOC
-        export PATH="/opt/ruby_build/builds/app/bin/:$PATH"
-        cd #{app_path} && ./bin/rake assets:precompile
-    EOC
+      variables(
+          user: user,
+          app: app['shortname'],
+          app_path: app_path,
+          rails_env: app['environment']['RAILS_ENV'],
+          s3_access_key: app['environment']['S3_ACCESS_KEY'],
+          s3_secret_key: app['environment']['S3_SECRET_KEY'],
+          secret_key_base: app['environment']['SECRET_KEY_BASE']
+      )
+    end
+
+    service 'puma' do
+      action :start
+    end
+
+    template 'active_job' do
+      path '/etc/init.d/active_job'
+      source 'active_job.erb'
+      owner user
+      group group
+      mode 0o755
+
+      variables(
+          user: user,
+          app: app['shortname'],
+          app_path: app_path,
+          rails_env: app['environment']['RAILS_ENV']
+      )
+    end
+
+    service 'active_job' do
+      action :start
+    end
   end
 end
