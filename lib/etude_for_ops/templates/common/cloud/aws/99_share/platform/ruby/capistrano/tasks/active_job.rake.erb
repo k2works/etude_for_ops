@@ -2,8 +2,18 @@ namespace :active_job do
   desc 'Create Directories for Pids'
   task :make_dirs do
     on roles(:app) do
-      execute "mkdir #{shared_path}/tmp/pids -p"
+      execute "mkdir #{shared_path}/pids -p"
       execute "mkdir #{shared_path}/log -p"
+    end
+  end
+
+  desc 'Upload config'
+  task :config_upload do
+    on roles(:app) do |host|
+      if test "[ ! -d #{shared_path}/config ]"
+        execute "mkdir -p #{shared_path}/config"
+      end
+      upload!('config/sidekiq.yml', "#{shared_path}/config/sidekiq.yml")
     end
   end
 
@@ -29,4 +39,5 @@ namespace :active_job do
   end
 
   before :start, :make_dirs
+  after  :make_dirs, :config_upload
 end
