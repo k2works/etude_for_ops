@@ -12,14 +12,14 @@ namespace :puma do
   task :start_service do
     on roles(:app) do
       unless test "[ -f #{shared_path.join('tmp', 'pids', 'puma.pid')} ]"
-        execute :sudo, :systemctl, :start, :puma
+        execute :sudo, :service, :puma, :start
       end
     end
   end
 
   task :stop_service do
     on roles(:app) do
-      execute :sudo, :systemctl, :stop, :puma
+      execute :sudo, :service, :puma, :stop
     end
   end
 

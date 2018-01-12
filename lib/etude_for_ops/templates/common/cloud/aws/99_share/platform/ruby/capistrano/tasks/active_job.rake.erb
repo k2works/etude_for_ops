@@ -20,21 +20,21 @@ namespace :active_job do
   desc 'Start ActiveJob Service'
   task :start do
     on roles(:app) do
-      execute :sudo, :systemctl, :start, :active_job
+      execute :sudo, :service, :active_job, :start
     end
   end
 
   desc 'Stop ActiveJob Service'
   task :stop do
     on roles(:app) do
-      execute :sudo, :systemctl, :stop, :active_job
+      execute :sudo, :service, :active_job, :stop
     end
   end
 
   desc 'Restart ActiveJob Service'
   task :restart do
     on roles(:app) do
-      execute :sudo, :systemctl, :restart, :active_job
+      execute :sudo, :service, :active_job, :restart
     end
   end
 
