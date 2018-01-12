@@ -12,7 +12,7 @@ namespace :db do
   task :pg_db_create do
     on roles(:db) do |host|
       with rails_env: fetch(:rails_env) do
-        execute "PGPASSWORD=#{fetch(:db_root_pass)} psql -h #{fetch(:db_host_ip)} -U postgres -c 'CREATE DATABASE #{fetch(:db_name)};'"
+        execute "PGPASSWORD=#{fetch(:db_root_pass)} psql -h #{fetch(:db_host_ip)} -U app postgres -c 'CREATE DATABASE #{fetch(:db_name)};'"
       end
     end
   end
