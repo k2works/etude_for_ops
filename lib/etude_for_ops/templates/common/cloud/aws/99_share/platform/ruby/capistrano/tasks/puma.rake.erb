@@ -2,8 +2,9 @@ namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
     on roles(:app) do
-      execute "mkdir #{shared_path}/tmp/sockets -p"
-      execute "mkdir #{shared_path}/tmp/pids -p"
+      execute "mkdir #{shared_path}/config -p"
+      execute "mkdir #{shared_path}/sockets -p"
+      execute "mkdir #{shared_path}/pids -p"
       execute "mkdir #{shared_path}/log -p"
     end
   end
@@ -22,6 +23,7 @@ namespace :puma do
     end
   end
 
+  before :check, :make_dirs
   before :start_service, :make_dirs
   before :start, :make_dirs
   before :start, :stop_service

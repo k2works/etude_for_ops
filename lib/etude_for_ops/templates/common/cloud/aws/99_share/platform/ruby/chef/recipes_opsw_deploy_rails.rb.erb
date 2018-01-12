@@ -36,8 +36,8 @@ deploy_branch app_path do
 
   create_dirs_before_symlink %w[tmp]
 
-  symlinks 'system' => 'public/system',
-           'assets' => 'public/assets',
+  symlinks 'public/system' => 'public/system',
+           'public/assets' => 'public/assets',
            'pids' => 'tmp/pids',
            'log' => 'log',
            'node_modules' => 'node_modules'
@@ -49,8 +49,13 @@ deploy_branch app_path do
     ENV['S3_SECRET_KEY'] = app['environment']['S3_SECRET_KEY']
     ENV['SECRET_KEY_BASE'] = app['environment']['SECRET_KEY_BASE']
 
-    %w[config pids log assets system localsystem node_modules].each do |dir|
+    %w[config pids sockets log public localsystem node_modules].each do |dir|
       directory ::File.join(release_path, '../../shared', dir) do
+        action :create
+      end
+    end
+    %w[assets system].each do |dir|
+      directory ::File.join(release_path, '../../shared/public', dir) do
         action :create
       end
     end
@@ -107,7 +112,7 @@ deploy_branch app_path do
       user user
       group group
       cwd release_path
-      command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/vendor/bundle', release_path)}"
+      command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)}"
       action :run
     end
   end

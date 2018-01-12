@@ -6,7 +6,7 @@ set(
     :ssh_options,
     port: 2222,
     auth_methods: %w(publickey),
-    keys: [File.expand_path("../../../ops/02_staging/.vagrant/machines/default/virtualbox/private_key", __FILE__)],
+    keys: [File.expand_path("~/.vagrant.d/insecure_private_key", __FILE__)],
     user: "vagrant"
 )
 set :rails_env, :staging
@@ -16,6 +16,7 @@ set :bundle_without, []
 set :scm, :copy
 set :include_dir, ["*", '.ruby-version', '.postcssrc.yml', '.env.development']
 set :exclude_dir, ['vendor/bundle', 'log\/*', 'tmp\/*', 'mydb\/*', 'public\/*', 'node_modules\/*', 'ops\/*']
+set :linked_dirs, %w(node_modules public/packs)
 set :db_name, 'staging'
 
 #Whenever
