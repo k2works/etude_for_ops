@@ -90,6 +90,9 @@ module EtudeForOps
         params[:aws_group] = 'ec2-user'
 
         params[:ssh_key] = 'DEV_SSH_KEY'
+
+        params[:application_name] = @platform.params[:application_name]
+        params[:application_name_short] = @platform.params[:application_name_short]
       end
 
       if @platform.params[:env] == 'Staging'
@@ -99,6 +102,9 @@ module EtudeForOps
         params[:aws_group] = 'ec2-user'
 
         params[:ssh_key] = 'STG_SSH_KEY'
+
+        params[:application_name] = @platform.params[:application_name]
+        params[:application_name_short] = @platform.params[:application_name_short]
       end
 
       create_put_bind_template_files(src_build_dir,platform_ruby_chef_files, params)

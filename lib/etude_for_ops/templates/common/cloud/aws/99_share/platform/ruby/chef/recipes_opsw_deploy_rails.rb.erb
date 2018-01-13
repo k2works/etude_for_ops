@@ -131,6 +131,20 @@ deploy_branch app_path do
       EOC
     end
 
+    template '/etc/nginx/conf.d/default.conf' do
+      source 'nginx.ec2.conf.erb'
+      mode '0644'
+
+      variables({
+                    :server => server,
+                    :app => app['shortname']
+                })
+    end
+
+    service "nginx" do
+      action :start
+    end
+
     template 'puma' do
       path '/etc/init.d/puma'
       source 'puma.erb'
