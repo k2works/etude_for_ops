@@ -19,7 +19,7 @@ module EtudeForOps
       params[:config_vm_networks] = []
       params[:config_private_network_ip] = config['ops']['staging']['ip_address']
       params[:config_vb_name] = "Stg#{config['ops']['share']['application']['name']}"
-      params[:application_name] = "#{config['ops']['share']['application']['name']}Staging"
+      params[:application_name] = "#{config['ops']['share']['application']['name']}"
       params[:application_name_short] = params[:application_name].downcase
       @platform.get_template_params(params,config)
       params

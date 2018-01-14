@@ -1,3 +1,7 @@
+user = node['user']
+group = node['group']
+app = node['app_name_short']
+
 template "puma" do
   path "/etc/systemd/system/puma.service"
   source "puma.service.erb"
@@ -6,8 +10,9 @@ template "puma" do
   mode 0751
 
   variables(
-      :user     => "<%= params[:user] %>",
-      :group    => "<%= params[:group] %>"
+      :user     => user,
+      :group    => group,
+      :app      => app
   )
 end
 
@@ -19,8 +24,9 @@ template "active_job" do
   mode 0751
 
   variables(
-      :user     => "<%= params[:user] %>",
-      :group    => "<%= params[:group] %>"
+      :user     => user,
+      :group    => group,
+      :app      => app
   )
 end
 

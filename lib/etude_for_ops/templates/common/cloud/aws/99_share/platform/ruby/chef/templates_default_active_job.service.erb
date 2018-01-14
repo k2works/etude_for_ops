@@ -3,9 +3,9 @@ Description=ActiveJob
 
 [Service]
 Environment=RAILS_ENV=development
-WorkingDirectory=/srv/app/current
-ExecStart=/home/vagrant/.rbenv/shims/bundle exec sidekiq -C /srv/app/shared/config/sidekiq.yml
-ExecStop=kill -s SIGTERM `cat /srv/app/shared/pids/sidekiq.pid`
+WorkingDirectory=/srv/<%= @app %>/current
+ExecStart=/home/<%= @user %>/.rbenv/shims/bundle exec sidekiq -C /srv/<%= @app %>/shared/config/sidekiq.yml
+ExecStop=kill -s SIGTERM `cat /srv/<%= @app %>/shared/pids/sidekiq.pid`
 Restart=always
 Type=simple
 User=<%= @user %>

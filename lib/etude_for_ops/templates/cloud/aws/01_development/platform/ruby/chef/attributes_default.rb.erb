@@ -1,5 +1,7 @@
-default['user'] = 'vagrant'
-default['group'] = 'vagrant'
+default['app_name'] = '<%= params[:application_name] %>'
+default['app_name_short'] = '<%= params[:application_name_short] %>'
+default['user'] = 'ec2-user'
+default['group'] = 'ec2-user'
 default['ruby_version'] = '2.4.2'
 default['rbenv_versions'] = %w[2.4.2]
 default['rbenv_url'] = 'https://github.com/sstephenson/rbenv.git'

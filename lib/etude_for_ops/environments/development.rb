@@ -19,7 +19,7 @@ module EtudeForOps
       params[:config_vm_networks] = []
       params[:config_private_network_ip] = config['ops']['development']['ip_address']
       params[:config_vb_name] = "Dev#{config['ops']['share']['application']['name']}"
-      params[:application_name] = "#{config['ops']['share']['application']['name']}Development"
+      params[:application_name] = "#{config['ops']['share']['application']['name']}"
       params[:application_name_short] = params[:application_name].downcase
       @platform.get_template_params(params,config)
       params
