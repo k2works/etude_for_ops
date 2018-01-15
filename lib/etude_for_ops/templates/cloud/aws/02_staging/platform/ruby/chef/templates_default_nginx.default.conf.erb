@@ -24,7 +24,7 @@ server {
   error_page 503 @503;
 
   # Return a 503 error if the maintenance page exists.
-  if (-f /var/<%= @app %>/shared/public/system/maintenance.html) {
+  if (-f /srv/<%= @app %>/shared/public/system/maintenance.html) {
     return 503;
   }
 
@@ -35,7 +35,7 @@ server {
     }
 
     # Set root to the shared directory.
-    root /var/<%= @app %>/shared/public;
+    root /srv/<%= @app %>/shared/public;
     rewrite ^(.*)$ /system/maintenance.html break;
   }
 

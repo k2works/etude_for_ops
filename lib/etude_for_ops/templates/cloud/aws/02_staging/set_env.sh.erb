@@ -2,6 +2,8 @@
 export STG_APPLICATION_NAME=${APPLICATION_NAME}Staging
 export STG_APP_ENV=staging
 export STG_APP_REPOSITORY=<%= config['ops']['staging']['repository'] %>
+export STG_APP_SECRET_KEY_BASE=<%= config['ops']['staging']['secret_key_base'] %>
+export SECRET_KEY_BASE=$STG_APP_SECRET_KEY_BASE
 export STG_BRANCH=staging
 export STG_DB=${APPLICATION_PREFIX}_staging
 export STG_SSH_KEY=stg-$APPLICATION_PREFIX.pem

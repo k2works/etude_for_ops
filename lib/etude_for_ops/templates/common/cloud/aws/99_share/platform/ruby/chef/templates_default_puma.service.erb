@@ -2,7 +2,11 @@
 Description=puma
 
 [Service]
-Environment=RAILS_ENV=development
+Environment=RAILS_ENV=<%= @rails_env %>
+Environment=S3_ACCESS_KEY=<%= @s3_access_key %>
+Environment=S3_SECRET_KEY=<%= @s3_secret_key %>
+Environment=SECRET_KEY_BASE=<%= @secret_key_base %>
+
 WorkingDirectory=/srv/<%= @app %>/current
 ExecStart=/home/<%= @user %>/.rbenv/shims/bundle exec puma -C /srv/<%= @app %>/shared/config/puma.rb
 ExecStop=kill -s SIGTERM `cat /srv/<%= @app %>/shared/pids/puma.pid`

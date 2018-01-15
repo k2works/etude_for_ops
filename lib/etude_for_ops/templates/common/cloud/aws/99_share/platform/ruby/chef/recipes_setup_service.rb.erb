@@ -1,6 +1,11 @@
 user = node['user']
 group = node['group']
 app = node['app_name_short']
+env = node['env']
+s3_access_key = node['s3_access_key']
+s3_secret_key = node['s3_secret_key']
+secret_key = node['secret_key']
+
 
 template "puma" do
   path "/etc/systemd/system/puma.service"
@@ -12,7 +17,11 @@ template "puma" do
   variables(
       :user     => user,
       :group    => group,
-      :app      => app
+      :app      => app,
+      :rails_env => env,
+      :s3_access_key => s3_access_key,
+      :s3_secret_key => s3_secret_key,
+      :secret_key_base => secret_key
   )
 end
 
@@ -26,7 +35,8 @@ template "active_job" do
   variables(
       :user     => user,
       :group    => group,
-      :app      => app
+      :app      => app,
+      :env      => env
   )
 end
 
