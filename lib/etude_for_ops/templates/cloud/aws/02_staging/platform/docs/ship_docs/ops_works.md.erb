@@ -16,18 +16,6 @@ $ ./opsworks_deploy_cookbook.sh
 ```
 
 ##### アプリケーションのセットアップ
-RDSをResouceに登録する
-```
-$ cd /vagrant/src/ship/aws/opsworks/
-$ chmod 0755 ./opsworks_register_rds.sh
-$ ./opsworks_register_rds.sh
-```
-登録したRDSをアプリケーションに関連付ける
-```
-$ cd /vagrant/src/ship/aws/opsworks/
-$ chmod 0755 ./opsworks_update_app.sh
-$ ./opsworks_update_app.sh
-```
 EIPをResourceに登録する
 ```
 $ cd /vagrant/src/ship/aws/opsworks/
@@ -41,13 +29,35 @@ $ chmod 0755 ./opsworks_update_layer.sh
 $ ./opsworks_update_layer.sh
 ```
 
+RDSを使わずインスタンス内のDBを使う場合
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_update_app.sh
+$ ./opsworks_update_app_without_rds.sh
+```
+
+RDSを使う場合
+
+RDSをResouceに登録する
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_register_rds.sh
+$ ./opsworks_register_rds.sh
+```
+登録したRDSをアプリケーションに関連付ける
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_update_app.sh
+$ ./opsworks_update_app.sh
+```
+
 ##### OpsWorks用ユーザー権限設定
 
 メニューのPermissionsから対象となるユーザーのSSH/RDP sudo/admin の設定を有効にする
 
 ##### インスタンスのセットアップ
 
-インスタンスを作成してEIPを割り当てる(うまく起動しないので手動でセットアップ)
+インスタンスを作成してEIPを割り当てる
 ```
 $ cd /vagrant/src/ship/aws/opsworks/
 $ chmod 0755 ./opsworks_create_instance.sh

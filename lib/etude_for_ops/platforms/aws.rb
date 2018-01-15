@@ -19,7 +19,7 @@ module EtudeForOps
       params[:strategy] = 'cloud_aws'
 
       if params[:env] == 'Development'
-        params[:application_name] = "#{config['ops']['share']['application']['name']}Development"
+        params[:application_name] = "#{config['ops']['share']['application']['name']}"
 
         params[:default_az1] = config['ops']['development']['aws_az_1']
         params[:default_az2] = config['ops']['development']['aws_az_2']
@@ -38,7 +38,7 @@ module EtudeForOps
       end
 
       if params[:env] == 'Staging'
-        params[:application_name] = "#{config['ops']['share']['application']['name']}Staging"
+        params[:application_name] = "#{config['ops']['share']['application']['name']}"
 
         params[:default_az1] = config['ops']['staging']['aws_az_1']
         params[:default_az2] = config['ops']['staging']['aws_az_2']

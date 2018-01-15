@@ -7,7 +7,7 @@ set(
     port: 2222,
     auth_methods: %w(publickey),
     keys: [File.expand_path("~/.vagrant.d/insecure_private_key", __FILE__)],
-    user: "vagrant"
+    user: "ec2-user"
 )
 set :rails_env, :staging
 set :branch, 'staging'

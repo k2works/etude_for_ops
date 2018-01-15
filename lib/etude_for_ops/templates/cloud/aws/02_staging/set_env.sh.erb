@@ -72,8 +72,8 @@ export STG_EB_DB_SUBNET_1=<%= config['ops']['staging']['eb_db_subnet_1'] %>
 export STG_EB_DB_SUBNET_2=<%= config['ops']['staging']['eb_db_subnet_2'] %>
 
 export STG_OPS_PACKAGE=$APPLICATION_PREFIX-ops.tar.gz
-export STG_CFM_OPSW_STACKNAME=$ORGANIZATION-$STG_APPLICATION_NAME-OpsWorks
-export STG_OPSW_STACKNAME=$STG_APPLICATION_NAME
+export STG_CFM_OPSW_STACKNAME=$ORGANIZATION-${STG_APPLICATION_NAME}-OpsWorks
+export STG_OPSW_STACKNAME=${STG_APPLICATION_NAME}
 export STG_OPSW_TEMPLATE=opsworks-$APPLICATION_PREFIX.template
 export STG_OPSW_VPC_ID=$STG_VPC_ID
 export STG_OPSW_SUBNET_1=<%= config['ops']['staging']['opsw_subnet_1'] %>
@@ -92,11 +92,12 @@ export STG_OPSW_EIP_ID=<%= config['ops']['staging']['opsw_eip_id'] %>
 export STG_OPSW_APP_REVISION=<%= config['ops']['staging']['opsw_app_revision'] %>
 export STG_OPSW_APP_REPO_URL=$STG_APP_REPOSITORY
 export STG_OPSW_DB_INSTANCE_ARN=$STG_RDS_ARN
-export STG_OPSW_DB_NAME=$STG_RDS_DB_NAME
-export STG_OPSW_DB_USER_NAME=$STG_RDS_DB_USER_NAME
-export STG_OPSW_DB_PASSWORD=$STG_RDS_DB_PASSWORD
-export STG_OPSW_DB_HOSTNAME=$STG_RDS_DB_ENDPOINT
-export STG_OPSW_DB_PORT=$STG_RDS_DB_PORT
+export STG_OPSW_DB_ADAPTER=<%= config['ops']['staging']['opsw_db_adapter'] %>
+export STG_OPSW_DB_NAME=<%= config['ops']['staging']['opsw_db_name'] %>
+export STG_OPSW_DB_USERNAME=<%= config['ops']['staging']['opsw_db_username'] %>
+export STG_OPSW_DB_PASSWORD=<%= config['ops']['staging']['opsw_db_password'] %>
+export STG_OPSW_DB_HOSTNAME=<%= config['ops']['staging']['opsw_db_hostname'] %>
+export STG_OPSW_DB_PORT=<%= config['ops']['staging']['opsw_db_port'] %>
 export STG_OPSW_APP_URL=<%= config['ops']['staging']['opsw_app_url'] %>
 export STG_OPSW_SETUP_RECIPE=<%= config['ops']['staging']['opsw_setup_recipe'] %>
 export STG_OPSW_CONFIGURE_RECIPE=<%= config['ops']['staging']['opsw_configure_recipe'] %>

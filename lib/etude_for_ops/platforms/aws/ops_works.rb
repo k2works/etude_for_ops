@@ -80,6 +80,7 @@ module EtudeForOps
       erb_files = %w[
         opsworks_deploy_cookbook.sh
         opsworks_update_app.sh
+        opsworks_update_app_without_rds.sh
         opsworks_create_elb.sh
         opsworks_create_instance.sh
         opsworks_deploy_app.sh
@@ -99,8 +100,9 @@ module EtudeForOps
         params[:opsw_db_name] = 'STG_DB_NAME'
         params[:opsw_app_env] = 'STG_APP_ENV'
         params[:opsw_app_secret_key_base] = 'STG_APP_SECRET_KEY_BASE'
-        params[:opsw_db_name] = 'STG_RDS_DB_NAME'
-        params[:opsw_db_username] = 'STG_OPSW_DB_USER_NAME'
+        params[:opsw_db_adapter] = 'STG_OPSW_DB_ADAPTER'
+        params[:opsw_db_name] = 'STG_OPSW_DB_NAME'
+        params[:opsw_db_username] = 'STG_OPSW_DB_USERNAME'
         params[:opsw_db_password] = 'STG_OPSW_DB_PASSWORD'
         params[:opsw_db_hostname] = 'STG_OPSW_DB_HOSTNAME'
         params[:opsw_db_port] = 'STG_OPSW_DB_PORT'
@@ -146,6 +148,9 @@ module EtudeForOps
         params[:opsw_shutdown_recipe] = 'STG_OPSW_SHUTDOWN_RECIPE'
         params[:opsw_ec2_instance_class] = 'STG_OPSW_INSTANCE_TYPE'
         params[:opsw_os] = 'STG_OPSW_OS'
+
+        params[:opsw_s3_access_key] = 'AWS_ACCESS_KEY_ID'
+        params[:opsw_s3_secret_key] = 'AWS_SECRET_ACCESS_KEY'
 
       end
 

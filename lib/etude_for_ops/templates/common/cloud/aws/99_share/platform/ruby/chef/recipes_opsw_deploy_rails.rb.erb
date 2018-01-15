@@ -7,6 +7,7 @@ db = search(:aws_opsworks_rds_db_instance).first
 app_path = "/srv/#{app['shortname']}"
 server = node['nginx_app_server']
 packages = %w[sqlite-devel postgresql-devel mysql-devel]
+local_db_adapter = app['environment']['DB_ADAPTER']
 
 packages.each do |package_name|
   package package_name do
@@ -65,10 +66,22 @@ deploy_branch app_path do
       source 'database.yml.erb'
 
       if db.nil?
-        variables(
-            adapter: 'sqlite3',
-            database: 'DUMMY'
-        )
+        if local_db_adapter.nil?
+          variables(
+              adapter: 'sqlite3',
+              database: 'DUMMY'
+          )
+        else
+          variables(
+              rails_env: app['environment']['RAILS_ENV'],
+              adapter: local_db_adapter,
+              username: app['environment']['DB_USER'],
+              host: app['environment']['DB_ADDRESS'],
+              database: app['environment']['DB_NAME'],
+              password: app['environment']['DB_PASSWORD'],
+              port: app['environment']['DB_PORT']
+          )
+        end
       else
         db_adapter = case db['engine']
                        when 'mysql'
@@ -80,6 +93,7 @@ deploy_branch app_path do
                      end
 
         variables(
+            rails_env: app['environment']['RAILS_ENV'],
             adapter: db_adapter,
             username: db['db_user'],
             host: db['address'],

@@ -1,3 +1,4 @@
+<%= Chef::Log.info("adapter:#{@adapter}") %>
 <% case @adapter
    when 'sqlite3' %>
 default: &default
@@ -6,15 +7,6 @@ default: &default
   timeout: 5000
 
 test:
-  <<: *default
-  database: db/test.<%= @database %>
-development:
-  <<: *default
-  database: db/dev.<%= @database %>
-staging:
-  <<: *default
-  database: db/stg.<%= @database %>
-production:
   <<: *default
   database: db/<%= @database %>
 
@@ -30,15 +22,11 @@ default: &default
   port: <%= @port %>
 
 test:
-  <<: *default
-  database: test_<%= @database %>
-development:
-  <<: *default
-  database: dev_<%= @database %>
-staging:
-  <<: *default
-  database: stg_<%= @database %>
-production:
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  database: db/<%= @database %>
+<%= @rails_env %>:
   <<: *default
   database: <%= @database %>
 
@@ -53,15 +41,12 @@ default: &default
   port: <%= @port %>
 
 test:
-  <<: *default
-  database: test_<%= @database %>
-development:
-  <<: *default
-  database: dev_<%= @database %>
-staging:
-  <<: *default
-  database: stg_<%= @database %>
-production:
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  database: db/<%= @database %>
+<%= @rails_env %>:
   <<: *default
   database: <%= @database %>
+
 <% end %>
