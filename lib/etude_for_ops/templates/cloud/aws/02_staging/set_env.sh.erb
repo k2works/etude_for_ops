@@ -74,8 +74,8 @@ export STG_EB_DB_SUBNET_1=<%= config['ops']['staging']['eb_db_subnet_1'] %>
 export STG_EB_DB_SUBNET_2=<%= config['ops']['staging']['eb_db_subnet_2'] %>
 
 export STG_OPS_PACKAGE=$APPLICATION_PREFIX-ops.tar.gz
-export STG_CFM_OPSW_STACKNAME=$ORGANIZATION-${STG_APPLICATION_NAME}-OpsWorks
-export STG_OPSW_STACKNAME=${STG_APPLICATION_NAME}
+export STG_CFM_OPSW_STACKNAME=$ORGANIZATION-Staging-OpsWorks
+export STG_OPSW_STACKNAME=${ORGANIZATION}Staging
 export STG_OPSW_TEMPLATE=opsworks-$APPLICATION_PREFIX.template
 export STG_OPSW_VPC_ID=$STG_VPC_ID
 export STG_OPSW_SUBNET_1=<%= config['ops']['staging']['opsw_subnet_1'] %>
