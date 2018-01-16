@@ -113,6 +113,7 @@ etude_for_ops.iml
 ops
 .env
 .env.development
+.env.staging
 .env.production
 .env.test
 dev
