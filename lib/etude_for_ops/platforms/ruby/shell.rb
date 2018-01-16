@@ -39,6 +39,9 @@ module EtudeForOps
 
       erb_sh_files = %w[
         build.sh
+        build_chef.sh
+        build_chef_file.sh
+        build_chef_cookbook.sh
       ]
 
       create_put_bind_template_files(src_build_dir,erb_sh_files)

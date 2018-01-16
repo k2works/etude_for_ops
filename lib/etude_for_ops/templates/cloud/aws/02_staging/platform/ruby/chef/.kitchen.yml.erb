@@ -46,7 +46,10 @@ suites:
       #- recipe[ruby_platform::setup_service]
       #- recipe[ruby_platform::configure]
       #- recipe[ruby_platform::configure_service]
+      #- recipe[ruby_platform::opsw_setup]
+      #- recipe[ruby_platform::opsw_configure]
       #- recipe[ruby_platform::opsw_deploy]
+      #- recipe[ruby_platform::opsw_undeploy]
     verifier:
       inspec_tests:
         - test/recipes
