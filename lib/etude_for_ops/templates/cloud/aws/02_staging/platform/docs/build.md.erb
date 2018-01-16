@@ -19,6 +19,11 @@ cd /vagrant/build
 sudo chef-client -z -j provision.json
 ```
 
+#### S3バケットの作成
+```bash
+$ aws s3 mb s3://$S3_BACKET
+```
+
 #### レポジトリ用秘密鍵と公開鍵の作成
 ```
 cd /vagrant/config/secure/
