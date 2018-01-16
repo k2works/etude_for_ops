@@ -97,6 +97,8 @@ module EtudeForOps
       if @platform.params[:env] == 'Staging'
         params[:opsw_app_id] = 'STG_OPSW_APP_ID'
         params[:opsw_rds_db_instance_arn] = 'STG_OPSW_RDS_DB_INSTANCE_ARN'
+        params[:opsw_rds_db_user] = 'STG_RDS_DB_USER_NAME'
+        params[:opsw_rds_db_password] = 'STG_RDS_DB_PASSWORD'
         params[:opsw_db_name] = 'STG_DB_NAME'
         params[:opsw_app_env] = 'STG_APP_ENV'
         params[:opsw_app_secret_key_base] = 'STG_APP_SECRET_KEY_BASE'
@@ -135,7 +137,7 @@ module EtudeForOps
         params[:opsw_app_id] =  'STG_OPSW_APP_ID'
         params[:opsw_eip] = 'STG_OPSW_EIP'
         params[:opsw_rds_db_instance_arn] = 'STG_OPSW_DB_INSTANCE_ARN'
-        params[:opsw_db_user] = 'STG_OPSW_DB_USER_NAME'
+        params[:opsw_db_user] = 'STG_OPSW_DB_USERNAME'
         params[:opsw_db_password] = 'STG_OPSW_DB_PASSWORD'
 
         params[:opsw_instance_id] = 'STG_OPSW_INSTANCE_ID'

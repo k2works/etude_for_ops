@@ -65,41 +65,41 @@ deploy_branch app_path do
       cookbook 'ruby_platform'
       source 'database.yml.erb'
 
-      if db.nil?
-        if local_db_adapter.nil?
+      if local_db_adapter.nil?
+        if db.nil?
           variables(
               adapter: 'sqlite3',
               database: 'DUMMY'
           )
         else
+          db_adapter = case db['engine']
+                         when 'mysql'
+                           'mysql2'
+                         when 'postgres'
+                           'postgresql'
+                         else
+                           'sqlite3'
+                       end
+
           variables(
               rails_env: app['environment']['RAILS_ENV'],
-              adapter: local_db_adapter,
-              username: app['environment']['DB_USER'],
-              host: app['environment']['DB_ADDRESS'],
-              database: app['environment']['DB_NAME'],
-              password: app['environment']['DB_PASSWORD'],
-              port: app['environment']['DB_PORT']
+              adapter: db_adapter,
+              username: db['db_user'],
+              host: db['address'],
+              database: app['data_sources'][0]['database_name'],
+              password: db['db_password'],
+              port: db['port']
           )
         end
       else
-        db_adapter = case db['engine']
-                       when 'mysql'
-                         'mysql2'
-                       when 'postgres'
-                         'postgresql'
-                       else
-                         'sqlite3'
-                     end
-
         variables(
             rails_env: app['environment']['RAILS_ENV'],
-            adapter: db_adapter,
-            username: db['db_user'],
-            host: db['address'],
-            database: app['data_sources'][0]['database_name'],
-            password: db['db_password'],
-            port: db['port']
+            adapter: local_db_adapter,
+            username: app['environment']['DB_USER'],
+            host: app['environment']['DB_ADDRESS'],
+            database: app['environment']['DB_NAME'],
+            password: app['environment']['DB_PASSWORD'],
+            port: app['environment']['DB_PORT']
         )
       end
 

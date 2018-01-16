@@ -117,3 +117,4 @@ ops
 .env.test
 dev
 vendor
+/.idea/workspace.xml
