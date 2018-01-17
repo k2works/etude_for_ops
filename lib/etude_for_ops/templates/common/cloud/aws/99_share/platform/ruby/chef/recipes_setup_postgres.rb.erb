@@ -7,7 +7,7 @@ end
 
 execute "initdb" do
   command "/sbin/service postgresql initdb"
-  not_if { File.exists?("/var/lib/pgsql/initdb.log")}
+  not_if { File.exists?("/var/lib/pgsql/data")}
 end
 
 service "postgresql" do
