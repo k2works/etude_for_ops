@@ -29,6 +29,19 @@ template ".bash_profile" do
             })
 end
 
+template ".bashrc" do
+  source ".bashrc.erb"
+  path "/home/#{user}/.bashrc"
+  mode 0644
+  owner user
+  group group
+
+  variables({
+                :secret_key_base => secret_key,
+            })
+end
+
+
 template "ssh_config" do
   source "ssh_config.erb"
   path "/home/#{user}/.ssh/config"

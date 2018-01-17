@@ -118,6 +118,7 @@ module EtudeForOps
         templates_default_banner
         templates_default_bash_profile
         templates_default_bash_profile_aws
+        templates_default_bashrc
         templates_default_grants.sql
         templates_default_setup_root.sql
         templates_default_my_extra_settings

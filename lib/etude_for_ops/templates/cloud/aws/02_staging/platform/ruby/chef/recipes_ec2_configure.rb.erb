@@ -19,13 +19,25 @@ template ".bash_profile" do
   group group
 
   variables({
-                :stg_db_name => node["mysql"]["db_name"],
-                :stg_db_username => node["mysql"]["user"]["name"],
-                :stg_db_password => node["mysql"]["user"]["password"],
-                :stg_db_hostname => node["mysql"]["db_host"],
-                :stg_db_port => node["mysql"]["db_port"],
-                :stg_app_secret_key_base => secret_key,
-                :stg_url => url
+                :db_name => node["mysql"]["db_name"],
+                :db_username => node["mysql"]["user"]["name"],
+                :db_password => node["mysql"]["user"]["password"],
+                :db_hostname => node["mysql"]["db_host"],
+                :db_port => node["mysql"]["db_port"],
+                :app_secret_key_base => secret_key,
+                :url => url
+            })
+end
+
+template ".bashrc" do
+  source ".bashrc.erb"
+  path "/home/#{user}/.bashrc"
+  mode 0644
+  owner user
+  group group
+
+  variables({
+                :secret_key_base => secret_key,
             })
 end
 
