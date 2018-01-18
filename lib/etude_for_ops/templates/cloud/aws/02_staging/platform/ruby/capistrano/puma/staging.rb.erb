@@ -10,13 +10,13 @@ set(
     user: "ec2-user"
 )
 set :rails_env, :staging
+set :bundle_without, ['development', 'test']
 set :branch, 'staging'
-set :bundle_without, []
 # capistrano-scm-copyの設定
-set :scm, :copy
-set :include_dir, ["*", '.ruby-version', '.postcssrc.yml', '.env.development']
-set :exclude_dir, ['vendor/bundle', 'log\/*', 'tmp\/*', 'mydb\/*', 'public\/*', 'node_modules\/*', 'ops\/*']
-set :linked_dirs, %w(node_modules public/packs)
+#set :scm, :copy
+#set :include_dir, ["*", '.ruby-version', '.postcssrc.yml', '.env.development']
+#set :exclude_dir, ['vendor/bundle', 'log\/*', 'tmp\/*', 'mydb\/*', 'public\/*', 'node_modules\/*', 'ops\/*']
+#set :linked_dirs, %w(node_modules public/packs)
 set :db_name, 'staging'
 
 #Whenever
