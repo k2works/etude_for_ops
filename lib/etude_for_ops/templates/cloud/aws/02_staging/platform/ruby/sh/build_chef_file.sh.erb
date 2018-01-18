@@ -9,6 +9,8 @@ cp ../src/build/chef/eb_provision.json .
 cp ../src/build/chef/metadata.rb .
 cp ../src/build/chef/Vagrantfile .
 cp ../src/build/chef/.kitchen.yml .
+cp ../src/build/chef/Gemfile .
+cp ../src/build/chef/reprovision.sh .
 cp ../src/build/chef/recipes_default.rb recipes/default.rb
 cp ../src/build/chef/recipes_ec2.rb recipes/ec2.rb
 cp ../src/build/chef/recipes_ec2_user.rb recipes/ec2_user.rb
@@ -43,8 +45,8 @@ cp ../src/build/chef/recipes_opsw_shutdown.rb recipes/opsw_shutdown.rb
 cp ../src/build/chef/recipes_opsw_undeploy.rb recipes/opsw_undeploy.rb
 cp ../src/build/chef/recipes_opsw_deploy_rails.rb recipes/opsw_deploy_rails.rb
 cp ../src/build/chef/recipes_opsw_undeploy_rails.rb recipes/opsw_undeploy_rails.rb
-cp ../src/build/chef/Gemfile .
-cp ../src/build/chef/reprovision.sh .
+chef generate file default
+cp ../src/build/chef/files_default_wrap-ssh4git.sh files/wrap-ssh4git.sh
 chef generate attribute default
 cp ../src/build/chef/attributes_default.rb attributes/default.rb
 chef generate template default

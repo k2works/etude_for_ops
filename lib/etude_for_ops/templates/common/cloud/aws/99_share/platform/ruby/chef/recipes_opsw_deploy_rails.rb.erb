@@ -15,11 +15,16 @@ packages.each do |package_name|
   end
 end
 
-
 directory app_path do
   owner user
   group group
   action :create
+end
+
+cookbook_file "#{app_path}/wrap-ssh4git.sh" do
+  source 'wrap-ssh4git.sh'
+  owner user
+  mode '0755'
 end
 
 deploy_branch app_path do
@@ -28,6 +33,7 @@ deploy_branch app_path do
 
   repo app['app_source']['url']
   branch app['app_source']['revision']
+  ssh_wrapper "#{app_path}/wrap-ssh4git.sh"
   action :deploy
   migrate true
 

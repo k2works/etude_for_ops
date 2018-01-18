@@ -37,7 +37,13 @@ template ".bashrc" do
   group group
 
   variables({
+                :db_name => node["mysql"]["db_name"],
+                :db_username => node["mysql"]["user"]["name"],
+                :db_password => node["mysql"]["user"]["password"],
+                :db_hostname => node["mysql"]["db_host"],
+                :db_port => node["mysql"]["db_port"],
                 :secret_key_base => secret_key,
+                :url => url
             })
 end
 

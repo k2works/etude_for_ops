@@ -83,6 +83,7 @@ module EtudeForOps
         recipes_ec2_web.rb
         recipes_ec2_db.rb
         recipes_ec2_configure.rb
+        files_default_wrap-ssh4git.sh
       ]
 
       params = {}

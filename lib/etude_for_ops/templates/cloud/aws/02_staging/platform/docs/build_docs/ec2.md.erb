@@ -53,9 +53,7 @@ ssh -i ~/.ssh/$STG_SSH_KEY ec2-user@$STG_EC2_PUBLIC_IP
 ```
 scp -i ~/.ssh/$STG_SSH_KEY /vagrant/config/secure/repository_rsa ec2-user@$STG_EC2_PUBLIC_IP:.ssh/
 scp -i ~/.ssh/$STG_SSH_KEY /vagrant/config/secure/repository_rsa.pub ec2-user@$STG_EC2_PUBLIC_IP:.ssh/
-cp -i ~/.ssh/$STG_SSH_KEY /vagrant/build/ssh_config ec2-user@$STG_EC2_PUBLIC_IP:.ssh/configssh_config
 ssh -i ~/.ssh/$STG_SSH_KEY ec2-user@$STG_EC2_PUBLIC_IP
-chmod 700 ~/.ssh/config
 chmod 0400 ~/.ssh/repository_rsa
 chmod 0400 ~/.ssh/repository_rsa.pub
 exit

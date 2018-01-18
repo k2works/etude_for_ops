@@ -6,6 +6,12 @@ rbenv_url = node['rbenv_url']
 ruby_build_url = node['ruby_build_url']
 node_url = node['node_url']
 yarn_url = node['yarn_url']
+shortname = node['app_name_short']
+app_path = "/srv/#{shortname}"
+rails_env = node['env']
+s3_access_key = node['s3_access_key']
+s3_secret_key = node['s3_secret_key']
+secret_key_base = node['secret_key']
 
 include_recipe 'git::default'
 
@@ -81,7 +87,13 @@ template "puma" do
   mode 0755
 
   variables(
-      :user     => user
+      user: user,
+      app: shortname,
+      app_path: app_path,
+      rails_env: rails_env,
+      s3_access_key: s3_access_key,
+      s3_secret_key: s3_secret_key,
+      secret_key_base: secret_key_base
   )
 end
 
@@ -93,7 +105,10 @@ template "active_job" do
   mode 0755
 
   variables(
-      :user     => user
+      user: user,
+      app: shortname,
+      app_path: app_path,
+      rails_env: rails_env
   )
 end
 
