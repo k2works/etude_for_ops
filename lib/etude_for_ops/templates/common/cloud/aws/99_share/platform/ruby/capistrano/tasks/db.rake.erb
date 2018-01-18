@@ -3,7 +3,7 @@ namespace :db do
   task :mysql_db_create do
     on roles(:db) do |host|
       with rails_env: fetch(:rails_env) do
-        execute "mysql -h#{fetch(:db_host_ip)} -uroot -p#{fetch(:db_root_pass)} -e 'CREATE DATABASE IF NOT EXISTS #{fetch(:db_name)};'"
+        execute "mysql -h#{fetch(:db_host_ip)} -uapp -p#{fetch(:db_root_pass)} -e 'CREATE DATABASE IF NOT EXISTS #{fetch(:db_name)};'"
       end
     end
   end

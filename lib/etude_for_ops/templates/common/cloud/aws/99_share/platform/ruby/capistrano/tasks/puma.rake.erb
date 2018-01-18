@@ -11,7 +11,7 @@ namespace :puma do
 
   task :start_service do
     on roles(:app) do
-      unless test "[ -f #{shared_path.join('tmp', 'pids', 'puma.pid')} ]"
+      unless test "[ -f #{shared_path.join('pids', 'puma.pid')} ]"
         execute :sudo, :service, :puma, :start
       end
     end
@@ -19,7 +19,9 @@ namespace :puma do
 
   task :stop_service do
     on roles(:app) do
-      execute :sudo, :service, :puma, :stop
+      unless test "[ -f #{shared_path.join('pids', 'puma.pid')} ]"
+        execute :sudo, :service, :puma, :stop
+      end
     end
   end
 
