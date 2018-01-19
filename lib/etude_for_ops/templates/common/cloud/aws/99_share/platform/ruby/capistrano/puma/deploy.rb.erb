@@ -83,13 +83,13 @@ namespace :deploy do
       invoke 'db:mysql_db_create'
       invoke 'db:pg_db_create'
       invoke 'deploy'
+      invoke 'active_job:start_service'
     end
   end
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:restart'
       invoke 'active_job:restart'
     end
   end
