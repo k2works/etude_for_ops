@@ -30,6 +30,11 @@ export STG_EC2_AMI_ID=<%= config['ops']['staging']['ec2_ami_id'] %>
 export STG_EC2_SUBNET=<%= config['ops']['staging']['ec2_subnet'] %>
 export STG_EC2_INSTANCE_ID=<%= config['ops']['staging']['ec2_instance_id'] %>
 export STG_EC2_PUBLIC_IP=<%= config['ops']['staging']['ec2_public_ip'] %>
+export STG_EC2_DB_NAME=<%= config['ops']['staging']['ec2_db_name'] %>
+export STG_EC2_DB_USER_NAME=<%= config['ops']['staging']['ec2_db_user'] %>
+export STG_EC2_DB_PASSWORD=<%= config['ops']['staging']['ec2_db_password'] %>
+export STG_EC2_DB_HOSTNAME=<%= config['ops']['staging']['ec2_db_host'] %>
+export STG_EC2_DB_PORT=<%= config['ops']['staging']['ec2_db_port'] %>
 
 export STG_RDS_STACKNAME=$ORGANIZATION-$STG_APPLICATION_NAME-RDS
 export STG_RDS_TEMPLATE=<%= config['ops']['staging']['rds_template'] %>

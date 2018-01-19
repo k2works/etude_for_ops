@@ -114,7 +114,7 @@ namespace :ops do
     configure_s3
 
     file = 'ops.yml'
-    target_path = "ops/#{file.to_s}"
+    target_path = "ops/#{file}"
     file_key = file
 
     @s3.get_object(
@@ -124,6 +124,46 @@ namespace :ops do
     )
 
     puts "Download #{file} form S3"
+  end
+
+  desc 'Upload the .env files to S3'
+  task :upload_env_to_s3 do
+    puts 'Starting .env upload to S3...'
+    configure_s3
+
+    files = %w[.env .env.development .env.production .env.staging .env.test]
+    files.each do |file|
+      file_open   = File.open("#{file}")
+      file_key    = file
+
+      @s3.put_object(
+        bucket: @bucket,
+        body: file_open,
+        key: file_key
+      )
+
+      puts "Saved #{file} to S3"
+    end
+  end
+
+  desc 'Download the .env files from S3'
+  task :download_env_from_s3 do
+    puts 'Starting .env upload to S3...'
+    configure_s3
+
+    files = %w[.env .env.development .env.production .env.staging .env.test]
+    files.each do |file|
+      target_path = "#{file}"
+      file_key = file
+
+      @s3.get_object(
+        response_target: target_path,
+        bucket: @bucket,
+        key: file_key
+      )
+
+      puts "Download #{file} form S3"
+    end
   end
 end
 
