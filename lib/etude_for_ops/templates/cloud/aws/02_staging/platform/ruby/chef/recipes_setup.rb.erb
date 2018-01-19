@@ -14,3 +14,10 @@ group "ec2-user" do
   members ["ec2-user"]
   append true
 end
+
+execute "Install Developmer Tools" do
+  command 'sudo yum groupinstall "Development Tools" -y'
+  user user
+  group group
+  environment 'HOME' => "/home/#{user}"
+end

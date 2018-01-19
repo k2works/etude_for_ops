@@ -20,9 +20,7 @@ namespace :active_job do
   desc 'Start ActiveJob Service'
   task :start do
     on roles(:app) do
-      unless test "[ -f #{shared_path.join('pids', 'sidekiq.pid')} ]"
-        execute :sudo, :service, :active_job, :start
-      end
+      execute :sudo, :service, :active_job, :start
     end
   end
 

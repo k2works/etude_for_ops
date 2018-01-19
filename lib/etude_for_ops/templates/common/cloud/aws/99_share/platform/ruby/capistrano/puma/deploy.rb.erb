@@ -83,7 +83,7 @@ namespace :deploy do
       invoke 'db:mysql_db_create'
       invoke 'db:pg_db_create'
       invoke 'deploy'
-      invoke 'active_job:start_service'
+      invoke 'active_job:start'
     end
   end
 
