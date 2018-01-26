@@ -95,3 +95,19 @@ aws ec2 start-instances --instance-ids ${STG_EC2_INSTANCE_ID}
 aws ec2 stop-instances --instance-ids ${STG_EC2_INSTANCE_ID}
 ```
 
+### NATインスタタンスのセットアップ
+
+コミュニティAMIカテゴリから最新AMI対応のamzn-ami-vpc-natのec2_ami_idを指定してVagrantまたはコマンドラインから作成する
+```bash
+aws ec2 describe-images --filter Name="owner-alias",Values="amazon" --filter Name="name",Values="amzn-ami-vpc-nat*"
+```
+
+作成したインスタンスの送信元／送信先チェックを無効にする
+```bash
+aws ec2 modify-instance-attribute --no-source-dest-check --instance-id ${NAT_INSTANCE_ID}
+```
+
+メインルートテーブルを更新する
+```bash
+aws ec2 create-route -—route-table-id ${ROUTE_TABLE_ID} -—destination-cidr-block 0.0.0.0/0 -—gateway-id ${NAT_INSTANCE_ID}
+```
