@@ -99,6 +99,7 @@ module EtudeForOps
 
       @builder.strategy = Cloud.new(aws, env)
       aws.components << EtudeForOps::EC2.new(aws)
+      aws.components << EtudeForOps::IAM.new(aws)
       aws.components << EtudeForOps::VPC.new(aws)
       aws.components << EtudeForOps::RDS.new(aws)
       @builder.platforms << aws
@@ -126,6 +127,7 @@ module EtudeForOps
 
       @builder.strategy = Cloud.new(aws, env)
       aws.components << EtudeForOps::EC2.new(aws)
+      aws.components << EtudeForOps::IAM.new(aws)
       aws.components << EtudeForOps::VPC.new(aws)
       aws.components << EtudeForOps::RDS.new(aws)
       aws.components << EtudeForOps::EB.new(aws)

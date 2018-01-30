@@ -19,10 +19,14 @@ module EtudeForOps
       params[:strategy] = 'cloud_aws'
 
       if params[:env] == 'Development'
+        params[:organization_name] = "#{config['ops']['share']['organization']}"
         params[:application_name] = "#{config['ops']['share']['application']['name']}"
 
         params[:default_az1] = config['ops']['development']['aws_az_1']
         params[:default_az2] = config['ops']['development']['aws_az_2']
+        params[:iam_user_group] = config['ops']['share']['organization']
+        params[:iam_user_name] = config['ops']['development']['iam_user_name']
+        params[:iam_user_password] = config['ops']['development']['iam_user_password']
         params[:vpc_id] = config['ops']['development']['vpc_id']
         params[:rds_subnet_1] = config['ops']['development']['rds_subnet_1']
         params[:rds_subnet_2] = config['ops']['development']['rds_subnet_2']
@@ -38,10 +42,14 @@ module EtudeForOps
       end
 
       if params[:env] == 'Staging'
+        params[:organization_name] = "#{config['ops']['share']['organization']}"
         params[:application_name] = "#{config['ops']['share']['application']['name']}"
 
         params[:default_az1] = config['ops']['staging']['aws_az_1']
         params[:default_az2] = config['ops']['staging']['aws_az_2']
+        params[:iam_user_group] = config['ops']['share']['organization']
+        params[:iam_user_name] = config['ops']['staging']['iam_user_name']
+        params[:iam_user_password] = config['ops']['staging']['iam_user_password']
         params[:vpc_id] = config['ops']['staging']['vpc_id']
         params[:rds_subnet_1] = config['ops']['staging']['rds_subnet_1']
         params[:rds_subnet_2] = config['ops']['staging']['rds_subnet_2']

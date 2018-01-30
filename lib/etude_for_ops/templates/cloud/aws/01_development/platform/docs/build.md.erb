@@ -19,6 +19,15 @@ cd /vagrant/build
 sudo chef-client -z -j provision.json
 ```
 
+#### IAMセットアップ
+```bash
+cd /vagrant/src/build/aws/iam/
+aws cloudformation validate-template --template-body file://$DEV_IAM_TEMPLATE
+chmod 0755 ./create_stack.sh
+./create_stack.sh
+aws cloudformation list-stack-resources --stack-name $DEV_IAM_STACKNAME --output table
+```
+
 #### S3バケットの作成
 ```bash
 $ aws s3 mb s3://$S3_BACKET

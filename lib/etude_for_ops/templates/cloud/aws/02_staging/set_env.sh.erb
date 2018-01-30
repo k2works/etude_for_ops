@@ -15,11 +15,15 @@ export AWS_DEFAULT_REGION=<%= config['ops']['staging']['aws_default_region'] %>
 export AWS_AZ1=<%= config['ops']['staging']['aws_az_1'] %>
 export AWS_AZ2=<%= config['ops']['staging']['aws_az_2'] %>
 
+export STG_IAM_STACKNAME=$ORGANIZATION-IAM
+export STG_IAM_TEMPLATE=<%= config['ops']['staging']['iam_template'] %>
+export STG_IAM_TEMPLATE_PARAMS=<%= config['ops']['staging']['iam_template_params'] %>
+export STG_TAGKEY=Name
+export STG_TAGVALUE=$STG_APPLICATION_NAME
+
 export STG_VPC_STACKNAME=$ORGANIZATION-VPC
 export STG_VPC_TEMPLATE=<%= config['ops']['staging']['vpc_template'] %>
 export STG_VPC_TEMPLATE_PARAMS=<%= config['ops']['staging']['vpc_template_params'] %>
-export STG_TAGKEY=Name
-export STG_TAGVALUE=$STG_APPLICATION_NAME
 export STG_VPC_ID=<%= config['ops']['staging']['vpc_id'] %>
 
 export STG_EC2_SG_ID=<%= config['ops']['staging']['ec2_sg_id'] %>
