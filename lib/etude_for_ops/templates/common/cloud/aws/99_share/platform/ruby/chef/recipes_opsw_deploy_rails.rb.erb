@@ -2,7 +2,8 @@
 
 user = node['ec2_user']
 group = node['ec2_group']
-app = search(:aws_opsworks_app).first
+app_name = node['app_name_short']
+app = search(:aws_opsworks_app, "shortname:#{app_name}").first
 db = search(:aws_opsworks_rds_db_instance).first
 app_path = "/srv/#{app['shortname']}"
 server = node['nginx_app_server']
@@ -19,6 +20,13 @@ directory app_path do
   owner user
   group group
   action :create
+end
+
+file "/home/#{user}/.ssh/repository_rsa" do
+  content app['app_source']['ssh_key']
+  mode '0600'
+  owner user
+  group group
 end
 
 cookbook_file "#{app_path}/wrap-ssh4git.sh" do

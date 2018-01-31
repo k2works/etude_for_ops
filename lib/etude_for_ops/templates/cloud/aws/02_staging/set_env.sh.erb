@@ -15,13 +15,13 @@ export AWS_DEFAULT_REGION=<%= config['ops']['staging']['aws_default_region'] %>
 export AWS_AZ1=<%= config['ops']['staging']['aws_az_1'] %>
 export AWS_AZ2=<%= config['ops']['staging']['aws_az_2'] %>
 
-export STG_IAM_STACKNAME=$ORGANIZATION-IAM
+export STG_IAM_STACKNAME=$ORGANIZATION-Staging-IAM
 export STG_IAM_TEMPLATE=<%= config['ops']['staging']['iam_template'] %>
 export STG_IAM_TEMPLATE_PARAMS=<%= config['ops']['staging']['iam_template_params'] %>
 export STG_TAGKEY=Name
 export STG_TAGVALUE=$STG_APPLICATION_NAME
 
-export STG_VPC_STACKNAME=$ORGANIZATION-VPC
+export STG_VPC_STACKNAME=$ORGANIZATION-Staging-VPC
 export STG_VPC_TEMPLATE=<%= config['ops']['staging']['vpc_template'] %>
 export STG_VPC_TEMPLATE_PARAMS=<%= config['ops']['staging']['vpc_template_params'] %>
 export STG_VPC_ID=<%= config['ops']['staging']['vpc_id'] %>
@@ -85,7 +85,7 @@ export STG_EB_DB_SUBNET_2=<%= config['ops']['staging']['eb_db_subnet_2'] %>
 export STG_OPS_PACKAGE=$APPLICATION_PREFIX-ops.tar.gz
 export STG_CFM_OPSW_STACKNAME=$ORGANIZATION-Staging-OpsWorks
 export STG_OPSW_STACKNAME=${ORGANIZATION}Staging
-export STG_OPSW_TEMPLATE=opsworks-$APPLICATION_PREFIX.template
+export STG_OPSW_TEMPLATE=opsworks-$APPLICATION_PREFIX.yml
 export STG_OPSW_VPC_ID=$STG_VPC_ID
 export STG_OPSW_SUBNET_1=<%= config['ops']['staging']['opsw_subnet_1'] %>
 export STG_OPSW_SUBNET_2=<%= config['ops']['staging']['opsw_subnet_2'] %>

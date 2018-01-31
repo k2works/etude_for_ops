@@ -38,7 +38,7 @@ module EtudeForOps
       FileUtils.mkdir_p(src_build_dir, mode: 0o755)
 
       erb_files = %w[
-        opsworks-app.template
+        opsworks-app.yml
         opsworks_create_stack.sh
         opsworks_update_stack.sh
       ]

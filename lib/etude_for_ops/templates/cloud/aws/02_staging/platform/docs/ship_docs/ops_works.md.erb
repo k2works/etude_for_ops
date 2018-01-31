@@ -53,7 +53,13 @@ $ ./opsworks_update_app.sh
 
 ##### OpsWorks用ユーザー権限設定
 
-メニューのPermissionsから対象となるユーザーのSSH/RDP sudo/admin の設定を有効にする
+OpsWorks用秘密鍵の作成
+```
+$ cd /vagrant/config/secure/
+$ ssh-keygen -f opsworks
+```
+
+メニューのPermissionsから対象となるユーザーのSSH/RDP sudo/admin の設定を有効にして、
 
 ##### インスタンスのセットアップ
 

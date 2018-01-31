@@ -34,9 +34,9 @@ module EtudeForOps
       FileUtils.mkdir_p(src_build_dir, mode: 0o755)
 
       erb_files = %w[
-        vpc-2az-2subnet-pub-pri.template
-        vpc-2az-2subnet-pub.template
-        vpc-2az-4subnet-pub-pri.template
+        vpc-2az-2subnet-pub-pri.yml
+        vpc-2az-2subnet-pub.yml
+        vpc-2az-4subnet-pub-pri.yml
         vpc-parameter.json
         create_stack.sh
         update_stack.sh

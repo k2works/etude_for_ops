@@ -69,7 +69,12 @@ Resources:
       PolicyDocument:
         Statement:
           - Effect: Allow
-            Action: 'cloudformation:*'
+            Action:
+              - 'cloudformation:*'
+              - 'EC2:*'
+              - 'IAM:*'
+              - 'S3:*'
+              - 'OpsWorks:*'
             Resource: '*'
       Groups:
         - !Ref APPAdminGroup

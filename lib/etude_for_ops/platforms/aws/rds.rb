@@ -36,9 +36,9 @@ module EtudeForOps
       erb_files = %w[
         create_stack.sh
         destroy_stack.sh
-        rds-mysql.template
-        rds-oracle.template
-        rds-postgresql.template
+        rds-mysql.yml
+        rds-oracle.yml
+        rds-postgresql.yml
         rds-parameter.json
       ]
 

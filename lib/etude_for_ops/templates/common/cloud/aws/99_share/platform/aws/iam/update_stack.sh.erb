@@ -16,4 +16,5 @@ echo "**********************************"
 aws cloudformation update-stack --stack-name ${STACKNAME} \
                                 --template-body file://${TEMPLATE} \
                                 --parameters file://${TEMPLATE_PARAMS} \
-                                --tags Key=${TAGKEY},Value=${TAGVALUE}
+                                --tags Key=${TAGKEY},Value=${TAGVALUE} \
+                                --capabilities CAPABILITY_NAMED_IAM
