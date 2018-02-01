@@ -2,6 +2,7 @@
 export DEV_APPLICATION_NAME=${APPLICATION_NAME}Development
 export DEV_APP_ENV=development
 export DEV_APP_REPOSITORY=<%= config['ops']['development']['repository'] %>
+export DEV_APP_REPOSITORY_SSH_KEY=<%= config['ops']['development']['repository_ssh_key'] %>
 export DEV_BRANCH=development
 export DEV_DB=${APPLICATION_PREFIX}_development
 export DEV_SSH_KEY=dev-$APPLICATION_PREFIX.pem
@@ -18,6 +19,8 @@ export DEV_IAM_TEMPLATE=<%= config['ops']['development']['iam_template'] %>
 export DEV_IAM_TEMPLATE_PARAMS=<%= config['ops']['development']['iam_template_params'] %>
 export DEV_TAGKEY=Name
 export DEV_TAGVALUE=$DEV_APPLICATION_NAME
+export DEV_IAM_USER_NAME=<%= config['ops']['development']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
+export DEV_IAM_SSH_PUBKEY_ID=<%= config['ops']['development']['iam_ssh_pubkey_id'] %>
 
 export DEV_VPC_STACKNAME=$ORGANIZATION-Development-VPC
 export DEV_VPC_TEMPLATE=<%= config['ops']['development']['vpc_template'] %>

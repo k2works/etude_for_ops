@@ -59,6 +59,19 @@ Resources:
               - 'cloudformation:Describe*'
               - 'cloudformation:List*'
               - 'cloudformation:Get*'
+              - 'codecommit:BatchGet*'
+              - 'codecommit:Get*'
+              - 'codecommit:List*'
+              - 'codecommit:Create*'
+              - 'codecommit:DeleteBranch'
+              - 'codecommit:Describe*'
+              - 'codecommit:Put*'
+              - 'codecommit:Post*'
+              - 'codecommit:Merge*'
+              - 'codecommit:Test*'
+              - 'codecommit:Update*'
+              - 'codecommit:GitPull'
+              - 'codecommit:GitPush'
             Resource: '*'
       Groups:
         - !Ref APPUserGroup
@@ -74,6 +87,7 @@ Resources:
               - 'EC2:*'
               - 'IAM:*'
               - 'S3:*'
+              - 'codecommit:*'
               - 'OpsWorks:*'
             Resource: '*'
       Groups:

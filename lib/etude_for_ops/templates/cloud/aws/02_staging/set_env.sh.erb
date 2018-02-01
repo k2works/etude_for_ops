@@ -2,6 +2,7 @@
 export STG_APPLICATION_NAME=${APPLICATION_NAME}Staging
 export STG_APP_ENV=staging
 export STG_APP_REPOSITORY=<%= config['ops']['staging']['repository'] %>
+export STG_APP_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_ssh_key'] %>
 export STG_APP_SECRET_KEY_BASE=<%= config['ops']['staging']['secret_key_base'] %>
 export SECRET_KEY_BASE=$STG_APP_SECRET_KEY_BASE
 export STG_BRANCH=staging
@@ -20,6 +21,8 @@ export STG_IAM_TEMPLATE=<%= config['ops']['staging']['iam_template'] %>
 export STG_IAM_TEMPLATE_PARAMS=<%= config['ops']['staging']['iam_template_params'] %>
 export STG_TAGKEY=Name
 export STG_TAGVALUE=$STG_APPLICATION_NAME
+export STG_IAM_USER_NAME=<%= config['ops']['staging']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
+export STG_IAM_SSH_PUBKEY_ID=<%= config['ops']['staging']['iam_ssh_pubkey_id'] %>
 
 export STG_VPC_STACKNAME=$ORGANIZATION-Staging-VPC
 export STG_VPC_TEMPLATE=<%= config['ops']['staging']['vpc_template'] %>

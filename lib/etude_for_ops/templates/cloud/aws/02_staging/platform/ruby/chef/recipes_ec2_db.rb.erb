@@ -64,17 +64,17 @@ execute "initdb" do
   not_if { File.exists?("/var/lib/pgsql95/data/postgresql.conf")}
 end
 
-service "postgresql95" do
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
-end
-
 template "/var/lib/pgsql95/data/pg_hba.conf" do
   mode 0600
-  notifies :restart, "service[postgresql95]"
+  notifies :restart, "service[postgresql95]", :immediately
 end
 
 template "/var/lib/pgsql95/data/postgresql.conf" do
   mode 0600
-  notifies :restart, "service[postgresql95]"
+  notifies :restart, "service[postgresql95]", :immediately
 end
+
+service "postgresql95" do
+  supports :status => true, :restart => true, :reload => true
+end
+

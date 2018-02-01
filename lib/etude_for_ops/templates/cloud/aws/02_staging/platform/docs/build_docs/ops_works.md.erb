@@ -1,7 +1,6 @@
-#### OpsWorksのセットアップ
+#### OpsWorks
 
-
-#### スタックの作成
+##### スタックの作成
 ```
 $ cd /vagrant/src/build/aws/opsworks/
 $ chmod 0755 ./opsworks_create_stack.sh
@@ -15,7 +14,7 @@ $ aws cloudformation list-stack-resources --stack-name $STG_CFM_OPSW_STACKNAME -
 $ aws ec2 describe-addresses --output table
 ```
 
-スタックの更新
+##### スタックの更新
 ```
 $ cd /vagrant/src/build/aws/opsworks/
 $ chmod 0755 ./opsworks_update_stack.sh

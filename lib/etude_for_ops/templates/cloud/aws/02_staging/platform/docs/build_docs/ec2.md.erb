@@ -1,4 +1,5 @@
-#### 仮想マシンセットアップ(Vagrant版)
+#### EC2
+##### 仮想マシンセットアップ(Vagrant版)
 ```bash
 cd /vagrant/build
 vagrant up --provider=aws
@@ -23,7 +24,7 @@ cd /vagrant/src/build/aws/ec2/
 ./configure_resources.sh
 ```
 
-#### 仮想マシンセットアップ(コマンドライン版)
+##### 仮想マシンセットアップ(コマンドライン版)
 ```bash
 cd /vagrant/src/build/aws/ec2/
 ./create_instance.sh
@@ -49,7 +50,7 @@ cd /vagrant/src/build/aws/ec2/
 ssh -i ~/.ssh/$STG_SSH_KEY ec2-user@$STG_EC2_PUBLIC_IP
 ```
 
-#### 仮想マシンにレポジトリの秘密鍵と公開鍵を登録する
+##### 仮想マシンにレポジトリの秘密鍵と公開鍵を登録する
 ```
 scp -i ~/.ssh/$STG_SSH_KEY /vagrant/config/secure/repository_rsa ec2-user@$STG_EC2_PUBLIC_IP:.ssh/
 scp -i ~/.ssh/$STG_SSH_KEY /vagrant/config/secure/repository_rsa.pub ec2-user@$STG_EC2_PUBLIC_IP:.ssh/
@@ -59,7 +60,7 @@ chmod 0400 ~/.ssh/repository_rsa.pub
 exit
 ```
 
-#### アプリケーション・サーバのプロビジョニング
+##### アプリケーション・サーバのプロビジョニング
 セットアップ
 ```bash
 cd /vagrant/build
@@ -95,7 +96,7 @@ aws ec2 start-instances --instance-ids ${STG_EC2_INSTANCE_ID}
 aws ec2 stop-instances --instance-ids ${STG_EC2_INSTANCE_ID}
 ```
 
-### NATインスタタンスのセットアップ
+#### NATインスタタンスのセットアップ
 
 コミュニティAMIカテゴリから最新AMI対応のamzn-ami-vpc-natのec2_ami_idを指定してVagrantまたはコマンドラインから作成する
 ```bash

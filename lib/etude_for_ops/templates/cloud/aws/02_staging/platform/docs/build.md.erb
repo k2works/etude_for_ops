@@ -37,11 +37,11 @@ $ aws s3 mb s3://$S3_BACKET
 #### レポジトリ用秘密鍵と公開鍵の作成
 ```
 cd /vagrant/config/secure/
-ssh-keygen -f repository_rsa
-cp /vagrant/config/secure/repository_rsa ~/.ssh/
-cp /vagrant/config/secure/repository_rsa.pub ~/.ssh/
-chmod 0400 ~/.ssh/repository_rsa
-chmod 0400 ~/.ssh/repository_rsa.pub
+ssh-keygen -f $STG_APP_REPOSITORY_SSH_KEY
+cp /vagrant/config/secure/$STG_APP_REPOSITORY_SSH_KEY ~/.ssh/
+cp /vagrant/config/secure/$STG_APP_REPOSITORY_SSH_KEY.pub ~/.ssh/
+chmod 0400 ~/.ssh/$STG_APP_REPOSITORY_SSH_KEY
+chmod 0400 ~/.ssh/$STG_APP_REPOSITORY_SSH_KEY.pub
 chmod 700 ~/.ssh/config
 ```
 
