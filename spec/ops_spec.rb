@@ -419,17 +419,17 @@ describe 'EtudeForOps::Ops' do
             aws_rds_files = %w[
               create_stack.sh
              destroy_stack.sh
-             rds-mysql.template
-             rds-oracle.template
+             rds-mysql.yml
+             rds-oracle.yml
              rds-parameter.json
             ]
             aws_vpc_files = %w[
               create_stack.sh
              destroy_stack.sh
              update_stack.sh
-             vpc-2az-2subnet-pub.template
-             vpc-2az-2subnet-pub-pri.template
-             vpc-2az-4subnet-pub-pri.template
+             vpc-2az-2subnet-pub.yml
+             vpc-2az-2subnet-pub-pri.yml
+             vpc-2az-4subnet-pub-pri.yml
              vpc-parameter.json
             ]
 
@@ -738,17 +738,17 @@ describe 'EtudeForOps::Ops' do
             aws_rds_files = %w[
               create_stack.sh
              destroy_stack.sh
-             rds-mysql.template
-             rds-oracle.template
+             rds-mysql.yml
+             rds-oracle.yml
              rds-parameter.json
             ]
             aws_vpc_files = %w[
               create_stack.sh
              destroy_stack.sh
              update_stack.sh
-             vpc-2az-2subnet-pub.template
-             vpc-2az-2subnet-pub-pri.template
-             vpc-2az-4subnet-pub-pri.template
+             vpc-2az-2subnet-pub.yml
+             vpc-2az-2subnet-pub-pri.yml
+             vpc-2az-4subnet-pub-pri.yml
              vpc-parameter.json
             ]
             aws_eb_files = %w[
