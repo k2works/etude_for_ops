@@ -54,4 +54,86 @@ bash "Update MOTD" do
   code "sudo update-motd"
 end
 
+# MySql
+# create database
+db_name = node["mysql"]["db_name"]
+root_password = node["mysql"]["root_password"]
+execute "create_db" do
+  command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_db.sql"
+  action :nothing
+  not_if "/usr/bin/mysql -u root -p#{root_password} -D #{db_name}"
+end
+
+template "#{Chef::Config[:file_cache_path]}/create_db.sql" do
+  owner "root"
+  group "root"
+  mode 0644
+  source "create_db.sql.erb"
+  variables({
+                :db_name => db_name,
+            })
+  notifies :run, "execute[create_db]", :immediately
+end
+
+# create user
+user_name     = node["mysql"]["user"]["name"]
+user_password = node["mysql"]["user"]["password"]
+execute "create_user" do
+  command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_user.sql"
+  action :nothing
+  not_if "/usr/bin/mysql -u #{user_name} -p#{user_password} -D #{db_name}"
+end
+
+template "#{Chef::Config[:file_cache_path]}/create_user.sql" do
+  owner "root"
+  group "root"
+  mode 0644
+  source "create_user.sql.erb"
+  variables({
+                :db_name => db_name,
+                :username => user_name,
+                :password => user_password,
+            })
+  notifies :run, "execute[create_user]", :immediately
+end
+
+# PostgreSQL
+dbname = node['postgres']['db_name']
+dbuser = node['postgres']['user']['name']
+dbuser_password = node['postgres']['user']['password']
+
+execute "create-root-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='root'" | grep -c root
+  EOH
+  command "createuser -U postgres -s root"
+  not_if code
+end
+
+execute "create-database-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  command "createuser -U postgres -sw #{dbuser}"
+  not_if code
+end
+
+execute "update-database-user-password" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  alter_user = <<-EOH
+    psql -U postgres -c "alter role #{dbuser} with password '#{dbuser_password}'"
+  EOH
+  command alter_user
+  only_if code
+end
+
+execute "create-database" do
+  exists = <<-EOH
+    psql -U postgres -c "select * from pg_database WHERE datname='#{dbname}'" | grep -c #{dbname}
+  EOH
+  command "createdb -U postgres -O #{dbuser} -E utf8 -T template0 #{dbname}"
+  not_if exists
+end
 

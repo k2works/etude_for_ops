@@ -13,6 +13,7 @@ s3_access_key = node['s3_access_key']
 s3_secret_key = node['s3_secret_key']
 secret_key_base = node['secret_key']
 
+include_recipe 'yum::default'
 include_recipe 'git::default'
 
 packages = %W{ gcc gcc-c++ openssl-devel readline-devel zlib-devel sqlite-devel }

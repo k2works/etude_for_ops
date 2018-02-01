@@ -7,7 +7,7 @@ app = search(:aws_opsworks_app, "shortname:#{app_name}").first
 db = search(:aws_opsworks_rds_db_instance).first
 app_path = "/srv/#{app['shortname']}"
 server = node['nginx_app_server']
-packages = %w[sqlite-devel postgresql-devel mysql-devel]
+packages = %w[sqlite-devel postgresql95-devel mysql-devel]
 local_db_adapter = app['environment']['DB_ADAPTER']
 
 packages.each do |package_name|
