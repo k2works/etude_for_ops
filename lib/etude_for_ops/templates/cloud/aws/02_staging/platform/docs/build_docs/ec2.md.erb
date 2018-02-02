@@ -30,11 +30,12 @@ cd /vagrant/src/build/aws/ec2/
 ./create_instance.sh
 ```
 実行後に表示されるインスタンスIDを環境変数に登録する
-```
+
 インスタンスのパブリックIPアドレスを環境変数に登録する
 ```bash
 export STG_EC2_INSTANCE_ID=xxxxxx
 ```
+
 ```bash
 STG_EC2_PUBLIC_IP=`aws ec2  describe-instances --instance-ids ${STG_EC2_INSTANCE_ID} | grep PublicIpAddress | awk {'print $2 '} | sed s/,//g | sed s/\"//g`
 echo $STG_EC2_PUBLIC_IP
