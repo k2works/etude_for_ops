@@ -37,6 +37,7 @@ module EtudeForOps
         create_key_pare.sh
         create_security_group.sh
         create_instance.sh
+        create_image.sh
         configure_security_group_rule.sh
         configure_resources.sh
         destroy_security_group.sh
@@ -58,6 +59,7 @@ module EtudeForOps
         params[:ec2_subnet] = 'DEV_EC2_SUBNET'
 
         params[:ec2_instance_id] = 'DEV_EC2_INSTANCE_ID'
+        params[:ec2_image_name] = 'DEV_APPLICATION_NAME'
 
         params[:tagkey] = 'DEV_TAGKEY'
         params[:tagvalue] = 'DEV_TAGVALUE'
@@ -77,6 +79,7 @@ module EtudeForOps
         params[:ec2_subnet] = 'STG_EC2_SUBNET'
 
         params[:ec2_instance_id] = 'STG_EC2_INSTANCE_ID'
+        params[:ec2_image_name] = 'STG_APPLICATION_NAME'
 
         params[:tagkey] = 'STG_TAGKEY'
         params[:tagvalue] = 'STG_TAGVALUE'

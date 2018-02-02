@@ -97,6 +97,12 @@ aws ec2 start-instances --instance-ids ${STG_EC2_INSTANCE_ID}
 aws ec2 stop-instances --instance-ids ${STG_EC2_INSTANCE_ID}
 ```
 
+#### AMIを作成する
+```bash
+cd /vagrant/src/build/aws/ec2/
+./create_image.sh
+```
+
 #### NATインスタタンスのセットアップ
 
 コミュニティAMIカテゴリから最新AMI対応のamzn-ami-vpc-natのec2_ami_idを指定してVagrantまたはコマンドラインから作成する

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+INSTANCE_ID=$<%= params[:ec2_instance_id] %>
+IMAGE_NAME=${<%= params[:ec2_image_name] %>}AMI
+
+echo "**********************************"
+echo INSTANCE_ID:$INSTANCE_ID
+echo IMAGE_NAME:$IMAGE_NAME
+echo "**********************************"
+
+aws ec2 create-image --instance-id $INSTANCE_ID \
+                     --name $IMAGE_NAME \
+                     --reboot
