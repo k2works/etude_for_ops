@@ -42,6 +42,7 @@ module EtudeForOps
         configure_resources.sh
         destroy_security_group.sh
         destroy_instance.sh
+        destroy_image.sh
       ]
 
       params = {}
