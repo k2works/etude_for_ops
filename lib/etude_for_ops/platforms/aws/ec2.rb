@@ -60,6 +60,7 @@ module EtudeForOps
 
         params[:ec2_instance_id] = 'DEV_EC2_INSTANCE_ID'
         params[:ec2_image_name] = 'DEV_APPLICATION_NAME'
+        params[:ec2_image_id] = 'DEV_EC2_AMI_ID'
 
         params[:tagkey] = 'DEV_TAGKEY'
         params[:tagvalue] = 'DEV_TAGVALUE'
@@ -80,6 +81,7 @@ module EtudeForOps
 
         params[:ec2_instance_id] = 'STG_EC2_INSTANCE_ID'
         params[:ec2_image_name] = 'STG_APPLICATION_NAME'
+        params[:ec2_image_id] = 'STG_EC2_AMI_ID'
 
         params[:tagkey] = 'STG_TAGKEY'
         params[:tagvalue] = 'STG_TAGVALUE'

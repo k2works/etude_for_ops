@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+AMI_ID=$<%= params[:ec2_image_id] %>
+
+echo "**********************************"
+echo AMI_ID:$AMI_ID
+echo "**********************************"
+
+aws ec2 deregister-image --image-id $AMI_ID
