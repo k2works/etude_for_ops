@@ -21,7 +21,7 @@ if node['etc']['passwd']['vagrant']
   end
 end
 
-if node['etc']['passwd']['ec2-user']
+if node['etc']['passwd']['ec2-user'] && node['etc']['passwd']['docker']
   %w[ec2-user docker].each do |gr|
     group gr do
       action [:modify]

@@ -48,6 +48,10 @@ template "ssh_config" do
   mode 0644
   owner user
   group group
+
+  variables({
+                :iam_ssh_pubkey_id => node["iam_ssh_pubkey_id"],
+            })
 end
 
 template '/etc/update-motd.d/99-banner' do

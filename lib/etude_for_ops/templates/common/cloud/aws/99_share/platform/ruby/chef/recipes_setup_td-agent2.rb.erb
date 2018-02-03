@@ -1,10 +1,10 @@
 execute 'install' do
-  command 'curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh'
+  command 'curl -L https://toolbelt.treasuredata.com/sh/install-amazon2-td-agent3.sh | sh'
 end
 
 template "td-agent-ui" do
-  path "/etc/init.d/td-agent-ui"
-  source "td-agent-ui.erb"
+  path "/etc/systemd/system/td-agent-ui.service"
+  source "td-agent-ui.service.erb"
   mode 0751
 end
 

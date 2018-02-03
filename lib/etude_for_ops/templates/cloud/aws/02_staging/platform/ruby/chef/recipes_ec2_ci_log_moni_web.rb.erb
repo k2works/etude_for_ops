@@ -1,0 +1,44 @@
+include_recipe 'htpasswd'
+chef_gem 'htauth'
+
+server = node['nginx_app_server']
+app = node['app_name_short']
+
+package 'nginx' do
+  action :install
+end
+
+template '/etc/nginx/nginx.conf' do
+  source 'nginx.conf.erb'
+  mode '0644'
+end
+
+template '/etc/nginx/conf.d/default.conf' do
+  source 'nginx.default.conf.erb'
+  mode '0644'
+
+  variables({
+                :server => server,
+                :app => app
+            })
+end
+
+template '/etc/nginx/conf.d/jenkins.conf' do
+  source 'nginx.jenkins.conf.erb'
+  mode '0644'
+end
+
+template '/etc/nginx/conf.d/kibana.conf' do
+  source 'nginx.kibana.conf.erb'
+  mode '0644'
+end
+
+htpasswd "/etc/nginx/htpassword" do
+  user "kibana"
+  password "kibana"
+end
+
+service "nginx" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end

@@ -1,0 +1,11 @@
+packages = %W{ gcc gcc-c++ ruby-devel }
+packages.each do |pkg|
+  package "#{pkg}" do
+    action [ :install, :upgrade ]
+  end
+end
+
+include_recipe 'ruby_platform::setup'
+include_recipe 'ruby_platform::setup_elasticsearch'
+include_recipe 'ruby_platform::setup_td-agent'
+include_recipe 'ruby_platform::ec2_ci_log_moni_web'

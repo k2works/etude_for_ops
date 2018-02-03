@@ -3,6 +3,9 @@
 # description: Logging Service
 # processname: td-agent-ui
 
+# Include RedHat function library
+. /etc/rc.d/init.d/functions
+
 NAME=td-agent-ui
 USER=root
 BIN=/opt/td-agent/usr/sbin/td-agent-ui

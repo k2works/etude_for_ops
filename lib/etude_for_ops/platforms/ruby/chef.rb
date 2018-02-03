@@ -45,6 +45,9 @@ module EtudeForOps
         eb_provision.json
         recipes_default.rb
         recipes_ec2.rb
+        recipes_ec2_ci.rb
+        recipes_ec2_log.rb
+        recipes_ec2_ci_log_moni_web.rb
         recipes_eb.rb
         recipes_setup.rb
         recipes_configure.rb
@@ -60,6 +63,7 @@ module EtudeForOps
         recipes_setup_nginx.rb
         recipes_setup_service.rb
         recipes_setup_td-agent.rb
+        recipes_setup_td-agent2.rb
         recipes_setup_elasticsearch.rb
         recipes_setup_docker.rb
         recipes_setup_jenkins.rb

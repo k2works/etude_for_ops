@@ -26,11 +26,14 @@ suites:
   - name: default
     driver:
       customize:
-        memory: 2048
+        memory: 4096
         cpus: 2
     data_bags_path: "test/integration/data_bags"
     run_list:
       #- recipe[ruby_platform::ec2]
+      #- recipe[ruby_platform::ec2_ci]
+      #- recipe[ruby_platform::ec2_log]
+      #- recipe[ruby_platform::ec2_ci_log_moni_web]
       #- recipe[ruby_platform::eb]
       #- recipe[ruby_platform::setup_ruby]
       #- recipe[ruby_platform::setup_node]
