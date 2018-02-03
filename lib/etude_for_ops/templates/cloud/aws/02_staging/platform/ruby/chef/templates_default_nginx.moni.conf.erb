@@ -1,0 +1,52 @@
+server {
+  listen 80;
+  server_name localhost;
+
+  #ドキュメントルートに zabbix の設定ファイルがあるディレクトリ(デフォルトで /usr/share/zabbix)を設定する(シンボリックリンクを貼るのもありだがこっちのが良いかもしれないです。
+  root        /usr/share/zabbix;
+  index       index.html index.php;
+  access_log  /var/log/nginx/access_zabbix.log main;
+  error_log   /var/log/nginx/error_zabbix.log error;
+
+  location /zabbix {
+    try_files $uri $uri/ /index.html index.php;
+    index index.php;
+  }
+  #PHPのファイルを表示する時のテンプレートみたいなやつ nginx　の設定ファイル(/etc/nginx/nginx.conf に書いてあるやつ)
+  location ~ \.php {
+    fastcgi_pass    127.0.0.1:9000;
+    fastcgi_index   index.php;
+    fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+  }
+
+  location ~ /jenkins {
+    proxy_read_timeout      300;
+    proxy_connect_timeout   300;
+    proxy_redirect          off;
+
+    proxy_set_header        X-Forwarded-Proto       $scheme;
+    proxy_set_header        Host                    $http_host;
+    proxy_set_header        Host                    $host;
+    proxy_set_header        X-Real-IP               $remote_addr;
+    proxy_set_header        X-Forwarded-For         $proxy_add_x_forwarded_for;
+
+    proxy_pass              http://jenkins_server;
+
+    access_log /var/log/nginx/jenkins_access.log;
+    error_log  /var/log/nginx/jenkins_error.log;
+  }
+
+  location ~ /kibana {
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    rewrite /kibana/(.*)$ /$1 break;
+
+    proxy_pass http://kibana_server;
+
+    access_log /var/log/nginx/kibana_access.log;
+    error_log  /var/log/nginx/kibana_error.log;
+  }
+}

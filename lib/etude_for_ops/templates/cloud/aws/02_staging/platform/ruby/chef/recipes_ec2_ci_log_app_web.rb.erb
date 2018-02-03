@@ -11,8 +11,13 @@ template '/etc/nginx/nginx.conf' do
 end
 
 template '/etc/nginx/conf.d/default.conf' do
-  source 'nginx.moni.conf.erb'
+  source 'nginx.default.conf.erb'
   mode '0644'
+
+  variables({
+                :server => server,
+                :app => app
+            })
 end
 
 template '/etc/nginx/conf.d/jenkins.conf' do

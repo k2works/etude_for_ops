@@ -15,7 +15,10 @@ cp ../src/build/chef/recipes_default.rb recipes/default.rb
 cp ../src/build/chef/recipes_ec2.rb recipes/ec2.rb
 cp ../src/build/chef/recipes_ec2_ci.rb recipes/ec2_ci.rb
 cp ../src/build/chef/recipes_ec2_log.rb recipes/ec2_log.rb
+cp ../src/build/chef/recipes_ec2_moni.rb recipes/ec2_moni.rb
+cp ../src/build/chef/recipes_ec2_moni_configure.rb recipes/ec2_moni_configure.rb
 cp ../src/build/chef/recipes_ec2_ci_log_moni_web.rb recipes/ec2_ci_log_moni_web.rb
+cp ../src/build/chef/recipes_ec2_ci_log_app_web.rb recipes/ec2_ci_log_app_web.rb
 cp ../src/build/chef/recipes_ec2_user.rb recipes/ec2_user.rb
 cp ../src/build/chef/recipes_ec2_app.rb recipes/ec2_app.rb
 cp ../src/build/chef/recipes_ec2_web.rb recipes/ec2_web.rb
@@ -23,6 +26,7 @@ cp ../src/build/chef/recipes_ec2_db.rb recipes/ec2_db.rb
 cp ../src/build/chef/recipes_ec2_configure.rb recipes/ec2_configure.rb
 cp ../src/build/chef/recipes_eb.rb recipes/eb.rb
 cp ../src/build/chef/recipes_setup.rb recipes/setup.rb
+cp ../src/build/chef/recipes_setup_swap.rb recipes/setup_swap.rb
 cp ../src/build/chef/recipes_setup_ruby.rb recipes/setup_ruby.rb
 cp ../src/build/chef/recipes_setup_mysql.rb recipes/setup_mysql.rb
 cp ../src/build/chef/recipes_setup_mariadb.rb recipes/setup_mariadb.rb
@@ -62,6 +66,7 @@ cp ../src/build/chef/templates_default_grants.sql.erb templates/default/grants.s
 cp ../src/build/chef/templates_default_my_extra_settings.erb templates/default/my_extra_settings.erb
 cp ../src/build/chef/templates_default_nginx.conf.erb templates/default/nginx.conf.erb
 cp ../src/build/chef/templates_default_nginx.default.conf.erb templates/default/nginx.default.conf.erb
+cp ../src/build/chef/templates_default_nginx.moni.conf.erb templates/default/nginx.moni.conf.erb
 cp ../src/build/chef/templates_default_nginx.proxy.conf.erb templates/default/nginx.proxy.conf.erb
 cp ../src/build/chef/templates_default_nginx.kibana.conf.erb templates/default/nginx.kibana.conf.erb
 cp ../src/build/chef/templates_default_nginx.jenkins.conf.erb templates/default/nginx.jenkins.conf.erb
@@ -85,6 +90,7 @@ cp ../src/build/chef/templates_ec2_nginx.default.conf.erb templates/default/ngin
 cp ../src/build/chef/templates_default_database.yml.erb templates/default/database.yml.erb
 cp ../src/build/chef/templates_default_puma.rb.erb templates/default/puma.rb.erb
 cp ../src/build/chef/templates_default_sidekiq.yml.erb templates/default/sidekiq.yml.erb
+cp ../src/build/chef/templates_default_zabbix_server.conf.erb templates/default/zabbix_server.conf.erb
 mkdir -p test/integration/data_bags
 mkdir test/integration/data_bags/aws_opsworks_app
 cp ../src/build/chef/databag_opsw_app.json test/integration/data_bags/aws_opsworks_app/app.json

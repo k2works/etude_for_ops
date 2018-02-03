@@ -47,12 +47,16 @@ module EtudeForOps
         recipes_ec2.rb
         recipes_ec2_ci.rb
         recipes_ec2_log.rb
+        recipes_ec2_moni.rb
+        recipes_ec2_moni_configure.rb
         recipes_ec2_ci_log_moni_web.rb
+        recipes_ec2_ci_log_app_web.rb
         recipes_eb.rb
         recipes_setup.rb
         recipes_configure.rb
         recipes_configure_postgres.rb
         recipes_configure_service.rb
+        recipes_setup_swap.rb
         recipes_setup_ruby.rb
         recipes_setup_mysql.rb
         recipes_setup_mariadb.rb
@@ -129,6 +133,7 @@ module EtudeForOps
         templates_default_my_extra_settings
         templates_default_nginx.conf
         templates_default_nginx.default.conf
+        templates_default_nginx.moni.conf
         templates_default_nginx.proxy.conf
         templates_default_nginx.kibana.conf
         templates_default_nginx.jenkins.conf
@@ -155,6 +160,7 @@ module EtudeForOps
         templates_default_database.yml
         templates_default_puma.rb
         templates_default_sidekiq.yml
+        templates_default_zabbix_server.conf
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)
