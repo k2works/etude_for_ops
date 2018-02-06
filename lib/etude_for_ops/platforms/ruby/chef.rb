@@ -85,7 +85,13 @@ module EtudeForOps
         recipes_opsw_deploy_rails.rb
         recipes_opsw_undeploy_rails.rb
         recipes_opsw_setup.rb
+        recipes_opsw_setup_ci.rb
+        recipes_opsw_setup_log.rb
+        recipes_opsw_setup_moni.rb
         recipes_opsw_configure.rb
+        recipes_opsw_configure_ci.rb
+        recipes_opsw_configure_log.rb
+        recipes_opsw_configure_moni.rb
         databag_opsw_app.json
         databag_opsw_db.json
 　　　　 recipes_ec2_user.rb
