@@ -85,8 +85,8 @@ Resources:
   OpsWorksLayer<%= params[:application_name] %>:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
-      Comment: This is Business ApplicationLayer.
-    DependsOn: OpsWorksApps
+      Comment: This is ApplicationLayer.
+    DependsOn: OpsWorksApp
     Properties:
       StackId: !Ref OpsWorksStack
       Type: custom
@@ -113,6 +113,83 @@ Resources:
           CpuThreshold: 30
           MemoryThreshold: 30
           LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure'
+          Deploy:
+           - 'ruby_platform::opsw_deploy'
+          Setup:
+           - 'ruby_platform::opsw_setup'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy'
+      CustomJson: |
+           {
+            "state": "custom",
+            "app_name_short": "<%= params[:application_name_short] %>",
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            },
+            "nginx": {
+              "server_name": "localhost"
+            }
+           }
+  OpsWorksLayerJob:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Job ApplicationLayer.
+    DependsOn: OpsWorksAppJob
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: job
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: ApplicationJobService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure'
+          Deploy:
+           - 'ruby_platform::opsw_deploy'
+          Setup:
+           - 'ruby_platform::opsw_setup'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy'
+      CustomJson: |
+           {
+            "state": "custom",
+            "app_name_short": "<%= params[:application_name_short] %>job",
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            },
+            "nginx": {
+              "server_name": "localhost"
+            }
+           }
   OpsWorksLayerLogging:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
@@ -128,6 +205,11 @@ Resources:
       Shortname: logging
       StackId: !Ref OpsWorksStack
       Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_log'
+          Setup:
+           - 'ruby_platform::opsw_setup_log'
   OpsWorksLayerMonitoring:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
@@ -143,6 +225,11 @@ Resources:
       Shortname: monitoring
       StackId: !Ref OpsWorksStack
       Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_moni'
+          Setup:
+           - 'ruby_platform::opsw_setup_moni'
   OpsWorksLayerCI:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
@@ -158,11 +245,22 @@ Resources:
       Shortname: ci
       StackId: !Ref OpsWorksStack
       Type: custom
-  OpsWorksApps:
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_ci'
+          Setup:
+           - 'ruby_platform::opsw_setup_ci'
+  OpsWorksApp:
     Type: 'AWS::OpsWorks::App'
     Properties:
       StackId: !Ref OpsWorksStack
       Name: <%= params[:application_name] %>
+      Type: other
+  OpsWorksAppJob:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>Job
       Type: other
   OpsWorksServiceRole:
     Type: 'AWS::IAM::Role'
@@ -188,6 +286,7 @@ Resources:
                   - 'cloudwatch:GetMetricStatistics'
                   - 'elasticloadbalancing:*'
                   - 'rds:*'
+                  - 'ecs:*'
                 Resource: '*'
   OpsWorksInstanceRole:
     Type: 'AWS::IAM::Role'

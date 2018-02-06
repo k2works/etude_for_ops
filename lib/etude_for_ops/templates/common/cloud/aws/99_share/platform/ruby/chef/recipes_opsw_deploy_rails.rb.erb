@@ -1,12 +1,33 @@
 # frozen_string_literal: true
 
+deploy_action = :deploy
+deploy_migration = true
+nginx_server_name = 'localhost'
+
+unless node['state'].nil?
+  Chef::Log.info("********** The app's initial state is '#{node['state']}' **********")
+  Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+  Chef::Log.info("********** The deploy app's action is '#{node['deploy']['action']}' **********")
+  Chef::Log.info("********** The deploy app's migration is '#{node['deploy']['migrate']}' **********")
+  Chef::Log.info("********** The deploy nginx server name is '#{node['nginx']['server_name']}' **********")
+  deploy_action = node['deploy']['action'].to_sym
+  deploy_migration = node['deploy']['migrate']
+  nginx_server_name = node['nginx']['server_name']
+else
+  Chef::Log.info("********** The app's initial state is default check your custome JSON **********")
+  Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+  Chef::Log.info("********** The deploy app's action is '#{deploy_action}' **********")
+  Chef::Log.info("********** The deploy app's migration is '#{deploy_migration}' **********")
+  Chef::Log.info("********** The deploy nginx server name is '#{nginx_server_name}' **********")
+end
+
+app_name = node['app_name_short']
 user = node['ec2_user']
 group = node['ec2_group']
-app_name = node['app_name_short']
 app = search(:aws_opsworks_app, "shortname:#{app_name}").first
 db = search(:aws_opsworks_rds_db_instance).first
 app_path = "/srv/#{app['shortname']}"
-server = node['nginx_app_server']
+server = "unix:/srv/#{app['shortname']}/shared/sockets/puma.sock"
 packages = %w[sqlite-devel postgresql95-devel mysql-devel]
 local_db_adapter = app['environment']['DB_ADAPTER']
 
@@ -42,8 +63,8 @@ deploy_branch app_path do
   repo app['app_source']['url']
   branch app['app_source']['revision']
   ssh_wrapper "#{app_path}/wrap-ssh4git.sh"
-  action :deploy
-  migrate true
+  action deploy_action
+  migrate deploy_migration
 
   environment app['environment']['RAILS_ENV']
 
@@ -159,13 +180,14 @@ deploy_branch app_path do
       EOC
     end
 
-    template '/etc/nginx/conf.d/default.conf' do
+    template "/etc/nginx/conf.d/#{app['shortname']}.conf" do
       source 'nginx.ec2.conf.erb'
       mode '0644'
 
       variables({
                     :server => server,
-                    :app => app['shortname']
+                    :app => app['shortname'],
+                    :server_name => nginx_server_name
                 })
     end
 

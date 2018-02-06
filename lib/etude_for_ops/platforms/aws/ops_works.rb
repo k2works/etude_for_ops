@@ -49,6 +49,7 @@ module EtudeForOps
 
       if @platform.params[:env] == 'Staging'
         params[:application_name] = @platform.params[:application_name]
+        params[:application_name_short] = @platform.params[:application_name].downcase
         params[:opsw_cookbook_password] = @platform.params[:opsw_cookbook_password]
         params[:opsw_cookbook_type] = @platform.params[:opsw_cookbook_type]
         params[:opsw_cookbook_url] = @platform.params[:opsw_cookbook_url]
