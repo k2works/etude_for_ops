@@ -45,6 +45,7 @@ module EtudeForOps
         eb_provision.json
         recipes_default.rb
         recipes_ec2.rb
+        recipes_ec2_agent.rb
         recipes_ec2_ci.rb
         recipes_ec2_log.rb
         recipes_ec2_moni.rb
@@ -73,6 +74,7 @@ module EtudeForOps
         recipes_setup_jenkins.rb
         recipes_setup_aws.rb
         recipes_setup_vagrant.rb
+        recipes_setup_zabbix.rb
         Vagrantfile
         .kitchen.yml
         Gemfile
