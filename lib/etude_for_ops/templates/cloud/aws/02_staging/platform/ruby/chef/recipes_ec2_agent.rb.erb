@@ -1,6 +1,6 @@
 include_recipe 'ruby_platform::setup_zabbix'
 
-packages = %W( zabbix-agent )
+packages = %W( zabbix-agent zabbix-get zabbix-sender)
 packages.each do |pkg|
   package "#{pkg}" do
     action [ :install, :upgrade ]

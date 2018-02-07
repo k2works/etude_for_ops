@@ -127,7 +127,7 @@ Resources:
       CustomJson: |
            {
             "state": "custom",
-            "app_name_short": "<%= params[:application_name_short] %>",
+            "app_name_short": ["<%= params[:application_name_short] %>"],
             "deploy": {
               "action": "deploy",
               "migrate": true
@@ -178,7 +178,7 @@ Resources:
       CustomJson: |
            {
             "state": "custom",
-            "app_name_short": "<%= params[:application_name_short] %>job",
+            "app_name_short": ["<%= params[:application_name_short] %>job"],
             "deploy": {
               "action": "deploy",
               "migrate": true

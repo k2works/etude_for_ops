@@ -1,6 +1,6 @@
 default['env'] = 'staging'
-default['app_name'] = '<%= params[:application_name] %>'
-default['app_name_short'] = '<%= params[:application_name_short] %>'
+default['app_name'] = ['<%= params[:application_name] %>']
+default['app_name_short'] = ['<%= params[:application_name_short] %>']
 default['user'] = 'ec2-user'
 default['group'] = 'ec2-user'
 default['ec2_user'] = 'ec2-user'
