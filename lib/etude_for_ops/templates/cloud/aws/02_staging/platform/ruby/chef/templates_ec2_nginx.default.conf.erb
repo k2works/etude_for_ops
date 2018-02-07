@@ -1,7 +1,3 @@
-upstream app {
-    server <%= @server %> fail_timeout=0;
-}
-
 server {
   listen  80;
   <% if @server_name.nil? %>

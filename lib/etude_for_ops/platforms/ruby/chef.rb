@@ -143,6 +143,7 @@ module EtudeForOps
         templates_default_nginx.default.conf
         templates_default_nginx.moni.conf
         templates_default_nginx.proxy.conf
+        templates_default_nginx.app.conf
         templates_default_nginx.kibana.conf
         templates_default_nginx.jenkins.conf
         templates_default_nginx.td-agent-ui.conf
