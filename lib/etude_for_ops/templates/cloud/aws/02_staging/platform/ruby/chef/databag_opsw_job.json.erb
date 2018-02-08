@@ -1,0 +1,36 @@
+{
+  "name": "YourApplicationJob",
+  "shortname": "yourapplicationjob",
+  "environment": {
+    "RAILS_ENV": "production",
+    "SECRET_KEY_BASE": "xxxxxxxxxx",
+    "S3_ACCESS_KEY": "xxxxxxxxxx",
+    "S3_SECRET_KEY": "xxxxxxxxxx",
+    "DB_ADAPTER": "mysql2",
+    "DB_USER": "app",
+    "DB_ADDRESS": "127.0.0.1",
+    "DB_NAME": "yourapplicationjob_staging",
+    "DB_PASSWORD": "password",
+    "DB_PORT": "3306",
+    "WEBHOOK_SECRET_TOKEN": "xxxxxxxxxx",
+    "GOOGLE_CLIENT_ID": "xxxxxxxxxx",
+    "GOOGLE_CLIENT_SECRET": "xxxxxxxxxx",
+    "GOOGLE_HOSTED_DOMAIN": "xxxxxxxxxx"
+  },
+  "app_source": {
+    "url": "git@github.com:k2works/etude_for_rails_job",
+    "revision": "master",
+    "ssh_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA5z+/6oDIExqAxACE1zDfOfRJuJsqmaYhq5/OCx4MK1Ain26Q\nmwXTj88OIhMJqrBqMM/t6LpkQxRW/MxoRkpZ2bSlbJrLFIf0qQ4Kocelp+yC0CQ0\nRsBCh4JMX2x0FOnb49SBJFtYaDx++XU85mM+0F8OoctBi65FrSJnMVlf1wbvn8ZR\nvT7+6HGx9krWeHfsNWEB7YaFSDC45DP4wfTnno5ZMk5ptggVfrdZnT2YZY6lTzK2\n0WlLBHmhrD7B725kB5YEMdarewmUHOYErCNEhnKozoPXOqQGEAU9HUP0p+BhTSqt\n20a98IwsDn7yh46W2s4pnTS2QNuEIhrDfQzn/QIDAQABAoIBABfYhQvDd94wb3LG\nsuwVyA8L18ZHid8KOJKgCfkvggW9X7SdDCBQO36q1URCPk7xniGmb1v+THR2Vnn/\nAgmthRJkBGLsm2BknKAKKKKCGdz1EJAyC4n4LWQX1ZRJdLbrXpdhxGdhW/5zrow+\nwKbpOQL3qmSYtwuWTu0JjSaTlsRvanaWW11NeLyCH3yhjT9mEpx8WynDU2qpokip\ne/cyuoPDNJpsjTV3dMNIbizFubKY+n1lytiY4tkRYloyWXR93kWHTcz2FbF7oYaw\nGcth3Rn7y34w9UWHsfwbILyuV5Zi78ZBufr4V742EGBPKxWLP3vQeSY+tl62uYF5\nTmhxa8ECgYEA+qlr6ZVENcrfkHujKGxXt3Bk5X60ZzuFFw/24UT3l8U3LZlzgT85\nlGsBv9sNlkUnERpBh+Fqum8HSggGMSt1d/Xj9BYShsxJqXzcfGWfoBt+QeOadEDY\nSQRU5fO4tP+Wv1kWdwDR6Y5m/InGVZQJpmyB0FT2Zf3xIpF6Lp6y31UCgYEA7Cx9\n8OtqALnCd5eOiA34R3Yn1s2UoTGtpFFoBmp6LbzJ75uJ7q0G8DEit/Ep7fYt9WUx\nHgccqdB03U04MyriA1nWTXc3IBPXhBtkWk61oHvkNXIN2TjLEzHUrKEOOyjpaKHR\n/T9vWQWSQr90ORHjJfRSrR+j4xwo4GIUH4XK1gkCgYAd+HvqpepN9D/e6qmLf8jN\nKicmOYwge8FiDIqcTL696tq6HQrufTzJPjIrWmm5efM93EHRmWZFfFkGxQbYgjW9\nbi0fVjRI4cw886z5Qr1fS2pBPpGNLOOvd1EfXZDMM3M21dQVzodKwbgWofKQ8O5m\nc7rhygbcEwzt8S8Gu/rvMQKBgQCl8gk4HCHqipuy7mHvBWnbxJDvpJn3vXFWEQE3\n6N8afhmh67c6ZoeGg+/yMVkV5DGcyNJ/V93zEA7dZKHFii8uzZP/8HFib66yG5Ei\nx0Vlk0fhqddDN12xigT2m1/lf7SpmXJ0MHtroLeJgP8IDqJ9i7QAA0hjjujF6QRc\nteS1CQKBgQCPr2kyz+BR785msXEWLqO5snJjR1bsc+J3iroUtrc4w4ryaFX4Msnb\nSzY6a8a+NoP22myQO5NPsm4lQiGVzGD/N3GfRsJeLEKZGU8tkBpEap+LX4+ee+Gp\n3cX6dvRIMdOUpjGDSOsHZtefzF2ri9UTBDqzmT5IegPJYcUMlzYcwA==\n-----END RSA PRIVATE KEY-----",
+    "type": "git"
+  },
+  "data_sources":
+  [
+    {"database_name": "yourapplication_staging"}
+  ],
+  "domains": ["job.hiroshima-arc.org"],
+  "enable_ssl": false,
+  "ssl_configuration" : {
+    "certificate": "",
+    "private_key": ""
+  }
+}

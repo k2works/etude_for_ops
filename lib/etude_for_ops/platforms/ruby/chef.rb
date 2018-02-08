@@ -52,6 +52,12 @@ module EtudeForOps
         recipes_ec2_moni_configure.rb
         recipes_ec2_ci_log_moni_web.rb
         recipes_ec2_ci_log_app_web.rb
+　　　　 recipes_ec2_user.rb
+        recipes_ec2_app.rb
+        recipes_ec2_web.rb
+        recipes_ec2_db.rb
+        recipes_ec2_configure.rb
+        recipes_ec2_job.rb
         recipes_eb.rb
         recipes_setup.rb
         recipes_configure.rb
@@ -80,25 +86,28 @@ module EtudeForOps
         Gemfile
         reprovision.sh
         recipes_opsw_deploy.rb
+        recipes_opsw_deploy_job.rb
         recipes_opsw_shutdown.rb
+        recipes_opsw_shutdown_job.rb
         recipes_opsw_undeploy.rb
+        recipes_opsw_undeploy_job.rb
         recipes_opsw_deploy_rails.rb
+        recipes_opsw_deploy_rails_job.rb
         recipes_opsw_undeploy_rails.rb
+        recipes_opsw_undeploy_rails_job.rb
         recipes_opsw_setup.rb
+        recipes_opsw_setup_job.rb
         recipes_opsw_setup_ci.rb
         recipes_opsw_setup_log.rb
         recipes_opsw_setup_moni.rb
         recipes_opsw_configure.rb
+        recipes_opsw_configure_job.rb
         recipes_opsw_configure_ci.rb
         recipes_opsw_configure_log.rb
         recipes_opsw_configure_moni.rb
         databag_opsw_app.json
+        databag_opsw_job.json
         databag_opsw_db.json
-　　　　 recipes_ec2_user.rb
-        recipes_ec2_app.rb
-        recipes_ec2_web.rb
-        recipes_ec2_db.rb
-        recipes_ec2_configure.rb
         files_default_wrap-ssh4git.sh
       ]
 
@@ -170,6 +179,13 @@ module EtudeForOps
         templates_default_puma.rb
         templates_default_sidekiq.yml
         templates_default_zabbix_server.conf
+        templates_default_kuroko2_executor
+        templates_default_kuroko2_executor.service
+        templates_default_kuroko2_processor
+        templates_default_kuroko2_processor.service
+        templates_default_kuroko2_scheduler
+        templates_default_kuroko2_scheduler.service
+        templates_default_kuroko2.yml
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)

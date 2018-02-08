@@ -42,6 +42,13 @@ cp /vagrant/config/secure/$STG_APP_REPOSITORY_SSH_KEY ~/.ssh/
 cp /vagrant/config/secure/$STG_APP_REPOSITORY_SSH_KEY.pub ~/.ssh/
 chmod 0400 ~/.ssh/$STG_APP_REPOSITORY_SSH_KEY
 chmod 0400 ~/.ssh/$STG_APP_REPOSITORY_SSH_KEY.pub
+
+ssh-keygen -f $STG_APP_JOB_REPOSITORY_SSH_KEY
+cp /vagrant/config/secure/$STG_APP_JOB_REPOSITORY_SSH_KEY ~/.ssh/
+cp /vagrant/config/secure/$STG_APP_JOB_REPOSITORY_SSH_KEY.pub ~/.ssh/
+chmod 0400 ~/.ssh/$STG_APP_JOB_REPOSITORY_SSH_KEY
+chmod 0400 ~/.ssh/$STG_APP_JOB_REPOSITORY_SSH_KEY.pub
+
 chmod 700 ~/.ssh/config
 ```
 

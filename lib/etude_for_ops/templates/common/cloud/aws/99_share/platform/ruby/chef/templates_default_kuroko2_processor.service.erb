@@ -1,0 +1,16 @@
+[Unit]
+Description=Kuroko2 processor
+
+[Service]
+Environment=LANG=en_US.UTF-8
+Environment=RAILS_ENV=<%= @rails_env %>
+Environment=NUM_WORKERS=8
+Environment=QUEUE=@default
+User=<%= @user %>
+Group=<%= @group %>
+WorkingDirectory=/srv/<%= @app %>/current
+ExecStart=/home/<%= @user %>/.rbenv/shims/bundle exec rails runner 'Kuroko2::Servers::WorkflowProcessor.new(log: nil, daemonize: false).run'
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

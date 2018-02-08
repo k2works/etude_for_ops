@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 
-APP_ID=$<%= params[:opsw_app_id] %>
+APP_ID=$<%= params[:opsw_app_job_id] %>
 RDS_DB_INSTANCE_ARN=$<%= params[:opsw_rds_db_instance_arn] %>
 DB_NAME=$<%= params[:opsw_rds_db_name] %>
 RAILS_ENV=$<%= params[:opsw_app_env] %>
 SECRET_KEY_BASE=$<%= params[:opsw_app_secret_key_base] %>
-STG_URL=$<%= params[:opsw_app_url]%>
+STG_URL=$<%= params[:opsw_app_job_url]%>
 S3_BACKET=$<%= params[:opsw_backet]%>
-REPO_URL=$<%= params[:opsw_app_repo_url]%>
-REVISION=$<%= params[:opsw_app_revision]%>
-S3_ACCESS_KEY=$<%= params[:opsw_s3_access_key]%>
-S3_SECRET_KEY=$<%= params[:opsw_s3_secret_key]%>
+REPO_URL=$<%= params[:opsw_app_job_repo_url]%>
+REVISION=$<%= params[:opsw_app_job_revision]%>
 
 echo "**********************************"
 echo APP_ID:$APP_ID
@@ -23,8 +21,6 @@ echo STG_URL:$STG_URL
 echo S3_BACKET:$S3_BACKET
 echo REPO_URL:$REPO_URL
 echo REVISION:$REVISION
-echo S3_ACCESS_KEY=$S3_ACCESS_KEY
-echo S3_SECRET_KEY=$S3_SECRET_KEY
 echo "**********************************"
 
 aws opsworks update-app  \
@@ -36,6 +32,7 @@ aws opsworks update-app  \
                            Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
                            Key=STG_URL,Value=$STG_URL,Secure=false \
                            Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
-                           Key=S3_ACCESS_KEY,Value=$S3_ACCESS_KEY,Secure=false \
-                           Key=S3_SECRET_KEY,Value=$S3_SECRET_KEY,Secure=true
-
+                           Key=GOOGLE_CLIENT_ID,Value=,Secure=false \
+                           Key=GOOGLE_CLIENT_SECRET,Value=,Secure=true \
+                           Key=GOOGLE_HOSTED_DOMAIN,Value=,Secure=false \
+                           Key=WEBHOOK_SECRET_TOKEN,Value=,Secure=true

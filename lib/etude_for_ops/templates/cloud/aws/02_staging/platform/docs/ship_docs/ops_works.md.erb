@@ -34,7 +34,11 @@ RDSを使わずインスタンス内のDBを使う場合
 $ cd /vagrant/src/ship/aws/opsworks/
 $ chmod 0755 ./opsworks_update_app.sh
 $ ./opsworks_update_app_without_rds.sh
+$ export STG_APP_ENV=production
+$ ./opsworks_update_app_job_without_rds.sh
+$ export STG_APP_ENV=staging
 ```
+GOOGLE_CLIENT_IDとGOOGLE_CLIENT_SECRETは別途入力する
 
 RDSを使う場合
 
@@ -49,7 +53,11 @@ $ ./opsworks_register_rds.sh
 $ cd /vagrant/src/ship/aws/opsworks/
 $ chmod 0755 ./opsworks_update_app.sh
 $ ./opsworks_update_app.sh
+$ export STG_APP_ENV=production
+$ ./opsworks_update_app_job.sh
+$ export STG_APP_ENV=staging
 ```
+GOOGLE_CLIENT_IDとGOOGLE_CLIENT_SECRETは別途入力する
 
 ##### OpsWorks用ユーザー権限設定
 

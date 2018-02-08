@@ -75,7 +75,12 @@ node['app_name_short'].each do |app_name|
              'log' => 'log',
              'node_modules' => 'node_modules'
 
-    symlink_before_migrate 'config/database.yml' => 'config/database.yml'
+    symlink_before_migrate(
+        {
+            'config/database.yml' => 'config/database.yml',
+            'config/kuroko2.yml' => 'config/kuroko2.yml'
+        }
+    )
 
     before_migrate do
       ENV['S3_ACCESS_KEY'] = app['environment']['S3_ACCESS_KEY']
@@ -152,6 +157,17 @@ node['app_name_short'].each do |app_name|
               app_path: app_path
           )
         end
+
+        template ::File.expand_path(::File.join(release_path, '../../shared/config/kuroko2.yml')) do
+          cookbook 'ruby_platform'
+          source 'kuroko2.yml.erb'
+          variables(
+              webhook_secret_token: app['environment']['WEBHOOK_SECRET_TOKEN'],
+              google_client_id: app['environment']['GOOGLE_CLIENT_ID'],
+              google_client_secret: app['environment']['GOOGLE_CLIENT_SECRET'],
+              google_hosted_domain: app['environment']['GOOGLE_HOSTED_DOMAIN']
+          )
+        end
       end
 
       execute 'db-migrate' do
@@ -217,6 +233,79 @@ node['app_name_short'].each do |app_name|
       service "active_job_#{app['shortname']}" do
         action :start
       end
+
+      template "kuroko2_executor_#{app['shortname']}" do
+        path "/etc/init.d/kuroko2_executor_#{app['shortname']}"
+        source "kuroko2_executor.erb"
+        owner user
+        group group
+        mode 0755
+
+        variables(
+            user: user,
+            app: app['shortname'],
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV']
+        )
+      end
+
+      template "kuroko2_executor_#{app['shortname']}" do
+        path "/etc/init.d/kuroko2_executor_#{app['shortname']}"
+        source "kuroko2_executor.erb"
+        owner user
+        group group
+        mode 0755
+
+        variables(
+            user: user,
+            app: app['shortname'],
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV']
+        )
+      end
+
+      template "kuroko2_processor_#{app['shortname']}" do
+        path "/etc/init.d/kuroko2_processor_#{app['shortname']}"
+        source "kuroko2_processor.erb"
+        owner user
+        group group
+        mode 0755
+
+        variables(
+            user: user,
+            app: app['shortname'],
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV']
+        )
+      end
+
+      template "kuroko2_scheduler_#{app['shortname']}" do
+        path "/etc/init.d/kuroko2_scheduler_#{app['shortname']}"
+        source "kuroko2_scheduler.erb"
+        owner user
+        group group
+        mode 0755
+
+        variables(
+            user: user,
+            app: app['shortname'],
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV']
+        )
+      end
+
+      service "kuroko2_executor_#{app['shortname']}" do
+        action :start
+      end
+
+      service "kuroko2_processor_#{app['shortname']}" do
+        action :start
+      end
+
+      service "kuroko2_scheduler_#{app['shortname']}" do
+        action :start
+      end
+
 
       domains.each do |domain|
         template "/etc/nginx/conf.d/#{app['shortname']}_#{domain}.conf" do

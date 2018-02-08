@@ -25,6 +25,7 @@ cp ../src/build/chef/recipes_ec2_app.rb recipes/ec2_app.rb
 cp ../src/build/chef/recipes_ec2_web.rb recipes/ec2_web.rb
 cp ../src/build/chef/recipes_ec2_db.rb recipes/ec2_db.rb
 cp ../src/build/chef/recipes_ec2_configure.rb recipes/ec2_configure.rb
+cp ../src/build/chef/recipes_ec2_job.rb recipes/ec2_job.rb
 cp ../src/build/chef/recipes_eb.rb recipes/eb.rb
 cp ../src/build/chef/recipes_setup.rb recipes/setup.rb
 cp ../src/build/chef/recipes_setup_swap.rb recipes/setup_swap.rb
@@ -49,18 +50,25 @@ cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
 cp ../src/build/chef/recipes_configure_postgres.rb recipes/configure_postgres.rb
 cp ../src/build/chef/recipes_configure_service.rb recipes/configure_service.rb
 cp ../src/build/chef/recipes_opsw_setup.rb recipes/opsw_setup.rb
+cp ../src/build/chef/recipes_opsw_setup_job.rb recipes/opsw_setup_job.rb
 cp ../src/build/chef/recipes_opsw_setup_ci.rb recipes/opsw_setup_ci.rb
 cp ../src/build/chef/recipes_opsw_setup_log.rb recipes/opsw_setup_log.rb
 cp ../src/build/chef/recipes_opsw_setup_moni.rb recipes/opsw_setup_moni.rb
 cp ../src/build/chef/recipes_opsw_configure.rb recipes/opsw_configure.rb
+cp ../src/build/chef/recipes_opsw_configure_job.rb recipes/opsw_configure_job.rb
 cp ../src/build/chef/recipes_opsw_configure_ci.rb recipes/opsw_configure_ci.rb
 cp ../src/build/chef/recipes_opsw_configure_log.rb recipes/opsw_configure_log.rb
 cp ../src/build/chef/recipes_opsw_configure_moni.rb recipes/opsw_configure_moni.rb
 cp ../src/build/chef/recipes_opsw_deploy.rb recipes/opsw_deploy.rb
+cp ../src/build/chef/recipes_opsw_deploy_job.rb recipes/opsw_deploy_job.rb
 cp ../src/build/chef/recipes_opsw_shutdown.rb recipes/opsw_shutdown.rb
+cp ../src/build/chef/recipes_opsw_shutdown_job.rb recipes/opsw_shutdown_job.rb
 cp ../src/build/chef/recipes_opsw_undeploy.rb recipes/opsw_undeploy.rb
+cp ../src/build/chef/recipes_opsw_undeploy_job.rb recipes/opsw_undeploy_job.rb
 cp ../src/build/chef/recipes_opsw_deploy_rails.rb recipes/opsw_deploy_rails.rb
+cp ../src/build/chef/recipes_opsw_deploy_rails_job.rb recipes/opsw_deploy_rails_job.rb
 cp ../src/build/chef/recipes_opsw_undeploy_rails.rb recipes/opsw_undeploy_rails.rb
+cp ../src/build/chef/recipes_opsw_undeploy_rails_job.rb recipes/opsw_undeploy_rails_job.rb
 chef generate file default
 cp ../src/build/chef/files_default_wrap-ssh4git.sh files/wrap-ssh4git.sh
 chef generate attribute default
@@ -100,8 +108,16 @@ cp ../src/build/chef/templates_default_database.yml.erb templates/default/databa
 cp ../src/build/chef/templates_default_puma.rb.erb templates/default/puma.rb.erb
 cp ../src/build/chef/templates_default_sidekiq.yml.erb templates/default/sidekiq.yml.erb
 cp ../src/build/chef/templates_default_zabbix_server.conf.erb templates/default/zabbix_server.conf.erb
+cp ../src/build/chef/templates_default_kuroko2_executor.erb templates/default/kuroko2_executor.erb
+cp ../src/build/chef/templates_default_kuroko2_executor.service.erb templates/default/kuroko2_executor.service.erb
+cp ../src/build/chef/templates_default_kuroko2_processor.erb templates/default/kuroko2_processor.erb
+cp ../src/build/chef/templates_default_kuroko2_processor.service.erb templates/default/kuroko2_processor.service.erb
+cp ../src/build/chef/templates_default_kuroko2_scheduler.erb templates/default/kuroko2_scheduler.erb
+cp ../src/build/chef/templates_default_kuroko2_scheduler.service.erb templates/default/kuroko2_scheduler.service.erb
+cp ../src/build/chef/templates_default_kuroko2.yml.erb templates/default/kuroko2.yml.erb
 mkdir -p test/integration/data_bags
 mkdir test/integration/data_bags/aws_opsworks_app
 cp ../src/build/chef/databag_opsw_app.json test/integration/data_bags/aws_opsworks_app/app.json
+cp ../src/build/chef/databag_opsw_job.json test/integration/data_bags/aws_opsworks_app/job.json
 mkdir test/integration/data_bags/aws_opsworks_rds_db_instance
 cp ../src/build/chef/databag_opsw_db.json test/integration/data_bags/aws_opsworks_rds_db_instance/db.json

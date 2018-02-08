@@ -6,8 +6,7 @@ rbenv_url = node['rbenv_url']
 ruby_build_url = node['ruby_build_url']
 node_url = node['node_url']
 yarn_url = node['yarn_url']
-shortname = node['app_name_short']
-app_path = "/srv/#{shortname}"
+shortnames = node['app_name_short']
 rails_env = node['env']
 s3_access_key = node['s3_access_key']
 s3_secret_key = node['s3_secret_key']
@@ -16,7 +15,7 @@ secret_key_base = node['secret_key']
 include_recipe 'yum::default'
 include_recipe 'git::default'
 
-packages = %W{ gcc gcc-c++ openssl-devel readline-devel zlib-devel sqlite-devel }
+packages = %W{ gcc gcc-c++ openssl-devel readline-devel zlib-devel sqlite-devel cmake }
 packages.each do |pkg|
   package "#{pkg}" do
     action [ :install, :upgrade ]
@@ -80,37 +79,52 @@ execute 'install package' do
   command 'sudo yum install yarn -y'
 end
 
-template "puma" do
-  path "/etc/init.d/puma"
-  source "puma.erb"
-  owner "ec2-user"
-  group "ec2-user"
-  mode 0755
+shortnames.each do |shortname|
+  app_path = "/srv/#{shortname}"
 
-  variables(
-      user: user,
-      app: shortname,
-      app_path: app_path,
-      rails_env: rails_env,
-      s3_access_key: s3_access_key,
-      s3_secret_key: s3_secret_key,
-      secret_key_base: secret_key_base
-  )
-end
+  template "puma_#{shortname}" do
+    path "/etc/init.d/puma_#{shortname}"
+    source "puma.erb"
+    owner user
+    group group
+    mode 0755
 
-template "active_job" do
-  path "/etc/init.d/active_job"
-  source "active_job.erb"
-  owner "ec2-user"
-  group "ec2-user"
-  mode 0755
+    variables(
+        user: user,
+        app: shortname,
+        app_path: app_path,
+        rails_env: rails_env,
+        s3_access_key: s3_access_key,
+        s3_secret_key: s3_secret_key,
+        secret_key_base: secret_key_base
+    )
+  end
 
-  variables(
-      user: user,
-      app: shortname,
-      app_path: app_path,
-      rails_env: rails_env
-  )
+  template "active_job_#{shortname}" do
+    path "/etc/init.d/active_job_#{shortname}"
+    source "active_job.erb"
+    owner user
+    group group
+    mode 0755
+
+    variables(
+        user: user,
+        app: shortname,
+        app_path: app_path,
+        rails_env: rails_env
+    )
+  end
+
+  service "puma_#{shortname}" do
+    supports :status => true, :restrart => true, :reload => true
+    action [ :enable ]
+  end
+
+  service "active_job_#{shortname}" do
+    supports :status => true, :restrart => true, :reload => true
+    action [ :enable ]
+  end
+
 end
 
 bash "Setup redis" do
@@ -123,14 +137,4 @@ end
 service "redis" do
   supports :status => true, :restrart => true, :reload => true
   action [ :enable, :start ]
-end
-
-service "puma" do
-  supports :status => true, :restrart => true, :reload => true
-  action [ :enable ]
-end
-
-service "active_job" do
-  supports :status => true, :restrart => true, :reload => true
-  action [ :enable ]
 end

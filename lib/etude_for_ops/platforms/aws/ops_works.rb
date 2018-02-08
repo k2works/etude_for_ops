@@ -82,6 +82,8 @@ module EtudeForOps
         opsworks_deploy_cookbook.sh
         opsworks_update_app.sh
         opsworks_update_app_without_rds.sh
+        opsworks_update_app_job.sh
+        opsworks_update_app_job_without_rds.sh
         opsworks_create_elb.sh
         opsworks_create_instance.sh
         opsworks_deploy_app.sh
@@ -97,6 +99,7 @@ module EtudeForOps
 
       if @platform.params[:env] == 'Staging'
         params[:opsw_app_id] = 'STG_OPSW_APP_ID'
+        params[:opsw_app_job_id] = 'STG_OPSW_APP_JOB_ID'
         params[:opsw_rds_db_instance_arn] = 'STG_OPSW_RDS_DB_INSTANCE_ARN'
         params[:opsw_rds_db_name] = 'STG_RDS_DB_NAME'
         params[:opsw_rds_db_username] = 'STG_RDS_DB_USER_NAME'
@@ -106,14 +109,18 @@ module EtudeForOps
         params[:opsw_app_secret_key_base] = 'STG_APP_SECRET_KEY_BASE'
         params[:opsw_db_adapter] = 'STG_OPSW_DB_ADAPTER'
         params[:opsw_db_name] = 'STG_OPSW_DB_NAME'
+        params[:opsw_db_job_name] = 'STG_OPSW_DB_JOB_NAME'
         params[:opsw_db_username] = 'STG_OPSW_DB_USERNAME'
         params[:opsw_db_password] = 'STG_OPSW_DB_PASSWORD'
         params[:opsw_db_hostname] = 'STG_OPSW_DB_HOSTNAME'
         params[:opsw_db_port] = 'STG_OPSW_DB_PORT'
+        params[:opsw_backet] = 'S3_BACKET'
         params[:opsw_app_url] = 'STG_OPSW_APP_URL'
-        params[:opsw_backet] = 'BACKET'
         params[:opsw_app_revision] = 'STG_OPSW_APP_REVISION'
         params[:opsw_app_repo_url] = 'STG_OPSW_APP_REPO_URL'
+        params[:opsw_app_job_url] = 'STG_OPSW_APP_JOB_URL'
+        params[:opsw_app_job_revision] = 'STG_OPSW_APP_JOB_REVISION'
+        params[:opsw_app_job_repo_url] = 'STG_OPSW_APP_JOB_REPO_URL'
 
         params[:opsw_elb_subnet_1] = 'STG_OPSW_ELB_SUBNET_1'
         params[:opsw_elb_subnet_2] = 'STG_OPSW_ELB_SUBNET_2'

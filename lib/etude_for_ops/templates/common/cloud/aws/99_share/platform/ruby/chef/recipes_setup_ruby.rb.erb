@@ -7,7 +7,7 @@ ruby_build_url = node['ruby_build_url']
 
 include_recipe 'git::default'
 
-packages = %W{ gcc gcc-c++ openssl-devel readline-devel zlib-devel sqlite-devel }
+packages = %W{ gcc gcc-c++ openssl-devel readline-devel zlib-devel sqlite-devel cmake }
 packages.each do |pkg|
   package "#{pkg}" do
     action [ :install, :upgrade ]

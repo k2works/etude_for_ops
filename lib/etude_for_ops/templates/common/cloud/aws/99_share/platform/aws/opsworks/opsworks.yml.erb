@@ -166,15 +166,15 @@ Resources:
           LoadThreshold: 0.3
       CustomRecipes:
           Configure:
-           - 'ruby_platform::opsw_configure'
+           - 'ruby_platform::opsw_configure_job'
           Deploy:
-           - 'ruby_platform::opsw_deploy'
+           - 'ruby_platform::opsw_deploy_job'
           Setup:
-           - 'ruby_platform::opsw_setup'
+           - 'ruby_platform::opsw_setup_job'
           Shutdown:
-           - 'ruby_platform::opsw_shutdown'
+           - 'ruby_platform::opsw_shutdown_job'
           Undeploy:
-           - 'ruby_platform::opsw_undeploy'
+           - 'ruby_platform::opsw_undeploy_job'
       CustomJson: |
            {
             "state": "custom",
