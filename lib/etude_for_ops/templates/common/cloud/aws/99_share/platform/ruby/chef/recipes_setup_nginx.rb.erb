@@ -30,12 +30,6 @@ template '/etc/nginx/conf.d/jenkins.conf' do
   mode '0644'
 end
 
-htpasswd "/etc/nginx/htpassword" do
-  user "kibana"
-  password "kibana"
-end
-
-
 service "nginx" do
   supports :status => true, :restrart => true, :reload => true
   action [ :enable, :start ]

@@ -1,4 +1,5 @@
-dbname = node['postgres']['db_name']
+apps = node['app_name_short']
+environment = node['env']
 dbuser = node['postgres']['user']['name']
 dbuser_password = node['postgres']['user']['password']
 
@@ -29,10 +30,14 @@ execute "update-database-user-password" do
   only_if code
 end
 
-execute "create-database" do
-  exists = <<-EOH
-    psql -U postgres -c "select * from pg_database WHERE datname='#{dbname}'" | grep -c #{dbname}
-  EOH
-  command "createdb -U postgres -O #{dbuser} -E utf8 -T template0 #{dbname}"
-  not_if exists
+apps.each do |app|
+  db_name = "#{app}_#{environment}"
+
+  execute "create-database" do
+    exists = <<-EOH
+    psql -U postgres -c "select * from pg_database WHERE datname='#{db_name}'" | grep -c #{db_name}
+    EOH
+    command "createdb -U postgres -O #{dbuser} -E utf8 -T template0 #{db_name}"
+    not_if exists
+  end
 end
