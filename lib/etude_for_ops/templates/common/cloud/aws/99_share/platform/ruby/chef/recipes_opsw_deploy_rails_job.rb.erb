@@ -166,7 +166,7 @@ node['app_name_short'].each do |app_name|
         user user
         group group
         cwd release_path
-        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)}"
+        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} --without development test"
         action :run
       end
     end

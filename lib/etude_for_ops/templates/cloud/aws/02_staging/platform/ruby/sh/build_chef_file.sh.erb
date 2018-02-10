@@ -50,25 +50,32 @@ cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
 cp ../src/build/chef/recipes_configure_postgres.rb recipes/configure_postgres.rb
 cp ../src/build/chef/recipes_configure_service.rb recipes/configure_service.rb
 cp ../src/build/chef/recipes_opsw_setup.rb recipes/opsw_setup.rb
+cp ../src/build/chef/recipes_opsw_setup_api.rb recipes/opsw_setup_api.rb
 cp ../src/build/chef/recipes_opsw_setup_job.rb recipes/opsw_setup_job.rb
 cp ../src/build/chef/recipes_opsw_setup_ci.rb recipes/opsw_setup_ci.rb
 cp ../src/build/chef/recipes_opsw_setup_log.rb recipes/opsw_setup_log.rb
 cp ../src/build/chef/recipes_opsw_setup_moni.rb recipes/opsw_setup_moni.rb
 cp ../src/build/chef/recipes_opsw_configure.rb recipes/opsw_configure.rb
 cp ../src/build/chef/recipes_opsw_configure_job.rb recipes/opsw_configure_job.rb
+cp ../src/build/chef/recipes_opsw_configure_api.rb recipes/opsw_configure_api.rb
 cp ../src/build/chef/recipes_opsw_configure_ci.rb recipes/opsw_configure_ci.rb
 cp ../src/build/chef/recipes_opsw_configure_log.rb recipes/opsw_configure_log.rb
 cp ../src/build/chef/recipes_opsw_configure_moni.rb recipes/opsw_configure_moni.rb
 cp ../src/build/chef/recipes_opsw_deploy.rb recipes/opsw_deploy.rb
+cp ../src/build/chef/recipes_opsw_deploy_api.rb recipes/opsw_deploy_api.rb
 cp ../src/build/chef/recipes_opsw_deploy_job.rb recipes/opsw_deploy_job.rb
 cp ../src/build/chef/recipes_opsw_shutdown.rb recipes/opsw_shutdown.rb
+cp ../src/build/chef/recipes_opsw_shutdown_api.rb recipes/opsw_shutdown_api.rb
 cp ../src/build/chef/recipes_opsw_shutdown_job.rb recipes/opsw_shutdown_job.rb
 cp ../src/build/chef/recipes_opsw_undeploy.rb recipes/opsw_undeploy.rb
+cp ../src/build/chef/recipes_opsw_undeploy_api.rb recipes/opsw_undeploy_api.rb
 cp ../src/build/chef/recipes_opsw_undeploy_job.rb recipes/opsw_undeploy_job.rb
 cp ../src/build/chef/recipes_opsw_deploy_rails.rb recipes/opsw_deploy_rails.rb
 cp ../src/build/chef/recipes_opsw_deploy_rails_job.rb recipes/opsw_deploy_rails_job.rb
+cp ../src/build/chef/recipes_opsw_deploy_rails_api.rb recipes/opsw_deploy_rails_api.rb
 cp ../src/build/chef/recipes_opsw_undeploy_rails.rb recipes/opsw_undeploy_rails.rb
 cp ../src/build/chef/recipes_opsw_undeploy_rails_job.rb recipes/opsw_undeploy_rails_job.rb
+cp ../src/build/chef/recipes_opsw_undeploy_rails_api.rb recipes/opsw_undeploy_rails_api.rb
 chef generate file default
 cp ../src/build/chef/files_default_wrap-ssh4git.sh files/wrap-ssh4git.sh
 chef generate attribute default
@@ -119,5 +126,6 @@ mkdir -p test/integration/data_bags
 mkdir test/integration/data_bags/aws_opsworks_app
 cp ../src/build/chef/databag_opsw_app.json test/integration/data_bags/aws_opsworks_app/app.json
 cp ../src/build/chef/databag_opsw_job.json test/integration/data_bags/aws_opsworks_app/job.json
+cp ../src/build/chef/databag_opsw_api.json test/integration/data_bags/aws_opsworks_app/api.json
 mkdir test/integration/data_bags/aws_opsworks_rds_db_instance
 cp ../src/build/chef/databag_opsw_db.json test/integration/data_bags/aws_opsworks_rds_db_instance/db.json

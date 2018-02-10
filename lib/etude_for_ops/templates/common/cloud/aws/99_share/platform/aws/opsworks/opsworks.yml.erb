@@ -184,6 +184,57 @@ Resources:
               "migrate": true
             }
            }
+  OpsWorksLayerApi:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Api ApplicationLayer.
+    DependsOn: OpsWorksAppApi
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: api
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: ApplicationApiService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_api'
+          Deploy:
+           - 'ruby_platform::opsw_deploy_api'
+          Setup:
+           - 'ruby_platform::opsw_setup_api'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown_api'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy_api'
+      CustomJson: |
+           {
+            "state": "custom",
+            "app_name_short": ["<%= params[:application_name_short] %>api"],
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            }
+           }
   OpsWorksLayerLogging:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
@@ -255,6 +306,12 @@ Resources:
     Properties:
       StackId: !Ref OpsWorksStack
       Name: <%= params[:application_name] %>Job
+      Type: other
+  OpsWorksAppApi:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>Api
       Type: other
   OpsWorksServiceRole:
     Type: 'AWS::IAM::Role'

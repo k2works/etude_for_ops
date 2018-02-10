@@ -15,7 +15,7 @@ secret_key_base = node['secret_key']
 include_recipe 'yum::default'
 include_recipe 'git::default'
 
-packages = %W{ gcc gcc-c++ openssl-devel readline-devel zlib-devel sqlite-devel cmake }
+packages = %W{ gcc gcc-c++ openssl-devel readline-devel zlib-devel sqlite-devel cmake  libffi-devel }
 packages.each do |pkg|
   package "#{pkg}" do
     action [ :install, :upgrade ]

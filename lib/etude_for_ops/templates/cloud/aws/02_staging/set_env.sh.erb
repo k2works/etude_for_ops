@@ -5,6 +5,8 @@ export STG_APP_REPOSITORY=<%= config['ops']['staging']['repository'] %>
 export STG_APP_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_ssh_key'] %>
 export STG_APP_JOB_REPOSITORY=<%= config['ops']['staging']['repository_job'] %>
 export STG_APP_JOB_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_job_ssh_key'] %>
+export STG_APP_API_REPOSITORY=<%= config['ops']['staging']['repository_api'] %>
+export STG_APP_API_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_api_ssh_key'] %>
 export STG_APP_SECRET_KEY_BASE=<%= config['ops']['staging']['secret_key_base'] %>
 export SECRET_KEY_BASE=$STG_APP_SECRET_KEY_BASE
 export STG_BRANCH=staging
@@ -107,15 +109,20 @@ export STG_OPSW_APP_REVISION=<%= config['ops']['staging']['opsw_app_revision'] %
 export STG_OPSW_APP_REPO_URL=$STG_APP_REPOSITORY
 export STG_OPSW_APP_URL=<%= config['ops']['staging']['opsw_app_url'] %>
 export STG_OPSW_APP_JOB_ID=<%= config['ops']['staging']['opsw_app_job_id'] %>
+export STG_OPSW_APP_API_ID=<%= config['ops']['staging']['opsw_app_api_id'] %>
 export STG_OPSW_APP_JOB_REVISION=<%= config['ops']['staging']['opsw_app_job_revision'] %>
 export STG_OPSW_APP_JOB_REPO_URL=$STG_APP_JOB_REPOSITORY
 export STG_OPSW_APP_JOB_URL=<%= config['ops']['staging']['opsw_app_job_url'] %>
+export STG_OPSW_APP_API_REVISION=<%= config['ops']['staging']['opsw_app_api_revision'] %>
+export STG_OPSW_APP_API_REPO_URL=$STG_APP_API_REPOSITORY
+export STG_OPSW_APP_API_URL=<%= config['ops']['staging']['opsw_app_api_url'] %>
 export STG_OPSW_EIP=<%= config['ops']['staging']['opsw_eip'] %>
 export STG_OPSW_EIP_ID=<%= config['ops']['staging']['opsw_eip_id'] %>
 export STG_OPSW_DB_INSTANCE_ARN=$STG_RDS_ARN
 export STG_OPSW_DB_ADAPTER=<%= config['ops']['staging']['opsw_db_adapter'] %>
 export STG_OPSW_DB_NAME=<%= config['ops']['staging']['opsw_db_name'] %>
 export STG_OPSW_DB_JOB_NAME=<%= config['ops']['staging']['opsw_db_job_name'] %>
+export STG_OPSW_DB_API_NAME=<%= config['ops']['staging']['opsw_db_api_name'] %>
 export STG_OPSW_DB_USERNAME=<%= config['ops']['staging']['opsw_db_username'] %>
 export STG_OPSW_DB_PASSWORD=<%= config['ops']['staging']['opsw_db_password'] %>
 export STG_OPSW_DB_HOSTNAME=<%= config['ops']['staging']['opsw_db_hostname'] %>

@@ -87,26 +87,34 @@ module EtudeForOps
         reprovision.sh
         recipes_opsw_deploy.rb
         recipes_opsw_deploy_job.rb
+        recipes_opsw_deploy_api.rb
         recipes_opsw_shutdown.rb
         recipes_opsw_shutdown_job.rb
+        recipes_opsw_shutdown_api.rb
         recipes_opsw_undeploy.rb
+        recipes_opsw_undeploy_api.rb
         recipes_opsw_undeploy_job.rb
         recipes_opsw_deploy_rails.rb
         recipes_opsw_deploy_rails_job.rb
+        recipes_opsw_deploy_rails_api.rb
         recipes_opsw_undeploy_rails.rb
         recipes_opsw_undeploy_rails_job.rb
+        recipes_opsw_undeploy_rails_api.rb
         recipes_opsw_setup.rb
+        recipes_opsw_setup_api.rb
         recipes_opsw_setup_job.rb
         recipes_opsw_setup_ci.rb
         recipes_opsw_setup_log.rb
         recipes_opsw_setup_moni.rb
         recipes_opsw_configure.rb
+        recipes_opsw_configure_api.rb
         recipes_opsw_configure_job.rb
         recipes_opsw_configure_ci.rb
         recipes_opsw_configure_log.rb
         recipes_opsw_configure_moni.rb
         databag_opsw_app.json
         databag_opsw_job.json
+        databag_opsw_api.json
         databag_opsw_db.json
         files_default_wrap-ssh4git.sh
       ]
