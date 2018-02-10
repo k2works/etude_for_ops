@@ -1,0 +1,40 @@
+unless node['state'].nil?
+  Chef::Log.info("********** The app's initial state is '#{node['state']}' **********")
+  Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+  Chef::Log.info("********** The deploy app's action is undeploy **********")
+else
+  Chef::Log.info("********** The app's initial state is default check your custome JSON **********")
+  Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+  Chef::Log.info("********** The deploy app's action is undeploy **********")
+end
+
+node['app_name_short'].each do |app_name|
+  app = search(:aws_opsworks_app, "shortname:#{app_name}").first
+  app_path = "/srv/#{app['shortname']}"
+  domains = app['domains'] || []
+
+  directory app_path do
+    recursive true
+    action :delete
+  end
+
+  service "puma_#{app['shortname']}" do
+    action :stop
+  end
+
+  file "puma_#{app['shortname']}" do
+    action :delete
+    only_if { File.exist? "/etc/init.d/puma_#{app['shortname']}" }
+  end
+
+  domains.each do |domain|
+    file "/etc/nginx/conf.d/#{app['shortname']}_#{domain}.conf" do
+      action :delete
+      only_if { File.exist? "/etc/nginx/conf.d/#{app['shortname']}_#{domain}.conf" }
+    end
+  end
+
+  service "nginx" do
+    action :restart
+  end
+end

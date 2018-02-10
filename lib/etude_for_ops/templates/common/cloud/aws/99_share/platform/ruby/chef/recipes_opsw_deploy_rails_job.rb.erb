@@ -150,14 +150,6 @@ node['app_name_short'].each do |app_name|
           )
         end
 
-        template ::File.expand_path(::File.join(release_path, '../../shared/config/sidekiq.yml')) do
-          cookbook 'ruby_platform'
-          source 'sidekiq.yml.erb'
-          variables(
-              app_path: app_path
-          )
-        end
-
         template ::File.expand_path(::File.join(release_path, '../../shared/config/kuroko2.yml')) do
           cookbook 'ruby_platform'
           source 'kuroko2.yml.erb'
@@ -212,25 +204,6 @@ node['app_name_short'].each do |app_name|
       end
 
       service "puma_#{app['shortname']}" do
-        action :start
-      end
-
-      template "active_job_#{app['shortname']}" do
-        path "/etc/init.d/active_job_#{app['shortname']}"
-        source 'active_job.erb'
-        owner user
-        group group
-        mode 0o755
-
-        variables(
-            user: user,
-            app: app['shortname'],
-            app_path: app_path,
-            rails_env: app['environment']['RAILS_ENV']
-        )
-      end
-
-      service "active_job_#{app['shortname']}" do
         action :start
       end
 
