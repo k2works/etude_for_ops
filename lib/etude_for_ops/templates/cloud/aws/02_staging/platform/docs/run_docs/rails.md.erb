@@ -23,3 +23,4 @@ require 'sidekiq/web'
 mount Sidekiq::Web => '/sidekiq'
 ```
 
+GemFileの`listen`をDevelopmentグループからグローバルに移動しないと。ProductionモードでSidekiqが動かないので注意する。
