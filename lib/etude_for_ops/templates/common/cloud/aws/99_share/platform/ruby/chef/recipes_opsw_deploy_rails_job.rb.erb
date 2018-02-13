@@ -207,7 +207,8 @@ node['app_name_short_job'].each do |app_name|
       end
 
       service "puma_#{app['shortname']}" do
-        action :start
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
       end
 
       template "kuroko2_executor_#{app['shortname']}" do
@@ -271,15 +272,18 @@ node['app_name_short_job'].each do |app_name|
       end
 
       service "kuroko2_executor_#{app['shortname']}" do
-        action :start
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
       end
 
       service "kuroko2_processor_#{app['shortname']}" do
-        action :start
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
       end
 
       service "kuroko2_scheduler_#{app['shortname']}" do
-        action :start
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
       end
 
 

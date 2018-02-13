@@ -185,7 +185,8 @@ node['app_name_short_api'].each do |app_name|
       end
 
       service "puma_#{app['shortname']}" do
-        action :start
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
       end
 
       template "active_job_#{app['shortname']}" do
@@ -204,7 +205,8 @@ node['app_name_short_api'].each do |app_name|
       end
 
       service "active_job_#{app['shortname']}" do
-        action :start
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
       end
 
       domains.each do |domain|
