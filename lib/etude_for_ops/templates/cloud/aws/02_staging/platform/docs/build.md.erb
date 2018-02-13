@@ -58,6 +58,31 @@ chmod 0400 ~/.ssh/$STG_APP_API_REPOSITORY_SSH_KEY.pub
 chmod 700 ~/.ssh/config
 ```
 
+#### 証明書を作成する(自己認証)
+```
+$ cd /vagrant/config/secure/
+$ openssl req -new -days 365 -x509 -nodes -keyout ssl_certificate.pem -out ssl_certificate.crt
+Generating a 2048 bit RSA private key
+......................................+++
+...................+++
+writing new private key to 'ssl_certificate.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:
+State or Province Name (full name) []:
+Locality Name (eg, city) [Default City]:
+Organization Name (eg, company) [Default Company Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server's hostname) []:
+Email Address []:
+```
+
 #### EC2キーペアの作成
 ```bash
 cd /vagrant/config/secure/

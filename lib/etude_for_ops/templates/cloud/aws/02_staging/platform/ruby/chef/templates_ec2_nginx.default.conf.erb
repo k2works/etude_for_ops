@@ -5,6 +5,13 @@ server {
   <% else %>
   server_name <%= @server_name %>;
   <% end %>
+
+  <% if @enable_ssl %>
+  listen 443 ssl;
+  ssl_certificate     /etc/nginx/ssl/<%= @app %>_ssl_certificate.crt;
+  ssl_certificate_key /etc/nginx/ssl/<%= @app %>_ssl_certificate.pem;
+  <% end %>
+
   keepalive_timeout 300;
 
   client_max_body_size 4G;

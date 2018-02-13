@@ -55,6 +55,22 @@ node['app_name_short_api'].each do |app_name|
     mode '0755'
   end
 
+  enable_ssl = app['enable_ssl'] || node['enable_ssl']
+  if enable_ssl
+    directory '/etc/nginx/ssl' do
+      action :create
+    end
+
+    file "/etc/nginx/ssl/#{app['shortname']}_ssl_certificate.crt" do
+      content app['ssl_configuration']['certificate']
+    end
+
+    file "/etc/nginx/ssl/#{app['shortname']}_ssl_certificate.pem" do
+      content app['ssl_configuration']['private_key']
+    end
+  end
+
+
   deploy_branch app_path do
     user user
     group group
@@ -216,7 +232,8 @@ node['app_name_short_api'].each do |app_name|
 
           variables({
                         :app => app['shortname'],
-                        :server_name => domain
+                        :server_name => domain,
+                        :enable_ssl => enable_ssl
                     })
         end
       end

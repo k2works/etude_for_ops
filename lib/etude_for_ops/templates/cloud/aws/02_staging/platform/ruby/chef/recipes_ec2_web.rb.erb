@@ -22,14 +22,14 @@ apps.each do |app|
   end
 
   server = "unix:/srv/#{app}/shared/sockets/puma.sock"
-
   template "/etc/nginx/conf.d/#{app}.conf" do
     source 'nginx.app.conf.erb'
     mode '0644'
 
     variables({
                   :app => app,
-                  :server => server
+                  :server => server,
+                  :enable_ssl => false
               })
   end
 
