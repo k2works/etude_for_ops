@@ -1,4 +1,6 @@
 apps = node['app_name_short']
+apps = apps | node['app_name_short_job']
+apps = apps | node['app_name_short_api']
 
 package 'nginx' do
   action :install

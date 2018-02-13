@@ -169,18 +169,18 @@ Resources:
           Configure:
            - 'ruby_platform::opsw_configure_job'
           Deploy:
-           - 'ruby_platform::opsw_deploy'
+           - 'ruby_platform::opsw_deploy_job'
           Setup:
            - 'ruby_platform::opsw_setup_job'
           Shutdown:
            - 'ruby_platform::opsw_shutdown_job'
           Undeploy:
-           - 'ruby_platform::opsw_undeploy'
+           - 'ruby_platform::opsw_undeploy_job'
       CustomJson: |
            {
             "state": "custom",
             "type": "job",
-            "app_name_short": ["<%= params[:application_name_short] %>job"],
+            "app_name_short_job": ["<%= params[:application_name_short] %>job"],
             "deploy": {
               "action": "deploy",
               "migrate": true
@@ -221,18 +221,18 @@ Resources:
           Configure:
            - 'ruby_platform::opsw_configure_api'
           Deploy:
-           - 'ruby_platform::opsw_deploy'
+           - 'ruby_platform::opsw_deploy_api'
           Setup:
            - 'ruby_platform::opsw_setup_api'
           Shutdown:
            - 'ruby_platform::opsw_shutdown_api'
           Undeploy:
-           - 'ruby_platform::opsw_undeploy'
+           - 'ruby_platform::opsw_undeploy_api'
       CustomJson: |
            {
             "state": "custom",
             "type": "api",
-            "app_name_short": ["<%= params[:application_name_short] %>api"],
+            "app_name_short_api": ["<%= params[:application_name_short] %>api"],
             "deploy": {
               "action": "deploy",
               "migrate": true

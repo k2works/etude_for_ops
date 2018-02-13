@@ -3,11 +3,11 @@
 deploy_action = :deploy
 deploy_migration = true
 
-node['app_name_short'].each do |app_name|
+node['app_name_short_api'].each do |app_name|
   unless node['state'].nil?
     Chef::Log.info("********** The app's initial state is '#{node['state']}' **********")
     Chef::Log.info("********** The app's type is '#{node['type']}' **********")
-    Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+    Chef::Log.info("********** The deploy app's name is '#{node['app_name_short_api']}' **********")
     Chef::Log.info("********** The deploy app's action is '#{node['deploy']['action']}' **********")
     Chef::Log.info("********** The deploy app's migration is '#{node['deploy']['migrate']}' **********")
     deploy_action = node['deploy']['action'].to_sym
@@ -15,7 +15,7 @@ node['app_name_short'].each do |app_name|
   else
     Chef::Log.info("********** The app's initial state is default check your custome JSON **********")
     Chef::Log.info("********** The app's type is api **********")
-    Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+    Chef::Log.info("********** The deploy app's name is '#{node['app_name_short_api']}' **********")
     Chef::Log.info("********** The deploy app's action is '#{deploy_action}' **********")
     Chef::Log.info("********** The deploy app's migration is '#{deploy_migration}' **********")
   end

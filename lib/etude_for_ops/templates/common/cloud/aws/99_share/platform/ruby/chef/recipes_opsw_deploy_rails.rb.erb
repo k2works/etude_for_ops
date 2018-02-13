@@ -180,6 +180,18 @@ node['app_name_short'].each do |app_name|
            ./bin/rake assets:precompile
           EOC
         end
+      else
+        execute 'assets-precompile' do
+          user user
+          group group
+          environment 'RAILS_ENV' => app['environment']['RAILS_ENV'],
+                      'RAILS_GROUPS' => 'assets'
+          cwd release_path
+          command <<-EOC
+           export PATH="/home/#{user}/.rbenv/shims/:$PATH"
+           ./bin/rake assets:precompile
+          EOC
+        end
       end
 
       template "puma_#{app['shortname']}" do

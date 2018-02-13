@@ -3,6 +3,8 @@ group = node['ec2_group']
 secret_key = node['secret_key']
 url = node['app_url']
 apps = node['app_name_short']
+apps = apps | node['app_name_short_job']
+apps = apps | node['app_name_short_api']
 environment = node['env']
 
 directory "/home/#{user}/.ssh" do
