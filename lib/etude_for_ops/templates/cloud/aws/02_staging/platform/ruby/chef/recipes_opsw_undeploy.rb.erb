@@ -1,1 +1,10 @@
-include_recipe 'ruby_platform::opsw_undeploy_rails'
+case node['type']
+  when 'app' then
+    include_recipe 'ruby_platform::opsw_undeploy_rails'
+  when 'job' then
+    include_recipe 'ruby_platform::opsw_undeploy_rails_job'
+  when 'api' then
+    include_recipe 'ruby_platform::opsw_undeploy_rails_api'
+  else
+    Chef::Log.info("********** There is no type for undeployment **********")
+end

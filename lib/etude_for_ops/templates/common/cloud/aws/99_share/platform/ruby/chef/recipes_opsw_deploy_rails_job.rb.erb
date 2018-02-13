@@ -5,6 +5,7 @@ deploy_migration = true
 
 unless node['state'].nil?
   Chef::Log.info("********** The app's initial state is '#{node['state']}' **********")
+  Chef::Log.info("********** The app's type is '#{node['type']}' **********")
   Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
   Chef::Log.info("********** The deploy app's action is '#{node['deploy']['action']}' **********")
   Chef::Log.info("********** The deploy app's migration is '#{node['deploy']['migrate']}' **********")
@@ -12,6 +13,7 @@ unless node['state'].nil?
   deploy_migration = node['deploy']['migrate']
 else
   Chef::Log.info("********** The app's initial state is default check your custome JSON **********")
+  Chef::Log.info("********** The app's type is job **********")
   Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
   Chef::Log.info("********** The deploy app's action is '#{deploy_action}' **********")
   Chef::Log.info("********** The deploy app's migration is '#{deploy_migration}' **********")
