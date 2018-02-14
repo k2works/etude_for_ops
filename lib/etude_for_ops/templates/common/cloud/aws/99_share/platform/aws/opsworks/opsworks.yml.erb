@@ -298,6 +298,46 @@ Resources:
            - 'ruby_platform::opsw_configure_ci'
           Setup:
            - 'ruby_platform::opsw_setup_ci'
+  OpsWorksLayerIts:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Issue tracking system ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: IssueTrackingService
+      Shortname: its
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_its'
+          Setup:
+           - 'ruby_platform::opsw_setup_its'
+  OpsWorksLayerCollabo:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Collaboration system ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: CollaborationService
+      Shortname: collabo
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_collabo'
+          Setup:
+           - 'ruby_platform::opsw_setup_collabo'
   OpsWorksApp:
     Type: 'AWS::OpsWorks::App'
     Properties:

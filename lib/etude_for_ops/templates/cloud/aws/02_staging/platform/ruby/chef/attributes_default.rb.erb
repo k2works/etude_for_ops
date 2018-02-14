@@ -33,10 +33,10 @@ default['postgres']['user']['name'] = 'app'
 default['postgres']['user']['password'] = 'password'
 
 default['java']['jdk_version'] = '8'
-default['java']['install_flavor'] = 'oracle'
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '68ec82d47fd9c2b8eb84225b6db398a72008285fafc98631b1ff8d2229680257'
-default['java']['oracle']['accept_oracle_download_terms'] = true
+#default['java']['install_flavor'] = 'oracle'
+#default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz'
+#default['java']['jdk']['8']['x86_64']['checksum'] = '68ec82d47fd9c2b8eb84225b6db398a72008285fafc98631b1ff8d2229680257'
+#default['java']['oracle']['accept_oracle_download_terms'] = true
 
 default['docker_compose']['release'] = '1.8.0'
 default['docker-machine']['version'] = '0.10.0'
@@ -49,3 +49,17 @@ default['iam_ssh_pubkey_id'] = 'xxxxxxxxx'
 default['zabbix_rpm'] = 'zabbix-release-3.0-1.el6.noarch.rpm'
 
 default['enable_ssl'] = false
+
+default['jira']['version'] = '7.4.2'
+default['jira']['tomcat']['port'] = '9999'
+default['jira']['user'] = 'root'
+default['jira']['dbuser'] = 'jira'
+default['jira']['db_name'] = 'jira'
+default['jira']['dbuser_password'] = 'password'
+
+default['confluence']['version'] = '6.3.1'
+default['confluence']['tomcat']['port'] = '8888'
+default['confluence']['user'] = 'root'
+default['confluence']['dbuser'] = 'confluence'
+default['confluence']['db_name'] = 'confluence'
+default['confluence']['dbuser_password'] = 'password'

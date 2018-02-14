@@ -49,8 +49,10 @@ module EtudeForOps
         recipes_ec2_ci.rb
         recipes_ec2_log.rb
         recipes_ec2_moni.rb
+        recipes_ec2_its.rb
+        recipes_ec2_collabo.rb
         recipes_ec2_moni_configure.rb
-        recipes_ec2_ci_log_moni_web.rb
+        recipes_ec2_ci_log_moni_its_web.rb
         recipes_ec2_ci_log_app_web.rb
 　　　　 recipes_ec2_user.rb
         recipes_ec2_app.rb
@@ -81,6 +83,8 @@ module EtudeForOps
         recipes_setup_aws.rb
         recipes_setup_vagrant.rb
         recipes_setup_zabbix.rb
+        recipes_setup_jira.rb
+        recipes_setup_confluence.rb
         Vagrantfile
         .kitchen.yml
         Gemfile
@@ -106,12 +110,16 @@ module EtudeForOps
         recipes_opsw_setup_ci.rb
         recipes_opsw_setup_log.rb
         recipes_opsw_setup_moni.rb
+        recipes_opsw_setup_its.rb
+        recipes_opsw_setup_collabo.rb
         recipes_opsw_configure.rb
         recipes_opsw_configure_api.rb
         recipes_opsw_configure_job.rb
         recipes_opsw_configure_ci.rb
         recipes_opsw_configure_log.rb
         recipes_opsw_configure_moni.rb
+        recipes_opsw_configure_its.rb
+        recipes_opsw_configure_collabo.rb
         databag_opsw_app.json
         databag_opsw_job.json
         databag_opsw_api.json
@@ -163,6 +171,8 @@ module EtudeForOps
         templates_default_nginx.app.conf
         templates_default_nginx.kibana.conf
         templates_default_nginx.jenkins.conf
+        templates_default_nginx.jira.conf
+        templates_default_nginx.confluence.conf
         templates_default_nginx.td-agent-ui.conf
         templates_default_puma
         templates_default_puma.service
@@ -194,6 +204,8 @@ module EtudeForOps
         templates_default_kuroko2_scheduler
         templates_default_kuroko2_scheduler.service
         templates_default_kuroko2.yml
+        templates_default_jira.init
+        templates_default_confluence.init
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)

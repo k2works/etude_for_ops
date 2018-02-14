@@ -20,6 +20,11 @@ template '/etc/nginx/conf.d/jenkins.conf' do
   mode '0644'
 end
 
+template '/etc/nginx/conf.d/jira.conf' do
+  source 'nginx.jira.conf.erb'
+  mode '0644'
+end
+
 template '/etc/nginx/conf.d/kibana.conf' do
   source 'nginx.kibana.conf.erb'
   mode '0644'
