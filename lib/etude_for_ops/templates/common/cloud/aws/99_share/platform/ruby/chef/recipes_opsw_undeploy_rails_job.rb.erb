@@ -1,6 +1,6 @@
 unless node['state'].nil?
   Chef::Log.info("********** The app's initial state is '#{node['state']}' **********")
-  Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+  Chef::Log.info("********** The deploy app's name is '#{node['app_name_short_job']}' **********")
   Chef::Log.info("********** The deploy app's action is undeploy **********")
 else
   Chef::Log.info("********** The app's initial state is default check your custome JSON **********")
@@ -8,7 +8,7 @@ else
   Chef::Log.info("********** The deploy app's action is undeploy **********")
 end
 
-node['app_name_short'].each do |app_name|
+node['app_name_short_job'].each do |app_name|
   app = search(:aws_opsworks_app, "shortname:#{app_name}").first
   app_path = "/srv/#{app['shortname']}"
   domains = app['domains'] || []
