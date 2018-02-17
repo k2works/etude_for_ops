@@ -52,7 +52,7 @@ module EtudeForOps
         recipes_ec2_its.rb
         recipes_ec2_collabo.rb
         recipes_ec2_moni_configure.rb
-        recipes_ec2_ci_log_moni_its_web.rb
+        recipes_ec2_ci_log_moni_its_collabo_web.rb
         recipes_ec2_ci_log_app_web.rb
 　　　　 recipes_ec2_user.rb
         recipes_ec2_app.rb
