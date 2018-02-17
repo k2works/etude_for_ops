@@ -41,5 +41,6 @@ remove_conf_files =%w[jenkins_default.conf kibana_default.conf jira_default.conf
 remove_conf_files.each do |file|
   file "/etc/nginx/conf.d/#{file}" do
     action :delete
+    notifies :restart, "service[nginx]", :immediately
   end
 end
