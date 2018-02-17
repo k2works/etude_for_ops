@@ -1,6 +1,3 @@
-server = node['nginx_app_server']
-app = node['app_name_short']
-
 package 'nginx' do
   action :install
 end
@@ -38,4 +35,11 @@ end
 service "nginx" do
   supports :status => true, :restrart => true, :reload => true
   action [ :enable, :start ]
+end
+
+remove_conf_files =%w[jenkins_default.conf kibana_default.conf jira_default.conf confluence_default.conf]
+remove_conf_files.each do |file|
+  file "/etc/nginx/conf.d/#{file}" do
+    action :delete
+  end
 end
