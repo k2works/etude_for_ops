@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+APP_ID=$<%= params[:opsw_app_bot_id] %>
+NODE_ENV=$<%= params[:opsw_app_env] %>
+STG_URL=$<%= params[:opsw_app_bot_url]%>
+S3_BACKET=$<%= params[:opsw_backet]%>
+REPO_URL=$<%= params[:opsw_app_bot_repo_url]%>
+REVISION=$<%= params[:opsw_app_bot_revision]%>
+
+echo "**********************************"
+echo APP_ID:$APP_ID
+echo REVISION:$REVISION
+echo NODE_ENV:$NODE_ENV
+echo STG_URL:$STG_URL
+echo S3_BACKET:$S3_BACKET
+echo REPO_URL:$REPO_URL
+echo REVISION:$REVISION
+echo "**********************************"
+
+aws opsworks update-app  \
+             --region us-east-1   \
+             --app-id $APP_ID  \
+             --app-source  Url=$REPO_URL,Revision=$REVISION \
+             --environment Key=NODE_ENV,Value=$NODE_ENV,Secure=false \
+                           Key=STG_URL,Value=$STG_URL,Secure=false \
+                           Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
+                           Key=HUBOT_SLACK_TOKEN,Value=,Secure=true \
+                           Key=HOST,Value=,Secure=false \
+                           Key=PORT,Value=,Secure=false

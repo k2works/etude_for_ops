@@ -1,0 +1,38 @@
+include_recipe 'ruby_platform::setup'
+
+node_url = node['node_url']
+yarn_url = node['yarn_url']
+
+execute 'install node' do
+  command "curl --silent --location #{node_url} | sudo bash -"
+end
+
+execute 'get package' do
+  command "sudo wget #{yarn_url} -O /etc/yum.repos.d/yarn.repo"
+end
+
+execute 'install package' do
+  command 'sudo yum install yarn -y'
+end
+
+bash "Setup redis" do
+  code <<-EOC
+    rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+    yum --enablerepo=remi install redis -y
+  EOC
+end
+
+service "redis" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+package 'nginx' do
+  action :install
+end
+
+service "nginx" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
+

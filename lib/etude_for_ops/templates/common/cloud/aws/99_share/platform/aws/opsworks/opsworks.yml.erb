@@ -238,6 +238,58 @@ Resources:
               "migrate": true
             }
            }
+  OpsWorksLayerBot:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Bot ApplicationLayer.
+    DependsOn: OpsWorksAppBot
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: bot
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: ApplicationBotService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_bot'
+          Deploy:
+           - 'ruby_platform::opsw_deploy_bot'
+          Setup:
+           - 'ruby_platform::opsw_setup_bot'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown_bot'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy_bot'
+      CustomJson: |
+           {
+            "state": "custom",
+            "type": "bot",
+            "app_name_short_api": ["<%= params[:application_name_short] %>bot"],
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            }
+           }
   OpsWorksLayerLogging:
     Type: 'AWS::OpsWorks::Layer'
     Metadata:
@@ -355,6 +407,12 @@ Resources:
     Properties:
       StackId: !Ref OpsWorksStack
       Name: <%= params[:application_name] %>Api
+      Type: other
+  OpsWorksAppBot:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>Bot
       Type: other
   OpsWorksServiceRole:
     Type: 'AWS::IAM::Role'

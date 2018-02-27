@@ -58,6 +58,7 @@ module EtudeForOps
         recipes_ec2_app.rb
         recipes_ec2_web.rb
         recipes_ec2_db.rb
+        recipes_ec2_bot.rb
         recipes_ec2_configure.rb
         recipes_ec2_job.rb
         recipes_eb.rb
@@ -92,21 +93,27 @@ module EtudeForOps
         recipes_opsw_deploy.rb
         recipes_opsw_deploy_job.rb
         recipes_opsw_deploy_api.rb
+        recipes_opsw_deploy_bot.rb
         recipes_opsw_shutdown.rb
         recipes_opsw_shutdown_job.rb
         recipes_opsw_shutdown_api.rb
+        recipes_opsw_shutdown_bot.rb
         recipes_opsw_undeploy.rb
         recipes_opsw_undeploy_api.rb
         recipes_opsw_undeploy_job.rb
+        recipes_opsw_undeploy_bot.rb
         recipes_opsw_deploy_rails.rb
         recipes_opsw_deploy_rails_job.rb
         recipes_opsw_deploy_rails_api.rb
+        recipes_opsw_deploy_node.rb
         recipes_opsw_undeploy_rails.rb
         recipes_opsw_undeploy_rails_job.rb
         recipes_opsw_undeploy_rails_api.rb
+        recipes_opsw_undeploy_node.rb
         recipes_opsw_setup.rb
         recipes_opsw_setup_api.rb
         recipes_opsw_setup_job.rb
+        recipes_opsw_setup_bot.rb
         recipes_opsw_setup_ci.rb
         recipes_opsw_setup_log.rb
         recipes_opsw_setup_moni.rb
@@ -115,6 +122,7 @@ module EtudeForOps
         recipes_opsw_configure.rb
         recipes_opsw_configure_api.rb
         recipes_opsw_configure_job.rb
+        recipes_opsw_configure_bot.rb
         recipes_opsw_configure_ci.rb
         recipes_opsw_configure_log.rb
         recipes_opsw_configure_moni.rb
@@ -123,6 +131,7 @@ module EtudeForOps
         databag_opsw_app.json
         databag_opsw_job.json
         databag_opsw_api.json
+        databag_opsw_bot.json
         databag_opsw_db.json
         files_default_wrap-ssh4git.sh
       ]
@@ -206,6 +215,7 @@ module EtudeForOps
         templates_default_kuroko2.yml
         templates_default_jira.init
         templates_default_confluence.init
+        templates_default_bot_process.json
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)

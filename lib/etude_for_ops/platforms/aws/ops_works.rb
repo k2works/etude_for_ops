@@ -86,6 +86,7 @@ module EtudeForOps
         opsworks_update_app_job_without_rds.sh
         opsworks_update_app_api.sh
         opsworks_update_app_api_without_rds.sh
+        opsworks_update_app_bot.sh
         opsworks_create_elb.sh
         opsworks_create_instance.sh
         opsworks_deploy_app.sh
@@ -103,6 +104,7 @@ module EtudeForOps
         params[:opsw_app_id] = 'STG_OPSW_APP_ID'
         params[:opsw_app_job_id] = 'STG_OPSW_APP_JOB_ID'
         params[:opsw_app_api_id] = 'STG_OPSW_APP_API_ID'
+        params[:opsw_app_bot_id] = 'STG_OPSW_APP_BOT_ID'
         params[:opsw_rds_db_instance_arn] = 'STG_OPSW_RDS_DB_INSTANCE_ARN'
         params[:opsw_rds_db_name] = 'STG_RDS_DB_NAME'
         params[:opsw_rds_db_username] = 'STG_RDS_DB_USER_NAME'
@@ -128,6 +130,9 @@ module EtudeForOps
         params[:opsw_app_api_url] = 'STG_OPSW_APP_API_URL'
         params[:opsw_app_api_revision] = 'STG_OPSW_APP_API_REVISION'
         params[:opsw_app_api_repo_url] = 'STG_OPSW_APP_API_REPO_URL'
+        params[:opsw_app_bot_url] = 'STG_OPSW_APP_BOT_URL'
+        params[:opsw_app_bot_revision] = 'STG_OPSW_APP_BOT_REVISION'
+        params[:opsw_app_bot_repo_url] = 'STG_OPSW_APP_BOT_REPO_URL'
 
         params[:opsw_elb_subnet_1] = 'STG_OPSW_ELB_SUBNET_1'
         params[:opsw_elb_subnet_2] = 'STG_OPSW_ELB_SUBNET_2'
