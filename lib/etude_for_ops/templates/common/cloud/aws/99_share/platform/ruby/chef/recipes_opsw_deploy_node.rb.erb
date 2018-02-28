@@ -121,7 +121,7 @@ node['app_name_short_bot'].each do |app_name|
         )
       end
 
-      execute 'install' do
+      execute 'install node module' do
         user user
         group group
         cwd release_path
