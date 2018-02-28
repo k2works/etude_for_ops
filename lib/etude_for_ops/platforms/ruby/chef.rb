@@ -216,6 +216,7 @@ module EtudeForOps
         templates_default_jira.init
         templates_default_confluence.init
         templates_default_bot_process.json
+        templates_default_bot
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)

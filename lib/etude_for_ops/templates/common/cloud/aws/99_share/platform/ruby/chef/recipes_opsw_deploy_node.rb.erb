@@ -117,7 +117,14 @@ node['app_name_short_bot'].each do |app_name|
             script: "bin/hubot.sh",
             node_env: app['environment']['NODE_ENV'],
             hubot_slack_tocken: app['environment']['HUBOT_SLACK_TOKEN'],
-            port: app['environment']['PORT']
+            port: app['environment']['PORT'],
+            hubot_aws_access_key_id: app['environment']['HUBOT_AWS_ACCESS_KEY_ID'],
+            hubot_aws_secret_access_key: app['environment']['HUBOT_AWS_SECRET_ACCESS_KEY'],
+            hubot_jenkins_url: app['environment']['HUBOT_JENKINS_URL'],
+            hubot_jenkins_auth: app['environment']['HUBOT_JENKINS_AUTH'],
+            hubot_jira_url: app['environment']['HUBOT_JIRA_URL'],
+            hubot_jira_user: app['environment']['HUBOT_JIRA_USER'],
+            hubot_jira_password: app['environment']['HUBOT_JIRA_PASSWORD']
         )
       end
 
@@ -133,6 +140,29 @@ node['app_name_short_bot'].each do |app_name|
     end
 
     before_restart do
+      execute 'install pm2 global' do
+        command "yarn global add pm2"
+        action :run
+      end
+
+      template "bot_#{app['shortname']}" do
+        path "/etc/init.d/bot_#{app['shortname']}"
+        source 'bot.erb'
+        mode 0o755
+
+        variables(
+            user: 'root',
+            app: app['shortname'],
+            app_path: app_path,
+            node_env: app['environment']['NODE_ENV']
+        )
+      end
+
+      service "bot_#{app['shortname']}" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+
       server = "#{app['environment']['HOST']}:#{app['environment']['PORT']}"
       template "/etc/nginx/conf.d/#{app['shortname']}.conf" do
         source 'nginx.app.conf.erb'
@@ -159,17 +189,6 @@ node['app_name_short_bot'].each do |app_name|
 
       service "nginx" do
         action :restart
-      end
-
-      execute 'node application' do
-        user user
-        group group
-        cwd release_path
-        command <<-EOC
-           sudo yarn run prod:stop
-           sudo yarn run prod:start
-        EOC
-        action :run
       end
     end
   end

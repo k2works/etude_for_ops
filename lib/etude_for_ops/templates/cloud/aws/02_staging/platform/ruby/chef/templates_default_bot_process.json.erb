@@ -22,9 +22,16 @@
       "autorestart"           : true,
       "vizion"                : false,
       "env": {
-        "NODE_ENV"               : "<%= @node_env %>",
-        "HUBOT_SLACK_TOKEN"      : "<%= @hubot_slack_tocken %>",
-        "PORT"                   : "<%= @port %>"
+        "NODE_ENV"                    : "<%= @node_env %>",
+        "HUBOT_SLACK_TOKEN"           : "<%= @hubot_slack_tocken %>",
+        "PORT"                        : "<%= @port %>",
+        "HUBOT_AWS_ACCESS_KEY_ID"     : "<%= @hubot_aws_access_key_id %>",
+        "HUBOT_AWS_SECRET_ACCESS_KEY" : "<%= @hubot_aws_secret_access_key %>",
+        "HUBOT_JENKINS_URL"           : "<%= @hubot_jenkins_url %>",
+        "HUBOT_JENKINS_AUTH"          : "<%= @hubot_jenkins_auth %>",
+        "HUBOT_JIRA_URL"              : "<%= @hubot_jira_url %>",
+        "HUBOT_JIRA_USER"             : "<%= @hubot_jira_user %>",
+        "HUBOT_JIRA_PASSWORD"         : "<%= @hubot_jira_password %>"
       }
     }
   ]

@@ -24,6 +24,13 @@ aws opsworks update-app  \
              --environment Key=NODE_ENV,Value=$NODE_ENV,Secure=false \
                            Key=STG_URL,Value=$STG_URL,Secure=false \
                            Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
-                           Key=HUBOT_SLACK_TOKEN,Value=,Secure=true \
                            Key=HOST,Value=127.0.0.1,Secure=false \
-                           Key=PORT,Value=8080,Secure=false
+                           Key=PORT,Value=8080,Secure=false \
+                           Key=HUBOT_SLACK_TOKEN,Value=,Secure=true \
+                           Key=HUBOT_AWS_ACCESS_KEY_ID,Value=,Secure=false \
+                           Key=HUBOT_AWS_SECRET_ACCESS_KEY,Value=,Secure=true \
+                           Key=HUBOT_JENKINS_URL,Value=,Secure=false \
+                           Key=HUBOT_JENKINS_AUTH,Value=,Secure=true \
+                           Key=HUBOT_JIRA_URL,Value=,Secure=false \
+                           Key=HUBOT_JIRA_USER,Value=,Secure=false \
+                           Key=HUBOT_JIRA_PASSWORD,Value=,Secure=true
