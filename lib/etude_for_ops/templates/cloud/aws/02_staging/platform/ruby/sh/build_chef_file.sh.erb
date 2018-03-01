@@ -29,6 +29,7 @@ cp ../src/build/chef/recipes_ec2_configure.rb recipes/ec2_configure.rb
 cp ../src/build/chef/recipes_ec2_job.rb recipes/ec2_job.rb
 cp ../src/build/chef/recipes_ec2_its.rb recipes/ec2_its.rb
 cp ../src/build/chef/recipes_ec2_collabo.rb recipes/ec2_collabo.rb
+cp ../src/build/chef/recipes_ec2_messaging.rb recipes/ec2_messaging.rb
 cp ../src/build/chef/recipes_eb.rb recipes/eb.rb
 cp ../src/build/chef/recipes_setup.rb recipes/setup.rb
 cp ../src/build/chef/recipes_setup_swap.rb recipes/setup_swap.rb
@@ -50,10 +51,12 @@ cp ../src/build/chef/recipes_setup_vagrant.rb recipes/setup_vagrant.rb
 cp ../src/build/chef/recipes_setup_zabbix.rb recipes/setup_zabbix.rb
 cp ../src/build/chef/recipes_setup_jira.rb recipes/setup_jira.rb
 cp ../src/build/chef/recipes_setup_confluence.rb recipes/setup_confluence.rb
+cp ../src/build/chef/recipes_setup_mattermost.rb recipes/setup_mattermost.rb
 cp ../src/build/chef/recipes_setup_aws.rb recipes/setup_aws.rb
 cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
 cp ../src/build/chef/recipes_configure_postgres.rb recipes/configure_postgres.rb
 cp ../src/build/chef/recipes_configure_service.rb recipes/configure_service.rb
+cp ../src/build/chef/recipes_configure_mattermost.rb recipes/configure_mattermost.rb
 cp ../src/build/chef/recipes_opsw_setup.rb recipes/opsw_setup.rb
 cp ../src/build/chef/recipes_opsw_setup_api.rb recipes/opsw_setup_api.rb
 cp ../src/build/chef/recipes_opsw_setup_job.rb recipes/opsw_setup_job.rb
@@ -63,6 +66,7 @@ cp ../src/build/chef/recipes_opsw_setup_log.rb recipes/opsw_setup_log.rb
 cp ../src/build/chef/recipes_opsw_setup_moni.rb recipes/opsw_setup_moni.rb
 cp ../src/build/chef/recipes_opsw_setup_its.rb recipes/opsw_setup_its.rb
 cp ../src/build/chef/recipes_opsw_setup_collabo.rb recipes/opsw_setup_collabo.rb
+cp ../src/build/chef/recipes_opsw_setup_messaging.rb recipes/opsw_setup_messaging.rb
 cp ../src/build/chef/recipes_opsw_configure.rb recipes/opsw_configure.rb
 cp ../src/build/chef/recipes_opsw_configure_job.rb recipes/opsw_configure_job.rb
 cp ../src/build/chef/recipes_opsw_configure_api.rb recipes/opsw_configure_api.rb
@@ -72,6 +76,7 @@ cp ../src/build/chef/recipes_opsw_configure_log.rb recipes/opsw_configure_log.rb
 cp ../src/build/chef/recipes_opsw_configure_moni.rb recipes/opsw_configure_moni.rb
 cp ../src/build/chef/recipes_opsw_configure_its.rb recipes/opsw_configure_its.rb
 cp ../src/build/chef/recipes_opsw_configure_collabo.rb recipes/opsw_configure_collabo.rb
+cp ../src/build/chef/recipes_opsw_configure_messaging.rb recipes/opsw_configure_messaging.rb
 cp ../src/build/chef/recipes_opsw_deploy.rb recipes/opsw_deploy.rb
 cp ../src/build/chef/recipes_opsw_deploy_api.rb recipes/opsw_deploy_api.rb
 cp ../src/build/chef/recipes_opsw_deploy_job.rb recipes/opsw_deploy_job.rb
@@ -79,6 +84,7 @@ cp ../src/build/chef/recipes_opsw_deploy_bot.rb recipes/opsw_deploy_bot.rb
 cp ../src/build/chef/recipes_opsw_shutdown.rb recipes/opsw_shutdown.rb
 cp ../src/build/chef/recipes_opsw_shutdown_api.rb recipes/opsw_shutdown_api.rb
 cp ../src/build/chef/recipes_opsw_shutdown_job.rb recipes/opsw_shutdown_job.rb
+cp ../src/build/chef/recipes_opsw_shutdown_bot.rb recipes/opsw_shutdown_bot.rb
 cp ../src/build/chef/recipes_opsw_undeploy.rb recipes/opsw_undeploy.rb
 cp ../src/build/chef/recipes_opsw_undeploy_api.rb recipes/opsw_undeploy_api.rb
 cp ../src/build/chef/recipes_opsw_undeploy_job.rb recipes/opsw_undeploy_job.rb
@@ -111,6 +117,7 @@ cp ../src/build/chef/templates_default_nginx.kibana.conf.erb templates/default/n
 cp ../src/build/chef/templates_default_nginx.jenkins.conf.erb templates/default/nginx.jenkins.conf.erb
 cp ../src/build/chef/templates_default_nginx.jira.conf.erb templates/default/nginx.jira.conf.erb
 cp ../src/build/chef/templates_default_nginx.confluence.conf.erb templates/default/nginx.confluence.conf.erb
+cp ../src/build/chef/templates_default_nginx.mattermost.conf.erb templates/default/nginx.mattermost.conf.erb
 cp ../src/build/chef/templates_default_puma.erb templates/default/puma.erb
 cp ../src/build/chef/templates_default_puma.service.erb templates/default/puma.service.erb
 cp ../src/build/chef/templates_default_active_job.erb templates/default/active_job.erb
@@ -128,6 +135,7 @@ cp ../src/build/chef/templates_default_pg_hba.conf.erb templates/default/pg_hba.
 cp ../src/build/chef/templates_default_mongod.conf.erb templates/default/mongod.conf.erb
 cp ../src/build/chef/templates_default_redis.conf.erb templates/default/redis.conf.erb
 cp ../src/build/chef/templates_ec2_nginx.default.conf.erb templates/default/nginx.ec2.conf.erb
+cp ../src/build/chef/templates_ec2_mattermost_nginx.default.conf.erb templates/default/nginx.ec2_mattermost.conf.erb
 cp ../src/build/chef/templates_default_database.yml.erb templates/default/database.yml.erb
 cp ../src/build/chef/templates_default_puma.rb.erb templates/default/puma.rb.erb
 cp ../src/build/chef/templates_default_sidekiq.yml.erb templates/default/sidekiq.yml.erb
@@ -143,6 +151,7 @@ cp ../src/build/chef/templates_default_jira.init.erb templates/default/jira.init
 cp ../src/build/chef/templates_default_confluence.init.erb templates/default/confluence.init.erb
 cp ../src/build/chef/templates_default_bot_process.json.erb templates/default/bot_process.json.erb
 cp ../src/build/chef/templates_default_bot.erb templates/default/bot.erb
+cp ../src/build/chef/templates_default_mattermost.erb templates/default/mattermost.erb
 mkdir -p test/integration/data_bags
 mkdir test/integration/data_bags/aws_opsworks_app
 cp ../src/build/chef/databag_opsw_app.json test/integration/data_bags/aws_opsworks_app/app.json

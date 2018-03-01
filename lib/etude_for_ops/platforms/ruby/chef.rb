@@ -61,11 +61,13 @@ module EtudeForOps
         recipes_ec2_bot.rb
         recipes_ec2_configure.rb
         recipes_ec2_job.rb
+        recipes_ec2_messaging.rb
         recipes_eb.rb
         recipes_setup.rb
         recipes_configure.rb
         recipes_configure_postgres.rb
         recipes_configure_service.rb
+        recipes_configure_mattermost.rb
         recipes_setup_swap.rb
         recipes_setup_ruby.rb
         recipes_setup_mysql.rb
@@ -86,6 +88,7 @@ module EtudeForOps
         recipes_setup_zabbix.rb
         recipes_setup_jira.rb
         recipes_setup_confluence.rb
+        recipes_setup_mattermost.rb
         Vagrantfile
         .kitchen.yml
         Gemfile
@@ -119,6 +122,7 @@ module EtudeForOps
         recipes_opsw_setup_moni.rb
         recipes_opsw_setup_its.rb
         recipes_opsw_setup_collabo.rb
+        recipes_opsw_setup_messaging.rb
         recipes_opsw_configure.rb
         recipes_opsw_configure_api.rb
         recipes_opsw_configure_job.rb
@@ -128,6 +132,7 @@ module EtudeForOps
         recipes_opsw_configure_moni.rb
         recipes_opsw_configure_its.rb
         recipes_opsw_configure_collabo.rb
+        recipes_opsw_configure_messaging.rb
         databag_opsw_app.json
         databag_opsw_job.json
         databag_opsw_api.json
@@ -183,6 +188,7 @@ module EtudeForOps
         templates_default_nginx.jira.conf
         templates_default_nginx.confluence.conf
         templates_default_nginx.td-agent-ui.conf
+        templates_default_nginx.mattermost.conf
         templates_default_puma
         templates_default_puma.service
         templates_default_active_job
@@ -202,6 +208,7 @@ module EtudeForOps
         templates_default_mongod.conf
         templates_default_redis.conf
         templates_ec2_nginx.default.conf
+        templates_ec2_mattermost_nginx.default.conf
         templates_default_database.yml
         templates_default_puma.rb
         templates_default_sidekiq.yml
@@ -217,6 +224,7 @@ module EtudeForOps
         templates_default_confluence.init
         templates_default_bot_process.json
         templates_default_bot
+        templates_default_mattermost
       ]
 
       create_copy_template_files(src_build_dir,erb_template_files,params)

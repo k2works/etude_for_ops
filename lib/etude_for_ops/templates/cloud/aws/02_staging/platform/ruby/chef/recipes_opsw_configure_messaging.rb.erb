@@ -1,0 +1,31 @@
+include_recipe 'ruby_platform::configure_mattermost'
+
+package 'nginx' do
+  action :install
+end
+
+template '/etc/nginx/nginx.conf' do
+  source 'nginx.conf.erb'
+  mode '0644'
+end
+
+template '/etc/nginx/conf.d/mattermost.conf' do
+  source 'nginx.mattermost.conf.erb'
+  mode '0644'
+end
+
+template "/etc/nginx/conf.d/mattermost_default.conf" do
+  source 'nginx.ec2_mattermost.conf.erb'
+  mode '0644'
+
+  variables({
+                :app => 'mattermost_server'
+            })
+end
+
+service "nginx" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+  notifies :restart, 'service[mattermost]'
+end
+

@@ -390,6 +390,26 @@ Resources:
            - 'ruby_platform::opsw_configure_collabo'
           Setup:
            - 'ruby_platform::opsw_setup_collabo'
+  OpsWorksLayerMessaging:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Messaging system ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: MessagingService
+      Shortname: msg
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_messaging'
+          Setup:
+           - 'ruby_platform::opsw_setup_messaging'
   OpsWorksApp:
     Type: 'AWS::OpsWorks::App'
     Properties:
