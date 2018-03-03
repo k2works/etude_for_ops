@@ -26,6 +26,7 @@ aws opsworks update-app  \
                            Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
                            Key=HOST,Value=127.0.0.1,Secure=false \
                            Key=PORT,Value=8080,Secure=false \
+                           Key=ADAPTER,Value=,Secure=false \
                            Key=HUBOT_SLACK_TOKEN,Value=,Secure=true \
                            Key=HUBOT_AWS_ACCESS_KEY_ID,Value=,Secure=false \
                            Key=HUBOT_AWS_SECRET_ACCESS_KEY,Value=,Secure=true \
@@ -33,4 +34,15 @@ aws opsworks update-app  \
                            Key=HUBOT_JENKINS_AUTH,Value=,Secure=true \
                            Key=HUBOT_JIRA_URL,Value=,Secure=false \
                            Key=HUBOT_JIRA_USER,Value=,Secure=false \
-                           Key=HUBOT_JIRA_PASSWORD,Value=,Secure=true
+                           Key=HUBOT_JIRA_PASSWORD,Value=,Secure=true \
+                           Key=MATTERMOST_HOST,Value=,Secure=false \
+                           Key=MATTERMOST_GROUP,Value=,Secure=false \
+                           Key=MATTERMOST_USER,Value=,Secure=false \
+                           Key=MATTERMOST_PASSWORD,Value=,Secure=true \
+                           Key=MATTERMOST_USE_TLS,Value=false,Secure=false \
+                           Key=DOCOMO_API_KEY,Value=,Secure=true \
+                           Key=HUBOT_GITHUB_ORG,Value=,Secure=false \
+                           Key=HUBOT_GITHUB_REPO,Value=,Secure=false \
+                           Key=HUBOT_GITHUB_TOKEN,Value=,Secure=true \
+                           Key=HUBOT_GITHUB_USER,Value=,Secure=false \
+                           Key=HUBOT_FORECAST_API_KEY,Value=,Secure=true

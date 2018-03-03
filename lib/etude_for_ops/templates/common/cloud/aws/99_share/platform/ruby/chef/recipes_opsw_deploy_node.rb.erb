@@ -113,18 +113,30 @@ node['app_name_short_bot'].each do |app_name|
         variables(
             name: app['shortname'],
             cwd: "/srv/#{app['shortname']}/current",
-            args: ["-n", "hubot", "-a", "slack"],
+            args: ["-n", "hubot", "-a", "#{app['environment']['ADAPTER']}"],
             script: "bin/hubot.sh",
             node_env: app['environment']['NODE_ENV'],
             hubot_slack_tocken: app['environment']['HUBOT_SLACK_TOKEN'],
             port: app['environment']['PORT'],
+            adapter: app['environment']['ADAPTER'],
             hubot_aws_access_key_id: app['environment']['HUBOT_AWS_ACCESS_KEY_ID'],
             hubot_aws_secret_access_key: app['environment']['HUBOT_AWS_SECRET_ACCESS_KEY'],
             hubot_jenkins_url: app['environment']['HUBOT_JENKINS_URL'],
             hubot_jenkins_auth: app['environment']['HUBOT_JENKINS_AUTH'],
             hubot_jira_url: app['environment']['HUBOT_JIRA_URL'],
             hubot_jira_user: app['environment']['HUBOT_JIRA_USER'],
-            hubot_jira_password: app['environment']['HUBOT_JIRA_PASSWORD']
+            hubot_jira_password: app['environment']['HUBOT_JIRA_PASSWORD'],
+            mattermost_host: app['environment']['MATTERMOST_HOST'],
+            mattermost_group: app['environment']['MATTERMOST_GROUP'],
+            mattermost_user: app['environment']['MATTERMOST_USER'],
+            mattermost_password: app['environment']['MATTERMOST_PASSWORD'],
+            mattermost_use_tls: app['environment']['MATTERMOST_USE_TLS'],
+            docomo_api_key: app['environment']['DOCOMO_API_KEY'],
+            hubot_github_org: app['environment']['HUBOT_GITHUB_ORG'],
+            hubot_github_repo: app['environment']['HUBOT_GITHUB_REPO'],
+            hubot_github_token: app['environment']['HUBOT_GITHUB_TOKEN'],
+            hubot_github_user: app['environment']['HUBOT_GITHUB_USER'],
+            hubot_forecast_api_key: app['environment']['HUBOT_FORECAST_API_KEY']
         )
       end
 
