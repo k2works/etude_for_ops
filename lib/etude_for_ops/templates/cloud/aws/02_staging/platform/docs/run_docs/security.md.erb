@@ -1,0 +1,246 @@
+### セキュリティ
+rootユーザーで作業する
+```bash
+sudo su -
+```
+
+#### ホストのセキュリティ
+```bash
+yum -y update
+```
+ランレベル３で動作しているサービスを確認
+```bash
+sudo chkconfig --list | grep 3:on
+```
+不要なサービスを修了
+```bash
+service auditd stop
+service netfs stop
+service postfix stop
+chkconfig auditd off
+chkconfig netfs off
+chkconfig postfix off
+```
+
+時差情報の設定
+```bash
+cp -p /etc/localtime /etc/localtime.org
+ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+```
+タイムゾーンの設定
+`/etc/sysconfig/clock`
+```text
+ZONE="Asia/Tokyo"
+UTC=true    # ここは変更しなくてOK
+```
+システムの再起動
+```bash
+shutdown -r now
+```
+
+#### ネットワークのセキュリティ
+開いているポートを表示
+```bash
+sudo netstat -atun
+```
+iptablesによるファイアウォールの確認
+```bash
+sudo iptables -L 
+```
+
+#### YUMの基本操作
+
+```bash
+sudo yum update
+sudo yum install httpd
+sudo yum update httpd
+sudo yum remove httpd
+```
+
+#### システムの自動的な更新
+```bash
+sudo yum install yum-cron
+sudo service yum-cron start
+sudo chkconfig yum-cron on
+```
+`/etc/yum/yum-cron.conf`
+```text
+[commands]
+#  What kind of update to use:
+# default                            = yum upgrade
+# security                           = yum --security upgrade
+# security-severity:Critical         = yum --sec-severity=Critical upgrade
+# minimal                            = yum --bugfix update-minimal
+# minimal-security                   = yum --security update-minimal
+# minimal-security-severity:Critical =  --sec-severity=Critical update-minimal
+update_cmd = default
+
+# Whether a message should be emitted when updates are available,
+# were downloaded, or applied.
+update_messages = yes
+
+# Whether updates should be downloaded when they are available.
+download_updates = yes
+
+# Whether updates should be applied when they are available.  Note
+# that download_updates must also be yes for the update to be applied.
+apply_updates = yes
+
+# Maximum amout of time to randomly sleep, in minutes.  The program
+# will sleep for a random amount of time between 0 and random_sleep
+# minutes before running.  This is useful for e.g. staggering the
+# times that multiple systems will access update servers.  If
+# random_sleep is 0 or negative, the program will run immediately.
+#  NOTE that we hold up all the other things in cron.daily as we wait,
+# so while waiting for 6+ hours is fine for us it might not be nice
+# for logrotate (so wait for 2 hours by default).
+random_sleep = 120
+
+
+[emitters]
+# Name to use for this system in messages that are emitted.  If
+# system_name is None, the hostname will be used.
+system_name = None
+
+# How to send messages.  Valid options are stdio and email.  If
+# emit_via includes stdio, messages will be sent to stdout; this is useful
+# to have cron send the messages.  If emit_via includes email, this
+# program will send email itself according to the configured options.
+# If emit_via is None or left blank, no messages will be sent.
+emit_via = stdio
+
+# The width, in characters, that messages that are emitted should be
+# formatted to.
+output_width = 80
+
+
+[email]
+# The address to send email messages from.
+# NOTE: 'localhost' will be replaced with the value of system_name.
+email_from = root@localhost
+
+# List of addresses to send messages to.
+email_to = root
+
+# Name of the host to connect to to send email messages.
+email_host = localhost
+
+
+[groups]
+# NOTE: This only works when group_command != objects, which is now the default
+# List of groups to update
+group_list = None
+
+# The types of group packages to install
+group_package_types = mandatory, default
+
+[base]
+# This section overrides yum.conf
+
+# Use this to filter Yum core messages
+# -4: critical
+# -3: critical+errors
+# -2: critical+errors+warnings (default)
+debuglevel = -2
+
+# skip_broken = True
+mdpolicy = group:main
+
+# Uncomment to auto-import new gpg keys (dangerous)
+# assumeyes = True
+```
+
+#### rootログインの禁止
+コンソールからのrootログインを禁止
+```bash
+sudo su -
+echo > /etc/securetty
+```
+
+#### suコマンドの利用
+`/etc/pam.d/su`
+```text
+#%PAM-1.0
+auth            sufficient      pam_rootok.so
+# Uncomment the following line to implicitly trust users in the "wheel" group.
+#auth           sufficient      pam_wheel.so trust use_uid
+# Uncomment the following line to require a user to be in the "wheel" group.
+auth            required        pam_wheel.so use_uid
+auth            substack        system-auth
+auth            include         postlogin
+account         sufficient      pam_succeed_if.so uid = 0 use_uid quiet
+account         include         system-auth
+password        include         system-auth
+session         include         system-auth
+session         include         postlogin
+session         optional        pam_xauth.so
+```
+wheelグループへのユーザー登録
+```bash
+usermod -G wheel ec2-user
+```
+
+#### root権限の利用
+```bash
+visudo
+```
+```text
+#...略...
+%wheel  ALL=(ALL)   ALL
+```
+
+#### xinetd
+```bash
+yum install xinetd
+chkconfig rsync on
+```
+
+#### プロセス監視
+psコマンドによるプロセス監視
+```bash
+ps
+ps aux
+```
+topコマンドによるプロセスとシステムの監視
+```bash
+top
+```
+
+#### ウイルス対策
+Clam AntiVirusのインストール
+```bash
+yum install clamav clamav-update
+```
+ウイルスデータベースのアップデート
+```bash
+freshclam
+```
+ウイルスのスキャン
+```bash
+clamscan -r
+```
+ウイルスの自動削除
+```bash
+clamscan --remove
+```
+
+#### 基本的なネットワーク管理コマンド
+```bash
+ifconfig
+```
+```bash
+netstat
+netstat -at
+```
+```bash
+ping 192.168.0.1
+ping -c 3 192.168.0.1
+ping -b 192.168.11.255
+```
+```bash
+traceroute www.centos.org
+```
+```bash
+host sv1.1pi.jp
+host 203.174.74.34
+```

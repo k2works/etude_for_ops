@@ -472,6 +472,15 @@ Resources:
             Action:
               - 'sts:AssumeRole'
       Path: /
+      Policies:
+        - PolicyName: opsworks-instance
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:*'
+                  - 'logs:*'
+                Resource: '*'
   OpsWorksInstanceProfile:
     Type: 'AWS::IAM::InstanceProfile'
     Properties:
