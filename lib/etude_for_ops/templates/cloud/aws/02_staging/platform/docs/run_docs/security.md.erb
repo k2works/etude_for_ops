@@ -244,3 +244,165 @@ traceroute www.centos.org
 host sv1.1pi.jp
 host 203.174.74.34
 ```
+
+#### システムログ管理
+rsyslogの設定`/etc/rsyslog.conf`
+ログのローテーション`/etc/logrotate.conf `
+
+#### ログの監視
+```bash
+grep 'su: pam_unix' /var/log/secure
+tail -f /var/log/secure
+```
+logwatch
+```bash
+sudo yum install logwatch
+```
+
+#### ポートスキャンとパケットキャプチャ
+nmap
+
+```bash
+sudo yum -y install nmap
+```
+ポートスキャン
+```bash
+nmap localhost
+```
+サーバーソフトウェアの詳細も調べる
+```bash
+nmap -A localhost
+```
+Xmasツリースキャン
+```bash
+nmap -sX localhost
+```
+すべてのポートをスキャン
+```bash
+nmap -p 0-65535 localhost
+```
+1023番までと60000番以降のポートをスキャン
+```bash
+nmap -p 0-1023,60000- localhost
+```
+
+tcpdump
+```bash
+sudo yum -y install tcpdump
+```
+53番ポートへのアクセスの監視
+```bash
+tcpdump -nli eth0 prot 53
+```
+53番ポートの通信内容を表示
+```bash
+tcpdump -X -i eth0 -n port 53
+```
+ICMPパケットを監視
+```bash
+tcpdump -nli eth0 proto \\icmp
+```
+telnet接続を監視
+```bash
+tcpdump -nli eth0 port 23
+```
+
+#### Tripwire
+インストール
+```bash
+sudo yum -y install --enablerepo=epel tripwire
+sudo yum -y install --enablerepo=epel tripwire
+```
+サイトキーとローカルキーの生成
+```bash
+sudo tripwire-setup-keyfiles
+```
+Tripwireの設定
+```bash
+sudo su -
+cd /etc/tripwire
+twadmin -m F -c tw.cfg -S site.key twcfg.txt
+```
+tw.polファイルの生成
+```bash
+twadmin -m P -S site.key twpol.txt
+```
+Tripwireの運用
+```bash
+tripwire --init
+tripwire --check
+```
+レポートの表示
+```bash
+twprint -m r -r /var/lib/tripwire/report/app-api-job-bot-20180306-022444.twr
+```
+ベースライデータベースのアップデート
+```bash
+tripwire -m u -r /var/lib/tripwire/report/app-api-job-bot-20180306-022444.twr
+```
+
+#### Rootkit Hunterとfail2banの利用
+Rootkit Hunter
+```bash
+sudo yum install rkhunter
+```
+rootkitデータベースのアップデート
+```bash
+rkhunter --update
+```
+Rootkit Hunberの実行
+```bash
+rkhunter --check
+```
+自動実行
+```bash
+rkhunter --check --skip-keypress --report-warnings-only --no-mail-on-warning
+```
+Invalid SCRIPTWHITELIST が出た場合は/etc/rkhunter.conf を編集してコメントアウトする。
+```bash
+sudo vi /etc/rkhunter.conf
+```
+
+fail2ban
+```bash
+sudo yum install fail2ban
+```
+設定ファイルは`/etc/fail2ban/jail.conf`
+ssh-iptablesの状況を表示
+```bash
+fail2ban-client status ssh-iptables
+```
+
+#### サーバーセキュリティ　チェックリスト
++ インストールと初期設定時のチェックリスト
+  +[ ] 最小限のパッケージ構成でインストールしているか
+  +[ ] ブートローダーにパスワードを設定しているか
+  +[ ] パッケージは最新版にアップデートしているか
+  +[ ] パッケージを定期的にアップデートする仕組みを導入しているか
+  +[ ] 不要なサービスは停止し必要なサービスのみ稼働しているか
+  +[ ] 不要なサービスが自動的に起動しないようになっているか
+  +[ ] 暗号化が必要なファイルシステムは暗号化されているか
+  +[ ] コンソールからのrootログインを禁止しているか
+  +[ ] suコマンドが実行できるユーザーを制限しているか
+  +[ ] sudoコマンドが実行できるユーザーを制限しているか
+  +[ ] iptables / ip6tablesは適切に設定され有効になっているか
+  +[ ] ブロードキャスト宛ICMPパケットを拒否する設定となっているか
+  +[ ] 不要なポートが開いていないか
+  +[ ] ウイルス対策が必要な場合は導入しているか
+  +[ ] SELinuxが有効になっているか
+  +[ ] システムログは適切に設定されているか
+  +[ ] SSHの待ち受けポートを変更しているか
+  +[ ] SSHでは公開鍵認証を導入しているか
++ システム変更時のチェックリスト
+  +[ ] 不要なポートが開いていないか
+  +[ ] iptables / ip6tablesは適切に設定され有効になっているか
+  +[ ] 不要なユーザーは削除またはロックしているか
+  +[ ] ログインが不要なユーザーはログインできないようにしているか　
+  +[ ] ユーザーのパスワードは定期的に変更されているか
++ 日々のチェックリスト
+  +[ ] パッケージは正常にアップデートされているか
+  +[ ] パッケージのアップデートにより再起動が必要なら再起動したか
+  +[ ] 不審なプロセスが実行されていないか
+  +[ ] 不審なユーザーログインの記録はないか　
+  +[ ] システムログに不審な記録が残されていないか
+  +[ ] システムログは適切にバックアップされているか
