@@ -1,5 +1,7 @@
+include_recipe 'yum::default'
 include_recipe 'ruby_platform::setup_swap'
 include_recipe 'ruby_platform::ec2_user'
+include_recipe 'ruby_platform::ec2_security'
 include_recipe 'ruby_platform::ec2_app'
 include_recipe 'ruby_platform::ec2_web'
 include_recipe 'ruby_platform::ec2_db'

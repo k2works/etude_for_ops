@@ -341,6 +341,23 @@ twprint -m r -r /var/lib/tripwire/report/app-api-job-bot-20180306-022444.twr
 tripwire -m u -r /var/lib/tripwire/report/app-api-job-bot-20180306-022444.twr
 ```
 
+#### AIDE
+```bash
+sudo yum install aide
+```
+`/etc/aide.conf`を編集して
+```bash
+aide --init
+```
+
+```bash
+sudo aide --check
+```
+
+```bash
+sudo aide --upate
+```
+
 #### Rootkit Hunterとfail2banの利用
 Rootkit Hunter
 ```bash

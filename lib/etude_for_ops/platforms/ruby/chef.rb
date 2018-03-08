@@ -45,6 +45,7 @@ module EtudeForOps
         eb_provision.json
         recipes_default.rb
         recipes_ec2.rb
+        recipes_ec2_security.rb
         recipes_ec2_agent.rb
         recipes_ec2_ci.rb
         recipes_ec2_log.rb
