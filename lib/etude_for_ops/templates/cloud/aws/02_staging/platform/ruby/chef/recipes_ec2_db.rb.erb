@@ -26,6 +26,7 @@ yum_package "mysql-community-server" do
   action :install
   version mysql_version
   flush_cache [:before]
+  not_if 'which mysql'
 end
 
 service "mysqld" do
