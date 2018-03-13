@@ -88,6 +88,26 @@ module EtudeForOps
         params[:tagvalue] = 'STG_TAGVALUE'
       end
 
+      if @platform.params[:env] == 'Production'
+        params[:ssh_key_name] = 'PRD_SSH_KEY_NAME'
+        params[:ssh_key] = 'PRD_SSH_KEY'
+
+        params[:vpc_id] = 'PRD_VPC_ID'
+        params[:ec2_sg_name] = 'PRD_EC2_SG_NAME'
+        params[:ec2_sg_desc] = 'PRD_EC2_SG_DESC'
+
+        params[:ec2_ami_id] = 'PRD_EC2_AMI_ID'
+        params[:ec2_type] = 'PRD_EC2_TYPE'
+        params[:ec2_sg_id] = 'PRD_EC2_SG_ID'
+        params[:ec2_subnet] = 'PRD_EC2_SUBNET'
+
+        params[:ec2_instance_id] = 'PRD_EC2_INSTANCE_ID'
+        params[:ec2_image_name] = 'PRD_APPLICATION_NAME'
+        params[:ec2_image_id] = 'PRD_EC2_AMI_ID'
+
+        params[:tagkey] = 'PRD_TAGKEY'
+        params[:tagvalue] = 'PRD_TAGVALUE'
+      end
 
       create_put_bind_template_files(src_build_dir,erb_files,params)
     end

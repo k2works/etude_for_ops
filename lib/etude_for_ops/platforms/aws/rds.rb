@@ -58,6 +58,14 @@ module EtudeForOps
         @platform.params[:rds_tagvalue] = 'STG_RDS_TAGVALUE'
       end
 
+      if @platform.params[:env] == 'Production'
+        @platform.params[:rds_stackname] = 'PRD_RDS_STACKNAME'
+        @platform.params[:rds_template]  = 'PRD_RDS_TEMPLATE'
+        @platform.params[:rds_template_params]  = 'PRD_RDS_TEMPLATE_PARAMS'
+        @platform.params[:rds_tagkey] = 'PRD_RDS_TAGKEY'
+        @platform.params[:rds_tagvalue] = 'PRD_RDS_TAGVALUE'
+      end
+
       create_put_bind_template_files(src_build_dir,erb_files,@platform.params)
     end
 

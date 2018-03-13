@@ -11,7 +11,7 @@ echo "**********************************"
 echo APP_ID:$APP_ID
 echo REVISION:$REVISION
 echo NODE_ENV:$NODE_ENV
-echo STG_URL:$STG_URL
+echo APP_URL:$STG_URL
 echo S3_BACKET:$S3_BACKET
 echo REPO_URL:$REPO_URL
 echo REVISION:$REVISION
@@ -22,7 +22,7 @@ aws opsworks update-app  \
              --app-id $APP_ID  \
              --app-source  Url=$REPO_URL,Revision=$REVISION \
              --environment Key=NODE_ENV,Value=$NODE_ENV,Secure=false \
-                           Key=STG_URL,Value=$STG_URL,Secure=false \
+                           Key=APP_URL,Value=$STG_URL,Secure=false \
                            Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
                            Key=HOST,Value=127.0.0.1,Secure=false \
                            Key=PORT,Value=8080,Secure=false \

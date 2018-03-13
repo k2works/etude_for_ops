@@ -88,7 +88,10 @@ Resources:
               - 'IAM:*'
               - 'S3:*'
               - 'codecommit:*'
+              - 'RDS:*'
+              - 'elasticloadbalancing:*'
               - 'OpsWorks:*'
+              - 'lambda:*'
             Resource: '*'
       Groups:
         - !Ref APPAdminGroup

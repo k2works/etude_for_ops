@@ -1,4 +1,14 @@
 #### EC2
+#### セキュリティグループを作成する
+```bash
+cd /vagrant/src/build/aws/ec2/
+./create_security_group.sh
+```
+作成されたセキュリティグループIDを環境変数に設定して環境変数を読み込み直した後に以下のコマンドを実行する
+```bash
+./configure_security_group_rule.sh
+```
+
 ##### 仮想マシンセットアップ(Vagrant版)
 ```bash
 cd /vagrant/build

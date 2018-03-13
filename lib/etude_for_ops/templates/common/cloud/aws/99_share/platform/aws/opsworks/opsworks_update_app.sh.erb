@@ -19,7 +19,7 @@ echo RDS_DB_INSTANCE_ARN:$RDS_DB_INSTANCE_ARN
 echo DB_NAME:$DB_NAME
 echo RAILS_ENV:$RAILS_ENV
 echo SECRET_KEY_BASE:$SECRET_KEY_BASE
-echo STG_URL:$STG_URL
+echo APP_URL:$STG_URL
 echo S3_BACKET:$S3_BACKET
 echo REPO_URL:$REPO_URL
 echo REVISION:$REVISION
@@ -34,7 +34,7 @@ aws opsworks update-app  \
              --data-sources Type=RdsDbInstance,Arn=$RDS_DB_INSTANCE_ARN,DatabaseName=$DB_NAME \
              --environment Key=RAILS_ENV,Value=$RAILS_ENV,Secure=false \
                            Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
-                           Key=STG_URL,Value=$STG_URL,Secure=false \
+                           Key=APP_URL,Value=$STG_URL,Secure=false \
                            Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
                            Key=S3_ACCESS_KEY,Value=$S3_ACCESS_KEY,Secure=false \
                            Key=S3_SECRET_KEY,Value=$S3_SECRET_KEY,Secure=true

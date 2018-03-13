@@ -11,6 +11,8 @@ PUBLICSUBNET2=$<%= params[:opsw_subnet_pub_2] %>
 PRIVATESUBNET1=$<%= params[:opsw_subnet_pri_1] %>
 PRIVATESUBNET2=$<%= params[:opsw_subnet_pri_2] %>
 KEYNAME=$<%= params[:opsw_keyname] %>
+ELB_NAME=$<%= params[:opsw_elb_name] %>
+ELB_CERT_ARN=$<%= params[:opsw_elb_cert_arn] %>
 
 echo "**********************************"
 echo CFM_STACKNAME:$CFM_STACKNAME
@@ -24,6 +26,8 @@ echo PUBLICSUBNET2:$PUBLICSUBNET2
 echo PRIVATESUBNET1:$PRIVATESUBNET1
 echo PRIVATESUBNET2:$PRIVATESUBNET2
 echo KEYNAME:$KEYNAME
+echo ELB_NAME:$ELB_NAME
+echo ELB_CERT_ARN:$ELB_CERT_ARN
 echo "**********************************"
 
 aws cloudformation create-stack --stack-name $CFM_STACKNAME \
@@ -36,4 +40,6 @@ aws cloudformation create-stack --stack-name $CFM_STACKNAME \
                                              ParameterKey=PrivateSubnet1,ParameterValue=$PRIVATESUBNET1 \
                                              ParameterKey=PrivateSubnet2,ParameterValue=$PRIVATESUBNET2 \
                                              ParameterKey=KeyName,ParameterValue=$KEYNAME \
+                                             ParameterKey=LoadBalancer,ParameterValue=$ELB_NAME \
+                                             ParameterKey=CertARN,ParameterValue=$ELB_CERT_ARN \
                                 --capabilities CAPABILITY_IAM

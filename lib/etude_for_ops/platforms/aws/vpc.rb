@@ -64,6 +64,16 @@ module EtudeForOps
         params[:default_az2] = @platform.params[:default_az2]
       end
 
+      if @platform.params[:env] == 'Production'
+        params[:vpc_stackname] = 'PRD_VPC_STACKNAME'
+        params[:vpc_template]  = 'PRD_VPC_TEMPLATE'
+        params[:vpc_template_params]  = 'PRD_VPC_TEMPLATE_PARAMS'
+        params[:tagkey] = 'PRD_TAGKEY'
+        params[:tagvalue] = 'PRD_TAGVALUE'
+        params[:default_az1] = @platform.params[:default_az1]
+        params[:default_az2] = @platform.params[:default_az2]
+      end
+
       create_put_bind_template_files(src_build_dir,erb_files,params)
     end
 

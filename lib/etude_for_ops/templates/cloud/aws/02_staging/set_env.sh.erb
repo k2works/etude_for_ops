@@ -30,6 +30,8 @@ export STG_TAGVALUE=$STG_APPLICATION_NAME
 export STG_IAM_USER_NAME=<%= config['ops']['staging']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
 export STG_IAM_SSH_PUBKEY_ID=<%= config['ops']['staging']['iam_ssh_pubkey_id'] %>
 
+export STG_S3_BACKET=${S3_BACKET}-staging
+
 export STG_VPC_STACKNAME=$ORGANIZATION-Staging-VPC
 export STG_VPC_TEMPLATE=<%= config['ops']['staging']['vpc_template'] %>
 export STG_VPC_TEMPLATE_PARAMS=<%= config['ops']['staging']['vpc_template_params'] %>
@@ -49,7 +51,7 @@ export STG_EC2_DB_PASSWORD=<%= config['ops']['staging']['ec2_db_password'] %>
 export STG_EC2_DB_HOSTNAME=<%= config['ops']['staging']['ec2_db_host'] %>
 export STG_EC2_DB_PORT=<%= config['ops']['staging']['ec2_db_port'] %>
 
-export STG_RDS_STACKNAME=$ORGANIZATION-$STG_APPLICATION_NAME-RDS
+export STG_RDS_STACKNAME=$ORGANIZATION-Staging-RDS
 export STG_RDS_TEMPLATE=<%= config['ops']['staging']['rds_template'] %>
 export STG_RDS_TEMPLATE_PARAMS=<%= config['ops']['staging']['rds_template_params'] %>
 export STG_RDS_TAGKEY=Name
@@ -139,6 +141,7 @@ export STG_OPSW_DEPLOY_RECIPE=<%= config['ops']['staging']['opsw_deploy_recipe']
 export STG_OPSW_UNDEPLOY_RECIPE=<%= config['ops']['staging']['opsw_undeploy_recipe'] %>
 export STG_OPSW_SHUTDOWN_RECIPE=<%= config['ops']['staging']['opsw_shutdown_recipe'] %>
 export STG_OPSW_ELB_NAME=$APPLICATION_PREFIX-$STG_APP_ENV
+export STG_OPSW_ELB_CERT_ARN=<%= config['ops']['staging']['opsw_elb_cert_arn'] %>
 export STG_OPSW_ELB_SG=$STG_OPSW_APP_LAYER_SG
 export STG_OPSW_ELB_SUBNET_1=<%= config['ops']['staging']['opsw_elb_subnet_1'] %>
 export STG_OPSW_ELB_SUBNET_2=<%= config['ops']['staging']['opsw_elb_subnet_2'] %>

@@ -66,6 +66,18 @@ module EtudeForOps
         params[:iam_user_password] = @platform.params[:iam_user_password]
       end
 
+      if @platform.params[:env] == 'Production'
+        params[:application_name] = @platform.params[:application_name]
+        params[:iam_stackname] = 'PRD_IAM_STACKNAME'
+        params[:iam_template]  = 'PRD_IAM_TEMPLATE'
+        params[:iam_template_params]  = 'PRD_IAM_TEMPLATE_PARAMS'
+        params[:tagkey] = 'PRD_TAGKEY'
+        params[:tagvalue] = 'PRD_TAGVALUE'
+        params[:iam_user_group] = @platform.params[:iam_user_group]
+        params[:iam_user_name] = @platform.params[:iam_user_name]
+        params[:iam_user_password] = @platform.params[:iam_user_password]
+      end
+
       create_put_bind_template_files(src_build_dir,erb_files,params)
     end
 

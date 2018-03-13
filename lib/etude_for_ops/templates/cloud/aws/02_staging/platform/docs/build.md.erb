@@ -31,7 +31,7 @@ aws cloudformation list-stack-resources --stack-name $STG_IAM_STACKNAME --output
 
 #### S3バケットの作成
 ```bash
-$ aws s3 mb s3://$S3_BACKET
+$ aws s3 mb s3://$STG_S3_BACKET
 ```
 
 #### レポジトリ用秘密鍵と公開鍵の作成
@@ -108,14 +108,4 @@ aws cloudformation validate-template --template-body file://$STG_VPC_TEMPLATE
 chmod 0755 ./create_stack.sh
 ./create_stack.sh
 aws cloudformation list-stack-resources --stack-name $STG_VPC_STACKNAME --output table
-```
-
-#### セキュリティグループを作成する
-```bash
-cd /vagrant/src/build/aws/ec2/
-./create_security_group.sh
-```
-作成されたセキュリティグループIDを環境変数に設定して環境変数を読み込み直した後に以下のコマンドを実行する
-```bash
-./configure_security_group_rule.sh
 ```

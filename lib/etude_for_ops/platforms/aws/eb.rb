@@ -77,6 +77,38 @@ module EtudeForOps
         params[:eb_backet] = 'BACKET'
       end
 
+      if @platform.params[:env] == 'Production'
+        params[:eb_application_name] = 'PRD_APPLICATION_NAME'
+        params[:eb_ssh_key] = 'PRD_SSH_KEY_NAME'
+        params[:eb_app_platform] = 'PRD_EB_APP_PLATFORM'
+        params[:eb_region] = 'AWS_DEFAULT_REGION'
+
+        params[:eb_envname] = 'PRD_EB_ENVNAME'
+        params[:eb_cname] ='PRD_EB_CNAME'
+        params[:eb_vpc_id] = 'PRD_EB_VPC_ID'
+        params[:eb_elb_subnet] = 'PRD_EB_ELB_SUBNET'
+        params[:eb_ec2_subnet] =  'PRD_EB_EC2_SUBNET'
+        params[:eb_instance] = 'PRD_EB_INSTANCE'
+        params[:eb_ssh_key_name] = 'PRD_SSH_KEY_NAME'
+        params[:eb_db_engine] = 'PRD_EB_DB_ENGINE'
+        params[:eb_db_size] = 'PRD_EB_DB_SIZE'
+        params[:eb_db_instance] = 'PRD_EB_DB_INSTANCE'
+        params[:eb_db_password] = 'PRD_EB_DB_PASSWORD'
+        params[:eb_db_username] = 'PRD_EB_DB_USERNAME'
+        params[:eb_db_version] = 'PRD_EB_DB_VERSION'
+        params[:eb_db_subnet_1] = 'PRD_EB_DB_SUBNET_1'
+        params[:eb_db_subnet_2] = 'PRD_EB_DB_SUBNET_2'
+
+        params[:eb_app_env] = 'PRD_APP_ENV'
+        params[:eb_app_secret_key_base] = 'PRD_APP_SECRET_KEY_BASE'
+        params[:eb_rds_db_name] = 'PRD_RDS_DB_NAME'
+        params[:eb_rds_username] = 'PRD_RDS_USERNAME'
+        params[:eb_rds_password] = 'PRD_RDS_PASSWORD'
+        params[:eb_rds_hostname] = 'PRD_RDS_HOSTNAME'
+        params[:eb_rds_port] = 'PRD_RDS_PORT'
+        params[:eb_url] = 'PRD_EB_URL'
+        params[:eb_backet] = 'BACKET'
+      end
 
       create_put_bind_template_files(src_build_dir,erb_files,params)
     end

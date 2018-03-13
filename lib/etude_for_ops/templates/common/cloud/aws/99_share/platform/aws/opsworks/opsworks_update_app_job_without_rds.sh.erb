@@ -20,7 +20,7 @@ echo REVISION:$REVISION
 echo DB_NAME:$DB_NAME
 echo RAILS_ENV:$RAILS_ENV
 echo SECRET_KEY_BASE:$SECRET_KEY_BASE
-echo STG_URL:$STG_URL
+echo APP_URL:$STG_URL
 echo DB_ADAPTER:$DB_ADAPTER
 echo DB_NAME:$DB_NAME
 echo DB_USERNAME:$DB_USERNAME
@@ -38,7 +38,7 @@ aws opsworks update-app  \
              --app-source  Url=$REPO_URL,Revision=$REVISION \
              --environment Key=RAILS_ENV,Value=$RAILS_ENV,Secure=false \
                            Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
-                           Key=STG_URL,Value=$STG_URL,Secure=false \
+                           Key=APP_URL,Value=$STG_URL,Secure=false \
                            Key=DB_ADAPTER,Value=$DB_ADAPTER,Secure=false \
                            Key=DB_NAME,Value=$DB_NAME,Secure=false \
                            Key=DB_USER,Value=$DB_USERNAME,Secure=false \

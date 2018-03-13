@@ -60,6 +60,7 @@ ops:
     aws_default_region: xxxxxxxxxx
     aws_az_1: xxxxxxxx
     aws_az_2: xxxxxxxx
+    iam_user_group: xxxxx
     iam_user_name: xxxxx
     iam_user_password: xxxxx
     iam_ssh_pubkey_id: xxxxx
@@ -120,6 +121,11 @@ ops:
     opsw_subnet_pri_2: xxxx
     opsw_subnet_1: xxxx
     opsw_subnet_2: xxxx
+    opsw_cookbook_type: xxxx
+    opsw_cookbook_url: xxxx
+    opsw_cookbook_username: xxxx
+    opsw_cookbook_password: xxxx
+    opsw_elb_cert_arn: xxxx
     opsw_stack_id: xxxxx
     opsw_app_id: xxxx
     opsw_app_layer_id: xxxx
@@ -137,12 +143,6 @@ ops:
     opsw_app_bot_url: xxxx
     opsw_eip: xxx
     opsw_eip_id: xxx
-    opsw_elb_subnet_1: xxxx
-    opsw_elb_subnet_2: xxxx
-    opsw_cookbook_type: xxxx
-    opsw_cookbook_url: xxxx
-    opsw_cookbook_username: xxxx
-    opsw_cookbook_password: xxxx
     opsw_setup_recipe: xxxxxxx
     opsw_configure_recipe: xxxxxxx
     opsw_deploy_recipe: xxxxxxx
@@ -159,6 +159,115 @@ ops:
   production:
     ip_address: 192.168.33.30
     repository: YourRepository
+    repository_ssh_key: xxxxxxxx
+    repository_job: YourRepositoryJob
+    repository_job_ssh_key: xxxxxxxx
+    repository_api: YourRepositoryApi
+    repository_api_ssh_key: xxxxxxxx
+    repository_bot: YourRepositoryBot
+    repository_bot_ssh_key: xxxxxxxx
+    secret_key_base: xxxxxxxxxx
+    aws_access_key_id: xxxxxxxx
+    aws_secret_access_key: xxxxxxxxxx
+    aws_default_region: xxxxxxxxxx
+    aws_az_1: xxxxxxxx
+    aws_az_2: xxxxxxxx
+    iam_user_group: xxxxx
+    iam_user_name: xxxxx
+    iam_user_password: xxxxx
+    iam_ssh_pubkey_id: xxxxx
+    iam_template: xxxxx
+    iam_template_params: xxxxx
+    vpc_template: xxxxx
+    vpc_template_params: xxxxx
+    vpc_id: xxxx
+    ec2_sg_id: xxxx
+    ec2_sg_name: xxxx
+    ec2_sg_desc: xxxx
+    ec2_subnet: xxxxx
+    ec2_type: xxxxx
+    ec2_ami_id: xxxx
+    ec2_instance_id: xxxxxx
+    ec2_public_ip: xxxxxx
+    ec2_db_name: xxxxx
+    ec2_db_user: xxxxx
+    ec2_db_password: xxxxx
+    ec2_db_host: xxxxx
+    ec2_db_port: xxxxx
+    rds_template: xxxxx
+    rds_template_params: xxxxx
+    rds_subnet_1: xxxxx
+    rds_subnet_2: xxxxx
+    rds_engine: xxxxx
+    rds_engine_version: xxxxx
+    rds_db_parameter_group_family: xxxxx
+    rds_db_instance_name: xxxxx
+    rds_db_name: xxxxx
+    rds_db_user_name: xxxx
+    rds_db_password: xxxx
+    rds_db_class: xxxxx
+    rds_db_allocated_storage: xxxxx
+    rds_db_endpoint: xxxxxxxxxxxxx
+    rds_db_arn: xxxxxxxxxxxxx
+    rds_db_port: xxxxxxxxxxxxx
+    eb_app_platform: xxxxxxxxxxxxx
+    eb_url: xxxxxxxxxxxxx
+    eb_instance: xxxx
+    eb_ec2_subnet: xxxxxxxx
+    eb_elb_subnet: xxxxxxxx
+    eb_elb: xxxxxxxx
+    eb_ssl_srt_id: xxxxxxxxxxxxx
+    eb_db_engine: xxxx
+    eb_db_size: xxxx
+    eb_db_instance: xxxx
+    eb_db_password: xxx
+    eb_db_username: xxxx
+    eb_db_version: xxxx
+    eb_db_subnet_1: xxxx
+    eb_db_subnet_2: xxxx
+    opsw_os: xxxxxxx
+    opsw_ec2_instance_class: xxxxxxx
+    opsw_subnet_pub_1: xxxx
+    opsw_subnet_pub_2: xxxx
+    opsw_subnet_pri_1: xxxx
+    opsw_subnet_pri_2: xxxx
+    opsw_elb_cert_arn: xxxx
+    opsw_subnet_1: xxxx
+    opsw_subnet_2: xxxx
+    opsw_cookbook_type: xxxx
+    opsw_cookbook_url: xxxx
+    opsw_cookbook_username: xxxx
+    opsw_cookbook_password: xxxx
+    opsw_stack_id: xxxxx
+    opsw_app_id: xxxx
+    opsw_app_layer_id: xxxx
+    opsw_app_layer_sg: xxx
+    opsw_app_revision: xxxx
+    opsw_app_url: xxxx
+    opsw_app_job_id: xxxx
+    opsw_app_job_revision: xxxx
+    opsw_app_job_url: xxxx
+    opsw_app_api_id: xxxx
+    opsw_app_api_revision: xxxx
+    opsw_app_api_url: xxxx
+    opsw_app_bot_id: xxxx
+    opsw_app_bot_revision: xxxx
+    opsw_app_bot_url: xxxx
+    opsw_eip: xxx
+    opsw_eip_id: xxx
+    opsw_setup_recipe: xxxxxxx
+    opsw_configure_recipe: xxxxxxx
+    opsw_deploy_recipe: xxxxxxx
+    opsw_undeploy_recipe: xxxxxxx
+    opsw_shutdown_recipe: xxxxxxx
+    opsw_db_adapter: xxxxxxx
+    opsw_db_name: xxxxxxx
+    opsw_db_job_name: xxxxxxx
+    opsw_db_api_name: xxxxxxx
+    opsw_db_username: xxxxxxx
+    opsw_db_password: xxxxxxx
+    opsw_db_hostname: xxxxxxx
+    opsw_db_port: xxxxxxx
   share:
     organization: YourOrganization
     application:

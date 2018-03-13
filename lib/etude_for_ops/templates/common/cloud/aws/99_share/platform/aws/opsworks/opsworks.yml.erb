@@ -48,6 +48,12 @@ Parameters:
     MaxLength: '255'
     AllowedPattern: '[\x20-\x7E]*'
     ConstraintDescription: can contain only ASCII characters.
+  LoadBalancer:
+    Type: String
+    Description: Elastic Load Balancer Name.
+  CertARN:
+    Type: String
+    Description: Cert ARN..
 Resources:
   <%= params[:application_name] %>ApplicationIP:
     Type: 'AWS::EC2::EIP'
@@ -505,6 +511,33 @@ Resources:
           FromPort: '22'
           ToPort: '22'
           CidrIp: 0.0.0.0/0
+  ElasticLoadBalancer:
+    Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
+    Properties:
+      LoadBalancerName: !Ref LoadBalancer
+      Listeners:
+        - LoadBalancerPort: '80'
+          InstancePort: '80'
+          Protocol: HTTP
+        - LoadBalancerPort: '443'
+          InstancePort: '80'
+          Protocol: HTTPS
+          SSLCertificateId: !Ref CertARN
+      SecurityGroups:
+        - !Ref OpsWorksSecurityGroup
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      HealthCheck:
+        Target: !Join
+          - ''
+          - - 'HTTP:'
+            - '80'
+            - /users/sign_in
+        HealthyThreshold: '3'
+        UnhealthyThreshold: '5'
+        Interval: '30'
+        Timeout: '5'
 Outputs:
   StackId:
     Value: !Ref OpsWorksStack
