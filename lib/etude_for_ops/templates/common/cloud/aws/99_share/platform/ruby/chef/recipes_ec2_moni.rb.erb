@@ -60,7 +60,7 @@ template "#{Chef::Config[:file_cache_path]}/create_user.sql" do
 end
 
 execute "setup db" do
-  command "zcat /usr/share/doc/zabbix-server-mysql-3.0.14/create.sql.gz | mysql -u#{user_name} -p#{user_password} #{db_name}"
+  command "zcat /usr/share/doc/#{node['zabbiz_zabbix-server-mysql']}/create.sql.gz | mysql -u#{user_name} -p#{user_password} #{db_name}"
   not_if "/usr/bin/mysql -u #{user_name} -p#{root_password} #{db_name} -e 'DESC users'"
 end
 
