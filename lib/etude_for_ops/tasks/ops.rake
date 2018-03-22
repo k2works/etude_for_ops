@@ -59,6 +59,13 @@ namespace :ops do
     ops.create_aws_ruby_development_env(root_dir)
   end
 
+  desc 'Update ruby aws development environment variables'
+  task :update_aws_ruby_development_env_value do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.update_aws_ruby_development_env_value(root_dir)
+  end
+
   desc 'Setup ruby aws staging environment'
   task :create_aws_ruby_staging_env do
     root_dir = Pathname.new('ops')
@@ -66,11 +73,25 @@ namespace :ops do
     ops.create_aws_ruby_staging_env(root_dir)
   end
 
+  desc 'Update ruby aws staging environment variables'
+  task :update_aws_ruby_staging_env_value do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.update_aws_ruby_staging_env_value(root_dir)
+  end
+
   desc 'Setup ruby aws production environment'
   task :create_aws_ruby_production_env do
     root_dir = Pathname.new('ops')
     ops = EtudeForOps::Ops.new
     ops.create_aws_ruby_production_env(root_dir)
+  end
+
+  desc 'Update ruby aws production environment variables'
+  task :update_aws_ruby_production_env_value do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.update_aws_ruby_production_env_value(root_dir)
   end
 
   desc 'Create .env file for onpremis'

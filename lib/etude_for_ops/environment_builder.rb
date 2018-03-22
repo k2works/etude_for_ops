@@ -19,6 +19,14 @@ module EtudeForOps
       end
     end
 
+    def apply_update_env_value_strategy
+      @environment.make_dir
+      @platforms.each do |platform|
+        @environment.platform = platform
+        @strategy.apply_env_config
+      end
+    end
+
     def environment
       @environment
     end
