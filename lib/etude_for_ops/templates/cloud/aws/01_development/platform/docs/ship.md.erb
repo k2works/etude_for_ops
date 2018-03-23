@@ -71,8 +71,16 @@ vagrant ssh
 ```
 
 ```
+cd ops/01_development/
 vagrant ssh-config --host 192.168.33.10 >> ~/.ssh/config
 ssh 192.168.33.10
+```
+
+ローカル仮想マシンec2-userログイン設定
+```
+ssh 192.168.33.10
+sudo cp .ssh/authorized_keys /home/ec2-user/.ssh/
+ssh ec2-user@192.168.33.90
 ```
 
 ### 作成した仮想マシンのパッケージング

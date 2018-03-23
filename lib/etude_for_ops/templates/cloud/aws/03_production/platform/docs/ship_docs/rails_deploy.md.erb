@@ -1,0 +1,29 @@
+### アプリケーションのデプロイ
+
+```ruby:Gemfile
+# Use Capistrano for deployment
+group :development do
+gem 'capistrano'
+gem 'capistrano-maintenance', '~> 1.0', require: false
+gem 'capistrano-scm-copy'
+gem 'capistrano-safe-deploy-to'
+gem 'capistrano-rails'
+gem 'capistrano-rbenv'
+gem 'capistrano-bundler'
+gem 'capistrano3-puma'
+end
+```
+
+```bash
+chmod 0766 ops/03_production/src/ship/sh/ship.sh
+ops/03_production/src/ship/sh/ship.sh
+```
+
+```bash
+bundle exec cap development deploy:initial
+```
+
+```bash
+bundle exec cap development deploy
+```
+

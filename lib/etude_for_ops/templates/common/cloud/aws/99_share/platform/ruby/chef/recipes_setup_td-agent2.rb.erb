@@ -1,0 +1,22 @@
+execute 'install' do
+  command 'curl -L https://toolbelt.treasuredata.com/sh/install-amazon2-td-agent3.sh | sh'
+end
+
+template "td-agent-ui" do
+  path "/etc/systemd/system/td-agent-ui.service"
+  source "td-agent-ui.service.erb"
+  mode 0751
+end
+
+service "td-agent" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+service "td-agent-ui" do
+  supports :status => true, :restart => true, :reload => true
+end
+
+execute 'install plugin' do
+  command '/usr/sbin/td-agent-gem install elasticsearch'
+end

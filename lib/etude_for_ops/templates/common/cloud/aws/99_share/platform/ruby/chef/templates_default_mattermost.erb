@@ -1,0 +1,141 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          mattermost
+# Required-Start:    $network $syslog
+# Required-Stop:     $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Mattermost Group Chat
+# Description:       Mattermost: An open-source Slack
+### END INIT INFO
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="Mattermost"
+NAME=platform
+MATTERMOST_ROOT=/opt/mattermost
+MATTERMOST_USER=mattermost
+DAEMON="$MATTERMOST_ROOT/bin/platform"
+PIDFILE="/var/run/$NAME.pid"
+SCRIPTNAME=/etc/init.d/$NAME
+CONFIGFILE="$MATTERMOST_ROOT/config/config.json"
+
+cd $MATTERMOST_ROOT/bin
+. /etc/rc.d/init.d/functions
+
+# Don't kill named during clean-up
+MATTERMOST_SHUTDOWN_TIMEOUT=${MATTERMOST_SHUTDOWN_TIMEOUT:-25}
+
+check_pidfile()
+{
+PID="`pidof "$NAME"`"
+if [ -n "$PID" ] && [ "`ps -p "$PID" --no-headers -o comm`" != "$NAME" ]; then
+rm -f $PIDFILE &> /dev/null
+fi
+}
+
+start()
+{
+echo -n $"Starting $NAME: "
+check_pidfile
+if [ -n "`pidof $NAME`" ];
+then
+echo -n $"$NAME: already running"
+success
+echo
+exit 0;
+fi
+
+daemon --pidfile "$PIDFILE" --user "$MATTERMOST_USER" --check $NAME "$DAEMON --config $CONFIGFILE >/dev/null 2>&1 &";
+RETVAL=$?
+if [ $RETVAL -eq 0 ];
+then
+echo `pidof $NAME` > $PIDFILE
+touch /var/lock/subsys/$NAME && success || failure
+echo
+else
+rm -f $PIDFILE
+rm -f /var/lock/subsys/$NAME
+exit 7;
+fi
+}
+
+stop()
+{
+
+echo -n $"Stopping $NAME: "
+[ -n "`pidof "$NAME"`" ] && kill "`pidof "$NAME"`" >/dev/null 2>&1
+
+timeout=0
+RETVAL=0
+while `pidof "$NAME"` &>/dev/null;
+do
+if [ $timeout -ge $MATTERMOST_SHUTDOWN_TIMEOUT ];
+then
+RETVAL=1
+break
+else
+sleep 2 && echo -n "."
+timeout=$((timeout+2))
+fi
+done
+
+# remove pid files
+if [ $RETVAL -eq 0 ];
+then
+rm -f /var/lock/subsys/$NAME
+rm -f /var/run/$NAME.pid
+fi
+
+if [ $RETVAL -eq 0 ];
+then
+success
+else
+failure
+RETVAL=1
+fi
+echo
+}
+
+restart ()
+{
+stop
+start
+}
+
+status ()
+{
+check_pidfile
+if [ -n "`pidof "$NAME"`" ];
+then
+echo -n "$NAME is running..."
+success
+echo
+else
+echo -n "$NAME is not running..."
+failure
+echo
+fi
+exit 0;
+}
+
+RETVAL=0
+
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+restart|force-reload)
+restart
+;;
+status)
+status
+;;
+*)
+echo "Usage: $0 {start|stop|status|restart|force-reload}"
+RETVAL=1
+esac
+
+exit $RETVAL

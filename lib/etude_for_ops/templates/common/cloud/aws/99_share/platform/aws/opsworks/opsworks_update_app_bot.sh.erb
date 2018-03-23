@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+APP_ID=$<%= params[:opsw_app_bot_id] %>
+NODE_ENV=$<%= params[:opsw_app_env] %>
+STG_URL=$<%= params[:opsw_app_bot_url]%>
+S3_BACKET=$<%= params[:opsw_backet]%>
+REPO_URL=$<%= params[:opsw_app_bot_repo_url]%>
+REVISION=$<%= params[:opsw_app_bot_revision]%>
+
+echo "**********************************"
+echo APP_ID:$APP_ID
+echo REVISION:$REVISION
+echo NODE_ENV:$NODE_ENV
+echo APP_URL:$STG_URL
+echo S3_BACKET:$S3_BACKET
+echo REPO_URL:$REPO_URL
+echo REVISION:$REVISION
+echo "**********************************"
+
+aws opsworks update-app  \
+             --region us-east-1   \
+             --app-id $APP_ID  \
+             --app-source  Url=$REPO_URL,Revision=$REVISION \
+             --environment Key=NODE_ENV,Value=$NODE_ENV,Secure=false \
+                           Key=APP_URL,Value=$STG_URL,Secure=false \
+                           Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
+                           Key=HOST,Value=127.0.0.1,Secure=false \
+                           Key=PORT,Value=8080,Secure=false \
+                           Key=ADAPTER,Value=,Secure=false \
+                           Key=HUBOT_SLACK_TOKEN,Value=,Secure=true \
+                           Key=HUBOT_AWS_ACCESS_KEY_ID,Value=,Secure=false \
+                           Key=HUBOT_AWS_SECRET_ACCESS_KEY,Value=,Secure=true \
+                           Key=HUBOT_JENKINS_URL,Value=,Secure=false \
+                           Key=HUBOT_JENKINS_AUTH,Value=,Secure=true \
+                           Key=HUBOT_JIRA_URL,Value=,Secure=false \
+                           Key=HUBOT_JIRA_USER,Value=,Secure=false \
+                           Key=HUBOT_JIRA_PASSWORD,Value=,Secure=true \
+                           Key=MATTERMOST_HOST,Value=,Secure=false \
+                           Key=MATTERMOST_GROUP,Value=,Secure=false \
+                           Key=MATTERMOST_USER,Value=,Secure=false \
+                           Key=MATTERMOST_PASSWORD,Value=,Secure=true \
+                           Key=MATTERMOST_USE_TLS,Value=false,Secure=false \
+                           Key=DOCOMO_API_KEY,Value=,Secure=true \
+                           Key=HUBOT_GITHUB_ORG,Value=,Secure=false \
+                           Key=HUBOT_GITHUB_REPO,Value=,Secure=false \
+                           Key=HUBOT_GITHUB_TOKEN,Value=,Secure=true \
+                           Key=HUBOT_GITHUB_USER,Value=,Secure=false \
+                           Key=HUBOT_FORECAST_API_KEY,Value=,Secure=true

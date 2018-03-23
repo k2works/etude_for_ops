@@ -1,0 +1,28 @@
+package 'nginx' do
+  action :install
+end
+
+template '/etc/nginx/nginx.conf' do
+  source 'nginx.conf.erb'
+  mode '0644'
+end
+
+template '/etc/nginx/conf.d/jenkins.conf' do
+  source 'nginx.jenkins.conf.erb'
+  mode '0644'
+end
+
+template "/etc/nginx/conf.d/jenkins_default.conf" do
+  source 'nginx.ec2.conf.erb'
+  mode '0644'
+
+  variables({
+                :app => 'jenkins_server'
+            })
+end
+
+service "nginx" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
+

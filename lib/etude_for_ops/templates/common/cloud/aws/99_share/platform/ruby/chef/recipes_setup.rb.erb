@@ -1,0 +1,22 @@
+include_recipe 'apt::default'
+include_recipe 'yum::default'
+include_recipe 'ruby_platform::setup_swap'
+
+user "ec2-user" do
+  password "$1$9UsnR95k$SIUMtvADFQbU/PV6nLtZl1"
+  supports :manage_home => true
+  action :create
+end
+
+group "ec2-user" do
+  action [:modify]
+  members ["ec2-user"]
+  append true
+end
+
+execute "Install Developmer Tools" do
+  command 'sudo yum groupinstall "Development Tools" -y'
+  user user
+  group group
+  environment 'HOME' => "/home/#{user}"
+end

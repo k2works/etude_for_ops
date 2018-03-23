@@ -1,0 +1,83 @@
+mysql_rpm = node['mysql_rpm']
+mysql_version = node['mysql_version']
+
+# https://qiita.com/naoyes/items/a49637bfa4bc6a64b87b
+# add mysql yum repository
+remote_file "#{Chef::Config[:file_cache_path]}/#{mysql_rpm}" do
+  source "http://repo.mysql.com/#{mysql_rpm}"
+  action :create
+end
+
+rpm_package "mysql-community-release" do
+  source "#{Chef::Config[:file_cache_path]}/#{mysql_rpm}"
+  action :install
+  not_if 'which mysql'
+end
+
+# install mysql community server
+packages = %W{ perl-Data-Dumper mysql-devel }
+packages.each do |pkg|
+  package "#{pkg}" do
+    action [ :install, :upgrade ]
+  end
+end
+
+yum_package "mysql-community-server" do
+  action :install
+  version mysql_version
+  flush_cache [:before]
+  not_if 'which mysql'
+end
+
+service "mysqld" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+# secure install
+root_password = node["mysql"]["root_password"]
+execute "secure_install" do
+  command "/usr/bin/mysql -u root < #{Chef::Config[:file_cache_path]}/secure_install.sql"
+  action :nothing
+  only_if "/usr/bin/mysql -u root -e 'show databases;'"
+end
+
+template "#{Chef::Config[:file_cache_path]}/secure_install.sql" do
+  owner "root"
+  group "root"
+  mode 0644
+  source "secure_install.sql.erb"
+  variables({
+                :root_password => root_password,
+            })
+  notifies :run, "execute[secure_install]", :immediately
+end
+
+# Intall Postgresql
+packages = %W{ postgresql95 postgresql95-server postgresql95-libs postgresql95-contrib postgresql95-devel }
+packages.each do |pkg|
+  package "#{pkg}" do
+    action [ :install, :upgrade ]
+  end
+end
+
+execute "initdb" do
+  command "/etc/init.d/postgresql95 initdb"
+  not_if { File.exists?("/var/lib/pgsql95/data/postgresql.conf")}
+end
+
+template "/var/lib/pgsql95/data/pg_hba.conf" do
+  mode 0600
+  notifies :restart, "service[postgresql95]", :immediately
+end
+
+template "/var/lib/pgsql95/data/postgresql.conf" do
+  mode 0600
+  notifies :restart, "service[postgresql95]", :immediately
+end
+
+service "postgresql95" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+

@@ -1,0 +1,79 @@
+dbuser = node['confluence']['dbuser']
+db_name= node['confluence']['db_name']
+dbuser_password = node['confluence']['dbuser_password']
+
+execute "create-database-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  command "createuser -U postgres -sw #{dbuser}"
+  not_if code
+end
+
+execute "create-database" do
+  exists = <<-EOH
+    psql -U postgres -c "select * from pg_database WHERE datname='#{db_name}'" | grep -c #{db_name}
+  EOH
+  command "createdb -U postgres -O #{dbuser} -E utf8 -T template0 #{db_name}"
+  not_if exists
+end
+
+execute "update-database-user-password" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  alter_user = <<-EOH
+    psql -U postgres -c "alter role #{dbuser} with password '#{dbuser_password}'"
+  EOH
+  command alter_user
+  only_if code
+end
+
+package 'nginx' do
+  action :install
+end
+
+template '/etc/nginx/nginx.conf' do
+  source 'nginx.conf.erb'
+  mode '0644'
+end
+
+template '/etc/nginx/conf.d/confluence.conf' do
+  source 'nginx.confluence.conf.erb'
+  mode '0644'
+end
+
+template "/etc/nginx/conf.d/confluence_default.conf" do
+  source 'nginx.ec2.conf.erb'
+  mode '0644'
+
+  variables({
+                :app => 'confluence_server'
+            })
+end
+
+service "nginx" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+template '/etc/init.d/confluence' do
+  source 'confluence.init.erb'
+  mode '0755'
+  notifies :restart, 'service[confluence]', :delayed
+end
+
+service 'confluence' do
+  supports :status => :true, :restart => :true
+  action :enable
+  subscribes :restart, 'java_ark[jdk]'
+end
+
+if File.exist? "/opt/atlassian/confluence/conf/server.xml"
+  file "/opt/atlassian/confluence/conf/server.xml" do
+    _file = Chef::Util::FileEdit.new(path)
+    _file.search_file_replace('<Context path="" docBase="../confluence" debug="0" reloadable="false" useHttpOnly="true">', "<Context path=\"/confluence\" docBase=\"../confluence\" debug=\"0\" reloadable=\"false\" useHttpOnly=\"true\">")
+    content _file.send(:editor).lines.join
+    notifies :restart, "service[confluence]", :immediately
+  end
+end

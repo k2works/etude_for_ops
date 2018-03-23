@@ -1,0 +1,100 @@
+#### OpsWorksの配置
+
+##### クックブックの配置
+```
+$ aws s3 mb s3://$STG_S3_BACKET
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_deploy_cookbook.sh
+$ ./opsworks_deploy_cookbook.sh
+```
+
+##### クックブックの更新
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ ../../../build/sh/build.sh
+$ ./opsworks_deploy_cookbook.sh
+```
+
+##### アプリケーションのセットアップ
+EIPをResourceに登録する
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_register_eip.sh
+$ ./opsworks_register_eip.sh
+```
+レシピの登録とEBSの設定更新
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_update_layer.sh
+$ ./opsworks_update_layer.sh
+```
+
+RDSを使わずインスタンス内のDBを使う場合
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_update_app.sh
+$ ./opsworks_update_app_without_rds.sh
+$ export STG_APP_ENV=production
+$ ./opsworks_update_app_job_without_rds.sh
+$ export STG_APP_ENV=staging
+```
+GOOGLE_CLIENT_IDとGOOGLE_CLIENT_SECRETは別途入力する
+
+RDSを使う場合
+
+RDSをResouceに登録する
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_register_rds.sh
+$ ./opsworks_register_rds.sh
+```
+登録したRDSをアプリケーションに関連付ける
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_update_app.sh
+$ ./opsworks_update_app.sh
+$ export STG_APP_ENV=production
+$ ./opsworks_update_app_job.sh
+$ export STG_APP_ENV=staging
+```
+GOOGLE_CLIENT_IDとGOOGLE_CLIENT_SECRETは別途入力する
+
+##### OpsWorks用ユーザー権限設定
+
+OpsWorks用秘密鍵の作成
+```
+$ cd /vagrant/config/secure/
+$ ssh-keygen -f opsworks
+```
+
+メニューのPermissionsから対象となるユーザーのSSH/RDP sudo/admin の設定を有効にして、
+
+##### インスタンスのセットアップ
+
+インスタンスを作成してEIPを割り当てる
+```
+$ cd /vagrant/src/ship/aws/opsworks/
+$ chmod 0755 ./opsworks_create_instance.sh
+$ ./opsworks_create_instance.sh
+$ export STG_OPSW_INSTANCE_ID=xxx
+$ ./opsworks_update_instance.sh
+```
+
+##### DBのセットアップ
+データベースにローカル環境から接続できるようにする
+ステージングRDSのセキュリティグループIDとローカルのIPを調べてセキュリティセキュリティグループを有効にする
+RDSがVPCのパブリックサブネットに配置されているか確認する
+```
+$ export SG_DB_ID=sg-bb369ddc
+$ export LOCAL_IP=118.4.67.44/32
+$ aws ec2 authorize-security-group-ingress --group-id $SG_DB_ID --protocol tcp --port 3306 --cidr $LOCAL_IP
+```
+ステージングDBに接続できるか確認する
+```
+$ mysql -h$STG_RDS_DB_ENDPOINT -u$STG_RDS_DB_USER_NAME -p$STG_RDS_DB_PASSWORD $STG_RDS_DB_NAME
+```
+```
+$ echo $STG_RDS_DB_PASSWORD
+$ echo psql -h$STG_RDS_DB_ENDPOINT -U$STG_RDS_DB_USER_NAME $STG_RDS_DB_NAME
+```
+

@@ -1,0 +1,14 @@
+service "nginx" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+service "puma" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+service "active_job" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end

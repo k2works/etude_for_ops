@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+INSTANCEID=$<%= params[:opsw_instance_id] %>
+EIP=$<%= params[:opsw_eip] %>
+
+echo "**********************************"
+echo INSTANCEID:$INSTANCEID
+echo EIP:$EIP
+echo "**********************************"
+
+aws opsworks associate-elastic-ip \
+             --region us-east-1 \
+             --instance-id $INSTANCEID \
+             --elastic-ip $EIP

@@ -1,0 +1,43 @@
+apps = node['app_name_short']
+environment = node['env']
+dbuser = node['postgres']['user']['name']
+dbuser_password = node['postgres']['user']['password']
+
+execute "create-root-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='root'" | grep -c root
+  EOH
+  command "createuser -U postgres -s root"
+  not_if code
+end
+
+execute "create-database-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  command "createuser -U postgres -sw #{dbuser}"
+  not_if code
+end
+
+execute "update-database-user-password" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  alter_user = <<-EOH
+    psql -U postgres -c "alter role #{dbuser} with password '#{dbuser_password}'"
+  EOH
+  command alter_user
+  only_if code
+end
+
+apps.each do |app|
+  db_name = "#{app}_#{environment}"
+
+  execute "create-database" do
+    exists = <<-EOH
+    psql -U postgres -c "select * from pg_database WHERE datname='#{db_name}'" | grep -c #{db_name}
+    EOH
+    command "createdb -U postgres -O #{dbuser} -E utf8 -T template0 #{db_name}"
+    not_if exists
+  end
+end

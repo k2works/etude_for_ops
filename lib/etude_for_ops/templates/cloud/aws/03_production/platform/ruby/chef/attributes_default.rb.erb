@@ -1,0 +1,75 @@
+default['env'] = 'production'
+default['app_name'] = ['<%= params[:application_name] %>']
+default['app_name_short'] = ['<%= params[:application_name_short] %>']
+default['app_name_short_job'] = ['<%= params[:application_name_short] %>job']
+default['app_name_short_api'] = ['<%= params[:application_name_short] %>api']
+default['app_name_short_bot'] = ['<%= params[:application_name_short] %>bot']
+default['user'] = 'vagrant'
+default['group'] = 'vagrant'
+default['ec2_user'] = 'ec2-user'
+default['ec2_group'] = 'ec2-user'
+default['ruby_version'] = '2.4.2'
+default['rbenv_versions'] = %w[2.4.2]
+default['rbenv_url'] = 'https://github.com/sstephenson/rbenv.git'
+default['ruby_build_url'] = 'https://github.com/sstephenson/ruby-build.git'
+
+default['nginx_app_server'] = 'unix:/srv/<%= params[:application_name_short] %>/shared/sockets/puma.sock'
+default['s3_access_key'] = 'xxxxxxxx'
+default['s3_secret_key'] = 'xxxxxxxx'
+default['secret_key'] = '7731c71069e1cb8e6255c7bc93f8a540831837726ce67a8c790c29f0487e3d56660f961e8d8bfc8019d3a24a463af5e281fd185b1d393d2295aac31ec3a76a12'
+default['app_url'] = '54.201.32.126'
+
+default['mysql_rpm'] = 'mysql-community-release-el6-4.noarch.rpm'
+default['mysql_version'] = '5.6.14-3.el6'
+default['mysql']['root_password'] = 'password'
+default['mysql']['user']['name'] = 'app'
+default['mysql']['user']['password'] = 'password'
+default['mysql']['db_host'] = 'localhost'
+default['mysql']['db_port'] = '3306'
+
+default['node_url'] = 'https://rpm.nodesource.com/setup_8.x'
+default['yarn_url'] = 'https://dl.yarnpkg.com/rpm/yarn.repo'
+
+default['postgres']['user']['name'] = 'app'
+default['postgres']['user']['password'] = 'password'
+
+default['java']['jdk_version'] = '8'
+#default['java']['install_flavor'] = 'oracle'
+#default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz'
+#default['java']['jdk']['8']['x86_64']['checksum'] = '68ec82d47fd9c2b8eb84225b6db398a72008285fafc98631b1ff8d2229680257'
+#default['java']['oracle']['accept_oracle_download_terms'] = true
+
+default['docker_compose']['release'] = '1.8.0'
+default['docker-machine']['version'] = '0.10.0'
+
+default['elasticsearch_rpm'] = 'elasticsearch-5.5.0.rpm'
+default['kibana_rpm'] = 'kibana-5.5.0-x86_64.rpm'
+
+default['iam_ssh_pubkey_id'] = 'xxxxxxxxx'
+
+default['zabbix_rpm'] = 'zabbix-release-3.0-1.el6.noarch.rpm'
+default['zabbiz_zabbix-server-mysql'] = 'zabbix-server-mysql-3.0.15'
+
+default['enable_ssl'] = false
+
+default['jira']['version'] = '7.4.2'
+default['jira']['tomcat']['port'] = '9999'
+default['jira']['user'] = 'root'
+default['jira']['dbuser'] = 'jira'
+default['jira']['db_name'] = 'jira'
+default['jira']['dbuser_password'] = 'password'
+
+default['confluence']['version'] = '6.3.1'
+default['confluence']['tomcat']['port'] = '7777'
+default['confluence']['user'] = 'root'
+default['confluence']['dbuser'] = 'confluence'
+default['confluence']['db_name'] = 'confluence'
+default['confluence']['dbuser_password'] = 'password'
+
+default['mattermost']['database'] = {
+    'address' => 'localhost',
+    'port' => 3306,
+    'name' => 'mattermost',
+    'username' => 'app',
+    'password' => 'password'
+}

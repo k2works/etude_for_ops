@@ -1,0 +1,115 @@
+### インフラのセットアップ
+
+```bash
+cd ops/03_production
+vagrant up
+vagrant ssh
+```
+
+```bash
+cd /vagrant
+./src/build/sh/build.sh
+source ~/.bash_profile
+exit
+vagrant reload
+```
+
+```bash
+cd /vagrant/build
+sudo chef-client -z -j provision.json
+```
+
+#### IAMセットアップ
+
+```bash
+cd /vagrant/src/build/aws/iam/
+aws cloudformation validate-template --template-body file://$PRD_IAM_TEMPLATE
+chmod 0755 ./create_stack.sh
+./create_stack.sh
+aws cloudformation list-stack-resources --stack-name $PRD_IAM_STACKNAME --output table
+```
+
+#### S3バケットの作成
+```bash
+$ aws s3 mb s3://$PRD_S3_BACKET
+```
+
+#### レポジトリ用秘密鍵と公開鍵の作成
+```
+cd /vagrant/config/secure/
+ssh-keygen -f $PRD_APP_REPOSITORY_SSH_KEY
+cp /vagrant/config/secure/$PRD_APP_REPOSITORY_SSH_KEY ~/.ssh/
+cp /vagrant/config/secure/$PRD_APP_REPOSITORY_SSH_KEY.pub ~/.ssh/
+chmod 0400 ~/.ssh/$PRD_APP_REPOSITORY_SSH_KEY
+chmod 0400 ~/.ssh/$PRD_APP_REPOSITORY_SSH_KEY.pub
+
+ssh-keygen -f $PRD_APP_JOB_REPOSITORY_SSH_KEY
+cp /vagrant/config/secure/$PRD_APP_JOB_REPOSITORY_SSH_KEY ~/.ssh/
+cp /vagrant/config/secure/$PRD_APP_JOB_REPOSITORY_SSH_KEY.pub ~/.ssh/
+chmod 0400 ~/.ssh/$PRD_APP_JOB_REPOSITORY_SSH_KEY
+chmod 0400 ~/.ssh/$PRD_APP_JOB_REPOSITORY_SSH_KEY.pub
+
+ssh-keygen -f $PRD_APP_API_REPOSITORY_SSH_KEY
+cp /vagrant/config/secure/$PRD_APP_API_REPOSITORY_SSH_KEY ~/.ssh/
+cp /vagrant/config/secure/$PRD_APP_API_REPOSITORY_SSH_KEY.pub ~/.ssh/
+chmod 0400 ~/.ssh/$PRD_APP_API_REPOSITORY_SSH_KEY
+chmod 0400 ~/.ssh/$PRD_APP_API_REPOSITORY_SSH_KEY.pub
+
+ssh-keygen -f $PRD_APP_BOT_REPOSITORY_SSH_KEY
+cp /vagrant/config/secure/$PRD_APP_BOT_REPOSITORY_SSH_KEY ~/.ssh/
+cp /vagrant/config/secure/$PRD_APP_BOT_REPOSITORY_SSH_KEY.pub ~/.ssh/
+chmod 0400 ~/.ssh/$PRD_APP_BOT_REPOSITORY_SSH_KEY
+chmod 0400 ~/.ssh/$PRD_APP_BOT_REPOSITORY_SSH_KEY.pub
+
+chmod 700 ~/.ssh/config
+```
+
+#### 証明書を作成する(自己認証)
+```
+$ cd /vagrant/config/secure/
+$ openssl req -new -days 365 -x509 -nodes -keyout ssl_certificate.pem -out ssl_certificate.crt
+Generating a 2048 bit RSA private key
+......................................+++
+...................+++
+writing new private key to 'ssl_certificate.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:
+State or Province Name (full name) []:
+Locality Name (eg, city) [Default City]:
+Organization Name (eg, company) [Default Company Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server's hostname) []:
+Email Address []:
+```
+
+#### 証明書を作成する
++ Route53でドメインを取得視する
++ [証明書のリクエスト](https://docs.aws.amazon.com/ja_jp/acm/latest/userguide/gs-acm-request.html)
+
+#### EC2キーペアの作成
+```bash
+cd /vagrant/config/secure/
+../../src/build/aws/ec2/create_key_pare.sh
+```
+再作成をする場合は以下のコマンドで秘密鍵を削除してからコピーする
+```bash
+rm  ~/.ssh/$PRD_SSH_KEY
+cp $PRD_SSH_KEY  ~/.ssh/
+chmod 0400 ~/.ssh/$PRD_SSH_KEY
+```
+
+#### VPCの作成
+```bash
+cd /vagrant/src/build/aws/vpc/
+aws cloudformation validate-template --template-body file://$PRD_VPC_TEMPLATE
+chmod 0755 ./create_stack.sh
+./create_stack.sh
+aws cloudformation list-stack-resources --stack-name $PRD_VPC_STACKNAME --output table
+```

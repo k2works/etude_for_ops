@@ -1,0 +1,45 @@
+yum_package 'docker' do
+  action :install
+  flush_cache [:before]
+end
+
+service "docker" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+execute 'install pip' do
+  command 'curl -kL https://bootstrap.pypa.io/get-pip.py | python'
+end
+
+execute 'install docker-compose' do
+  command 'pip install docker-compose'
+end
+
+bash "install docker-machine" do
+  code <<-EOC
+    curl -L https://github.com/docker/machine/releases/download/v#{node['docker-machine']['version']}/docker-machine-`uname -s`-`uname -m` > /usr/local/docker-machine-#{node['docker-machine']['version']} && \
+    ln -s /usr/local/docker-machine-#{node['docker-machine']['version']} /usr/local/bin/docker-machine && \
+    chmod +x /usr/local/bin/docker-machine
+  EOC
+  not_if {File.exists?("/usr/local/docker-machine-#{node['docker-machine']['version']}")}
+end
+
+members = []
+if node['etc']['passwd']['vagrant']
+  members << 'vagrant'
+end
+if node['etc']['passwd']['ec2-uer']
+  members << 'ec2-user'
+end
+if node['etc']['passwd']['jenkins']
+  members << 'jenkins'
+end
+
+unless members.empty?
+  group 'docker' do
+    action [:modify]
+    members members
+    append true
+  end
+end

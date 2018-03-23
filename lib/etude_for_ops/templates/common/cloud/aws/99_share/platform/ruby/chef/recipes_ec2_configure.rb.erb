@@ -1,0 +1,150 @@
+user = node['ec2_user']
+group = node['ec2_group']
+secret_key = node['secret_key']
+url = node['app_url']
+apps = node['app_name_short']
+apps = apps | node['app_name_short_job']
+apps = apps | node['app_name_short_api']
+environment = node['env']
+
+directory "/home/#{user}/.ssh" do
+  owner user
+  group user
+  recursive true
+  mode 0755
+  action :create
+end
+
+template ".bash_profile" do
+  source ".bash_profile_aws.erb"
+  path "/home/#{user}/.bash_profile"
+  mode 0644
+  owner user
+  group group
+end
+
+template ".bashrc" do
+  source ".bashrc.erb"
+  path "/home/#{user}/.bashrc"
+  mode 0644
+  owner user
+  group group
+
+  variables({
+                :db_name => node["mysql"]["db_name"],
+                :db_username => node["mysql"]["user"]["name"],
+                :db_password => node["mysql"]["user"]["password"],
+                :db_hostname => node["mysql"]["db_host"],
+                :db_port => node["mysql"]["db_port"],
+                :secret_key_base => secret_key,
+                :url => url
+            })
+end
+
+template "ssh_config" do
+  source "ssh_config.erb"
+  path "/home/#{user}/.ssh/config"
+  mode 0644
+  owner user
+  group group
+
+  variables({
+                :iam_ssh_pubkey_id => node["iam_ssh_pubkey_id"],
+            })
+end
+
+template '/etc/update-motd.d/99-banner' do
+  source 'banner.erb'
+  mode '0755'
+end
+
+bash "Update MOTD" do
+  code "sudo update-motd"
+end
+
+# MySql
+# create database
+apps.each do |app|
+  db_name = "#{app}_#{environment}"
+  root_password = node["mysql"]["root_password"]
+  execute "create_#{db_name}_db" do
+    command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_#{db_name}_db.sql"
+    action :nothing
+    not_if "/usr/bin/mysql -u root -p#{root_password} -D #{db_name}"
+  end
+
+  template "#{Chef::Config[:file_cache_path]}/create_#{db_name}_db.sql" do
+    owner "root"
+    group "root"
+    mode 0644
+    source "create_db.sql.erb"
+    variables({
+                  :db_name => db_name,
+              })
+    notifies :run, "execute[create_#{db_name}_db]", :immediately
+  end
+
+# create user
+  user_name     = node["mysql"]["user"]["name"]
+  user_password = node["mysql"]["user"]["password"]
+  execute "create_#{db_name}_user" do
+    command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_#{db_name}_user.sql"
+    action :nothing
+    not_if "/usr/bin/mysql -u #{user_name} -p#{user_password} -D #{db_name}"
+  end
+
+  template "#{Chef::Config[:file_cache_path]}/create_#{db_name}_user.sql" do
+    owner "root"
+    group "root"
+    mode 0644
+    source "create_user.sql.erb"
+    variables({
+                  :db_name => db_name,
+                  :username => user_name,
+                  :password => user_password,
+              })
+    notifies :run, "execute[create_#{db_name}_user]", :immediately
+  end
+end
+
+# PostgreSQL
+dbuser = node['postgres']['user']['name']
+dbuser_password = node['postgres']['user']['password']
+
+execute "create-root-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='root'" | grep -c root
+  EOH
+  command "createuser -U postgres -s root"
+  not_if code
+end
+
+execute "create-database-user" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  command "createuser -U postgres -sw #{dbuser}"
+  not_if code
+end
+
+execute "update-database-user-password" do
+  code = <<-EOH
+    psql -U postgres -c "select * from pg_user where usename='#{dbuser}'" | grep -c #{dbuser}
+  EOH
+  alter_user = <<-EOH
+    psql -U postgres -c "alter role #{dbuser} with password '#{dbuser_password}'"
+  EOH
+  command alter_user
+  only_if code
+end
+
+apps.each do |app|
+  db_name = "#{app}_#{environment}"
+  execute "create-database" do
+    exists = <<-EOH
+    psql -U postgres -c "select * from pg_database WHERE datname='#{db_name}'" | grep -c #{db_name}
+    EOH
+    command "createdb -U postgres -O #{dbuser} -E utf8 -T template0 #{db_name}"
+    not_if exists
+  end
+end

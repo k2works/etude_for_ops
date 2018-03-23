@@ -1,0 +1,27 @@
+bash "install postgresql" do
+  code <<-EOC
+      amazon-linux-extras install postgresql9.6
+      yum install postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs -y
+  EOC
+end
+
+execute "initdb" do
+  command "/sbin/service postgresql initdb"
+  not_if { File.exists?("/var/lib/pgsql/data/postgresql.conf")}
+end
+
+template "/var/lib/pgsql/data/pg_hba.conf" do
+  mode 0600
+  notifies :restart, "service[postgresql]", :immediately
+end
+
+template "/var/lib/pgsql/data/postgresql.conf" do
+  mode 0600
+  notifies :restart, "service[postgresql]", :immediately
+end
+
+service "postgresql" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+

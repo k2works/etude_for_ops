@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+STACKNAME=$<%= params[:iam_stackname] %>
+TEMPLATE=$<%= params[:iam_template] %>
+TEMPLATE_PARAMS=$<%= params[:iam_template_params] %>
+TAGKEY=$<%= params[:tagkey] %>
+TAGVALUE=$<%= params[:tagvalue] %>
+
+echo "**********************************"
+echo STACKNAME:${STACKNAME}
+echo TEMPLATE:${TEMPLATE}
+echo TEMPLATE_PARAMS:${TEMPLATE_PARAMS}
+echo TAGKEY:${TAGKEY}
+echo TAGVALUE:${TAGVALUE}
+echo "**********************************"
+
+aws cloudformation update-stack --stack-name ${STACKNAME} \
+                                --template-body file://${TEMPLATE} \
+                                --parameters file://${TEMPLATE_PARAMS} \
+                                --tags Key=${TAGKEY},Value=${TAGVALUE} \
+                                --capabilities CAPABILITY_NAMED_IAM

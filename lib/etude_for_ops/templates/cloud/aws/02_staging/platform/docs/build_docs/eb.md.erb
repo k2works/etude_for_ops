@@ -1,0 +1,28 @@
+#### ElasticBeanstalk
+##### セットアップ
+
+パーミッションを実行可能にする
+```
+$ cd /vagrant/src/build/aws/eb/
+$ chmod 0755 ./eb_init.sh
+$ chmod 0755 ./eb_create_vpc_env.sh
+$ chmod 0755 ./eb_create_vpc_rds_env.sh
+$ chmod 0755 ./eb_setenv.sh
+```
+
+作成したアプリケーションにデプロイスクリプトを実行する
+```
+$ cd /vagrant/build
+$ ../src/build/aws/eb/eb_init.sh
+$ ../src/build/aws/eb/eb_create_vpc_env.sh
+$ eb list
+$ eb use $STG_EB_ENVNAME
+$ ../src/build/aws/eb/eb_setenv.sh
+$ eb printenv
+```
+
+仮想マシンへのログイン
+```bash
+$ eb ssh
+```
+

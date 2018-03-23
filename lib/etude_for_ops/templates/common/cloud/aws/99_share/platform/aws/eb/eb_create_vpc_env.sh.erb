@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+ENVNAME=$<%= params[:eb_envname] %>
+CNAME=$<%= params[:eb_cname] %>
+VPCID=$<%= params[:eb_vpc_id] %>
+ELBSUBNET=$<%= params[:eb_elb_subnet] %>
+EC2SUBNET=$<%= params[:eb_ec2_subnet] %>
+INSTANCE=$<%= params[:eb_instance] %>
+SSH_KEY=$<%= params[:eb_ssh_key_name] %>
+
+echo "**********************************"
+echo ENVNAME:$ENVNAME
+echo CNAME:$CNAME
+echo VPCID:$VPCID
+echo ELBSUBNET:$ELBSUBNET
+echo EC2SUBNET:$EC2SUBNET
+echo INSTANCE:$INSTANCE
+echo SSH_KEY:$SSH_KEY
+echo "**********************************"
+
+eb create $ENVNAME \
+                     --cname $CNAME \
+                     --vpc.id $VPCID \
+                     --vpc.elbsubnets $ELBSUBNET \
+                     --vpc.ec2subnets $EC2SUBNET \
+                     --vpc.publicip \
+                     --vpc.elbpublic \
+                     --instance_type $INSTANCE \
+                     --keyname $SSH_KEY \
+                     --sample

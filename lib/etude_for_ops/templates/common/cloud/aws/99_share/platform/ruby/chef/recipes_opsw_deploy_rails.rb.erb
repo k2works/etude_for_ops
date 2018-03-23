@@ -1,0 +1,274 @@
+# frozen_string_literal: true
+
+deploy_action = :deploy
+deploy_migration = true
+
+node['app_name_short'].each do |app_name|
+  unless node['state'].nil?
+    Chef::Log.info("********** The app's initial state is '#{node['state']}' **********")
+    Chef::Log.info("********** The app's type is '#{node['type']}' **********")
+    Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+    Chef::Log.info("********** The deploy app's action is '#{node['deploy']['action']}' **********")
+    Chef::Log.info("********** The deploy app's migration is '#{node['deploy']['migrate']}' **********")
+
+    deploy_action = node['deploy']['action'].to_sym
+    deploy_migration = node['deploy']['migrate']
+  else
+    Chef::Log.info("********** The app's initial state is default check your custome JSON **********")
+    Chef::Log.info("********** The app's type is app **********")
+    Chef::Log.info("********** The deploy app's name is '#{node['app_name_short']}' **********")
+    Chef::Log.info("********** The deploy app's action is '#{deploy_action}' **********")
+    Chef::Log.info("********** The deploy app's migration is '#{deploy_migration}' **********")
+  end
+
+  user = node['ec2_user']
+  group = node['ec2_group']
+  app = search(:aws_opsworks_app, "shortname:#{app_name}").first
+  db = search(:aws_opsworks_rds_db_instance).first
+  app_path = "/srv/#{app['shortname']}"
+  server = "unix:/srv/#{app['shortname']}/shared/sockets/puma.sock"
+  packages = %w[sqlite-devel postgresql95-devel mysql-devel]
+  local_db_adapter = app['environment']['DB_ADAPTER']
+  domains = app['domains'] || []
+
+  packages.each do |package_name|
+    package package_name do
+      action :install
+    end
+  end
+
+  directory app_path do
+    owner user
+    group group
+    action :create
+  end
+
+  file "/home/#{user}/.ssh/repository_rsa" do
+    content app['app_source']['ssh_key']
+    mode '0600'
+    owner user
+    group group
+  end
+
+  cookbook_file "#{app_path}/wrap-ssh4git.sh" do
+    source 'wrap-ssh4git.sh'
+    owner user
+    mode '0755'
+  end
+
+  enable_ssl = app['enable_ssl'] || node['enable_ssl']
+  if enable_ssl
+    directory '/etc/nginx/ssl' do
+      action :create
+    end
+
+    file "/etc/nginx/ssl/#{app['shortname']}_ssl_certificate.crt" do
+      content app['ssl_configuration']['certificate']
+    end
+
+    file "/etc/nginx/ssl/#{app['shortname']}_ssl_certificate.pem" do
+      content app['ssl_configuration']['private_key']
+    end
+  end
+
+
+  deploy_branch app_path do
+    user user
+    group group
+
+    repo app['app_source']['url']
+    branch app['app_source']['revision']
+    ssh_wrapper "#{app_path}/wrap-ssh4git.sh"
+    action deploy_action
+    migrate deploy_migration
+
+    environment app['environment']['RAILS_ENV']
+
+    migration_command "/home/#{user}/.rbenv/shims/bundle exec rake db:migrate"
+
+    create_dirs_before_symlink %w[tmp]
+
+    symlinks 'public/system' => 'public/system',
+             'public/assets' => 'public/assets',
+             'pids' => 'tmp/pids',
+             'log' => 'log',
+             'node_modules' => 'node_modules'
+
+    symlink_before_migrate 'config/database.yml' => 'config/database.yml'
+
+    before_migrate do
+      ENV['S3_ACCESS_KEY'] = app['environment']['S3_ACCESS_KEY']
+      ENV['S3_SECRET_KEY'] = app['environment']['S3_SECRET_KEY']
+      ENV['SECRET_KEY_BASE'] = app['environment']['SECRET_KEY_BASE']
+
+      %w[config pids sockets log public localsystem node_modules].each do |dir|
+        directory ::File.join(release_path, '../../shared', dir) do
+          action :create
+        end
+      end
+      %w[assets system].each do |dir|
+        directory ::File.join(release_path, '../../shared/public', dir) do
+          action :create
+        end
+      end
+
+      template ::File.expand_path(::File.join(release_path, '../../shared/config/database.yml')) do
+        cookbook 'ruby_platform'
+        source 'database.yml.erb'
+
+        if local_db_adapter.nil?
+          if db.nil?
+            variables(
+                adapter: 'sqlite3',
+                database: 'DUMMY'
+            )
+          else
+            db_adapter = case db['engine']
+                           when 'mysql'
+                             'mysql2'
+                           when 'postgres'
+                             'postgresql'
+                           else
+                             'sqlite3'
+                         end
+
+            variables(
+                rails_env: app['environment']['RAILS_ENV'],
+                adapter: db_adapter,
+                username: db['db_user'],
+                host: db['address'],
+                database: app['data_sources'][0]['database_name'],
+                password: db['db_password'],
+                port: db['port']
+            )
+          end
+        else
+          variables(
+              rails_env: app['environment']['RAILS_ENV'],
+              adapter: local_db_adapter,
+              username: app['environment']['DB_USER'],
+              host: app['environment']['DB_ADDRESS'],
+              database: app['environment']['DB_NAME'],
+              password: app['environment']['DB_PASSWORD'],
+              port: app['environment']['DB_PORT']
+          )
+        end
+
+        template ::File.expand_path(::File.join(release_path, '../../shared/config/puma.rb')) do
+          cookbook 'ruby_platform'
+          source 'puma.rb.erb'
+          variables(
+              app_path: app_path,
+              rails_env: app['environment']['RAILS_ENV'],
+              server: server
+          )
+        end
+
+        template ::File.expand_path(::File.join(release_path, '../../shared/config/sidekiq.yml')) do
+          cookbook 'ruby_platform'
+          source 'sidekiq.yml.erb'
+          variables(
+              app_path: app_path
+          )
+        end
+      end
+
+      execute 'db-migrate' do
+        user user
+        group group
+        cwd release_path
+        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} --without development test"
+        action :run
+      end
+    end
+
+    before_restart do
+      if File.exist?("#{release_path}/bin/yarn")
+        execute 'assets-precompile' do
+          user user
+          group group
+          environment 'RAILS_ENV' => app['environment']['RAILS_ENV'],
+                      'RAILS_GROUPS' => 'assets'
+          cwd release_path
+          command <<-EOC
+           export PATH="/home/#{user}/.rbenv/shims/:$PATH"
+           ./bin/yarn
+           ./bin/rake assets:precompile
+          EOC
+        end
+      else
+        execute 'assets-precompile' do
+          user user
+          group group
+          environment 'RAILS_ENV' => app['environment']['RAILS_ENV'],
+                      'RAILS_GROUPS' => 'assets'
+          cwd release_path
+          command <<-EOC
+           export PATH="/home/#{user}/.rbenv/shims/:$PATH"
+           ./bin/rake assets:precompile
+          EOC
+        end
+      end
+
+      template "puma_#{app['shortname']}" do
+        path "/etc/init.d/puma_#{app['shortname']}"
+        source 'puma.erb'
+        owner user
+        group group
+        mode 0o755
+
+        variables(
+            user: user,
+            app: app['shortname'],
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV'],
+            s3_access_key: app['environment']['S3_ACCESS_KEY'],
+            s3_secret_key: app['environment']['S3_SECRET_KEY'],
+            secret_key_base: app['environment']['SECRET_KEY_BASE']
+        )
+      end
+
+      service "puma_#{app['shortname']}" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+
+      template "active_job_#{app['shortname']}" do
+        path "/etc/init.d/active_job_#{app['shortname']}"
+        source 'active_job.erb'
+        owner user
+        group group
+        mode 0o755
+
+        variables(
+            user: user,
+            app: app['shortname'],
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV']
+        )
+      end
+
+      service "active_job_#{app['shortname']}" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+
+      domains.each do |domain|
+        template "/etc/nginx/conf.d/#{app['shortname']}_#{domain}.conf" do
+          source 'nginx.ec2.conf.erb'
+          mode '0644'
+
+          variables({
+                        :app => app['shortname'],
+                        :server_name => domain,
+                        :enable_ssl => enable_ssl
+                    })
+        end
+      end
+
+      service "nginx" do
+        action :restart
+      end
+    end
+  end
+end

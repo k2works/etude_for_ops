@@ -10,7 +10,9 @@ PATH=$PATH:$HOME/bin
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
-complete -C '/usr/local/bin/aws_completer' aws
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 source /vagrant/config/env/set-share-env.sh
-source /vagrant/config/env/set-dev-env.sh
+source /vagrant/config/env/set-env.sh

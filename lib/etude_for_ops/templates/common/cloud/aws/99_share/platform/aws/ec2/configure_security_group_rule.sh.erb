@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+SG_ID=$<%= params[:ec2_sg_id] %>
+
+echo "**********************************"
+echo SG_ID:$SG_ID
+echo "**********************************"
+
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --cidr `curl -s ifconfig.me`/32 --port 22 --protocol tcp
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --cidr `curl -s ifconfig.me`/32 --port 80 --protocol tcp
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --cidr `curl -s ifconfig.me`/32 --port 3306 --protocol tcp
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --cidr `curl -s ifconfig.me`/32 --port 5432 --protocol tcp
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --cidr `curl -s ifconfig.me`/32 --port 8080 --protocol tcp
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --cidr `curl -s ifconfig.me`/32 --port 9292 --protocol tcp

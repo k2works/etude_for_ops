@@ -1,0 +1,11 @@
+concurrency: 5
+development:
+  :pidfile: <%= @app_path %>/shared/pids/sidekiq.pid
+  :logfile: <%= @app_path %>/shared/log/sidekiq_development.log
+staging:
+  :pidfile: <%= @app_path %>/shared/pids/sidekiq.pid
+  :logfile: <%= @app_path %>/shared/log/sidekiq_staging.log
+production:
+  :pidfile: <%= @app_path %>/shared/pids/sidekiq.pid
+  :logfile: <%= @app_path %>/shared/log/sidekiq_production.log
+  :concurrency: 50

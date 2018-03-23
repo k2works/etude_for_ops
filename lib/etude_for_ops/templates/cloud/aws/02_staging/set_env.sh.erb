@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+export STG_APPLICATION_NAME=${APPLICATION_NAME}Staging
+export STG_APP_ENV=staging
+export STG_APP_REPOSITORY=<%= config['ops']['staging']['repository'] %>
+export STG_APP_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_ssh_key'] %>
+export STG_APP_JOB_REPOSITORY=<%= config['ops']['staging']['repository_job'] %>
+export STG_APP_JOB_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_job_ssh_key'] %>
+export STG_APP_API_REPOSITORY=<%= config['ops']['staging']['repository_api'] %>
+export STG_APP_API_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_api_ssh_key'] %>
+export STG_APP_BOT_REPOSITORY=<%= config['ops']['staging']['repository_bot'] %>
+export STG_APP_BOT_REPOSITORY_SSH_KEY=<%= config['ops']['staging']['repository_bot_ssh_key'] %>
+export STG_APP_SECRET_KEY_BASE=<%= config['ops']['staging']['secret_key_base'] %>
+export SECRET_KEY_BASE=$STG_APP_SECRET_KEY_BASE
+export STG_BRANCH=staging
+export STG_DB=${APPLICATION_PREFIX}_staging
+export STG_SSH_KEY=stg-$APPLICATION_PREFIX.pem
+export STG_SSH_KEY_NAME=stg-$APPLICATION_PREFIX
+
+export AWS_ACCESS_KEY_ID=<%= config['ops']['staging']['aws_access_key_id'] %>
+export AWS_SECRET_ACCESS_KEY=<%= config['ops']['staging']['aws_secret_access_key'] %>
+export AWS_DEFAULT_REGION=<%= config['ops']['staging']['aws_default_region'] %>
+export AWS_AZ1=<%= config['ops']['staging']['aws_az_1'] %>
+export AWS_AZ2=<%= config['ops']['staging']['aws_az_2'] %>
+
+export STG_IAM_STACKNAME=$ORGANIZATION-Staging-IAM
+export STG_IAM_TEMPLATE=<%= config['ops']['staging']['iam_template'] %>
+export STG_IAM_TEMPLATE_PARAMS=<%= config['ops']['staging']['iam_template_params'] %>
+export STG_TAGKEY=Name
+export STG_TAGVALUE=$STG_APPLICATION_NAME
+export STG_IAM_USER_NAME=<%= config['ops']['staging']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
+export STG_IAM_SSH_PUBKEY_ID=<%= config['ops']['staging']['iam_ssh_pubkey_id'] %>
+
+export STG_S3_BACKET=${S3_BACKET}-staging
+
+export STG_VPC_STACKNAME=$ORGANIZATION-Staging-VPC
+export STG_VPC_TEMPLATE=<%= config['ops']['staging']['vpc_template'] %>
+export STG_VPC_TEMPLATE_PARAMS=<%= config['ops']['staging']['vpc_template_params'] %>
+export STG_VPC_ID=<%= config['ops']['staging']['vpc_id'] %>
+
+export STG_EC2_SG_ID=<%= config['ops']['staging']['ec2_sg_id'] %>
+export STG_EC2_SG_NAME=<%= config['ops']['staging']['ec2_sg_name'] %>
+export STG_EC2_SG_DESC=<%= config['ops']['staging']['ec2_sg_desc'] %>
+export STG_EC2_TYPE=<%= config['ops']['staging']['ec2_type'] %>
+export STG_EC2_AMI_ID=<%= config['ops']['staging']['ec2_ami_id'] %>
+export STG_EC2_SUBNET=<%= config['ops']['staging']['ec2_subnet'] %>
+export STG_EC2_INSTANCE_ID=<%= config['ops']['staging']['ec2_instance_id'] %>
+export STG_EC2_PUBLIC_IP=<%= config['ops']['staging']['ec2_public_ip'] %>
+export STG_EC2_DB_NAME=<%= config['ops']['staging']['ec2_db_name'] %>
+export STG_EC2_DB_USER_NAME=<%= config['ops']['staging']['ec2_db_user'] %>
+export STG_EC2_DB_PASSWORD=<%= config['ops']['staging']['ec2_db_password'] %>
+export STG_EC2_DB_HOSTNAME=<%= config['ops']['staging']['ec2_db_host'] %>
+export STG_EC2_DB_PORT=<%= config['ops']['staging']['ec2_db_port'] %>
+
+export STG_RDS_STACKNAME=$ORGANIZATION-Staging-RDS
+export STG_RDS_TEMPLATE=<%= config['ops']['staging']['rds_template'] %>
+export STG_RDS_TEMPLATE_PARAMS=<%= config['ops']['staging']['rds_template_params'] %>
+export STG_RDS_TAGKEY=Name
+export STG_RDS_TAGVALUE=$STG_APPLICATION_NAME
+export STG_RDS_SUBNET_1=<%= config['ops']['staging']['rds_subnet_1'] %>
+export STG_RDS_SUBNET_2=<%= config['ops']['staging']['rds_subnet_2'] %>
+export STG_RDS_ENGINE=<%= config['ops']['staging']['rds_engine'] %>
+export STG_RDS_ENGINE_VERSION=<%= config['ops']['staging']['rds_engine_version'] %>
+export STG_RDS_DB_PARAMETER_GROUP_FAMILY=<%= config['ops']['staging']['rds_db_parameter_group_family'] %>
+export STG_RDS_DB_INSTANCE_NAME=<%= config['ops']['staging']['rds_db_instance_name'] %>
+export STG_RDS_DB_NAME=<%= config['ops']['staging']['rds_db_name'] %>
+export STG_RDS_DB_USER_NAME=<%= config['ops']['staging']['rds_db_user_name'] %>
+export STG_RDS_DB_PASSWORD=<%= config['ops']['staging']['rds_db_password'] %>
+export STG_RDS_DB_CLASS=<%= config['ops']['staging']['rds_db_class'] %>
+export STG_RDS_DB_ALLOCATED_STORAGE=<%= config['ops']['staging']['rds_db_allocated_storage'] %>
+export STG_RDS_DB_ENDPOINT=<%= config['ops']['staging']['rds_db_endpoint'] %>
+export STG_RDS_ARN=<%= config['ops']['staging']['rds_db_arn'] %>
+export STG_RDS_DB_PORT=<%= config['ops']['staging']['rds_db_port'] %>
+
+export STG_EB_APP_PLATFORM=<%= config['ops']['staging']['eb_app_platform'] %>
+export STG_EB_PREFIX=stg-$APPLICATION_PREFIX
+export STG_EB_SUFFIX=green
+export STG_EB_ENVNAME=$STG_EB_PREFIX-$STG_EB_SUFFIX
+export STG_EB_CNAME=$STG_EB_PREFIX-$STG_EB_SUFFIX
+export STG_EB_URL=stg-$APPLICATION_PREFIX-$STG_EB_SUFFIX.<%= config['ops']['staging']['eb_url'] %>
+export STG_EB_SSH_KEY=$STG_SSH_KEY
+export STG_EB_INSTANCE=<%= config['ops']['staging']['eb_instance'] %>
+export STG_EB_VPC_ID=$STG_VPC_ID
+export STG_EB_EC2_SUBNET=<%= config['ops']['staging']['eb_ec2_subnet'] %>
+export STG_EB_ELB_SUBNET=<%= config['ops']['staging']['eb_elb_subnet'] %>
+export STG_EB_ELB=<%= config['ops']['staging']['eb_elb'] %>
+export STG_EB_SSL_SRT_ID=<%= config['ops']['staging']['eb_ssl_srt_id'] %>
+export STG_EB_DB_ENGINE=<%= config['ops']['staging']['eb_db_engine'] %>
+export STG_EB_DB_SIZE=<%= config['ops']['staging']['eb_db_size'] %>
+export STG_EB_DB_INSTANCE=<%= config['ops']['staging']['eb_db_instance'] %>
+export STG_EB_DB_PASSWORD=<%= config['ops']['staging']['eb_db_password'] %>
+export STG_EB_DB_USERNAME=<%= config['ops']['staging']['eb_db_username'] %>
+export STG_EB_DB_VERSION=<%= config['ops']['staging']['eb_db_version'] %>
+export STG_EB_DB_SUBNET_1=<%= config['ops']['staging']['eb_db_subnet_1'] %>
+export STG_EB_DB_SUBNET_2=<%= config['ops']['staging']['eb_db_subnet_2'] %>
+
+export STG_OPS_PACKAGE=$APPLICATION_PREFIX-opsw-cookbooks.tar.gz
+export STG_CFM_OPSW_STACKNAME=$ORGANIZATION-Staging-OpsWorks
+export STG_OPSW_STACKNAME=${ORGANIZATION}Staging
+export STG_OPSW_TEMPLATE=opsworks.yml
+export STG_OPSW_VPC_ID=$STG_VPC_ID
+export STG_OPSW_SUBNET_1=<%= config['ops']['staging']['opsw_subnet_1'] %>
+export STG_OPSW_SUBNET_2=<%= config['ops']['staging']['opsw_subnet_2'] %>
+export STG_OPSW_SUBNET_PUB_1=<%= config['ops']['staging']['opsw_subnet_pub_1'] %>
+export STG_OPSW_SUBNET_PUB_2=<%= config['ops']['staging']['opsw_subnet_pub_2'] %>
+export STG_OPSW_SUBNET_PRI_1=<%= config['ops']['staging']['opsw_subnet_pri_1'] %>
+export STG_OPSW_SUBNET_PRI_2=<%= config['ops']['staging']['opsw_subnet_pri_2'] %>
+export STG_OPSW_KEYNAME=$STG_SSH_KEY_NAME
+export STG_OPSW_STACK_ID=<%= config['ops']['staging']['opsw_stack_id'] %>
+export STG_OPSW_APP_LAYER_ID=<%= config['ops']['staging']['opsw_app_layer_id'] %>
+export STG_OPSW_APP_LAYER_SG=<%= config['ops']['staging']['opsw_app_layer_sg'] %>
+export STG_OPSW_APP_ID=<%= config['ops']['staging']['opsw_app_id'] %>
+export STG_OPSW_APP_REVISION=<%= config['ops']['staging']['opsw_app_revision'] %>
+export STG_OPSW_APP_REPO_URL=$STG_APP_REPOSITORY
+export STG_OPSW_APP_URL=<%= config['ops']['staging']['opsw_app_url'] %>
+export STG_OPSW_APP_JOB_ID=<%= config['ops']['staging']['opsw_app_job_id'] %>
+export STG_OPSW_APP_API_ID=<%= config['ops']['staging']['opsw_app_api_id'] %>
+export STG_OPSW_APP_BOT_ID=<%= config['ops']['staging']['opsw_app_bot_id'] %>
+export STG_OPSW_APP_JOB_REVISION=<%= config['ops']['staging']['opsw_app_job_revision'] %>
+export STG_OPSW_APP_JOB_REPO_URL=$STG_APP_JOB_REPOSITORY
+export STG_OPSW_APP_JOB_URL=<%= config['ops']['staging']['opsw_app_job_url'] %>
+export STG_OPSW_APP_API_REVISION=<%= config['ops']['staging']['opsw_app_api_revision'] %>
+export STG_OPSW_APP_API_REPO_URL=$STG_APP_API_REPOSITORY
+export STG_OPSW_APP_API_URL=<%= config['ops']['staging']['opsw_app_api_url'] %>
+export STG_OPSW_APP_BOT_REVISION=<%= config['ops']['staging']['opsw_app_bot_revision'] %>
+export STG_OPSW_APP_BOT_REPO_URL=$STG_APP_BOT_REPOSITORY
+export STG_OPSW_APP_BOT_URL=<%= config['ops']['staging']['opsw_app_bot_url'] %>
+export STG_OPSW_EIP=<%= config['ops']['staging']['opsw_eip'] %>
+export STG_OPSW_EIP_ID=<%= config['ops']['staging']['opsw_eip_id'] %>
+export STG_OPSW_DB_INSTANCE_ARN=$STG_RDS_ARN
+export STG_OPSW_DB_ADAPTER=<%= config['ops']['staging']['opsw_db_adapter'] %>
+export STG_OPSW_DB_NAME=<%= config['ops']['staging']['opsw_db_name'] %>
+export STG_OPSW_DB_JOB_NAME=<%= config['ops']['staging']['opsw_db_job_name'] %>
+export STG_OPSW_DB_API_NAME=<%= config['ops']['staging']['opsw_db_api_name'] %>
+export STG_OPSW_DB_USERNAME=<%= config['ops']['staging']['opsw_db_username'] %>
+export STG_OPSW_DB_PASSWORD=<%= config['ops']['staging']['opsw_db_password'] %>
+export STG_OPSW_DB_HOSTNAME=<%= config['ops']['staging']['opsw_db_hostname'] %>
+export STG_OPSW_DB_PORT=<%= config['ops']['staging']['opsw_db_port'] %>
+export STG_OPSW_SETUP_RECIPE=<%= config['ops']['staging']['opsw_setup_recipe'] %>
+export STG_OPSW_CONFIGURE_RECIPE=<%= config['ops']['staging']['opsw_configure_recipe'] %>
+export STG_OPSW_DEPLOY_RECIPE=<%= config['ops']['staging']['opsw_deploy_recipe'] %>
+export STG_OPSW_UNDEPLOY_RECIPE=<%= config['ops']['staging']['opsw_undeploy_recipe'] %>
+export STG_OPSW_SHUTDOWN_RECIPE=<%= config['ops']['staging']['opsw_shutdown_recipe'] %>
+export STG_OPSW_ELB_NAME=$APPLICATION_PREFIX-$STG_APP_ENV
+export STG_OPSW_ELB_CERT_ARN=<%= config['ops']['staging']['opsw_elb_cert_arn'] %>
+export STG_OPSW_ELB_SG=$STG_OPSW_APP_LAYER_SG
+export STG_OPSW_ELB_SUBNET_1=<%= config['ops']['staging']['opsw_elb_subnet_1'] %>
+export STG_OPSW_ELB_SUBNET_2=<%= config['ops']['staging']['opsw_elb_subnet_2'] %>
+export STG_OPSW_INSTANCE_TYPE=<%= config['ops']['staging']['opsw_ec2_instance_class'] %>
+export STG_OPSW_OS="<%= config['ops']['staging']['opsw_os'] %>"

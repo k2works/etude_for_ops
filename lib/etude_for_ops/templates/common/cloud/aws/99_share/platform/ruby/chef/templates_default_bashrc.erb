@@ -1,0 +1,18 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+. /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+export STG_DB_NAME=<%= @db_name %>
+export STG_DB_USERNAME=<%= @db_username %>
+export STG_DB_PASSWORD=<%= @db_password %>
+export STG_DB_HOSTNAME=<%= @db_hostname %>
+export STG_DB_PORT=<%= @db_port %>
+export STG_SECRET_KEY_BASE=<%= @secret_key_base %>
+export STG_URL=<%= @url %>
+
+# User specific aliases and functions

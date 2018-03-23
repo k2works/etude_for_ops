@@ -1,0 +1,14 @@
+```bash
+chmod 0766 ops/03_production/src/run/sh/run.sh
+ops/03_production/src/run/sh/run.sh
+```
+
+### 秘密鍵の保存
+```
+$ cd /vagrant/config/secure/
+$ aws s3 cp ./$PRD_SSH_KEY s3://$S3_BACKET/production/config/secure/$PRD_SSH_KEY
+```
+保存した秘密鍵を取り出すには以下の操作をする
+```
+$ aws s3 cp s3://$S3_BACKET/production/config/secure/$PRD_SSH_KEY ./
+```

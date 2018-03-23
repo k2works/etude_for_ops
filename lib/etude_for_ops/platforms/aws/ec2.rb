@@ -27,7 +27,7 @@ module EtudeForOps
     end
 
     def erb_share_file(file)
-      "#{@platform.tmp_share_file_dir}/platform/aws/ec2/#{file}.erb"
+      "#{@platform.tmp_share_file_dir}/99_share/platform/aws/ec2/#{file}.erb"
     end
 
     def create_build_files
@@ -37,14 +37,16 @@ module EtudeForOps
         create_key_pare.sh
         create_security_group.sh
         create_instance.sh
+        create_image.sh
         configure_security_group_rule.sh
         configure_resources.sh
         destroy_security_group.sh
         destroy_instance.sh
+        destroy_image.sh
       ]
 
       params = {}
-      if @platform.params[:env] = 'Development'
+      if @platform.params[:env] == 'Development'
         params[:ssh_key_name] = 'DEV_SSH_KEY_NAME'
         params[:ssh_key] = 'DEV_SSH_KEY'
 
@@ -58,9 +60,53 @@ module EtudeForOps
         params[:ec2_subnet] = 'DEV_EC2_SUBNET'
 
         params[:ec2_instance_id] = 'DEV_EC2_INSTANCE_ID'
+        params[:ec2_image_name] = 'DEV_APPLICATION_NAME'
+        params[:ec2_image_id] = 'DEV_EC2_AMI_ID'
 
         params[:tagkey] = 'DEV_TAGKEY'
         params[:tagvalue] = 'DEV_TAGVALUE'
+      end
+
+      if @platform.params[:env] == 'Staging'
+        params[:ssh_key_name] = 'STG_SSH_KEY_NAME'
+        params[:ssh_key] = 'STG_SSH_KEY'
+
+        params[:vpc_id] = 'STG_VPC_ID'
+        params[:ec2_sg_name] = 'STG_EC2_SG_NAME'
+        params[:ec2_sg_desc] = 'STG_EC2_SG_DESC'
+
+        params[:ec2_ami_id] = 'STG_EC2_AMI_ID'
+        params[:ec2_type] = 'STG_EC2_TYPE'
+        params[:ec2_sg_id] = 'STG_EC2_SG_ID'
+        params[:ec2_subnet] = 'STG_EC2_SUBNET'
+
+        params[:ec2_instance_id] = 'STG_EC2_INSTANCE_ID'
+        params[:ec2_image_name] = 'STG_APPLICATION_NAME'
+        params[:ec2_image_id] = 'STG_EC2_AMI_ID'
+
+        params[:tagkey] = 'STG_TAGKEY'
+        params[:tagvalue] = 'STG_TAGVALUE'
+      end
+
+      if @platform.params[:env] == 'Production'
+        params[:ssh_key_name] = 'PRD_SSH_KEY_NAME'
+        params[:ssh_key] = 'PRD_SSH_KEY'
+
+        params[:vpc_id] = 'PRD_VPC_ID'
+        params[:ec2_sg_name] = 'PRD_EC2_SG_NAME'
+        params[:ec2_sg_desc] = 'PRD_EC2_SG_DESC'
+
+        params[:ec2_ami_id] = 'PRD_EC2_AMI_ID'
+        params[:ec2_type] = 'PRD_EC2_TYPE'
+        params[:ec2_sg_id] = 'PRD_EC2_SG_ID'
+        params[:ec2_subnet] = 'PRD_EC2_SUBNET'
+
+        params[:ec2_instance_id] = 'PRD_EC2_INSTANCE_ID'
+        params[:ec2_image_name] = 'PRD_APPLICATION_NAME'
+        params[:ec2_image_id] = 'PRD_EC2_AMI_ID'
+
+        params[:tagkey] = 'PRD_TAGKEY'
+        params[:tagvalue] = 'PRD_TAGVALUE'
       end
 
       create_put_bind_template_files(src_build_dir,erb_files,params)

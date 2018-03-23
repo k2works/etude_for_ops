@@ -58,7 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             # 名称
             'VirtualName' => ENV['DEV_SSH_KEY_NAME'],
             # ボリュームサイズ（GB単位）
-            'Ebs.VolumeSize' => 50,
+            'Ebs.VolumeSize' => 10,
             # ターミネートした際に削除するかどうか
             'Ebs.DeleteOnTermination' => true,
             # EBSのタイプを指定

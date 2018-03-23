@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'etude_for_ops'
+require 'aws-sdk'
+require 'dotenv'
 
 namespace :ops do
   desc 'Create ops.yml file'
@@ -55,28 +59,149 @@ namespace :ops do
     ops.create_aws_ruby_development_env(root_dir)
   end
 
-  desc 'Create .env file for onpremis development'
-  task :create_env_onpremis_dev do
+  desc 'Update ruby aws development environment variables'
+  task :update_aws_ruby_development_env_value do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.update_aws_ruby_development_env_value(root_dir)
+  end
+
+  desc 'Setup ruby aws staging environment'
+  task :create_aws_ruby_staging_env do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.create_aws_ruby_staging_env(root_dir)
+  end
+
+  desc 'Update ruby aws staging environment variables'
+  task :update_aws_ruby_staging_env_value do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.update_aws_ruby_staging_env_value(root_dir)
+  end
+
+  desc 'Setup ruby aws production environment'
+  task :create_aws_ruby_production_env do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.create_aws_ruby_production_env(root_dir)
+  end
+
+  desc 'Update ruby aws production environment variables'
+  task :update_aws_ruby_production_env_value do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.update_aws_ruby_production_env_value(root_dir)
+  end
+
+  desc 'Create .env file for onpremis'
+  task :create_env_onpremis do
     root_dir = Pathname.new('ops')
     env = EtudeForOps::Development.new(root_dir)
     env.template_root_path = EtudeForOps::Onpremis::TEMPLATE_ROOT_PAHT
-    env.create_env_file('.env.development')
+    env.create_env_file('.env')
     env.create_env_file('.env.test')
-  end
-
-  desc 'Create .env file for onpremis staging'
-  task :create_env_onpremis_stg do
-    root_dir = Pathname.new('ops')
-    env = EtudeForOps::Staging.new(root_dir)
-    env.template_root_path = EtudeForOps::Onpremis::TEMPLATE_ROOT_PAHT
+    env.create_env_file('.env.development')
     env.create_env_file('.env.staging')
-  end
-
-  desc 'Create .env file for onpremis production'
-  task :create_env_onpremis_prd do
-    root_dir = Pathname.new('ops')
-    env = EtudeForOps::Production.new(root_dir)
-    env.template_root_path = EtudeForOps::Onpremis::TEMPLATE_ROOT_PAHT
     env.create_env_file('.env.production')
   end
+
+  desc 'Create .env file for aws'
+  task :create_env_aws do
+    root_dir = Pathname.new('ops')
+    env = EtudeForOps::Development.new(root_dir)
+    env.template_root_path = "#{EtudeForOps::Cloud::TEMPLATE_ROOT_PAHT}/aws"
+    env.create_env_file('.env')
+    env.create_env_file('.env.test')
+    env.create_env_file('.env.development')
+    env.create_env_file('.env.staging')
+    env.create_env_file('.env.production')
+  end
+
+  desc 'Upload the osp.yml files to S3'
+  task :upload_to_s3 do
+    puts 'Starting ops.yml upload to S3...'
+    configure_s3
+
+    file = 'ops.yml'
+    file_open   = File.open("ops/#{file}")
+    file_key    = file
+
+    @s3.put_object(
+      bucket: @bucket,
+      body: file_open,
+      key: file_key
+    )
+
+    puts "Saved #{file} to S3"
+  end
+
+  desc 'Download the osp.yml files from S3'
+  task :download_from_s3 do
+    puts 'Starting ops.yml upload to S3...'
+    configure_s3
+
+    file = 'ops.yml'
+    target_path = "ops/#{file}"
+    file_key = file
+
+    @s3.get_object(
+      response_target: target_path,
+      bucket: @bucket,
+      key: file_key
+    )
+
+    puts "Download #{file} form S3"
+  end
+
+  desc 'Upload the .env files to S3'
+  task :upload_env_to_s3 do
+    puts 'Starting .env upload to S3...'
+    configure_s3
+
+    files = %w[.env .env.development .env.production .env.staging .env.test]
+    files.each do |file|
+      file_open   = File.open("#{file}")
+      file_key    = file
+
+      @s3.put_object(
+        bucket: @bucket,
+        body: file_open,
+        key: file_key
+      )
+
+      puts "Saved #{file} to S3"
+    end
+  end
+
+  desc 'Download the .env files from S3'
+  task :download_env_from_s3 do
+    puts 'Starting .env upload to S3...'
+    configure_s3
+
+    files = %w[.env .env.development .env.production .env.staging .env.test]
+    files.each do |file|
+      target_path = "#{file}"
+      file_key = file
+
+      @s3.get_object(
+        response_target: target_path,
+        bucket: @bucket,
+        key: file_key
+      )
+
+      puts "Download #{file} form S3"
+    end
+  end
+end
+
+def configure_s3
+  Dotenv.load
+  Aws.config.update(
+    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+    region: ENV['AWS_DEFAULT_REGION']
+  )
+  @s3 = Aws::S3::Client.new
+  @bucket = ENV['S3_BUCKET']
 end

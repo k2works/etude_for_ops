@@ -1,0 +1,83 @@
+user = node['ec2_user']
+group = node['ec2_group']
+shortnames = node['app_name_short']
+rails_env = node['env']
+
+shortnames.each do |shortname|
+  app_path = "/srv/#{shortname}"
+
+  template "kuroko2_executor_#{shortname}" do
+    path "/etc/init.d/kuroko2_executor_#{shortname}"
+    source "kuroko2_executor.erb"
+    owner user
+    group group
+    mode 0755
+
+    variables(
+        user: user,
+        app: shortname,
+        app_path: app_path,
+        rails_env: rails_env
+    )
+  end
+
+  template "kuroko2_executor_#{shortname}" do
+    path "/etc/init.d/kuroko2_executor_#{shortname}"
+    source "kuroko2_executor.erb"
+    owner user
+    group group
+    mode 0755
+
+    variables(
+        user: user,
+        app: shortname,
+        app_path: app_path,
+        rails_env: rails_env
+    )
+  end
+
+  template "kuroko2_processor_#{shortname}" do
+    path "/etc/init.d/kuroko2_processor_#{shortname}"
+    source "kuroko2_processor.erb"
+    owner user
+    group group
+    mode 0755
+
+    variables(
+        user: user,
+        app: shortname,
+        app_path: app_path,
+        rails_env: rails_env
+    )
+  end
+
+  template "kuroko2_scheduler_#{shortname}" do
+    path "/etc/init.d/kuroko2_scheduler_#{shortname}"
+    source "kuroko2_scheduler.erb"
+    owner user
+    group group
+    mode 0755
+
+    variables(
+        user: user,
+        app: shortname,
+        app_path: app_path,
+        rails_env: rails_env
+    )
+  end
+
+  service "kuroko2_executor_#{shortname}" do
+    supports :status => true, :restrart => true, :reload => true
+    action [ :enable ]
+  end
+
+  service "kuroko2_processor_#{shortname}" do
+    supports :status => true, :restrart => true, :reload => true
+    action [ :enable ]
+  end
+
+  service "kuroko2_scheduler_#{shortname}" do
+    supports :status => true, :restrart => true, :reload => true
+    action [ :enable ]
+  end
+end

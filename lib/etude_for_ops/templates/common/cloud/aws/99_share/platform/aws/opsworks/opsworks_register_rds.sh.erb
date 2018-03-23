@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+STACKID=$<%= params[:opsw_stack_id] %>
+RDS_DB_INSTANCE_ARN=$<%= params[:opsw_rds_db_instance_arn] %>
+DB_USER=$<%= params[:opsw_rds_db_username] %>
+DB_PASSWORD=$<%= params[:opsw_rds_db_password] %>
+
+echo "**********************************"
+echo STACKID:$STACKID
+echo RDS_DB_INSTANCE_ARN:$RDS_DB_INSTANCE_ARN
+echo DB_USER:$DB_USER
+echo DB_PASSWORD:$DB_PASSWORD
+echo "**********************************"
+
+aws opsworks register-rds-db-instance  \
+                           --region us-east-1  \
+                           --stack-id $STACKID  \
+                           --rds-db-instance-arn $RDS_DB_INSTANCE_ARN  \
+                           --db-user $DB_USER  \
+                           --db-password $DB_PASSWORD

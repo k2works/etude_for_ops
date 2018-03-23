@@ -1,0 +1,44 @@
+directory '/var/lib/php/5.6/session/' do
+  mode '0777'
+  action :create
+end
+
+directory '/etc/zabbix/web/' do
+  mode '0777'
+  action :create
+end
+
+if File.exist? "/etc/php-fpm.d/www.conf"
+  file "/etc/php-fpm.d/www.conf" do
+    _file = Chef::Util::FileEdit.new(path)
+    _file.search_file_replace_line('user = apache', "user = nginx\n")
+    _file.search_file_replace_line('group = apache', "group = nginx\n")
+    content _file.send(:editor).lines.join
+    notifies :restart, "service[php-fpm]", :immediately
+  end
+end
+
+if File.exist? '/etc/php.ini'
+  file '/etc/php.ini' do
+    _file = Chef::Util::FileEdit.new(path)
+    _file.search_file_replace_line(';date.timezone =', "date.timezone = Asia/Tokyo\n")
+    _file.search_file_replace_line('post_max_size = 8M', "post_max_size = 16M\n")
+    _file.search_file_replace_line('max_execution_time = 30', "max_execution_time = 300\n")
+    _file.search_file_replace_line('max_input_time = 60', "max_input_time = 300\n")
+    _file.search_file_replace_line(';always_populate_raw_post_data = -1', "always_populate_raw_post_data = -1\n")
+    content _file.send(:editor).lines.join
+    notifies :restart, "service[php-fpm]", :immediately
+  end
+end
+
+service "zabbix-server" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+  notifies :restart, "service[php-fpm]", :immediately
+end
+
+service "php-fpm" do
+  supports :status => true, :restrart => true, :reload => true
+  action [ :enable, :start ]
+end
+

@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+cd /vagrant
+sudo chef generate cookbook build
+cd build
+cp ../src/build/chef/provision.json .
+cp ../src/build/chef/ec2_provision.json .
+cp ../src/build/chef/metadata.rb .
+cp ../src/build/chef/Vagrantfile .
+cp ../src/build/chef/.kitchen.yml .
+cp ../src/build/chef/recipes_default.rb recipes/default.rb
+cp ../src/build/chef/recipes_ec2.rb recipes/ec2.rb
+cp ../src/build/chef/recipes_setup.rb recipes/setup.rb
+cp ../src/build/chef/recipes_setup_ruby.rb recipes/setup_ruby.rb
+cp ../src/build/chef/recipes_setup_mysql.rb recipes/setup_mysql.rb
+cp ../src/build/chef/recipes_setup_mariadb.rb recipes/setup_mariadb.rb
+cp ../src/build/chef/recipes_setup_postgres.rb recipes/setup_postgres.rb
+cp ../src/build/chef/recipes_setup_redis.rb recipes/setup_redis.rb
+cp ../src/build/chef/recipes_setup_mongodb.rb recipes/setup_mongodb.rb
+cp ../src/build/chef/recipes_setup_node.rb recipes/setup_node.rb
+cp ../src/build/chef/recipes_setup_nginx.rb recipes/setup_nginx.rb
+cp ../src/build/chef/recipes_setup_service.rb recipes/setup_service.rb
+cp ../src/build/chef/recipes_setup_td-agent.rb recipes/setup_td-agent.rb
+cp ../src/build/chef/recipes_setup_elasticsearch.rb recipes/setup_elasticsearch.rb
+cp ../src/build/chef/recipes_setup_docker.rb recipes/setup_docker.rb
+cp ../src/build/chef/recipes_setup_jenkins.rb recipes/setup_jenkins.rb
+cp ../src/build/chef/recipes_setup_vagrant.rb recipes/setup_vagrant.rb
+cp ../src/build/chef/recipes_setup_aws.rb recipes/setup_aws.rb
+cp ../src/build/chef/recipes_configure.rb recipes/configure.rb
+cp ../src/build/chef/recipes_configure_postgres.rb recipes/configure_postgres.rb
+cp ../src/build/chef/recipes_configure_service.rb recipes/configure_service.rb
+cp ../src/build/chef/Gemfile .
+cp ../src/build/chef/reprovision.sh .
+chef generate attribute default
+cp ../src/build/chef/attributes_default.rb attributes/default.rb
+chef generate template default
+cp ../src/build/chef/templates_default_banner.erb templates/default/banner.erb
+cp ../src/build/chef/templates_default_bash_profile.erb templates/default/.bash_profile.erb
+cp ../src/build/chef/templates_default_bash_profile_aws.erb templates/default/.bash_profile_aws.erb
+cp ../src/build/chef/templates_default_bashrc.erb templates/default/.bashrc.erb
+cp ../src/build/chef/templates_default_grants.sql.erb templates/default/grants.sql.erb
+cp ../src/build/chef/templates_default_my_extra_settings.erb templates/default/my_extra_settings.erb
+cp ../src/build/chef/templates_default_nginx.conf.erb templates/default/nginx.conf.erb
+cp ../src/build/chef/templates_default_nginx.default.conf.erb templates/default/nginx.default.conf.erb
+cp ../src/build/chef/templates_default_nginx.proxy.conf.erb templates/default/nginx.proxy.conf.erb
+cp ../src/build/chef/templates_default_nginx.kibana.conf.erb templates/default/nginx.kibana.conf.erb
+cp ../src/build/chef/templates_default_nginx.jenkins.conf.erb templates/default/nginx.jenkins.conf.erb
+cp ../src/build/chef/templates_default_nginx.td-agent-ui.conf.erb templates/default/nginx.td-agent-ui.conf.erb
+cp ../src/build/chef/templates_default_td-agent.erb templates/default/td-agent.erb
+cp ../src/build/chef/templates_default_puma.erb templates/default/puma.erb
+cp ../src/build/chef/templates_default_puma.service.erb templates/default/puma.service.erb
+cp ../src/build/chef/templates_default_active_job.erb templates/default/active_job.erb
+cp ../src/build/chef/templates_default_active_job.service.erb templates/default/active_job.service.erb
+cp ../src/build/chef/templates_default_td-agent-ui.erb templates/default/td-agent-ui.erb
+cp ../src/build/chef/templates_default_td-agent-ui.service.erb templates/default/td-agent-ui.service.erb
+cp ../src/build/chef/templates_default_kibana.yml.erb templates/default/kibana.yml.erb
+cp ../src/build/chef/templates_default_jenkins.erb templates/default/jenkins.erb
+cp ../src/build/chef/templates_default_secure_install.sql.erb templates/default/secure_install.sql.erb
+cp ../src/build/chef/templates_default_create_db.sql.erb templates/default/create_db.sql.erb
+cp ../src/build/chef/templates_default_create_user.sql.erb templates/default/create_user.sql.erb
+cp ../src/build/chef/templates_default_ssh_config.erb templates/default/ssh_config.erb
+cp ../src/build/chef/templates_default_postgresql.conf.erb templates/default/postgresql.conf.erb
+cp ../src/build/chef/templates_default_pg_hba.conf.erb templates/default/pg_hba.conf.erb
+cp ../src/build/chef/templates_default_mongod.conf.erb templates/default/mongod.conf.erb
+cp ../src/build/chef/templates_default_redis.conf.erb templates/default/redis.conf.erb

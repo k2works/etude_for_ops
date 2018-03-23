@@ -1,0 +1,18 @@
+include_recipe 'awscli'
+include_recipe 'aws'
+
+execute 'install pip' do
+  command 'curl -kL https://bootstrap.pypa.io/get-pip.py | python'
+end
+
+execute 'install awsebcli' do
+  command 'pip install awsebcli --upgrade --user'
+end
+
+bash "install Amazon ECS CLI" do
+  code <<-EOC
+    curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+    sudo chmod +x /usr/local/bin/ecs-cli
+  EOC
+  not_if {File.exists?("/usr/local/bin/ecs-cli")}
+end

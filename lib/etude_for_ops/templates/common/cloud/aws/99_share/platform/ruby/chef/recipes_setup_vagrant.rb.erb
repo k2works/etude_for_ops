@@ -1,0 +1,21 @@
+user = node['user']
+
+include_recipe 'vagrant'
+
+vagrant_plugin 'vagrant-omnibus' do
+   user user
+end
+
+vagrant_plugin 'vagrant-berkshelf' do
+   user user
+end
+
+vagrant_plugin 'vagrant-aws' do
+   user user
+end
+
+vagrant_plugin 'vagrant-env' do
+   user user
+end
+
+

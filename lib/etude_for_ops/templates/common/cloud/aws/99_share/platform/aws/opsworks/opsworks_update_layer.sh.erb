@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+LAYER_ID=$<%= params[:opsw_app_layer_id] %>
+SETUP_RECIPE=$<%= params[:opsw_setup_recipe] %>
+CONFIGURE_RECIPE=$<%= params[:opsw_configure_recipe] %>
+DEPLOY_RECIPE=$<%= params[:opsw_deploy_recipe] %>
+UNDEPLOY_RECIPE=$<%= params[:opsw_undeploy_recipe] %>
+SHUTDOWN_RECIPE=$<%= params[:opsw_shutdown_recipe] %>
+
+echo "**********************************"
+echo LAYER_ID:$LAYER_ID
+echo SETUP_RECIPE:$SETUP_RECIPE
+echo CONFIGURE_RECIPE:$CONFIGURE_RECIPE
+echo DEPLOY_RECIPE:$DEPLOY_RECIPE
+echo UNDEPLOY_RECIPE:$UNDEPLOY_RECIPE
+echo SHUTDOWN_RECIPE:$SHUTDOWN_RECIPE
+echo "**********************************"
+
+aws opsworks update-layer  \
+             --region us-east-1   \
+             --layer-id $LAYER_ID  \
+             --custom-recipes Setup=$SETUP_RECIPE,Configure=$CONFIGURE_RECIPE,Deploy=$DEPLOY_RECIPE,Undeploy=$UNDEPLOY_RECIPE,Shutdown=$SHUTDOWN_RECIPE \
+             --volume-configurations MountPoint=/srv,NumberOfDisks=1,Size=10,VolumeType=standard

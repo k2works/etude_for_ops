@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+VM_BOX=stg-env.box
+BOX_NAME=aws_ruby_staging
+
+#export PACKER_LOG=1
+rm ./$VM_BOX || true
+#エラー時はvagrant plugin install vagrant-exec
+vagrant exec sudo ln -s -f /dev/null /etc/udev/rules.d/70-persistent-net.rules
+vagrant package -o ./$VM_BOX
+# vagrant box remove dev-env --all || true
+vagrant box add $BOX_NAME metadata.json

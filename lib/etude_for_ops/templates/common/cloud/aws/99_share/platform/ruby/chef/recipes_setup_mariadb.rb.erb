@@ -1,0 +1,81 @@
+apps = node['app_name_short']
+environment = node['env']
+
+# install MariaDB
+packages = %W{ mariadb-devel mariadb mariadb-server }
+packages.each do |pkg|
+  yum_package pkg do
+    action :install
+    flush_cache [:before]
+  end
+end
+
+service "mariadb" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
+end
+
+# secure install
+root_password = node["mysql"]["root_password"]
+execute "secure_install" do
+  command "/usr/bin/mysql -u root < #{Chef::Config[:file_cache_path]}/secure_install.sql"
+  action :nothing
+  only_if "/usr/bin/mysql -u root -e 'show databases;'"
+end
+
+template "#{Chef::Config[:file_cache_path]}/secure_install.sql" do
+  owner "root"
+  group "root"
+  mode 0644
+  source "secure_install.sql.erb"
+  variables({
+                :root_password => root_password,
+            })
+  notifies :run, "execute[secure_install]", :immediately
+end
+
+# create database
+apps.each do |app|
+  db_name = "#{app}_#{environment}"
+
+  execute "create_#{db_name}_db" do
+    command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_#{db_name}_db.sql"
+    action :nothing
+    not_if "/usr/bin/mysql -u root -p#{root_password} -D #{db_name}"
+  end
+
+  template "#{Chef::Config[:file_cache_path]}/create_#{db_name}_db.sql" do
+    owner "root"
+    group "root"
+    mode 0644
+    source "create_db.sql.erb"
+    variables({
+                  :db_name => db_name,
+              })
+    notifies :run, "execute[create_#{db_name}_db]", :immediately
+  end
+
+# create user
+  user_name     = node["mysql"]["user"]["name"]
+  user_password = node["mysql"]["user"]["password"]
+
+  execute "create_#{db_name}_user" do
+    command "/usr/bin/mysql -u root -p#{root_password} < #{Chef::Config[:file_cache_path]}/create_#{db_name}_user.sql"
+    action :nothing
+    not_if "/usr/bin/mysql -u #{user_name} -p#{user_password} -D #{db_name}"
+  end
+
+  template "#{Chef::Config[:file_cache_path]}/create_#{db_name}_user.sql" do
+    owner "root"
+    group "root"
+    mode 0644
+    source "create_user.sql.erb"
+    variables({
+                  :db_name => db_name,
+                  :username => user_name,
+                  :password => user_password,
+              })
+    notifies :run, "execute[create_#{db_name}_user]", :immediately
+  end
+
+end

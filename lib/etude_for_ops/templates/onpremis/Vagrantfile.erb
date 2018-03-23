@@ -14,8 +14,8 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "<%= params[:config_vm_box] %>"
-  config.vm.box_version = "<%= params[:config_vm_version] %>"
+  config.vm.box = 'bento/ubuntu-16.04'
+  config.vm.box_version = '>=0'
 
   <% params[:config_vm_networks].each do |config| %>
   <%= config %>

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+APP_ID=$<%= params[:opsw_app_job_id] %>
+RDS_DB_INSTANCE_ARN=$<%= params[:opsw_rds_db_instance_arn] %>
+DB_NAME=$<%= params[:opsw_rds_db_name] %>
+RAILS_ENV=$<%= params[:opsw_app_env] %>
+SECRET_KEY_BASE=$<%= params[:opsw_app_secret_key_base] %>
+STG_URL=$<%= params[:opsw_app_job_url]%>
+S3_BACKET=$<%= params[:opsw_backet]%>
+REPO_URL=$<%= params[:opsw_app_job_repo_url]%>
+REVISION=$<%= params[:opsw_app_job_revision]%>
+
+echo "**********************************"
+echo APP_ID:$APP_ID
+echo REVISION:$REVISION
+echo RDS_DB_INSTANCE_ARN:$RDS_DB_INSTANCE_ARN
+echo DB_NAME:$DB_NAME
+echo RAILS_ENV:$RAILS_ENV
+echo SECRET_KEY_BASE:$SECRET_KEY_BASE
+echo APP_URL:$STG_URL
+echo S3_BACKET:$S3_BACKET
+echo REPO_URL:$REPO_URL
+echo REVISION:$REVISION
+echo "**********************************"
+
+aws opsworks update-app  \
+             --region us-east-1   \
+             --app-id $APP_ID  \
+             --app-source  Url=$REPO_URL,Revision=$REVISION \
+             --data-sources Type=RdsDbInstance,Arn=$RDS_DB_INSTANCE_ARN,DatabaseName=$DB_NAME \
+             --environment Key=RAILS_ENV,Value=$RAILS_ENV,Secure=false \
+                           Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
+                           Key=APP_URL,Value=$STG_URL,Secure=false \
+                           Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
+                           Key=GOOGLE_CLIENT_ID,Value=,Secure=false \
+                           Key=GOOGLE_CLIENT_SECRET,Value=,Secure=true \
+                           Key=GOOGLE_HOSTED_DOMAIN,Value=,Secure=false \
+                           Key=WEBHOOK_SECRET_TOKEN,Value=,Secure=true

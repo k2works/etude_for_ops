@@ -1,11 +1,13 @@
 module EtudeForOps
   class Onpremis < Strategy
     TEMPLATE_ROOT_PAHT = "#{Ops::TEMPLATE_ROOT_PAHT}/onpremis"
+    COMMON_TEMPLATE_ROOT_PAHT = "#{Ops::COMMON_TEMPLATE_ROOT_PAHT}/onpremis"
 
     def initialize(env=nil)
       unless env.nil?
         @environment = env
         @environment.template_root_path = Onpremis::TEMPLATE_ROOT_PAHT
+        @environment.common_template_root_path = Onpremis::COMMON_TEMPLATE_ROOT_PAHT
       end
     end
 

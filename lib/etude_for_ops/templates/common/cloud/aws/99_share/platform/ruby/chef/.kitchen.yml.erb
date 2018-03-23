@@ -1,0 +1,110 @@
+---
+driver:
+  name: vagrant
+
+driver_config:
+  require_chef_omnibus: 12.21.1
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+platforms:
+#  - name: ubuntu-16.04
+#  - name: centos-7.2
+  - name: amazon-linux
+    driver_config:
+      box: mvbcoding/awslinux
+
+suites:
+  - name: default
+    driver:
+      customize:
+        memory: 4096
+        cpus: 2
+    data_bags_path: "test/integration/data_bags"
+    run_list:
+      #- recipe[ruby_platform::ec2]
+      #- recipe[ruby_platform::ec2_user]
+      #- recipe[ruby_platform::ec2_security]
+      #- recipe[ruby_platform::ec2_agent]
+      #- recipe[ruby_platform::ec2_app]
+      #- recipe[ruby_platform::ec2_db]
+      #- recipe[ruby_platform::ec2_job]
+      #- recipe[ruby_platform::ec2_bot]
+      #- recipe[ruby_platform::ec2_ci]
+      #- recipe[ruby_platform::ec2_log]
+      #- recipe[ruby_platform::ec2_ci_log_app_web]
+      #- recipe[ruby_platform::ec2_moni]
+      #- recipe[ruby_platform::ec2_ci_log_moni_its_collabo_web]
+      #- recipe[ruby_platform::ec2_moni_configure]
+      #- recipe[ruby_platform::ec2_its]
+      #- recipe[ruby_platform::ec2_collabo]
+      #- recipe[ruby_platform::ec2_configure]
+      #- recipe[ruby_platform::ec2_messaging]
+      #- recipe[ruby_platform::eb]
+      #- recipe[ruby_platform::setup_ruby]
+      #- recipe[ruby_platform::setup_node]
+      #- recipe[ruby_platform::setup_mysql]
+      #- recipe[ruby_platform::setup_postgres]
+      #- recipe[ruby_platform::setup_redis]
+      #- recipe[ruby_platform::setup_mongodb]
+      #- recipe[ruby_platform::setup_nginx]
+      #- recipe[ruby_platform::setup_docker]
+      #- recipe[ruby_platform::setup_jenkins]
+      #- recipe[ruby_platform::setup_td-agent]
+      #- recipe[ruby_platform::setup_elasticsearch]
+      #- recipe[ruby_platform::setup_service]
+      #- recipe[ruby_platform::setup_swap]
+      #- recipe[ruby_platform::setup_zabbix]
+      #- recipe[ruby_platform::setup_jira]
+      #- recipe[ruby_platform::setup_confluence]
+      #- recipe[ruby_platform::setup_mattermost]
+      #- recipe[ruby_platform::configure]
+      #- recipe[ruby_platform::configure_service]
+      #- recipe[ruby_platform::opsw_setup]
+      #- recipe[ruby_platform::opsw_setup_job]
+      #- recipe[ruby_platform::opsw_setup_api]
+      #- recipe[ruby_platform::opsw_setup_bot]
+      #- recipe[ruby_platform::opsw_setup_ci]
+      #- recipe[ruby_platform::opsw_setup_log]
+      #- recipe[ruby_platform::opsw_setup_moni]
+      #- recipe[ruby_platform::opsw_setup_its]
+      #- recipe[ruby_platform::opsw_setup_collabo]
+      #- recipe[ruby_platform::opsw_setup_messaging]
+      #- recipe[ruby_platform::opsw_configure]
+      #- recipe[ruby_platform::opsw_configure_job]
+      #- recipe[ruby_platform::opsw_configure_api]
+      #- recipe[ruby_platform::opsw_configure_bot]
+      #- recipe[ruby_platform::opsw_configure_ci]
+      #- recipe[ruby_platform::opsw_configure_log]
+      #- recipe[ruby_platform::opsw_configure_moni]
+      #- recipe[ruby_platform::opsw_configure_its]
+      #- recipe[ruby_platform::opsw_configure_collabo]
+      #- recipe[ruby_platform::opsw_configure_messaging]
+      #- recipe[ruby_platform::opsw_deploy]
+      #- recipe[ruby_platform::opsw_deploy_rails]
+      #- recipe[ruby_platform::opsw_deploy_job]
+      #- recipe[ruby_platform::opsw_deploy_rails_job]
+      #- recipe[ruby_platform::opsw_deploy_api]
+      #- recipe[ruby_platform::opsw_deploy_rails_api]
+      #- recipe[ruby_platform::opsw_deploy_bot]
+      #- recipe[ruby_platform::opsw_deploy_node]
+      #- recipe[ruby_platform::opsw_undeploy]
+      #- recipe[ruby_platform::opsw_undeploy_job]
+      #- recipe[ruby_platform::opsw_undeploy_api]
+      #- recipe[ruby_platform::opsw_undeploy_bot]
+      #- recipe[ruby_platform::opsw_undeploy_rails]
+      #- recipe[ruby_platform::opsw_undeploy_rails_job]
+      #- recipe[ruby_platform::opsw_undeploy_rails_api]
+      #- recipe[ruby_platform::opsw_undeploy_node]
+    verifier:
+      inspec_tests:
+        - test/recipes
+    attributes:

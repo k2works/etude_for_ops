@@ -1,8 +1,8 @@
-default['ruby']['version'] = '2.4.1'
+default['ruby']['version'] = '2.4.2'
 default['ruby-env']['user'] = "vagrant"
 default['ruby-env']['group'] = "vagrant"
-default['ruby-env']['versions'] = ["2.4.1"]
-default['ruby-env']['default'] = "2.4.1"
+default['ruby-env']['versions'] = ["2.4.2"]
+default['ruby-env']['default'] = "2.4.2"
 default['ruby-env']['rbenv_url'] = "https://github.com/sstephenson/rbenv.git"
 default['ruby-env']['ruby-build_url'] = "https://github.com/sstephenson/ruby-build.git"
 
@@ -39,8 +39,8 @@ default['kibana5']['elasticsearch']['url'] = 'http://localhost:9200'
 
 default['java']['jdk_version'] = '8'
 default['java']['install_flavor'] = 'oracle'
-default['java']['jdk']['7']['x86_64']['url'] = 'http://artifactory.example.com/artifacts/jdk-7u65-linux-x64.tar.gz'
-default['java']['jdk']['7']['x86_64']['checksum'] = 'The SHA-256 checksum of the JDK archive'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = '68ec82d47fd9c2b8eb84225b6db398a72008285fafc98631b1ff8d2229680257'
 default['java']['oracle']['accept_oracle_download_terms'] = true
 
 default['docker_compose']['release'] = '1.8.0'

@@ -1,0 +1,48 @@
+server {
+  listen  80;
+  <% if @server_name.nil? %>
+  server_name localhost;
+  <% else %>
+  server_name <%= @server_name %>;
+  <% end %>
+
+  <% if @enable_ssl %>
+  listen 443 ssl;
+  ssl_certificate     /etc/nginx/ssl/<%= @app %>_ssl_certificate.crt;
+  ssl_certificate_key /etc/nginx/ssl/<%= @app %>_ssl_certificate.pem;
+  <% end %>
+
+  keepalive_timeout 300;
+
+  client_max_body_size 4G;
+
+  try_files $uri/index.html $uri @<%= @app %>;
+
+  location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded_Proto $scheme;
+    proxy_redirect off;
+    proxy_pass http://<%= @app %>;
+    proxy_read_timeout 300s;
+    proxy_send_timeout 300s;
+  }
+
+  error_page 503 @503;
+
+  # Return a 503 error if the maintenance page exists.
+  if (-f /srv/<%= @app %>/shared/public/system/maintenance.html) {
+    return 503;
+  }
+
+  location @503 {
+    # Serve static assets if found.
+    if (-f $request_filename) {
+      break;
+    }
+
+    # Set root to the shared directory.
+    root /srv/<%= @app %>/shared/public;
+    rewrite ^(.*)$ /system/maintenance.html break;
+  }
+}

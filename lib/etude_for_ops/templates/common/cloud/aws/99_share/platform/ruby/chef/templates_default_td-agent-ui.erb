@@ -1,0 +1,41 @@
+#!/bin/bash
+# chkconfig: 345 98 20
+# description: Logging Service
+# processname: td-agent-ui
+
+# Include RedHat function library
+. /etc/rc.d/init.d/functions
+
+NAME=td-agent-ui
+USER=root
+BIN=/opt/td-agent/usr/sbin/td-agent-ui
+
+start() {
+sudo $BIN start
+}
+
+stop() {
+sudo $BIN stop
+}
+
+restart() {
+stop
+start
+}
+
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+restart)
+restart
+;;
+*)
+N=/etc/init.d/$NAME
+echo "Usage: $N {start|stop|restart}" >&2
+exit 1
+;;
+esac

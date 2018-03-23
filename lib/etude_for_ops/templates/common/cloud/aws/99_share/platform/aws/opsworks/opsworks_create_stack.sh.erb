@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+CFM_STACKNAME=$<%= params[:cfm_opsw_stackname] %>
+STACKNAME=$<%= params[:opsw_stackname] %>
+TEMPLATE=$<%= params[:opsw_template] %>
+TAGKEY=$<%= params[:opsw_tagkey] %>
+TAGVALUE=$<%= params[:opsw_tagvalue] %>
+VPCID=$<%= params[:opsw_vpc_id] %>
+PUBLICSUBNET1=$<%= params[:opsw_subnet_pub_1] %>
+PUBLICSUBNET2=$<%= params[:opsw_subnet_pub_2] %>
+PRIVATESUBNET1=$<%= params[:opsw_subnet_pri_1] %>
+PRIVATESUBNET2=$<%= params[:opsw_subnet_pri_2] %>
+KEYNAME=$<%= params[:opsw_keyname] %>
+ELB_NAME=$<%= params[:opsw_elb_name] %>
+ELB_CERT_ARN=$<%= params[:opsw_elb_cert_arn] %>
+
+echo "**********************************"
+echo CFM_STACKNAME:$CFM_STACKNAME
+echo STACKNAME:$STACKNAME
+echo TEMPLATE:$TEMPLATE
+echo TAGKEY:$TAGKEY
+echo TAGVALUE:$TAGVALUE
+echo VPCID:$VPCID
+echo PUBLICSUBNET1:$PUBLICSUBNET1
+echo PUBLICSUBNET2:$PUBLICSUBNET2
+echo PRIVATESUBNET1:$PRIVATESUBNET1
+echo PRIVATESUBNET2:$PRIVATESUBNET2
+echo KEYNAME:$KEYNAME
+echo ELB_NAME:$ELB_NAME
+echo ELB_CERT_ARN:$ELB_CERT_ARN
+echo "**********************************"
+
+aws cloudformation create-stack --stack-name $CFM_STACKNAME \
+                                --template-body file://$TEMPLATE \
+                                --tags Key=$TAGKEY,Value=$TAGVALUE \
+                                --parameters ParameterKey=StackName,ParameterValue=$STACKNAME \
+                                             ParameterKey=VpcId,ParameterValue=$VPCID \
+                                             ParameterKey=PublicSubnet1,ParameterValue=$PUBLICSUBNET1 \
+                                             ParameterKey=PublicSubnet2,ParameterValue=$PUBLICSUBNET2 \
+                                             ParameterKey=PrivateSubnet1,ParameterValue=$PRIVATESUBNET1 \
+                                             ParameterKey=PrivateSubnet2,ParameterValue=$PRIVATESUBNET2 \
+                                             ParameterKey=KeyName,ParameterValue=$KEYNAME \
+                                             ParameterKey=LoadBalancer,ParameterValue=$ELB_NAME \
+                                             ParameterKey=CertARN,ParameterValue=$ELB_CERT_ARN \
+                                --capabilities CAPABILITY_IAM

@@ -1,0 +1,543 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: <%= params[:application_name] %> OpsWorks Environment
+Parameters:
+  StackName:
+    Type: String
+    Description: OpsWorks Stack Name
+  VpcId:
+    Type: String
+    Description: VpcId of your existing Virtual Private Cloud (VPC)
+  PublicSubnet1:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  PublicSubnet2:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  PrivateSubnet1:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  PrivateSubnet2:
+    Type: String
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+  EC2InstancClass:
+    Default: <%= params[:opsw_ec2_instance_class] %>
+    Description: EC2 instance class
+    Type: String
+    AllowedValues:
+      - t1.micro
+      - m1.small
+      - m1.medium
+      - m1.large
+      - t2.micro
+      - t2.small
+      - t2.medium
+    ConstraintDescription: must select a valid EC2 instance type.
+  OS:
+    Default: <%= params[:opsw_os] %>
+    Description: Default Operationg Syste
+    Type: String
+    AllowedValues:
+      - Amazon Linux 2017.09
+      - Ubuntu 16.04 LTS
+      - CentOS 7
+    ConstraintDescription: must select a valid OS.
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
+    Type: String
+    MinLength: '1'
+    MaxLength: '255'
+    AllowedPattern: '[\x20-\x7E]*'
+    ConstraintDescription: can contain only ASCII characters.
+  LoadBalancer:
+    Type: String
+    Description: Elastic Load Balancer Name.
+  CertARN:
+    Type: String
+    Description: Cert ARN..
+Resources:
+  <%= params[:application_name] %>ApplicationIP:
+    Type: 'AWS::EC2::EIP'
+  OpsWorksStack:
+    Type: 'AWS::OpsWorks::Stack'
+    Properties:
+      Attributes:
+        color: red
+      ConfigurationManager:
+        Name: Chef
+        Version: '12'
+      CustomCookbooksSource:
+        Password: '<%= params[:opsw_cookbook_password] %>'
+        Revision: ''
+        SshKey: ''
+        Type: '<%= params[:opsw_cookbook_type] %>'
+        Url: >-
+          <%= params[:opsw_cookbook_url] %>
+        Username: '<%= params[:opsw_cookbook_username] %>'
+      DefaultAvailabilityZone: '<%= params[:opsw_az_1] %>'
+      DefaultInstanceProfileArn: !GetAtt 
+        - OpsWorksInstanceProfile
+        - Arn
+      DefaultOs: !Ref OS
+      DefaultRootDeviceType: ebs
+      DefaultSshKeyName: !Ref KeyName
+      DefaultSubnetId: !Ref PublicSubnet1
+      Name: !Ref StackName
+      ServiceRoleArn: !GetAtt 
+        - OpsWorksServiceRole
+        - Arn
+      UseCustomCookbooks: 'true'
+      UseOpsworksSecurityGroups: 'true'
+      VpcId: !Ref VpcId
+  OpsWorksLayer<%= params[:application_name] %>:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is ApplicationLayer.
+    DependsOn: OpsWorksApp
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: app
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: ApplicationService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure'
+          Deploy:
+           - 'ruby_platform::opsw_deploy'
+          Setup:
+           - 'ruby_platform::opsw_setup'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy'
+      CustomJson: |
+           {
+            "state": "custom",
+            "type": "app",
+            "app_name_short": ["<%= params[:application_name_short] %>"],
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            }
+           }
+  OpsWorksLayerJob:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Job ApplicationLayer.
+    DependsOn: OpsWorksAppJob
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: job
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: ApplicationJobService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_job'
+          Deploy:
+           - 'ruby_platform::opsw_deploy_job'
+          Setup:
+           - 'ruby_platform::opsw_setup_job'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown_job'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy_job'
+      CustomJson: |
+           {
+            "state": "custom",
+            "type": "job",
+            "app_name_short_job": ["<%= params[:application_name_short] %>job"],
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            }
+           }
+  OpsWorksLayerApi:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Api ApplicationLayer.
+    DependsOn: OpsWorksAppApi
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: api
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: ApplicationApiService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_api'
+          Deploy:
+           - 'ruby_platform::opsw_deploy_api'
+          Setup:
+           - 'ruby_platform::opsw_setup_api'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown_api'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy_api'
+      CustomJson: |
+           {
+            "state": "custom",
+            "type": "api",
+            "app_name_short_api": ["<%= params[:application_name_short] %>api"],
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            }
+           }
+  OpsWorksLayerBot:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Bot ApplicationLayer.
+    DependsOn: OpsWorksAppBot
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      Shortname: bot
+      EnableAutoHealing: 'true'
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      Name: ApplicationBotService
+      LoadBasedAutoScaling:
+        Enable: 'true'
+        UpScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 70
+          MemoryThreshold: 70
+          LoadThreshold: 0.7
+        DownScaling:
+          InstanceCount: 1
+          ThresholdsWaitTime: 1
+          IgnoreMetricsTime: 1
+          CpuThreshold: 30
+          MemoryThreshold: 30
+          LoadThreshold: 0.3
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_bot'
+          Deploy:
+           - 'ruby_platform::opsw_deploy_bot'
+          Setup:
+           - 'ruby_platform::opsw_setup_bot'
+          Shutdown:
+           - 'ruby_platform::opsw_shutdown_bot'
+          Undeploy:
+           - 'ruby_platform::opsw_undeploy_bot'
+      CustomJson: |
+           {
+            "state": "custom",
+            "type": "bot",
+            "app_name_short_bot": ["<%= params[:application_name_short] %>bot"],
+            "deploy": {
+              "action": "deploy",
+              "migrate": true
+            }
+           }
+  OpsWorksLayerLogging:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Logging Middleware ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: LoggingService
+      Shortname: logging
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_log'
+          Setup:
+           - 'ruby_platform::opsw_setup_log'
+  OpsWorksLayerMonitoring:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Monitoring Middleware ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: MonitoringService
+      Shortname: monitoring
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_moni'
+          Setup:
+           - 'ruby_platform::opsw_setup_moni'
+  OpsWorksLayerCI:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is CI Middleware ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: ContinuousIntegrationService
+      Shortname: ci
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_ci'
+          Setup:
+           - 'ruby_platform::opsw_setup_ci'
+  OpsWorksLayerIts:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Issue tracking system ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: IssueTrackingService
+      Shortname: its
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_its'
+          Setup:
+           - 'ruby_platform::opsw_setup_its'
+  OpsWorksLayerCollabo:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Collaboration system ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: CollaborationService
+      Shortname: collabo
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_collabo'
+          Setup:
+           - 'ruby_platform::opsw_setup_collabo'
+  OpsWorksLayerMessaging:
+    Type: 'AWS::OpsWorks::Layer'
+    Metadata:
+      Comment: This is Messaging system ApplicationLayer.
+    Properties:
+      AutoAssignElasticIps: 'false'
+      AutoAssignPublicIps: 'true'
+      CustomSecurityGroupIds:
+        - !Ref OpsWorksSecurityGroup
+      EnableAutoHealing: 'true'
+      InstallUpdatesOnBoot: 'true'
+      Name: MessagingService
+      Shortname: msg
+      StackId: !Ref OpsWorksStack
+      Type: custom
+      CustomRecipes:
+          Configure:
+           - 'ruby_platform::opsw_configure_messaging'
+          Setup:
+           - 'ruby_platform::opsw_setup_messaging'
+  OpsWorksApp:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>
+      Type: other
+  OpsWorksAppJob:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>Job
+      Type: other
+  OpsWorksAppApi:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>Api
+      Type: other
+  OpsWorksAppBot:
+    Type: 'AWS::OpsWorks::App'
+    Properties:
+      StackId: !Ref OpsWorksStack
+      Name: <%= params[:application_name] %>Bot
+      Type: other
+  OpsWorksServiceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - opsworks.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: opsworks-service
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ec2:*'
+                  - 's3:*'
+                  - 'iam:PassRole'
+                  - 'cloudwatch:GetMetricStatistics'
+                  - 'elasticloadbalancing:*'
+                  - 'rds:*'
+                  - 'ecs:*'
+                Resource: '*'
+  OpsWorksInstanceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: opsworks-instance
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:*'
+                  - 'logs:*'
+                Resource: '*'
+  OpsWorksInstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Path: /
+      Roles:
+        - !Ref OpsWorksInstanceRole
+  OpsWorksSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Allow inbound requests from the ELB to the OpsWorks instances
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+  ElasticLoadBalancer:
+    Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
+    Properties:
+      LoadBalancerName: !Ref LoadBalancer
+      Listeners:
+        - LoadBalancerPort: '80'
+          InstancePort: '80'
+          Protocol: HTTP
+        - LoadBalancerPort: '443'
+          InstancePort: '80'
+          Protocol: HTTPS
+          SSLCertificateId: !Ref CertARN
+      SecurityGroups:
+        - !Ref OpsWorksSecurityGroup
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      HealthCheck:
+        Target: !Join
+          - ''
+          - - 'HTTP:'
+            - '80'
+            - /users/sign_in
+        HealthyThreshold: '3'
+        UnhealthyThreshold: '5'
+        Interval: '30'
+        Timeout: '5'
+Outputs:
+  StackId:
+    Value: !Ref OpsWorksStack

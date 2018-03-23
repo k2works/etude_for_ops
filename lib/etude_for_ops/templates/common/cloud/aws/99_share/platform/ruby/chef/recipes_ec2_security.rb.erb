@@ -1,0 +1,9 @@
+user = node['ec2_user']
+group = node['ec2_group']
+
+packages = %W{ yum-cron logwatch clamav clamav-update rkhunter fail2ban aide}
+packages.each do |pkg|
+  package "#{pkg}" do
+    action [ :install, :upgrade ]
+  end
+end

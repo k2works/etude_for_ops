@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+export PRD_APPLICATION_NAME=${APPLICATION_NAME}Production
+export PRD_APP_ENV=production
+export PRD_APP_REPOSITORY=<%= config['ops']['production']['repository'] %>
+export PRD_APP_REPOSITORY_SSH_KEY=<%= config['ops']['production']['repository_ssh_key'] %>
+export PRD_APP_JOB_REPOSITORY=<%= config['ops']['production']['repository_job'] %>
+export PRD_APP_JOB_REPOSITORY_SSH_KEY=<%= config['ops']['production']['repository_job_ssh_key'] %>
+export PRD_APP_API_REPOSITORY=<%= config['ops']['production']['repository_api'] %>
+export PRD_APP_API_REPOSITORY_SSH_KEY=<%= config['ops']['production']['repository_api_ssh_key'] %>
+export PRD_APP_BOT_REPOSITORY=<%= config['ops']['production']['repository_bot'] %>
+export PRD_APP_BOT_REPOSITORY_SSH_KEY=<%= config['ops']['production']['repository_bot_ssh_key'] %>
+export PRD_APP_SECRET_KEY_BASE=<%= config['ops']['production']['secret_key_base'] %>
+export SECRET_KEY_BASE=$PRD_APP_SECRET_KEY_BASE
+export PRD_BRANCH=production
+export PRD_DB=${APPLICATION_PREFIX}_production
+export PRD_SSH_KEY=prd-$APPLICATION_PREFIX.pem
+export PRD_SSH_KEY_NAME=prd-$APPLICATION_PREFIX
+
+export AWS_ACCESS_KEY_ID=<%= config['ops']['production']['aws_access_key_id'] %>
+export AWS_SECRET_ACCESS_KEY=<%= config['ops']['production']['aws_secret_access_key'] %>
+export AWS_DEFAULT_REGION=<%= config['ops']['production']['aws_default_region'] %>
+export AWS_AZ1=<%= config['ops']['production']['aws_az_1'] %>
+export AWS_AZ2=<%= config['ops']['production']['aws_az_2'] %>
+
+export PRD_IAM_STACKNAME=$ORGANIZATION-Production-IAM
+export PRD_IAM_TEMPLATE=<%= config['ops']['production']['iam_template'] %>
+export PRD_IAM_TEMPLATE_PARAMS=<%= config['ops']['production']['iam_template_params'] %>
+export PRD_TAGKEY=Name
+export PRD_TAGVALUE=$PRD_APPLICATION_NAME
+export PRD_IAM_USER_NAME=<%= config['ops']['production']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
+export PRD_IAM_SSH_PUBKEY_ID=<%= config['ops']['production']['iam_ssh_pubkey_id'] %>
+
+export PRD_S3_BACKET=${S3_BACKET}-production
+
+export PRD_VPC_STACKNAME=$ORGANIZATION-Production-VPC
+export PRD_VPC_TEMPLATE=<%= config['ops']['production']['vpc_template'] %>
+export PRD_VPC_TEMPLATE_PARAMS=<%= config['ops']['production']['vpc_template_params'] %>
+export PRD_VPC_ID=<%= config['ops']['production']['vpc_id'] %>
+
+export PRD_EC2_SG_ID=<%= config['ops']['production']['ec2_sg_id'] %>
+export PRD_EC2_SG_NAME=<%= config['ops']['production']['ec2_sg_name'] %>
+export PRD_EC2_SG_DESC=<%= config['ops']['production']['ec2_sg_desc'] %>
+export PRD_EC2_TYPE=<%= config['ops']['production']['ec2_type'] %>
+export PRD_EC2_AMI_ID=<%= config['ops']['production']['ec2_ami_id'] %>
+export PRD_EC2_SUBNET=<%= config['ops']['production']['ec2_subnet'] %>
+export PRD_EC2_INSTANCE_ID=<%= config['ops']['production']['ec2_instance_id'] %>
+export PRD_EC2_PUBLIC_IP=<%= config['ops']['production']['ec2_public_ip'] %>
+export PRD_EC2_DB_NAME=<%= config['ops']['production']['ec2_db_name'] %>
+export PRD_EC2_DB_USER_NAME=<%= config['ops']['production']['ec2_db_user'] %>
+export PRD_EC2_DB_PASSWORD=<%= config['ops']['production']['ec2_db_password'] %>
+export PRD_EC2_DB_HOSTNAME=<%= config['ops']['production']['ec2_db_host'] %>
+export PRD_EC2_DB_PORT=<%= config['ops']['production']['ec2_db_port'] %>
+
+export PRD_RDS_STACKNAME=$ORGANIZATION-Production-RDS
+export PRD_RDS_TEMPLATE=<%= config['ops']['production']['rds_template'] %>
+export PRD_RDS_TEMPLATE_PARAMS=<%= config['ops']['production']['rds_template_params'] %>
+export PRD_RDS_TAGKEY=Name
+export PRD_RDS_TAGVALUE=$PRD_APPLICATION_NAME
+export PRD_RDS_SUBNET_1=<%= config['ops']['production']['rds_subnet_1'] %>
+export PRD_RDS_SUBNET_2=<%= config['ops']['production']['rds_subnet_2'] %>
+export PRD_RDS_ENGINE=<%= config['ops']['production']['rds_engine'] %>
+export PRD_RDS_ENGINE_VERSION=<%= config['ops']['production']['rds_engine_version'] %>
+export PRD_RDS_DB_PARAMETER_GROUP_FAMILY=<%= config['ops']['production']['rds_db_parameter_group_family'] %>
+export PRD_RDS_DB_INSTANCE_NAME=<%= config['ops']['production']['rds_db_instance_name'] %>
+export PRD_RDS_DB_NAME=<%= config['ops']['production']['rds_db_name'] %>
+export PRD_RDS_DB_USER_NAME=<%= config['ops']['production']['rds_db_user_name'] %>
+export PRD_RDS_DB_PASSWORD=<%= config['ops']['production']['rds_db_password'] %>
+export PRD_RDS_DB_CLASS=<%= config['ops']['production']['rds_db_class'] %>
+export PRD_RDS_DB_ALLOCATED_STORAGE=<%= config['ops']['production']['rds_db_allocated_storage'] %>
+export PRD_RDS_DB_ENDPOINT=<%= config['ops']['production']['rds_db_endpoint'] %>
+export PRD_RDS_ARN=<%= config['ops']['production']['rds_db_arn'] %>
+export PRD_RDS_DB_PORT=<%= config['ops']['production']['rds_db_port'] %>
+
+export PRD_EB_APP_PLATFORM=<%= config['ops']['production']['eb_app_platform'] %>
+export PRD_EB_PREFIX=prd-$APPLICATION_PREFIX
+export PRD_EB_SUFFIX=green
+export PRD_EB_ENVNAME=$PRD_EB_PREFIX-$PRD_EB_SUFFIX
+export PRD_EB_CNAME=$PRD_EB_PREFIX-$PRD_EB_SUFFIX
+export PRD_EB_URL=prd-$APPLICATION_PREFIX-$PRD_EB_SUFFIX.<%= config['ops']['production']['eb_url'] %>
+export PRD_EB_SSH_KEY=$PRD_SSH_KEY
+export PRD_EB_INSTANCE=<%= config['ops']['production']['eb_instance'] %>
+export PRD_EB_VPC_ID=$PRD_VPC_ID
+export PRD_EB_EC2_SUBNET=<%= config['ops']['production']['eb_ec2_subnet'] %>
+export PRD_EB_ELB_SUBNET=<%= config['ops']['production']['eb_elb_subnet'] %>
+export PRD_EB_ELB=<%= config['ops']['production']['eb_elb'] %>
+export PRD_EB_SSL_SRT_ID=<%= config['ops']['production']['eb_ssl_srt_id'] %>
+export PRD_EB_DB_ENGINE=<%= config['ops']['production']['eb_db_engine'] %>
+export PRD_EB_DB_SIZE=<%= config['ops']['production']['eb_db_size'] %>
+export PRD_EB_DB_INSTANCE=<%= config['ops']['production']['eb_db_instance'] %>
+export PRD_EB_DB_PASSWORD=<%= config['ops']['production']['eb_db_password'] %>
+export PRD_EB_DB_USERNAME=<%= config['ops']['production']['eb_db_username'] %>
+export PRD_EB_DB_VERSION=<%= config['ops']['production']['eb_db_version'] %>
+export PRD_EB_DB_SUBNET_1=<%= config['ops']['production']['eb_db_subnet_1'] %>
+export PRD_EB_DB_SUBNET_2=<%= config['ops']['production']['eb_db_subnet_2'] %>
+
+export PRD_OPS_PACKAGE=$APPLICATION_PREFIX-opsw-cookbooks.tar.gz
+export PRD_CFM_OPSW_STACKNAME=$ORGANIZATION-Production-OpsWorks
+export PRD_OPSW_STACKNAME=${ORGANIZATION}Production
+export PRD_OPSW_TEMPLATE=opsworks.yml
+export PRD_OPSW_VPC_ID=$PRD_VPC_ID
+export PRD_OPSW_SUBNET_1=<%= config['ops']['production']['opsw_subnet_1'] %>
+export PRD_OPSW_SUBNET_2=<%= config['ops']['production']['opsw_subnet_2'] %>
+export PRD_OPSW_SUBNET_PUB_1=<%= config['ops']['production']['opsw_subnet_pub_1'] %>
+export PRD_OPSW_SUBNET_PUB_2=<%= config['ops']['production']['opsw_subnet_pub_2'] %>
+export PRD_OPSW_SUBNET_PRI_1=<%= config['ops']['production']['opsw_subnet_pri_1'] %>
+export PRD_OPSW_SUBNET_PRI_2=<%= config['ops']['production']['opsw_subnet_pri_2'] %>
+export PRD_OPSW_KEYNAME=$PRD_SSH_KEY_NAME
+export PRD_OPSW_STACK_ID=<%= config['ops']['production']['opsw_stack_id'] %>
+export PRD_OPSW_APP_LAYER_ID=<%= config['ops']['production']['opsw_app_layer_id'] %>
+export PRD_OPSW_APP_LAYER_SG=<%= config['ops']['production']['opsw_app_layer_sg'] %>
+export PRD_OPSW_APP_ID=<%= config['ops']['production']['opsw_app_id'] %>
+export PRD_OPSW_APP_REVISION=<%= config['ops']['production']['opsw_app_revision'] %>
+export PRD_OPSW_APP_REPO_URL=$PRD_APP_REPOSITORY
+export PRD_OPSW_APP_URL=<%= config['ops']['production']['opsw_app_url'] %>
+export PRD_OPSW_APP_JOB_ID=<%= config['ops']['production']['opsw_app_job_id'] %>
+export PRD_OPSW_APP_API_ID=<%= config['ops']['production']['opsw_app_api_id'] %>
+export PRD_OPSW_APP_BOT_ID=<%= config['ops']['production']['opsw_app_bot_id'] %>
+export PRD_OPSW_APP_JOB_REVISION=<%= config['ops']['production']['opsw_app_job_revision'] %>
+export PRD_OPSW_APP_JOB_REPO_URL=$PRD_APP_JOB_REPOSITORY
+export PRD_OPSW_APP_JOB_URL=<%= config['ops']['production']['opsw_app_job_url'] %>
+export PRD_OPSW_APP_API_REVISION=<%= config['ops']['production']['opsw_app_api_revision'] %>
+export PRD_OPSW_APP_API_REPO_URL=$PRD_APP_API_REPOSITORY
+export PRD_OPSW_APP_API_URL=<%= config['ops']['production']['opsw_app_api_url'] %>
+export PRD_OPSW_APP_BOT_REVISION=<%= config['ops']['production']['opsw_app_bot_revision'] %>
+export PRD_OPSW_APP_BOT_REPO_URL=$PRD_APP_BOT_REPOSITORY
+export PRD_OPSW_APP_BOT_URL=<%= config['ops']['production']['opsw_app_bot_url'] %>
+export PRD_OPSW_EIP=<%= config['ops']['production']['opsw_eip'] %>
+export PRD_OPSW_EIP_ID=<%= config['ops']['production']['opsw_eip_id'] %>
+export PRD_OPSW_DB_INSTANCE_ARN=$PRD_RDS_ARN
+export PRD_OPSW_DB_ADAPTER=<%= config['ops']['production']['opsw_db_adapter'] %>
+export PRD_OPSW_DB_NAME=<%= config['ops']['production']['opsw_db_name'] %>
+export PRD_OPSW_DB_JOB_NAME=<%= config['ops']['production']['opsw_db_job_name'] %>
+export PRD_OPSW_DB_API_NAME=<%= config['ops']['production']['opsw_db_api_name'] %>
+export PRD_OPSW_DB_USERNAME=<%= config['ops']['production']['opsw_db_username'] %>
+export PRD_OPSW_DB_PASSWORD=<%= config['ops']['production']['opsw_db_password'] %>
+export PRD_OPSW_DB_HOSTNAME=<%= config['ops']['production']['opsw_db_hostname'] %>
+export PRD_OPSW_DB_PORT=<%= config['ops']['production']['opsw_db_port'] %>
+export PRD_OPSW_SETUP_RECIPE=<%= config['ops']['production']['opsw_setup_recipe'] %>
+export PRD_OPSW_CONFIGURE_RECIPE=<%= config['ops']['production']['opsw_configure_recipe'] %>
+export PRD_OPSW_DEPLOY_RECIPE=<%= config['ops']['production']['opsw_deploy_recipe'] %>
+export PRD_OPSW_UNDEPLOY_RECIPE=<%= config['ops']['production']['opsw_undeploy_recipe'] %>
+export PRD_OPSW_SHUTDOWN_RECIPE=<%= config['ops']['production']['opsw_shutdown_recipe'] %>
+export PRD_OPSW_ELB_NAME=$APPLICATION_PREFIX-$PRD_APP_ENV
+export PRD_OPSW_ELB_CERT_ARN=<%= config['ops']['production']['opsw_elb_cert_arn'] %>
+export PRD_OPSW_ELB_SG=$PRD_OPSW_APP_LAYER_SG
+export PRD_OPSW_ELB_SUBNET_1=<%= config['ops']['production']['opsw_elb_subnet_1'] %>
+export PRD_OPSW_ELB_SUBNET_2=<%= config['ops']['production']['opsw_elb_subnet_2'] %>
+export PRD_OPSW_INSTANCE_TYPE=<%= config['ops']['production']['opsw_ec2_instance_class'] %>
+export PRD_OPSW_OS="<%= config['ops']['production']['opsw_os'] %>"

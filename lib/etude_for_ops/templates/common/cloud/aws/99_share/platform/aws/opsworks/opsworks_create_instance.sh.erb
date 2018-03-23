@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+STACKID=$<%= params[:opsw_stack_id] %>
+LAYER_ID=$<%= params[:opsw_app_layer_id] %>
+INSTANCE_TYPE=$<%= params[:opsw_ec2_instance_class] %>
+OS=$<%= params[:opsw_os] %>
+
+echo "**********************************"
+echo STACKID:$STACKID
+echo LAYER_ID:$LAYER_ID
+echo INSTANCE_TYPE:$INSTANCE_TYPE
+echo OS:$OS
+echo "**********************************"
+
+aws opsworks create-instance  \
+             --region us-east-1  \
+             --stack-id $STACKID \
+             --layer-ids $LAYER_ID \
+             --instance-type $INSTANCE_TYPE --os "$OS"

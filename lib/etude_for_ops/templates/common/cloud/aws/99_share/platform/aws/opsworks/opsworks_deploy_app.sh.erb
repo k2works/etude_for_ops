@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+STACKID=$<%= params[:opsw_stack_id] %>
+APP_ID=$<%= params[:opsw_app_id] %>
+
+echo "**********************************"
+echo STACKID:$STACKID
+echo APP_ID:$APP_ID
+echo "**********************************"
+
+aws opsworks create-deployment  \
+             --region us-east-1   \
+             --stack-id $STACKID  \
+             --app-id $APP_ID --command "{\"Name\":\"deploy\"}"  \
