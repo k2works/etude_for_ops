@@ -24,6 +24,7 @@ module EtudeForOps
       @platforms.each do |platform|
         @environment.platform = platform
         @strategy.apply_env_config
+        @strategy.apply_env_src
       end
     end
 
