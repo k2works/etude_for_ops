@@ -1,0 +1,32 @@
+{
+  "name": "YourApplicationApi",
+  "shortname": "yourapplicationapi",
+  "environment": {
+    "RAILS_ENV": "production",
+    "SECRET_KEY_BASE": "xxxxxxxxxx",
+    "S3_ACCESS_KEY": "xxxxxxxxxx",
+    "S3_SECRET_KEY": "xxxxxxxxxx",
+    "DB_ADAPTER": "mysql2",
+    "DB_USER": "app",
+    "DB_ADDRESS": "127.0.0.1",
+    "DB_NAME": "yourapplicationapi_production",
+    "DB_PASSWORD": "password",
+    "DB_PORT": "3306"
+  },
+  "app_source": {
+    "url": "git@github.com:k2works/etude_for_rails_api.git",
+    "revision": "develop",
+    "ssh_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEAyisc+4r0GNVVKOWKHnIMHU5ADJ2SHr1qmQs7Fi6U+oTAw++Y\niS3+4pFKFe8w/8DdFZ0+AT8wg9Q4rYdgVSDqQU8kmTmUUH7Z6n2/Ysw9TbyyYCoU\nm6Fnc4oHSdevTOIdOKl6+oWTqtrUwxBJyFrTErQY51/cJSlwZbIFP3HfJsaHMlNn\nn9ewHH/Yckthl0bheSqscZsiAy+bpImFT95QtBd6pzUA4KnHCOGuO++GbnBRKyKo\nigEMuTq8TwXrRczBmHJ53mZ2JcT7bGuu9klIVvEi6lOuAUj6OsQvnO5RhVaOcr2B\nb8dWwnKTg2v1P75A8bZseDRbGPhqdcKdKRRcdQIDAQABAoIBAAJWmVE3fDdFUGTW\nstBDVWyJWShMMkJ0wmTewmIxS7vSCUC65rK/e3E3aPnz+Ecc/fGgDfWJu4/qxnUL\nWcviQ5NZzPyQs+xyaybRKYOFBTh+9Dk0g2SBa2bks8zg18A15UygeTGoldqmCUvw\nRkow8rwGpTsX2r37SreCZZkkQgZ6xBZL+LyQ9kNEqn+TZkDq1c/2vU11/Nr49DBe\no1YthTBDTqb1fnrZ6Ti+8550wqE5Kq6iNVBzk7crShNJUcRT921IrABPt4NL7q5M\nxvIOUao70HNlMSfxoFDO254SGg8j00JPGPfm0ae4XbBcwMwTdIumfRvrTmfh0OTi\nTY8neQkCgYEA5R94I0h+otju6fXFFFnuCWOOgDn2Xc6vkEeFzkY6HM3uo8qhUFMe\nndZCIB0cLfCqCzlX/dGbmseZp4P4vimARXwN/fKgeHHeEwDKDlKO6Ejsy4t3XQtN\nbnrx3U9QzAHby3yr0ZVEkGT5cZOuTsdvktmLtEj04LmnkZaw+f0sEycCgYEA4eI0\nFDOmcy5QKoVXE7fp0mkuUfm9ptX//Wg30yGrK93i9SrhjqnH7YkGGiQZ5wTvgiDF\n9Mxb7qb9Mv6XSkZEdkjwi8zMISjxuQ9GseuTSu3FSs3ByXwiopF+a6g41Xli/FSD\naJe2QnfPHaNDrPHOIeaCReTOkO/KKwqR01AIpQMCgYAuK1c0FOmfuwL5lhKudSio\nL62JXSSt5nYuJptp43DWWRDbZHt5CibDO2d7vSHuh+5b8KQwe0pVuB7YSJmZCBfW\n6JaRM5DudFOBlMkidbRiTj+ZDHNzBlIGDzQpmk/3q/A0YtzkkKWOSyqQnmejbECp\nYLjsDT97AS4pAiqLVV7KRQKBgQDV8cMz8yvPYmlJrNup8IMF6NuXhzzLHVwGL0TY\ns8YFmXbSkZfr4QFdCXB/J/xkpHcZwGLelwToCMA/IYY4Mk+73SAAuawKKFay2jYy\nZJcw2/4G+NV4Ohwv8DBWVZHnF77akk2YrkFRuVqxjqaV0r1TvJldC/derc/FbpBq\nHh7h8wKBgQCUYAaqzeIJI4n8AU8vwTMlZDKBL1K0oXdZvrdCKqsNksqjs/AGH6eu\nIZz1GJzoqxNfn9u7pPtkdz1QDNkGcCuk0ab6IfKcNytr6Ygayhh2+siXF3w/d7aL\nIFuFEXDs83++89q8ghCshPFV0eqA3Ehj+l+L4zBRK7zgo20DH8r+IQ==\n-----END RSA PRIVATE KEY-----",
+    "type": "git"
+  },
+  "data_sources":
+  [
+    {"database_name": "yourapplicationapi_production"}
+  ],
+  "domains": ["api.hiroshima-arc.org","rails_api.hiroshima-arc.org"],
+  "enable_ssl": true,
+  "ssl_configuration" : {
+    "certificate": "-----BEGIN CERTIFICATE-----\nMIIDVzCCAj+gAwIBAgIJAJCiBTHQb0bIMA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNV\nBAYTAlhYMRUwEwYDVQQHDAxEZWZhdWx0IENpdHkxHDAaBgNVBAoME0RlZmF1bHQg\nQ29tcGFueSBMdGQwHhcNMTgwMjEzMTE1NjU2WhcNMTkwMjEzMTE1NjU2WjBCMQsw\nCQYDVQQGEwJYWDEVMBMGA1UEBwwMRGVmYXVsdCBDaXR5MRwwGgYDVQQKDBNEZWZh\ndWx0IENvbXBhbnkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA\n0ck5IS2Mm5lismmntsiwWE2GJc1KVeQQEw/0jOo5HxKjmrd4dtAVeHVtQFWC83xy\nFGQs1pozZp2lL3EQd74WAWGa7jBXnIrLTnjdNrnYdF+fHKKLNDtXixgQk5gSMc/j\ndvH0G2I/uhNz8HDw6cX7FtHPrEFE4b+WRQcGfO5VVR9C8/CcCioFN41bCNkXMNCP\n0FVa51idLfuGPBvk7xmB1GSegdlPudcOllfbFvZeJhRp7IBrwxilmvo6ZRsLrHnB\nvXPpjoU7Xo2PHpKIxdY42k7nAia5u0CWJQ1kyKTlHm3V+eNi+qatmhB4rXIRjS71\nMwXwqY9w8tngPW73xmSJKwIDAQABo1AwTjAdBgNVHQ4EFgQU4YnOfSXa64BllXjp\naMa+qsqfNlgwHwYDVR0jBBgwFoAU4YnOfSXa64BllXjpaMa+qsqfNlgwDAYDVR0T\nBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAU9oOPrFLfiMIkhkRhgjOTOZHIa/c\nUv53xn+WTTA0yA390hKhQQJN48TFblbIY8k+MbPkCefOv2aOwqj498rBDRU182pI\nygdXEqmcAFwrqhdwzLKFVJskq88reNKRQVX2DBWP7G/WwqDQhdDw2jvuQB1bMVmp\n6TuDWuFSqUp5gyHcHIl7v0kJURCVj9A5lbGhLQH45M8jpzusZFnJhyTKZKg6L6VW\nJzAoIP+GejoEJnwHpKu7IF9s3n5x3/6dPJ08CHuLZy958VtszCtOqlSJsTW71R+M\nrN0B5kKkCyUSzwVHl1I6Ftwpl7negQrCos+P9a4mIx3M16MXMJt4ksBTOw==\n-----END CERTIFICATE-----",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDRyTkhLYybmWKy\naae2yLBYTYYlzUpV5BATD/SM6jkfEqOat3h20BV4dW1AVYLzfHIUZCzWmjNmnaUv\ncRB3vhYBYZruMFecistOeN02udh0X58coos0O1eLGBCTmBIxz+N28fQbYj+6E3Pw\ncPDpxfsW0c+sQUThv5ZFBwZ87lVVH0Lz8JwKKgU3jVsI2Rcw0I/QVVrnWJ0t+4Y8\nG+TvGYHUZJ6B2U+51w6WV9sW9l4mFGnsgGvDGKWa+jplGwusecG9c+mOhTtejY8e\nkojF1jjaTucCJrm7QJYlDWTIpOUebdX542L6pq2aEHitchGNLvUzBfCpj3Dy2eA9\nbvfGZIkrAgMBAAECggEADOqJtOw8Avx/oiJ1LADRMq6bOsqX8A/ZmYLa+K4XFD2u\niwEOzqnjGIaKUnKxXFJmJ7E/PXtC/Odp2zDn5adzbWRYCKA7VK0K9Wrlm8/3brrQ\nbg/n6DBbJHo30w6C2ERHafRdpi33ZHp8IeqiOpJw8ie61I00M337P4a+NITsBhCJ\nIGnlzOFxM4CDAosVulM5Izin1Gq1kUD7iAWJUzc4dNP5iFl6vPhMR1oiEqkYL31S\ni2t46ldJZIq5mhhI1sRWBAC8uNf4DszwuxYuIB8SipjGGz605WqvJgJUw2EkBsum\nuKp/yOuqa9isYhZOVAYb5CPIteZI64WGpbUi1FumwQKBgQDtM8jtu2/9q5NcZZOM\n05P0k0vehA3W3VGdPkKpaqQm/s3IuNAOQMTECxoBRmoXE6npvcM4DwG0VkVa9J9t\n+XFYA0pf3uL+BnV/EfazxIdaqwGHpIlkZFRvnZrbf7hB3gExNGjntKRfXRGc2zkc\nx+TrnFY43WK9yUavB4CXiXYsSwKBgQDiaTvn/jMj+T8uN8o/+xc1QRxTZdvwAC5F\nDMD5fK77ynWA8F8HEz17OnM+lALNaT1jphPo6fEE8nl6s0wp2ISGYf1Vj50bWjAT\nF8fZbVeUzNDZXnODpX5rIee7vew7NMVexYckU8+356f89GAjgjNEIeevkd572cvm\ntiq9ya9KoQKBgA7PePA/D9MK73yJaxkT7N0MhWQzYpnT39CtnoPtgKpepoKt52+8\nY4zKFKmXt/AQ7j8F9jZ92WFlMZdoRrwbIxSXwAEUbZ/mz1dLy9eVoc3rd4D8qQd3\nrD373TtvUhXqwrBL0XEGOm0p5nugxIQjhwufC1Mpn4yyEJPFKCZOEu7ZAoGBAKAt\nbRli6JFRu5YaGDcNj8y4RK7nyCLSLenh7QBUaoNuJ5VR+RjLTtrIblHeauEhzDGc\nhEdqgn5KgRECmiacrJ1Z491NXgvE0XAgid3UEnsOL88omDaRtY9bjFNxORhl7CBx\nRHu546Gq/VjjFsToTxarmfrHCwy5+Bw/0ps0fZQhAoGAV9yO8gbHTBWXfZ2pGsnr\nQaAAguGX8T0MWF3WpqbixrzCFKOEoS6Z0jSxUvCHnHwJfxdQVCCYFP9iRMihrfEB\nMt+tCFOzB9XrHAIMcFmvTvf3WopsvH+jXrIudVnaHb538hAaaCU/cDLxTOnc0IxH\nPT5iF/LtipibYwSTiHYpeqU=\n-----END PRIVATE KEY-----"
+  }
+}
