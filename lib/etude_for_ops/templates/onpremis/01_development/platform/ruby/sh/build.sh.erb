@@ -19,6 +19,7 @@ cp ../src/build/chef/recipes_setup_node.rb recipes/setup_node.rb
 cp ../src/build/chef/recipes_setup_nginx.rb recipes/setup_nginx.rb
 cp ../src/build/chef/recipes_setup_service.rb recipes/setup_service.rb
 cp ../src/build/chef/recipes_setup_td-agent.rb recipes/setup_td-agent.rb
+cp ../src/build/chef/recipes_setup_vagrant.rb recipes/setup_vagrant.rb
 cp ../src/build/chef/recipes_setup_elasticsearch.rb recipes/setup_elasticsearch.rb
 cp ../src/build/chef/recipes_setup_docker.rb recipes/setup_docker.rb
 cp ../src/build/chef/recipes_setup_jenkins.rb recipes/setup_jenkins.rb
@@ -46,7 +47,7 @@ cp ../src/build/chef/templates_default_active_job.erb templates/default/active_j
 cp ../src/build/chef/templates_default_active_job.service.erb templates/default/active_job.service.erb
 cp ../src/build/chef/templates_default_kibana.yml.erb templates/default/kibana.yml.erb
 cp ../src/build/chef/templates_default_jenkins.erb templates/default/jenkins.erb
-
+cp ../src/build/chef/templates_default_ssh_config.erb templates/default/ssh_config.erb
 
 berks vendor cookbooks
 sudo chef-client -z -j provision.json
