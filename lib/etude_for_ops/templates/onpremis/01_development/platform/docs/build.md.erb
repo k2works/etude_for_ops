@@ -53,3 +53,11 @@ wget -O VBoxGuestAddtions.iso http://download.virtualbox.org/virtualbox/5.2.8/VB
 echo "local-hostname: amznlinux2" > meta-data
 hdiutil makehybrid -iso -joliet -o seed.iso cidata
 ```
+
+#### VirtualBox Guest Additions のインストール
+```bash
+mount -r -t iso9660 /dev/cdrom /media
+/media/VBoxLinuxAdditions.run
+umount /media
+systemctl enable vboxadd.service
+```
