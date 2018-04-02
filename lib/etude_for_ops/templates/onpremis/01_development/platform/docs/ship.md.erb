@@ -1,3 +1,14 @@
+### 開発マシンVagrant box作成
+```bash
+cd ops/01_development
+vagrant up
+vagrant ssh
+exit
+cp ./src/ship/vagrant/metadata.json .
+chmod 0777 ./src/ship/vagrant/create_box.sh
+./src/ship/vagrant/create_box.sh
+```
+
 ### アプリケーションのデプロイ
 
 ```ruby:Gemfile
