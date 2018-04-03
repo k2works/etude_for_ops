@@ -25,39 +25,3 @@ sudo gem install bundler
 sudo gem install rails
 rails new . -d mysql
 ```
-
-### AmazonLinux2のVagrant boxを作成
-
-```bash
-cd /vagrant
-mkdir box
-cd /box
-```
-
-#### イメージをダウンロード
-https://cdn.amazonlinux.com/os-images/latest
-
-```bash
-wget -O amznlinux2.vdi https://cdn.amazonlinux.com/os-images/2017.12.0.20180222/virtualbox/amzn2-virtualbox-2017.12.0.20180222-x86_64.xfs.gpt.vdi
-wget -O VBoxGuestAddtions.iso http://download.virtualbox.org/virtualbox/5.2.8/VBoxGuestAdditions_5.2.8.iso
-```
-
-#### user-dataの作成
-
-#### seed.isoの作成
-```bash
-.
-└── cidata
-    ├── meta-data
-    └── user-data
-echo "local-hostname: amznlinux2" > meta-data
-hdiutil makehybrid -iso -joliet -o seed.iso cidata
-```
-
-#### VirtualBox Guest Additions のインストール
-```bash
-mount -r -t iso9660 /dev/cdrom /media
-/media/VBoxLinuxAdditions.run
-umount /media
-systemctl enable vboxadd.service
-```

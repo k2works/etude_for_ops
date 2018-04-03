@@ -1,0 +1,79 @@
+### 準備
+VirtualBoxイメージのダウンロード
+```bash
+cd ops/99_share
+mkdir build
+wget -O amznlinux2.vdi https://cdn.amazonlinux.com/os-images/2017.12.0.20180222/virtualbox/amzn2-virtualbox-2017.12.0.20180222-x86_64.xfs.gpt.vdi
+```
+
+### cloud init用データの作成
+```bash
+mkdir seed
+cp ../src/build/vagrant/meta-data seed/meta-data
+cp ../src/build/vagrant/user-data seed/user-data
+hdiutil makehybrid -iso -joliet -o seed.iso seed -joliet-volume-name cidata
+```
+
+### VMの起動
+```bash
+VM=vagrant-amznlinux2
+VDI=amznlinux2.vdi
+VGA=/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso
+VBoxManage createvm --name "$VM" --ostype "RedHat_64" --register
+VBoxManage storagectl "$VM" --name "SATA Controller" --add "sata" --controller "IntelAHCI"
+VBoxManage storagectl "$VM" --name "IDE Controller" --add "ide"
+VBoxManage storageattach "$VM" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium $VDI
+VBoxManage storageattach "$VM" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium seed.iso
+VBoxManage modifyvm "$VM" --natpf1 "ssh,tcp,127.0.0.1,2222,,22" --memory 1024 --vram 8 --audio none --usb off
+VBoxManage startvm "$VM" --type headless
+```
+
+### VMにログイン
+```bash
+cp ../src/build/vagrant/vagrant.pem .
+chmod 600 vagrant.pem
+ssh -p 2222 vagrant@localhost -i vagrant.pem
+```
+
+### VBoxGuestAdditionsのインストール準備
+```bash
+sudo yum install -y kernel kernel-devel perl gcc
+sudo shutdown -r now
+```
+### VBoxGuestAdditionsのインストール
+
+```bash
+VBoxManage storageattach "$VM" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $VGA --forceunmount
+ssh -p 2222 vagrant@localhost -i vagrant.pem
+sudo mount -r /dev/cdrom /media
+sudo /media/VBoxLinuxAdditions.run --nox11
+sudo umount /media
+```
+
+### クリーンアップ
+```bash
+rm $HOME/.bash_history
+sudo rm -rf /var/cache/yum
+sudo dd if=/dev/zero of=/0 bs=4k
+sudo rm -f /0
+history -c
+sudo shutdown -h now
+```
+
+### Vagrant boxの作成と登録
+```bash
+vagrant package --base "$VM"
+cp ../src/build/vagrant/metadata.json .
+vagrant box add --name "amazonlinux2" metadata.json
+```
+
+### お試し起動
+```bash
+cd ..
+vagrant up
+```
+
+### お試しログイン
+```bash
+vagrant ssh
+```

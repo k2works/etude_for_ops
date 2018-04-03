@@ -5,6 +5,7 @@ module EtudeForOps
     end
 
     def build
+      create_build_files
     end
 
     def ship
@@ -33,11 +34,15 @@ module EtudeForOps
     end
 
     def erb_share_file(file)
-
+      "#{@platform.tmp_share_file_dir}/platform/ruby/vagrant/#{file}.erb"
     end
 
     def create_build_files
       erb_files = %w[
+       meta-data
+       user-data
+       vagrant.pem
+       metadata.json
       ]
       create_put_bind_template_files(src_build_dir,erb_files)
     end

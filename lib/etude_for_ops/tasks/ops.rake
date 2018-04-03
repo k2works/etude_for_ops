@@ -94,6 +94,13 @@ namespace :ops do
     ops.update_aws_ruby_production_env_value(root_dir)
   end
 
+  desc 'Setup ruby aws share environment'
+  task :create_aws_ruby_share_env do
+    root_dir = Pathname.new('ops')
+    ops = EtudeForOps::Ops.new
+    ops.create_aws_ruby_share_env(root_dir)
+  end
+
   desc 'Create .env file for onpremis'
   task :create_env_onpremis do
     root_dir = Pathname.new('ops')

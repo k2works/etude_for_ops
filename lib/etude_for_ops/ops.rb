@@ -183,7 +183,23 @@ module EtudeForOps
       throw e
     end
 
-    def create_aws_ruby_share_env(root_dir); end
+    def create_aws_ruby_share_env(root_dir)
+      env = Share.new(root_dir)
+      aws = EtudeForOps::AWS.new(env)
+      @builder.strategy = Cloud.new(aws, env)
+      @builder.platforms << aws
+
+      ruby = Ruby.new(env)
+      ruby.components << EtudeForOps::Vagrant.new(ruby)
+      @builder.platforms << ruby
+      @builder.environment = env
+
+      @builder.apply_strategy
+      return @builder.environment, @builder.platforms, @builder.strategy
+    rescue StandardError => e
+      puts "Error occurred (#{e.class})"
+      throw e
+    end
 
     private
     def create_aws_components(aws, env)
