@@ -38,17 +38,17 @@ module EtudeForOps
     end
 
     def create_build_files
-      FileUtils.rm_r(src_build_dir)
+      FileUtils.rm_r(src_build_dir) if File.directory?(src_build_dir)
       FileUtils.cp_r("#{@platform.tmp_share_file_dir}/platform/ruby/docker/build/", src_build_dir)
     end
 
     def create_ship_files
-      FileUtils.rm_r(src_ship_dir)
+      FileUtils.rm_r(src_ship_dir) if File.directory?(src_ship_dir)
       FileUtils.cp_r("#{@platform.tmp_share_file_dir}/platform/ruby/docker/ship/", src_ship_dir)
     end
 
     def create_run_files
-      FileUtils.rm_r(src_run_dir)
+      FileUtils.rm_r(src_run_dir) if File.directory?(src_run_dir)
       FileUtils.cp_r("#{@platform.tmp_share_file_dir}/platform/ruby/docker/run/", src_run_dir)
     end
   end
