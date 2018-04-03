@@ -1,0 +1,1 @@
+FROM monitoringartist/zabbix-db-mariadb:latest

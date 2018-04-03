@@ -1,0 +1,121 @@
+version: '2'
+services:
+  app-db:
+    build: application_service/app-db
+    image: app-db:development
+    volumes:
+      - app-db-data:/var/lib/mysql
+  app-db-tool:
+    build: application_service/app-db-tool
+    image: app-db-tool:development
+    environment:
+     - PMA_ARBITRARY=1
+    restart: always
+    ports:
+     - 8088:80
+    volumes:
+     - /sessions
+    depends_on:
+      - app-db
+  app:
+    build: application_service/app
+    image: app:development
+    depends_on:
+      - app-db
+      - logging-app
+    environment:
+      - RAILS_ENV=development
+    volumes:
+      - ./application_service/app/tmp/pids:/usr/src/app/tmp/pids
+    ports:
+      - "3000:3000"
+  proxy-app:
+    build: application_service/proxy-app
+    image: proxy-app:development
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+  ci-db:
+    build: ci_service/ci-db
+    image: ci-db:development
+    volumes:
+      - ci-db-data:/var/lib/mysql
+  ci-app:
+    build: ci_service/ci-app
+    image: ci-app:development
+    depends_on:
+      - ci-db
+    environment:
+      JAVA_OPTS: "-Djava.awt.headless=true"
+      RAILS_ENV: "test"
+    ports:
+      - "50000:50000"
+      - "8081:8080"
+    volumes:
+      - ./ci_service/ci-app/.ssh:/var/jenkins_home/.ssh
+      - ./ci_service/ci-app/config:/var/jenkins_home/config
+      - ci-data:/var/jenkins_home
+  monitor-db:
+    build: monitor_service/monitor-db
+    image: monitor-db:development
+    volumes:
+      - zabbix-db-storage:/var/lib/mysql
+      - backups:/backups
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - MARIADB_USER=zabbix
+      - MARIADB_PASS=my_password
+  monitor-app:
+    build: monitor_service/monitor-app
+    image: monitor-app:development
+    depends_on:
+      - monitor-db
+      - app
+    ports:
+      - "10050:10050"
+      - "10051:10051"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    links:
+      - monitor-db:zabbix.db
+    environment:
+      - ZS_DBHost=zabbix.db
+      - ZS_DBUser=zabbix
+      - ZS_DBPassword=my_password
+  logging-app:
+    build: logging_service/logging-app
+    image: logging-app:development
+    depends_on:
+      - logging-db
+    ports:
+      - 24224:24224
+  logging-db:
+    build: logging_service/logging-db
+    image: logging-db:development
+    ports:
+      - 9200:9200
+    volumes:
+      - logging-db-data:/usr/share/elasticsearch/data
+  logging-ui:
+    build: logging_service/logging-ui
+    image: logging-web:development
+    depends_on:
+      - logging-db
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://logging-db:9200
+volumes:
+  app-db-data:
+    driver: local
+  ci-db-data:
+    driver: local
+  ci-data:
+    driver: local
+  zabbix-db-storage:
+    driver: local
+  backups:
+    driver: local
+  logging-db-data:
+    driver: local

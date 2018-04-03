@@ -1,0 +1,1 @@
+FROM logging-db:base

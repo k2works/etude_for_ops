@@ -1,0 +1,1 @@
+FROM app-db-tool:base

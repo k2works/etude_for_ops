@@ -73,7 +73,7 @@ fabric.properties
 ## Specific to RubyMotion:
 .dat*
 .repl_history
-build/
+#build/
 *.bridgesupport
 build-iPhoneOS/
 build-iPhoneSimulator/

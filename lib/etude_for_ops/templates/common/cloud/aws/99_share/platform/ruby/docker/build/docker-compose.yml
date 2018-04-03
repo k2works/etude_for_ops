@@ -1,0 +1,32 @@
+version: '2'
+services:
+  app-db:
+    build: ./application/mysql
+    image: app-db:base
+  app-db-tool:
+    build: ./application/phpmyadmin
+    image: app-db-tool:base
+  app:
+    build: ./application/rails
+    image: app:base
+  proxy:
+    build: ./middleware/proxy/nginx
+    image: proxy-app:base
+  ci:
+    build: ./middleware/ci/jenkins
+    image: ci-app:base
+  monitor:
+    build: ./middleware/monitor/zabbix
+    image: monitor-app:base
+  monitor-db:
+    build: ./middleware/monitor/mariadb
+    image: monitor-db:base
+  logging-app:
+    build: ./middleware/logging/fluentd
+    image: logging-app:base
+  logging-db:
+    build: ./middleware/logging/elasticsearch
+    image: logging-db:base
+  logging-ui:
+    build: ./middleware/logging/kibana
+    image: logging-ui:base

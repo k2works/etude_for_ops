@@ -220,6 +220,7 @@ module EtudeForOps
       ruby.components << EtudeForOps::Rake.new(ruby)
       ruby.components << EtudeForOps::Configure.new(ruby)
       ruby.components << EtudeForOps::Vagrant.new(ruby)
+      ruby.components << EtudeForOps::Docker.new(ruby)
       @builder.platforms << ruby
       @builder.environment = env
     end
