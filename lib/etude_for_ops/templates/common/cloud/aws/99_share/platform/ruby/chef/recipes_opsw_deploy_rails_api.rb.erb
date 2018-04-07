@@ -95,6 +95,12 @@ node['app_name_short_api'].each do |app_name|
 
     symlink_before_migrate 'config/database.yml' => 'config/database.yml'
 
+    if (app['environment']['RAILS_ENV'] == 'development' || app['environment']['RAILS_ENV'] == 'test') then
+      bundle_without = ""
+    else
+      bundle_without = "--without development test"
+    end
+
     before_migrate do
       ENV['S3_ACCESS_KEY'] = app['environment']['S3_ACCESS_KEY']
       ENV['S3_SECRET_KEY'] = app['environment']['S3_SECRET_KEY']
@@ -176,7 +182,7 @@ node['app_name_short_api'].each do |app_name|
         user user
         group group
         cwd release_path
-        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} --without development test"
+        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} #{bundle_without}"
         action :run
       end
     end

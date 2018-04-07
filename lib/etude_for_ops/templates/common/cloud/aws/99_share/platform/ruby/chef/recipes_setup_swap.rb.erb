@@ -1,7 +1,7 @@
 bash 'create swapfile' do
   user 'root'
   code <<-EOC
-    dd if=/dev/zero of=/srv/swapfile bs=1M count=4096 &&
+    dd if=/dev/zero of=/srv/swapfile bs=1M count=2048 &&
     chmod 600 /srv/swapfile
     mkswap /srv/swapfile
   EOC

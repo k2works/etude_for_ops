@@ -3,6 +3,14 @@ export DEV_APPLICATION_NAME=${APPLICATION_NAME}Development
 export DEV_APP_ENV=development
 export DEV_APP_REPOSITORY=<%= config['ops']['development']['repository'] %>
 export DEV_APP_REPOSITORY_SSH_KEY=<%= config['ops']['development']['repository_ssh_key'] %>
+export DEV_APP_JOB_REPOSITORY=<%= config['ops']['development']['repository_job'] %>
+export DEV_APP_JOB_REPOSITORY_SSH_KEY=<%= config['ops']['development']['repository_job_ssh_key'] %>
+export DEV_APP_API_REPOSITORY=<%= config['ops']['development']['repository_api'] %>
+export DEV_APP_API_REPOSITORY_SSH_KEY=<%= config['ops']['development']['repository_api_ssh_key'] %>
+export DEV_APP_BOT_REPOSITORY=<%= config['ops']['development']['repository_bot'] %>
+export DEV_APP_BOT_REPOSITORY_SSH_KEY=<%= config['ops']['development']['repository_bot_ssh_key'] %>
+export DEV_APP_SECRET_KEY_BASE=<%= config['ops']['development']['secret_key_base'] %>
+export SECRET_KEY_BASE=$DEV_APP_SECRET_KEY_BASE
 export DEV_BRANCH=development
 export DEV_DB=${APPLICATION_PREFIX}_development
 export DEV_SSH_KEY=dev-$APPLICATION_PREFIX.pem
@@ -21,6 +29,8 @@ export DEV_TAGKEY=Name
 export DEV_TAGVALUE=$DEV_APPLICATION_NAME
 export DEV_IAM_USER_NAME=<%= config['ops']['development']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
 export DEV_IAM_SSH_PUBKEY_ID=<%= config['ops']['development']['iam_ssh_pubkey_id'] %>
+
+export DEV_S3_BACKET=${S3_BACKET}-development
 
 export DEV_VPC_STACKNAME=$ORGANIZATION-Development-VPC
 export DEV_VPC_TEMPLATE=<%= config['ops']['development']['vpc_template'] %>
@@ -41,7 +51,7 @@ export DEV_EC2_DB_PASSWORD=<%= config['ops']['development']['ec2_db_password'] %
 export DEV_EC2_DB_HOSTNAME=<%= config['ops']['development']['ec2_db_host'] %>
 export DEV_EC2_DB_PORT=<%= config['ops']['development']['ec2_db_port'] %>
 
-export DEV_RDS_STACKNAME=$ORGANIZATION-$DEV_APPLICATION_NAME-RDS
+export DEV_RDS_STACKNAME=$ORGANIZATION-Development-RDS
 export DEV_RDS_TEMPLATE=<%= config['ops']['development']['rds_template'] %>
 export DEV_RDS_TEMPLATE_PARAMS=<%= config['ops']['development']['rds_template_params'] %>
 export DEV_RDS_TAGKEY=Name
@@ -58,3 +68,82 @@ export DEV_RDS_DB_PASSWORD=<%= config['ops']['development']['rds_db_password'] %
 export DEV_RDS_DB_CLASS=<%= config['ops']['development']['rds_db_class'] %>
 export DEV_RDS_DB_ALLOCATED_STORAGE=<%= config['ops']['development']['rds_db_allocated_storage'] %>
 export DEV_RDS_DB_ENDPOINT=<%= config['ops']['development']['rds_db_endpoint'] %>
+export DEV_RDS_ARN=<%= config['ops']['development']['rds_db_arn'] %>
+export DEV_RDS_DB_PORT=<%= config['ops']['development']['rds_db_port'] %>
+
+export DEV_EB_APP_PLATFORM=<%= config['ops']['development']['eb_app_platform'] %>
+export DEV_EB_PREFIX=dev-$APPLICATION_PREFIX
+export DEV_EB_SUFFIX=green
+export DEV_EB_ENVNAME=$DEV_EB_PREFIX-$DEV_EB_SUFFIX
+export DEV_EB_CNAME=$DEV_EB_PREFIX-$DEV_EB_SUFFIX
+export DEV_EB_URL=dev-$APPLICATION_PREFIX-$DEV_EB_SUFFIX.<%= config['ops']['development']['eb_url'] %>
+export DEV_EB_SSH_KEY=$DEV_SSH_KEY
+export DEV_EB_INSTANCE=<%= config['ops']['development']['eb_instance'] %>
+export DEV_EB_VPC_ID=$DEV_VPC_ID
+export DEV_EB_EC2_SUBNET=<%= config['ops']['development']['eb_ec2_subnet'] %>
+export DEV_EB_ELB_SUBNET=<%= config['ops']['development']['eb_elb_subnet'] %>
+export DEV_EB_ELB=<%= config['ops']['development']['eb_elb'] %>
+export DEV_EB_SSL_SRT_ID=<%= config['ops']['development']['eb_ssl_srt_id'] %>
+export DEV_EB_DB_ENGINE=<%= config['ops']['development']['eb_db_engine'] %>
+export DEV_EB_DB_SIZE=<%= config['ops']['development']['eb_db_size'] %>
+export DEV_EB_DB_INSTANCE=<%= config['ops']['development']['eb_db_instance'] %>
+export DEV_EB_DB_PASSWORD=<%= config['ops']['development']['eb_db_password'] %>
+export DEV_EB_DB_USERNAME=<%= config['ops']['development']['eb_db_username'] %>
+export DEV_EB_DB_VERSION=<%= config['ops']['development']['eb_db_version'] %>
+export DEV_EB_DB_SUBNET_1=<%= config['ops']['development']['eb_db_subnet_1'] %>
+export DEV_EB_DB_SUBNET_2=<%= config['ops']['development']['eb_db_subnet_2'] %>
+
+export DEV_OPS_PACKAGE=$APPLICATION_PREFIX-opsw-cookbooks.tar.gz
+export DEV_CFM_OPSW_STACKNAME=$ORGANIZATION-Development-OpsWorks
+export DEV_OPSW_STACKNAME=${ORGANIZATION}Development
+export DEV_OPSW_TEMPLATE=opsworks.yml
+export DEV_OPSW_VPC_ID=$DEV_VPC_ID
+export DEV_OPSW_SUBNET_1=<%= config['ops']['development']['opsw_subnet_1'] %>
+export DEV_OPSW_SUBNET_2=<%= config['ops']['development']['opsw_subnet_2'] %>
+export DEV_OPSW_SUBNET_PUB_1=<%= config['ops']['development']['opsw_subnet_pub_1'] %>
+export DEV_OPSW_SUBNET_PUB_2=<%= config['ops']['development']['opsw_subnet_pub_2'] %>
+export DEV_OPSW_SUBNET_PRI_1=<%= config['ops']['development']['opsw_subnet_pri_1'] %>
+export DEV_OPSW_SUBNET_PRI_2=<%= config['ops']['development']['opsw_subnet_pri_2'] %>
+export DEV_OPSW_KEYNAME=$DEV_SSH_KEY_NAME
+export DEV_OPSW_STACK_ID=<%= config['ops']['development']['opsw_stack_id'] %>
+export DEV_OPSW_APP_LAYER_ID=<%= config['ops']['development']['opsw_app_layer_id'] %>
+export DEV_OPSW_APP_LAYER_SG=<%= config['ops']['development']['opsw_app_layer_sg'] %>
+export DEV_OPSW_APP_ID=<%= config['ops']['development']['opsw_app_id'] %>
+export DEV_OPSW_APP_REVISION=<%= config['ops']['development']['opsw_app_revision'] %>
+export DEV_OPSW_APP_REPO_URL=$DEV_APP_REPOSITORY
+export DEV_OPSW_APP_URL=<%= config['ops']['development']['opsw_app_url'] %>
+export DEV_OPSW_APP_JOB_ID=<%= config['ops']['development']['opsw_app_job_id'] %>
+export DEV_OPSW_APP_API_ID=<%= config['ops']['development']['opsw_app_api_id'] %>
+export DEV_OPSW_APP_BOT_ID=<%= config['ops']['development']['opsw_app_bot_id'] %>
+export DEV_OPSW_APP_JOB_REVISION=<%= config['ops']['development']['opsw_app_job_revision'] %>
+export DEV_OPSW_APP_JOB_REPO_URL=$DEV_APP_JOB_REPOSITORY
+export DEV_OPSW_APP_JOB_URL=<%= config['ops']['development']['opsw_app_job_url'] %>
+export DEV_OPSW_APP_API_REVISION=<%= config['ops']['development']['opsw_app_api_revision'] %>
+export DEV_OPSW_APP_API_REPO_URL=$DEV_APP_API_REPOSITORY
+export DEV_OPSW_APP_API_URL=<%= config['ops']['development']['opsw_app_api_url'] %>
+export DEV_OPSW_APP_BOT_REVISION=<%= config['ops']['development']['opsw_app_bot_revision'] %>
+export DEV_OPSW_APP_BOT_REPO_URL=$DEV_APP_BOT_REPOSITORY
+export DEV_OPSW_APP_BOT_URL=<%= config['ops']['development']['opsw_app_bot_url'] %>
+export DEV_OPSW_EIP=<%= config['ops']['development']['opsw_eip'] %>
+export DEV_OPSW_EIP_ID=<%= config['ops']['development']['opsw_eip_id'] %>
+export DEV_OPSW_DB_INSTANCE_ARN=$DEV_RDS_ARN
+export DEV_OPSW_DB_ADAPTER=<%= config['ops']['development']['opsw_db_adapter'] %>
+export DEV_OPSW_DB_NAME=<%= config['ops']['development']['opsw_db_name'] %>
+export DEV_OPSW_DB_JOB_NAME=<%= config['ops']['development']['opsw_db_job_name'] %>
+export DEV_OPSW_DB_API_NAME=<%= config['ops']['development']['opsw_db_api_name'] %>
+export DEV_OPSW_DB_USERNAME=<%= config['ops']['development']['opsw_db_username'] %>
+export DEV_OPSW_DB_PASSWORD=<%= config['ops']['development']['opsw_db_password'] %>
+export DEV_OPSW_DB_HOSTNAME=<%= config['ops']['development']['opsw_db_hostname'] %>
+export DEV_OPSW_DB_PORT=<%= config['ops']['development']['opsw_db_port'] %>
+export DEV_OPSW_SETUP_RECIPE=<%= config['ops']['development']['opsw_setup_recipe'] %>
+export DEV_OPSW_CONFIGURE_RECIPE=<%= config['ops']['development']['opsw_configure_recipe'] %>
+export DEV_OPSW_DEPLOY_RECIPE=<%= config['ops']['development']['opsw_deploy_recipe'] %>
+export DEV_OPSW_UNDEPLOY_RECIPE=<%= config['ops']['development']['opsw_undeploy_recipe'] %>
+export DEV_OPSW_SHUTDOWN_RECIPE=<%= config['ops']['development']['opsw_shutdown_recipe'] %>
+export DEV_OPSW_ELB_NAME=$APPLICATION_PREFIX-$DEV_APP_ENV
+export DEV_OPSW_ELB_CERT_ARN=<%= config['ops']['development']['opsw_elb_cert_arn'] %>
+export DEV_OPSW_ELB_SG=$DEV_OPSW_APP_LAYER_SG
+export DEV_OPSW_ELB_SUBNET_1=<%= config['ops']['development']['opsw_elb_subnet_1'] %>
+export DEV_OPSW_ELB_SUBNET_2=<%= config['ops']['development']['opsw_elb_subnet_2'] %>
+export DEV_OPSW_INSTANCE_TYPE=<%= config['ops']['development']['opsw_ec2_instance_class'] %>
+export DEV_OPSW_OS="<%= config['ops']['development']['opsw_os'] %>"

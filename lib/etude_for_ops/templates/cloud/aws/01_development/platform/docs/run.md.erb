@@ -1,117 +1,14 @@
-### セットアップ
 ```bash
-chmod 0766 ops/01_development/src/run/sh/run.sh
-ops/01_development/src/run/sh/run.sh
+chmod 0766 ops/03_production/src/run/sh/run.sh
+ops/03_production/src/run/sh/run.sh
 ```
 
 ### 秘密鍵の保存
 ```
 $ cd /vagrant/config/secure/
-$ aws s3 cp ./$DEV_SSH_KEY s3://$S3_BACKET/development/config/secure/$DEV_SSH_KEY
+$ aws s3 cp ./$DEV_SSH_KEY s3://$S3_BACKET/production/config/secure/$DEV_SSH_KEY
 ```
 保存した秘密鍵を取り出すには以下の操作をする
 ```
-$ aws s3 cp s3://$S3_BACKET/development/config/secure/$DEV_SSH_KEY ./
+$ aws s3 cp s3://$S3_BACKET/production/config/secure/$DEV_SSH_KEY ./
 ```
-
-### メンテナンスモード
-メンテナンス開始
-
-```bash
-bundle exec cap maintenance:enable
-```
-理由と時間付き
-```bash
-bundle exec cap maintenance:enable REASON="アプリケーション保守" UNTIL="午前７時"
-```
-メンテナンス終了
-```bash
-bundle exec cap maintenance:disable
-```
-
-### データのバックアップ
-#### エクスポート
-ローカル
-```bash
-./bin/rake db:dump_all
-```
-
-リモート
-```bash
-bundle exec cap db:dump_all
-```
-
-#### インポート
-ローカル
-```bash
-./bin/rake db:import_all
-```
-
-ファイル名オプション
-```bash
-./bin/rake db:import_all[2017-09-12]
-```
-
-リモート
-```bash
-bundle exec cap db:import_all
-```
-
-ファイル名オプション
-```bash
-bundle exec cap db:import_all[2017-09-12]
-```
-
-#### バックアップファイルの管理
-アップロード
-```bash
-bundle exec cap db:dump_upload
-```
-
-ファイル名オプション
-```bash
-bundle exec cap db:dump_upload[2017-09-12]
-```
-
-
-ダウンロード
-```bash
-bundle exec cap db:dump_download
-```
-
-#### バックアップファイルの整理
-ローカル
-```bash
-./bin/rake db:dump_clean
-```
-
-リモート
-```bash
-bundle exec cap db:dump_clean
-```
-
-### スケジューラの設定
-```ruby:Gemfile
-# crontab管理
-gem 'whenever', require: false
-```
-
-`config/schedule.rb`を編集する
-
-### Active Jobの設定
-```ruby:Gemfile
-# Sidekiq
-gem 'sidekiq'
-gem 'sinatra', require: false
-gem 'redis-namespace'
-```
-
-```ruby:config/application.rb
-config.active_job.queue_adapter = :sidekiq
-````
-
-```ruby:config/routes.rb
-require 'sidekiq/web'
-mount Sidekiq::Web => '/sidekiq'
-```
-

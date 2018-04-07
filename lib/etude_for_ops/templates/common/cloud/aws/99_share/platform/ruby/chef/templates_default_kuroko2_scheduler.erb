@@ -24,7 +24,7 @@ PIDFILE=$PID_DIR/job-scheduler.pid
 
 start() {
 cd $APP_DIR
-daemon --pidfile=$PIDFILE --user=$USER RAILS_ENV=$RAILS_ENV $BUNDLE exec rails runner 'Kuroko2::Servers::JobScheduler.new.run'
+daemon --pidfile=$PIDFILE --user=$USER RAILS_ENV=$RAILS_ENV $BUNDLE exec rails runner 'Kuroko2::Servers::JobScheduler.new.run' &
 }
 
 stop() {

@@ -6,28 +6,28 @@ RDS_USERNAME=$<%= params[:eb_rds_username] %>
 RDS_PASSWORD=$<%= params[:eb_rds_password] %>
 RDS_HOSTNAME=$<%= params[:eb_rds_hostname] %>
 RDS_PORT=$<%= params[:eb_rds_port] %>
-STG_URL=$<%= params[:eb_eb_url] %>
-BACKET=$<%= params[:eb_backet] %>
+URL=$<%= params[:eb_url] %>
+S3_BACKET=$<%= params[:eb_backet] %>
 
 echo "**********************************"
 echo RACK_ENV:$RAILS_ENV
 echo SECRET_KEY_BASE:$SECRET_KEY_BASE
-echo STG_URL:$STG_URL
-echo STG_RDS_DB_NAME:$STG_RDS_DB_NAME
-echo STG_RDS_USERNAME:$STG_RDS_USERNAME
-echo STG_RDS_PASSWORD:$STG_RDS_PASSWORD
-echo STG_RDS_HOSTNAME:$STG_RDS_HOSTNAME
-echo STG_RDS_PORT:$STG_RDS_PORT
-echo S3_BACKET:$STG_S3_BACKET
+echo URL:$URL
+echo RDS_DB_NAME:$RDS_DB_NAME
+echo RDS_USERNAME:$RDS_USERNAME
+echo RDS_PASSWORD:$RDS_PASSWORD
+echo RDS_HOSTNAME:$RDS_HOSTNAME
+echo RDS_PORT:$RDS_PORT
+echo S3_BACKET:$S3_BACKET
 echo "**********************************"
 
-eb use $STG_EB_ENVNAME
+eb use $EB_ENVNAME
 eb setenv RACK_ENV=$RAILS_ENV \
           SECRET_KEY_BASE=$SECRET_KEY_BASE \
-          STG_URL=$STG_URL \
-          STG_RDS_DB_NAME=$STG_RDS_DB_NAME \
-          STG_RDS_USERNAME=$STG_RDS_USERNAME \
-          STG_RDS_PASSWORD=$STG_RDS_PASSWORD \
-          STG_RDS_HOSTNAME=$STG_RDS_HOSTNAME \
-          STG_RDS_PORT=$STG_RDS_PORT \
-          S3_BACKET=$STG_S3_BACKET
+          URL=$URL \
+          RDS_DB_NAME=$RDS_DB_NAME \
+          RDS_USERNAME=$RDS_USERNAME \
+          RDS_PASSWORD=$RDS_PASSWORD \
+          RDS_HOSTNAME=$RDS_HOSTNAME \
+          RDS_PORT=$RDS_PORT \
+          S3_BACKET=$S3_BACKET

@@ -42,6 +42,36 @@ module EtudeForOps
 
       params = {}
       if @platform.params[:env] == 'Development'
+        params[:eb_application_name] = 'DEV_APPLICATION_NAME'
+        params[:eb_ssh_key] = 'DEV_SSH_KEY_NAME'
+        params[:eb_app_platform] = 'DEV_EB_APP_PLATFORM'
+        params[:eb_region] = 'AWS_DEFAULT_REGION'
+
+        params[:eb_envname] = 'DEV_EB_ENVNAME'
+        params[:eb_cname] ='DEV_EB_CNAME'
+        params[:eb_vpc_id] = 'DEV_EB_VPC_ID'
+        params[:eb_elb_subnet] = 'DEV_EB_ELB_SUBNET'
+        params[:eb_ec2_subnet] =  'DEV_EB_EC2_SUBNET'
+        params[:eb_instance] = 'DEV_EB_INSTANCE'
+        params[:eb_ssh_key_name] = 'DEV_SSH_KEY_NAME'
+        params[:eb_db_engine] = 'DEV_EB_DB_ENGINE'
+        params[:eb_db_size] = 'DEV_EB_DB_SIZE'
+        params[:eb_db_instance] = 'DEV_EB_DB_INSTANCE'
+        params[:eb_db_password] = 'DEV_EB_DB_PASSWORD'
+        params[:eb_db_username] = 'DEV_EB_DB_USERNAME'
+        params[:eb_db_version] = 'DEV_EB_DB_VERSION'
+        params[:eb_db_subnet_1] = 'DEV_EB_DB_SUBNET_1'
+        params[:eb_db_subnet_2] = 'DEV_EB_DB_SUBNET_2'
+
+        params[:eb_app_env] = 'DEV_APP_ENV'
+        params[:eb_app_secret_key_base] = 'DEV_APP_SECRET_KEY_BASE'
+        params[:eb_rds_db_name] = 'DEV_RDS_DB_NAME'
+        params[:eb_rds_username] = 'DEV_RDS_DB_USER_NAME'
+        params[:eb_rds_password] = 'DEV_RDS_DB_PASSWORD'
+        params[:eb_rds_hostname] = 'DEV_RDS_DB_ENDPOINT'
+        params[:eb_rds_port] = 'DEV_RDS_DB_PORT'
+        params[:eb_url] = 'DEV_EB_URL'
+        params[:eb_backet] = 'DEV_S3_BACKET'
       end
 
       if @platform.params[:env] == 'Staging'
@@ -69,12 +99,12 @@ module EtudeForOps
         params[:eb_app_env] = 'STG_APP_ENV'
         params[:eb_app_secret_key_base] = 'STG_APP_SECRET_KEY_BASE'
         params[:eb_rds_db_name] = 'STG_RDS_DB_NAME'
-        params[:eb_rds_username] = 'STG_RDS_USERNAME'
-        params[:eb_rds_password] = 'STG_RDS_PASSWORD'
-        params[:eb_rds_hostname] = 'STG_RDS_HOSTNAME'
-        params[:eb_rds_port] = 'STG_RDS_PORT'
+        params[:eb_rds_username] = 'STG_RDS_DB_USER_NAME'
+        params[:eb_rds_password] = 'STG_RDS_DB_PASSWORD'
+        params[:eb_rds_hostname] = 'STG_RDS_DB_ENDPOINT'
+        params[:eb_rds_port] = 'STG_RDS_DB_PORT'
         params[:eb_url] = 'STG_EB_URL'
-        params[:eb_backet] = 'BACKET'
+        params[:eb_backet] = 'STG_S3_BACKET'
       end
 
       if @platform.params[:env] == 'Production'
@@ -102,12 +132,12 @@ module EtudeForOps
         params[:eb_app_env] = 'PRD_APP_ENV'
         params[:eb_app_secret_key_base] = 'PRD_APP_SECRET_KEY_BASE'
         params[:eb_rds_db_name] = 'PRD_RDS_DB_NAME'
-        params[:eb_rds_username] = 'PRD_RDS_USERNAME'
-        params[:eb_rds_password] = 'PRD_RDS_PASSWORD'
-        params[:eb_rds_hostname] = 'PRD_RDS_HOSTNAME'
-        params[:eb_rds_port] = 'PRD_RDS_PORT'
+        params[:eb_rds_username] = 'PRD_RDS_DB_USER_NAME'
+        params[:eb_rds_password] = 'PRD_RDS_DB_PASSWORD'
+        params[:eb_rds_hostname] = 'PRD_RDS_DB_ENDPOINT'
+        params[:eb_rds_port] = 'PRD_RDS_DB_PORT'
         params[:eb_url] = 'PRD_EB_URL'
-        params[:eb_backet] = 'BACKET'
+        params[:eb_backet] = 'PRD_S3_BACKET'
       end
 
       create_put_bind_template_files(src_build_dir,erb_files,params)

@@ -1,0 +1,14 @@
+### メンテナンスモード
+メンテナンス開始
+
+```bash
+bundle exec cap maintenance:enable
+```
+理由と時間付き
+```bash
+bundle exec cap maintenance:enable REASON="アプリケーション保守" UNTIL="午前７時"
+```
+メンテナンス終了
+```bash
+bundle exec cap maintenance:disable
+```

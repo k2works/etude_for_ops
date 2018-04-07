@@ -1,12 +1,12 @@
 #!/bin/bash
 # chkconfig: 345 99 20
-# description: Kuroko2 processor
-# processname: kuroko2_processor
+# description: Kuroko2 foreman
+# processname: kuroko2_foreman
 
 # Include RedHat function library
 . /etc/rc.d/init.d/functions
 
-NAME=kuroko2_processor
+NAME=kuroko2_foreman
 USER=<%= @user %>
 APP_NAME=<%= @app %>
 APP_DIR=<%= @app_path %>/current
@@ -19,16 +19,16 @@ RAILS_ENV=<%= @rails_env %>
 sudo -u $USER -H sh -c "mkdir -p $PID_DIR"
 sudo -u $USER -H sh -c "mkdir -p $LOG_DIR"
 
-PIDFILE=$PID_DIR/workflow-processor.pid
+PIDFILE=$PID_DIR/command-foreman.pid
 
 
 start() {
 cd $APP_DIR
-daemon --pidfile=$PIDFILE --user=$USER RAILS_ENV=$RAILS_ENV $BUNDLE exec rails runner 'Kuroko2::Servers::WorkflowProcessor.new.run' &
+daemon --pidfile=$PIDFILE --user=$USER RAILS_ENV=$RAILS_ENV $BUNDLE exec foreman start &
 }
 
 stop() {
-echo -n "Stopping Kuroko2 Executor"
+echo -n "Stopping Kuroko2 foreman"
 kill -s SIGTERM `cat $PIDFILE`
 }
 

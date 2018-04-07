@@ -1,0 +1,57 @@
+#### CodeCommit
+##### CodeCommit用SSH設定
+IAMユーザーにアップロード
+
+```
+IAM_USER=${DEV_IAM_USER_NAME}
+SSH_NAME=~/.ssh/${DEV_APP_REPOSITORY_SSH_KEY}
+SSH_PUBKEY=$(cat ${SSH_NAME}.pub)
+SSH_PUBKEY_ID=$(aws iam upload-ssh-public-key \
+--user-name ${IAM_USER} \
+--ssh-public-key-body "${SSH_PUBKEY}" \
+--output text \
+--query SSHPublicKey.SSHPublicKeyId) && echo ${SSH_PUBKEY_ID}
+```
+`ops.yml`のiam_ssh_pubkey_idにSSH_PUBKEY_IDの値をセットする
+
+##### 確認およびconfig用テキスト作成
+
+```
+cat << ETX
+Host git-codecommit.*.amazonaws.com
+  User ${SSH_PUBKEY_ID}
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+  IdentityFile ${SSH_NAME}
+ETX
+```
+
+結果を ~/.ssh/configに追加
+
+##### 接続確認
+
+```
+ssh git-codecommit.ap-northeast-1.amazonaws.com
+```
+
+##### CodeCommit用のHTTPS認証ヘルパー設定
+
+${IAM_USER}には直接値をいれること
+```
+git config --global credential.helper '!aws --profile ${IAM_USER} codecommit credential-helper $@'
+git config --global credential.UseHttpPath true
+```
+
+##### テストレポジトリを作成しcloneしてみる
+
+```
+REPO_NAME=${APPLICATION_NAME}Test
+aws codecommit create-repository --repository-name ${REPO_NAME} \
+--repository-description "codecommit test"
+```
+
+##### リポジトリの削除
+
+```
+aws codecommit delete-repository --repository-name ${REPO_NAME}
+```

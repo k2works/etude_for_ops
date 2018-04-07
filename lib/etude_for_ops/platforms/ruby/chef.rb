@@ -227,6 +227,7 @@ module EtudeForOps
         templates_default_puma.rb
         templates_default_sidekiq.yml
         templates_default_zabbix_server.conf
+        templates_default_kuroko2_foreman
         templates_default_kuroko2_executor
         templates_default_kuroko2_executor.service
         templates_default_kuroko2_processor

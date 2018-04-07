@@ -6,10 +6,10 @@ APP_PLATFORM=$<%= params[:eb_app_platform] %>
 REGION=$<%= params[:eb_region] %>
 
 echo "**********************************"
-echo APPLICATION_NAME:$STG_APPLICATION_NAME
-echo SSH_KEY:$STG_SSH_KEY_NAME
-echo APP_PLATFORM:$STG_APP_PLATFORM
-echo REGION:$AWS_DEFAULT_REGION
+echo APPLICATION_NAME:$APPLICATION_NAME
+echo SSH_KEY:$SSH_KEY
+echo APP_PLATFORM:$APP_PLATFORM
+echo REGION:$REGION
 echo "**********************************"
 
 eb init $APPLICATION_NAME \

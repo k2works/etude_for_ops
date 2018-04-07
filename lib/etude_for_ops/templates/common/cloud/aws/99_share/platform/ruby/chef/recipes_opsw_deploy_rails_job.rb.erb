@@ -100,6 +100,12 @@ node['app_name_short_job'].each do |app_name|
         }
     )
 
+    if (app['environment']['RAILS_ENV'] == 'development' || app['environment']['RAILS_ENV'] == 'test') then
+      bundle_without = ""
+    else
+      bundle_without = "--without development test"
+    end
+
     before_migrate do
       ENV['S3_ACCESS_KEY'] = app['environment']['S3_ACCESS_KEY']
       ENV['S3_SECRET_KEY'] = app['environment']['S3_SECRET_KEY']
@@ -184,7 +190,7 @@ node['app_name_short_job'].each do |app_name|
         user user
         group group
         cwd release_path
-        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} --without development test"
+        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} #{bundle_without}"
         action :run
       end
     end
@@ -221,11 +227,31 @@ node['app_name_short_job'].each do |app_name|
         )
       end
 
-      service "puma_#{app['shortname']}" do
+      template "kuroko2_foreman_#{app['shortname']}" do
+        path "/etc/init.d/kuroko2_foreman_#{app['shortname']}"
+        source "kuroko2_foreman.erb"
+        owner user
+        group group
+        mode 0755
+
+        variables(
+            user: user,
+            app: app['shortname'],
+            app_path: app_path,
+            rails_env: app['environment']['RAILS_ENV']
+        )
+      end
+
+      service "kuroko2_foreman_#{app['shortname']}" do
         supports :status => true, :restrart => true, :reload => true
         action [ :enable, :start ]
       end
 
+      service "puma_#{app['shortname']}" do
+        supports :status => true, :restrart => true, :reload => true
+        action [ :enable, :start ]
+      end
+=begin
       template "kuroko2_executor_#{app['shortname']}" do
         path "/etc/init.d/kuroko2_executor_#{app['shortname']}"
         source "kuroko2_executor.erb"
@@ -300,7 +326,7 @@ node['app_name_short_job'].each do |app_name|
         supports :status => true, :restrart => true, :reload => true
         action [ :enable, :start ]
       end
-
+=end
 
       domains.each do |domain|
         template "/etc/nginx/conf.d/#{app['shortname']}_#{domain}.conf" do

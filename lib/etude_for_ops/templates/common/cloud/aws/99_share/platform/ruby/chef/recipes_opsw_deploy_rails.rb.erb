@@ -88,6 +88,12 @@ node['app_name_short'].each do |app_name|
 
     create_dirs_before_symlink %w[tmp]
 
+    if (app['environment']['RAILS_ENV'] == 'development' || app['environment']['RAILS_ENV'] == 'test') then
+      bundle_without = ""
+    else
+      bundle_without = "--without development test"
+    end
+
     symlinks 'public/system' => 'public/system',
              'public/assets' => 'public/assets',
              'pids' => 'tmp/pids',
@@ -177,7 +183,7 @@ node['app_name_short'].each do |app_name|
         user user
         group group
         cwd release_path
-        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} --without development test"
+        command "/home/#{user}/.rbenv/shims/bundle install --path #{File.expand_path('../../shared/bundle', release_path)} #{bundle_without}"
         action :run
       end
     end

@@ -24,7 +24,7 @@ module EtudeForOps
 
         params[:default_az1] = config['ops']['development']['aws_az_1']
         params[:default_az2] = config['ops']['development']['aws_az_2']
-        params[:iam_user_group] = config['ops']['share']['organization']
+        params[:iam_user_group] = config['ops']['development']['iam_user_group']
         params[:iam_user_name] = config['ops']['development']['iam_user_name']
         params[:iam_user_password] = config['ops']['development']['iam_user_password']
         params[:vpc_id] = config['ops']['development']['vpc_id']
@@ -39,6 +39,18 @@ module EtudeForOps
         params[:rds_db_password] = config['ops']['development']['rds_db_password']
         params[:rds_db_class] = config['ops']['development']['rds_db_class']
         params[:rds_db_allocated_storage] = config['ops']['development']['rds_db_allocated_storage']
+
+        params[:opsw_cookbook_password] = config['ops']['development']['opsw_cookbook_password']
+        params[:opsw_cookbook_type] = config['ops']['development']['opsw_cookbook_type']
+        params[:opsw_cookbook_url] = config['ops']['development']['opsw_cookbook_url']
+        params[:opsw_cookbook_username] = config['ops']['development']['opsw_cookbook_username']
+        params[:opsw_az_1] = config['ops']['development']['aws_az_1']
+        params[:opsw_os] = config['ops']['development']['opsw_os']
+        params[:opsw_ec2_instance_class] = config['ops']['development']['opsw_ec2_instance_class']
+        params[:opsw_elb_name] = config['ops']['development']['opsw_elb_name']
+        params[:opsw_elb_cert_arn] = config['ops']['development']['opsw_elb_cert_arn']
+        params[:opsw_elb_subnet_1] = config['ops']['development']['opsw_elb_subnet_1']
+        params[:opsw_elb_subnet_2] = config['ops']['development']['opsw_elb_subnet_2']
       end
 
       if params[:env] == 'Staging'

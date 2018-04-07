@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-cd /vagrant/build
-rm -rf cookbooks
-berks vendor cookbooks
-sudo chef-client -z -j provision.json

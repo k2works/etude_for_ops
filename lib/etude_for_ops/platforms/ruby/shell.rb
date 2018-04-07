@@ -34,6 +34,10 @@ module EtudeForOps
       "#{@platform.tmp_file_dir}/platform/ruby/sh/#{file}.erb"
     end
 
+    def erb_share_file(file)
+      "#{@platform.tmp_share_file_dir}/platform/ruby/sh/#{file}.erb"
+    end
+
     def create_build_files
       FileUtils.mkdir_p(src_build_dir, mode: 0o755)
 

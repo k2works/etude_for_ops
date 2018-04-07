@@ -1,0 +1,23 @@
+#### OpsWorks
+
+##### スタックの作成
+```
+$ cd /vagrant/src/build/aws/opsworks/
+$ chmod 0755 ./opsworks_create_stack.sh
+$ aws cloudformation validate-template --template-body file://$DEV_OPSW_TEMPLATE
+$ ./opsworks_create_stack.sh
+```
+
+作成されたOpsWorksスタックID/アプリケーションID/アプリケーションレイヤーID/EIPを`/ops/ops.yml`に反映させて環境変数を読み込み直す
+```
+$ aws cloudformation list-stack-resources --stack-name $DEV_CFM_OPSW_STACKNAME --output table
+$ aws ec2 describe-addresses --output table
+```
+
+##### スタックの更新
+```
+$ cd /vagrant/src/build/aws/opsworks/
+$ chmod 0755 ./opsworks_update_stack.sh
+$ aws cloudformation validate-template --template-body file://$DEV_OPSW_TEMPLATE
+$ ./opsworks_update_stack.sh
+```

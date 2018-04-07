@@ -45,6 +45,29 @@ module EtudeForOps
 
       params = {}
       if @platform.params[:env] == 'Development'
+        params[:application_name] = @platform.params[:application_name]
+        params[:application_name_short] = @platform.params[:application_name].downcase
+        params[:opsw_cookbook_password] = @platform.params[:opsw_cookbook_password]
+        params[:opsw_cookbook_type] = @platform.params[:opsw_cookbook_type]
+        params[:opsw_cookbook_url] = @platform.params[:opsw_cookbook_url]
+        params[:opsw_cookbook_username] = @platform.params[:opsw_cookbook_username]
+        params[:opsw_az_1] = @platform.params[:opsw_az_1]
+        params[:opsw_os] = @platform.params[:opsw_os]
+        params[:opsw_ec2_instance_class] = @platform.params[:opsw_ec2_instance_class]
+
+        params[:cfm_opsw_stackname] = 'DEV_CFM_OPSW_STACKNAME'
+        params[:opsw_stackname] = 'DEV_OPSW_STACKNAME'
+        params[:opsw_template] = 'DEV_OPSW_TEMPLATE'
+        params[:opsw_tagkey] = 'DEV_TAGKEY'
+        params[:opsw_tagvalue] = 'DEV_TAGVALUE'
+        params[:opsw_vpc_id] = 'DEV_VPC_ID'
+        params[:opsw_subnet_pub_1] = 'DEV_OPSW_SUBNET_PUB_1'
+        params[:opsw_subnet_pub_2] = 'DEV_OPSW_SUBNET_PUB_2'
+        params[:opsw_subnet_pri_1] = 'DEV_OPSW_SUBNET_PRI_1'
+        params[:opsw_subnet_pri_2]= 'DEV_OPSW_SUBNET_PRI_2'
+        params[:opsw_keyname] = 'DEV_OPSW_KEYNAME'
+        params[:opsw_elb_name] = 'DEV_OPSW_ELB_NAME'
+        params[:opsw_elb_cert_arn] = 'DEV_OPSW_ELB_CERT_ARN'
       end
 
       if @platform.params[:env] == 'Staging'
@@ -118,6 +141,7 @@ module EtudeForOps
         opsworks_update_app_api.sh
         opsworks_update_app_api_without_rds.sh
         opsworks_update_app_bot.sh
+        opsworks_update_app_bot_without_rds.sh
         opsworks_create_elb.sh
         opsworks_create_instance.sh
         opsworks_deploy_app.sh
@@ -129,6 +153,79 @@ module EtudeForOps
 
       params = {}
       if @platform.params[:env] == 'Development'
+        params[:opsw_app_id] = 'DEV_OPSW_APP_ID'
+        params[:opsw_app_job_id] = 'DEV_OPSW_APP_JOB_ID'
+        params[:opsw_app_api_id] = 'DEV_OPSW_APP_API_ID'
+        params[:opsw_app_bot_id] = 'DEV_OPSW_APP_BOT_ID'
+        params[:opsw_rds_db_instance_arn] = 'DEV_OPSW_RDS_DB_INSTANCE_ARN'
+        params[:opsw_rds_db_name] = 'DEV_RDS_DB_NAME'
+        params[:opsw_rds_db_username] = 'DEV_RDS_DB_USER_NAME'
+        params[:opsw_rds_db_password] = 'DEV_RDS_DB_PASSWORD'
+        params[:opsw_db_name] = 'DEV_DB_NAME'
+        params[:opsw_app_env] = 'DEV_APP_ENV'
+        params[:opsw_app_secret_key_base] = 'DEV_APP_SECRET_KEY_BASE'
+        params[:opsw_db_adapter] = 'DEV_OPSW_DB_ADAPTER'
+        params[:opsw_db_name] = 'DEV_OPSW_DB_NAME'
+        params[:opsw_db_job_name] = 'DEV_OPSW_DB_JOB_NAME'
+        params[:opsw_db_api_name] = 'DEV_OPSW_DB_API_NAME'
+        params[:opsw_db_username] = 'DEV_OPSW_DB_USERNAME'
+        params[:opsw_db_password] = 'DEV_OPSW_DB_PASSWORD'
+        params[:opsw_db_hostname] = 'DEV_OPSW_DB_HOSTNAME'
+        params[:opsw_db_port] = 'DEV_OPSW_DB_PORT'
+        params[:opsw_backet] = 'DEV_S3_BACKET'
+        params[:opsw_app_url] = 'DEV_OPSW_APP_URL'
+        params[:opsw_app_revision] = 'DEV_OPSW_APP_REVISION'
+        params[:opsw_app_repo_url] = 'DEV_OPSW_APP_REPO_URL'
+        params[:opsw_app_job_url] = 'DEV_OPSW_APP_JOB_URL'
+        params[:opsw_app_job_revision] = 'DEV_OPSW_APP_JOB_REVISION'
+        params[:opsw_app_job_repo_url] = 'DEV_OPSW_APP_JOB_REPO_URL'
+        params[:opsw_app_api_url] = 'DEV_OPSW_APP_API_URL'
+        params[:opsw_app_api_revision] = 'DEV_OPSW_APP_API_REVISION'
+        params[:opsw_app_api_repo_url] = 'DEV_OPSW_APP_API_REPO_URL'
+        params[:opsw_app_bot_url] = 'DEV_OPSW_APP_BOT_URL'
+        params[:opsw_app_bot_revision] = 'DEV_OPSW_APP_BOT_REVISION'
+        params[:opsw_app_bot_repo_url] = 'DEV_OPSW_APP_BOT_REPO_URL'
+
+        params[:opsw_elb_subnet_1] = 'DEV_OPSW_ELB_SUBNET_1'
+        params[:opsw_elb_subnet_2] = 'DEV_OPSW_ELB_SUBNET_2'
+        params[:opsw_elb_name] = 'DEV_OPSW_ELB_NAME'
+        params[:opsw_ssl_cert] = 'DEV_OPSW_SSL_CERT'
+        params[:opsw_app_layer_id] = 'DEV_OPSW_APP_LAYER_ID'
+        params[:opsw_app_layer_sg] = 'DEV_OPSW_APP_LAYER_SG'
+
+        params[:cfm_opsw_stackname] = 'DEV_CFM_OPSW_STACKNAME'
+        params[:opsw_stackname] = 'DEV_OPSW_STACKNAME'
+        params[:opsw_template] = 'DEV_OPSW_TEMPLATE'
+        params[:opsw_tagkey] = 'DEV_TAGKEY'
+        params[:opsw_tagvalue] = 'DEV_TAGVALUE'
+        params[:opsw_vpc_id] = 'DEV_VPC_ID'
+        params[:opsw_subnet_pub_1] = 'DEV_OPSW_SUBNET_PUB_1'
+        params[:opsw_subnet_pub_2] = 'DEV_OPSW_SUBNET_PUB_2'
+        params[:opsw_subnet_pri_1] = 'DEV_OPSW_SUBNET_PRI_1'
+        params[:opsw_subnet_pri_2]= 'DEV_OPSW_SUBNET_PRI_2'
+        params[:opsw_keyname] = 'DEV_OPSW_KEYNAME'
+        params[:opsw_ssl_cert] = 'DEV_OPSW_SSL_CERT'
+
+        params[:opsw_stack_id] = 'DEV_OPSW_STACK_ID'
+        params[:opsw_app_id] =  'DEV_OPSW_APP_ID'
+        params[:opsw_eip] = 'DEV_OPSW_EIP'
+        params[:opsw_rds_db_instance_arn] = 'DEV_OPSW_DB_INSTANCE_ARN'
+        params[:opsw_db_user] = 'DEV_OPSW_DB_USERNAME'
+        params[:opsw_db_password] = 'DEV_OPSW_DB_PASSWORD'
+
+        params[:opsw_instance_id] = 'DEV_OPSW_INSTANCE_ID'
+        params[:opsw_eip] = 'DEV_OPSW_EIP'
+
+        params[:opsw_setup_recipe] = 'DEV_OPSW_SETUP_RECIPE'
+        params[:opsw_configure_recipe] = 'DEV_OPSW_CONFIGURE_RECIPE'
+        params[:opsw_deploy_recipe] = 'DEV_OPSW_DEPLOY_RECIPE'
+        params[:opsw_undeploy_recipe] = 'DEV_OPSW_UNDEPLOY_RECIPE'
+        params[:opsw_shutdown_recipe] = 'DEV_OPSW_SHUTDOWN_RECIPE'
+        params[:opsw_ec2_instance_class] = 'DEV_OPSW_INSTANCE_TYPE'
+        params[:opsw_os] = 'DEV_OPSW_OS'
+
+        params[:opsw_s3_access_key] = 'AWS_ACCESS_KEY_ID'
+        params[:opsw_s3_secret_key] = 'AWS_SECRET_ACCESS_KEY'
       end
 
       if @platform.params[:env] == 'Staging'

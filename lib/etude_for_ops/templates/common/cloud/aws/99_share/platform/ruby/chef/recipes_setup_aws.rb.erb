@@ -1,12 +1,26 @@
 include_recipe 'awscli'
 include_recipe 'aws'
 
+user = node['user']
+
 execute 'install pip' do
+  user user
+  cwd  "home/#{user}"
   command 'curl -kL https://bootstrap.pypa.io/get-pip.py | python'
+  environment(
+      'HOME' => "home/#{user}",
+      'USER' =>  user,
+      )
 end
 
 execute 'install awsebcli' do
+  user user
+  cwd  "home/#{user}"
   command 'pip install awsebcli --upgrade --user'
+  environment(
+      'HOME' => "home/#{user}",
+      'USER' =>  user,
+      )
 end
 
 bash "install Amazon ECS CLI" do
