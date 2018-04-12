@@ -1,0 +1,40 @@
+user = node['ec2_user']
+group = node['ec2_group']
+
+include_recipe 'java'
+include_recipe 'jenkins::master'
+
+# For Jenkins
+user "jenkins" do
+  password "$1$NK7CEczt$84diJRinF934T6F/ytIGy1" # openssl passwd -1 'jenkins'
+  supports :manage_home => true
+  action :create
+end
+
+if node['etc']['passwd']['vagrant']
+  %w[vagrant docker].each do |gr|
+    group gr do
+      action [:modify]
+      members ["jenkins"]
+      append true
+    end
+  end
+end
+
+if node['etc']['passwd']['ec2-user'] && node['etc']['passwd']['docker']
+  %w[ec2-user docker].each do |gr|
+    group gr do
+      action [:modify]
+      members ["jenkins"]
+      append true
+    end
+  end
+end
+
+template '/etc/sysconfig/jenkins' do
+  source 'jenkins.erb'
+  user user
+  group group
+  mode '0644'
+end
+

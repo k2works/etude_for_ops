@@ -84,6 +84,7 @@ module EtudeForOps
         recipes_setup_elasticsearch.rb
         recipes_setup_docker.rb
         recipes_setup_jenkins.rb
+        recipes_setup_jenkins_ec2.rb
         recipes_setup_aws.rb
         recipes_setup_vagrant.rb
         recipes_setup_zabbix.rb
