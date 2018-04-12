@@ -511,6 +511,18 @@ Resources:
           FromPort: '22'
           ToPort: '22'
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '8065'
+          ToPort: '8065'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '1050'
+          ToPort: '1050'
+          CidrIp: 172.16.2.1/32
+        - IpProtocol: tcp
+          FromPort: '1051'
+          ToPort: '1051'
+          CidrIp: 172.16.1.1/32
   ElasticLoadBalancer:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
