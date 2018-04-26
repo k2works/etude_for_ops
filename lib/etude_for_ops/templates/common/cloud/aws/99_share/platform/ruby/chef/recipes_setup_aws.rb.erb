@@ -4,23 +4,22 @@ include_recipe 'aws'
 user = node['user']
 
 execute 'install pip' do
-  user user
-  cwd  "home/#{user}"
   command 'curl -kL https://bootstrap.pypa.io/get-pip.py | python'
-  environment(
-      'HOME' => "home/#{user}",
-      'USER' =>  user,
-      )
+end
+
+# https://github.com/docker/compose/issues/5883
+execute 'reinstall pip' do
+  command 'pip install --upgrade --force-reinstall pip==9.0.3'
 end
 
 execute 'install awsebcli' do
   user user
-  cwd  "home/#{user}"
-  command 'pip install awsebcli --upgrade --user'
+  cwd "home/#{user}"
+  command 'sudo pip install awsebcli --upgrade --user'
   environment(
       'HOME' => "home/#{user}",
-      'USER' =>  user,
-      )
+      'USER' => user,
+  )
 end
 
 bash "install Amazon ECS CLI" do

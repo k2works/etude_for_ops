@@ -12,6 +12,11 @@ execute 'install pip' do
   command 'curl -kL https://bootstrap.pypa.io/get-pip.py | python'
 end
 
+# https://github.com/docker/compose/issues/5883
+execute 'reinstall pip' do
+  command 'pip install --upgrade --force-reinstall pip==9.0.3'
+end
+
 execute 'install docker-compose' do
   command 'pip install docker-compose'
 end
