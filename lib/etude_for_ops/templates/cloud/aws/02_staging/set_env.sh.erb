@@ -31,6 +31,7 @@ export STG_IAM_USER_NAME=<%= config['ops']['staging']['iam_user_name'] %>@${AWS_
 export STG_IAM_SSH_PUBKEY_ID=<%= config['ops']['staging']['iam_ssh_pubkey_id'] %>
 
 export STG_S3_BACKET=${S3_BACKET}-staging
+export STG_ECR_REPOSITORY=<%= config['ops']['share']['ecr_repository'] %>-staging
 
 export STG_VPC_STACKNAME=$ORGANIZATION-Staging-VPC
 export STG_VPC_TEMPLATE=<%= config['ops']['staging']['vpc_template'] %>

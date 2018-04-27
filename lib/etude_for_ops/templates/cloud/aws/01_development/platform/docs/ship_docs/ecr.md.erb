@@ -1,0 +1,11 @@
+#### ECR
+
+##### コンテナのビルド
+```
+$(aws ecr get-login --no-include-email)
+docker build -t ${DEV_ECR_REPOSITORY}:base .
+docker tag ${DEV_ECR_REPOSITORY}:base
+export ECR_REP_URL=411087959999.dkr.ecr.us-east-1.amazonaws.com
+docker tag ${DEV_ECR_REPOSITORY}:base ${ECR_REP_URL}/${DEV_ECR_REPOSITORY}:base
+docker push ${ECR_REP_URL}/${DEV_ECR_REPOSITORY}:base
+```

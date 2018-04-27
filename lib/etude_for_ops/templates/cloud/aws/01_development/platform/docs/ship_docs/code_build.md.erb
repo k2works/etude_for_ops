@@ -1,0 +1,19 @@
+#### CodeBuild
+
+##### サービスロールを作成する
+```
+cd /vagrant/src/ship/aws/code_build
+aws iam create-role --role-name CodeBuildServiceRole --assume-role-policy-document file://create-role.json
+aws iam put-role-policy --role-name CodeBuildServiceRole --policy-name CodeBuildServiceRolePolicy --policy-document file://put-role-policy.json
+```
+
+##### ビルドプロジェクトを作成する
+```
+aws codebuild create-project --cli-input-json file://create-project.json
+```
+
+##### ビルドプロジェクトを削除
+```
+export CODE_BUILD_PROJECT_NAME=yourapplication_development
+aws codebuild delete-project --name ${CODE_BUILD_PROJECT_NAME}
+```

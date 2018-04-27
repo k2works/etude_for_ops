@@ -31,6 +31,7 @@ export DEV_IAM_USER_NAME=<%= config['ops']['development']['iam_user_name'] %>@${
 export DEV_IAM_SSH_PUBKEY_ID=<%= config['ops']['development']['iam_ssh_pubkey_id'] %>
 
 export DEV_S3_BACKET=${S3_BACKET}-development
+export DEV_ECR_REPOSITORY=<%= config['ops']['share']['ecr_repository'] %>-development
 
 export DEV_VPC_STACKNAME=$ORGANIZATION-Development-VPC
 export DEV_VPC_TEMPLATE=<%= config['ops']['development']['vpc_template'] %>

@@ -51,6 +51,15 @@ module EtudeForOps
         params[:opsw_elb_cert_arn] = config['ops']['development']['opsw_elb_cert_arn']
         params[:opsw_elb_subnet_1] = config['ops']['development']['opsw_elb_subnet_1']
         params[:opsw_elb_subnet_2] = config['ops']['development']['opsw_elb_subnet_2']
+
+        params[:code_build_project_name] = config['ops']['development']['codebuild_project_name']
+        params[:code_build_source_type] = config['ops']['development']['codebuild_source_type']
+        params[:code_build_source_location] = config['ops']['development']['codebuild_source_location']
+        params[:code_build_region_id] = config['ops']['development']['aws_default_region']
+        params[:code_build_account_id] = config['ops']['development']['iam_account_id']
+        params[:code_build_bucket_file_name] = "#{config['ops']['share']['application']['name']}Development"
+        params[:amazon_ecr_repo_name] = "#{config['ops']['share']['ecr_repository']}-development"
+        params[:role_name] = config['ops']['development']['codebuild_rol_name']
       end
 
       if params[:env] == 'Staging'

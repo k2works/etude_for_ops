@@ -1,0 +1,8 @@
+FROM app:dev
+
+ENV DATABASE_URL mysql2://root:password@db:3306
+
+COPY . $APP_ROOT
+RUN $APP_ROOT/bin/yarn
+RUN $APP_ROOT/bin/webpack
+RUN $APP_ROOT/bin/rails assets:precompile
