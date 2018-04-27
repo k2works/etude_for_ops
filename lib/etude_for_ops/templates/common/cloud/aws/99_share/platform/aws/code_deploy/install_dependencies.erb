@@ -1,0 +1,28 @@
+#!/bin/bash
+sudo chown -R ec2-user:ec2-user /srv/yourapplication/releases/code_deploy
+
+mkdir -p /srv/yourapplication/shared/log
+mkdir -p /srv/yourapplication/shared/node_module
+mkdir -p /srv/yourapplication/shared/public/system
+mkdir -p /srv/yourapplication/shared/public/assets
+mkdir -p /srv/yourapplication/shared/pids
+
+cd /srv/yourapplication/releases/code_deploy
+ln -s /srv/yourapplication/shared/log log
+ln -s /srv/yourapplication/shared/node_modules node_modules
+ln -s /srv/yourapplication/shared/public/system public/system
+ln -s /srv/yourapplication/shared/public/assets public/assets
+ln -s /srv/yourapplication/shared/pids public/tmp/pids
+rm config/database.yml
+ln -s /srv/yourapplication/shared/config/database.yml config/database.yml
+
+/home/ec2-user/.rbenv/shims/bundle install --path vendor
+./bin/rake db:migrate
+./bin/yarn
+./bin/rake assets:precompile
+
+unlink /srv/yourapplication/current
+ln -s /srv/yourapplication/releases/code_deploy /srv/yourapplication/current
+
+# https://qiita.com/yn-misaki/items/c850a07f7858437e4d26
+#echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p

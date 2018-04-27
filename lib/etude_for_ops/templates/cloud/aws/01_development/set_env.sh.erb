@@ -148,3 +148,8 @@ export DEV_OPSW_ELB_SUBNET_1=<%= config['ops']['development']['opsw_elb_subnet_1
 export DEV_OPSW_ELB_SUBNET_2=<%= config['ops']['development']['opsw_elb_subnet_2'] %>
 export DEV_OPSW_INSTANCE_TYPE=<%= config['ops']['development']['opsw_ec2_instance_class'] %>
 export DEV_OPSW_OS="<%= config['ops']['development']['opsw_os'] %>"
+
+export DEV_CODEDEPLY_SERVICE_ROLE_ARN=<%= config['ops']['development']['codedeploy_role_arn'] %>
+export DEV_CODEDEPLY_APPLICATION_NAME=<%= config['ops']['development']['codedeploy_app_name'] %>
+export DEV_CODEDEPLY_DEPLOYMENT_GROUP_NAME=<%= config['ops']['development']['codedeploy_groupe_name'] %>
+export DEV_CODEDEPLY_DEPLOYMENT_CONFIG_NAME=<%= config['ops']['development']['codedeploy_config_name'] %>

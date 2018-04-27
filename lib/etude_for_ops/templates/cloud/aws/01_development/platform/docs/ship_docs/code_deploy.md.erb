@@ -1,0 +1,47 @@
+#### CodeDeploy
+
+##### サービスロールを作成する
+```
+cd /vagrant/src/ship/aws/code_deploy
+aws iam create-role --role-name CodeDeployServiceRole --assume-role-policy-document file://create-role.json
+aws iam attach-role-policy --role-name CodeDeployServiceRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+aws iam attach-role-policy --role-name CodeDeployServiceRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSCodeDeployRoleForLambda
+```
+
+##### サービスロールの取得
+```
+aws iam get-role --role-name CodeDeployServiceRole --query "Role.Arn" --output text
+```
+
+##### アプリケーションおよびデプロイグループの作成
+```
+aws deploy create-application --application-name ${DEV_CODEDEPLY_APPLICATION_NAME}
+aws deploy create-deployment-group --application-name ${DEV_CODEDEPLY_APPLICATION_NAME} --ec2-tag-filters Key=opsworks:layer:app,Type=KEY_AND_VALUE,Value=ApplicationService --deployment-group-name ${DEV_CODEDEPLY_APPLICATION_NAME}-DepGrp --service-role-arn ${DEV_CODEDEPLY_SERVICE_ROLE_ARN}
+```
+
+##### 削除
+```
+aws deploy delete-deployment-group --application-name ${DEV_CODEDEPLY_APPLICATION_NAME} --deployment-group-name ${DEV_CODEDEPLY_DEPLOYMENT_GROUP_NAME}
+aws deploy delete-application --application-name ${DEV_CODEDEPLY_APPLICATION_NAME}
+```
+
+##### アプリケーションのリビジョン
+アプリケーションのルートにて実行する
+```
+export DEV_APPLICATION_BUNDLE_NAME=$APPLICATION_PREFIX-$(date +%Y%m%d).zip
+aws deploy push --application-name ${DEV_CODEDEPLY_APPLICATION_NAME} \
+      --s3-location s3://${DEV_S3_BACKET}/src/${DEV_APPLICATION_BUNDLE_NAME} \
+      --source .
+```
+
+##### アプリケーションのデプロイ
+```
+export DESCRIPTION="FirstDeploy"
+export ETAG=34ebaa4f891889f4b60dd514164195ae-5
+aws deploy create-deployment --application-name ${DEV_CODEDEPLY_APPLICATION_NAME}  \
+                             --s3-location bucket=${DEV_S3_BACKET},key=src/${DEV_APPLICATION_BUNDLE_NAME},bundleType=zip,eTag=${ETAG}  \
+                             --deployment-group-name ${DEV_CODEDEPLY_DEPLOYMENT_GROUP_NAME}  \
+                             --deployment-config-name ${DEV_CODEDEPLY_DEPLOYMENT_CONFIG_NAME}  \
+                             --description ${DESCRIPTION}  \
+                             --file-exists-behavior OVERWRITE
+```

@@ -148,3 +148,8 @@ export PRD_OPSW_ELB_SUBNET_1=<%= config['ops']['production']['opsw_elb_subnet_1'
 export PRD_OPSW_ELB_SUBNET_2=<%= config['ops']['production']['opsw_elb_subnet_2'] %>
 export PRD_OPSW_INSTANCE_TYPE=<%= config['ops']['production']['opsw_ec2_instance_class'] %>
 export PRD_OPSW_OS="<%= config['ops']['production']['opsw_os'] %>"
+
+export PRD_CODEDEPLY_SERVICE_ROLE_ARN=<%= config['ops']['production']['codedeploy_role_arn'] %>
+export PRD_CODEDEPLY_APPLICATION_NAME=<%= config['ops']['production']['codedeploy_app_name'] %>
+export PRD_CODEDEPLY_DEPLOYMENT_GROUP_NAME=<%= config['ops']['production']['codedeploy_groupe_name'] %>-
+export PRD_CODEDEPLY_DEPLOYMENT_CONFIG_NAME=<%= config['ops']['production']['codedeploy_config_name'] %>-

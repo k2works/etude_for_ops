@@ -211,6 +211,7 @@ module EtudeForOps
       aws.components << EtudeForOps::EB.new(aws)
       aws.components << EtudeForOps::OpsWorks.new(aws)
       aws.components << EtudeForOps::CodeBuild.new(aws)
+      aws.components << EtudeForOps::CodeDeploy.new(aws)
       @builder.platforms << aws
     end
 

@@ -1,0 +1,60 @@
+version: 0.0
+os: linux
+files:
+  - source: /package.json
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /yarn.lock
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /.postcssrc.yml
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /config.ru
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /Gemfile
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /Gemfile.lock
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /Rakefile
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /README.md
+    destination: /srv/yourapplication/releases/code_deploy
+  - source: /bin/
+    destination: /srv/yourapplication/releases/code_deploy/bin
+  - source: /app/
+    destination: /srv/yourapplication/releases/code_deploy/app
+  - source: /config/
+    destination: /srv/yourapplication/releases/code_deploy/config
+  - source: /db/
+    destination: /srv/yourapplication/releases/code_deploy/db
+  - source: /vendor/
+    destination: /srv/yourapplication/releases/code_deploy/vendor
+  - source: /public/
+    destination: /srv/yourapplication/releases/code_deploy/public
+  - source: /test/
+    destination: /srv/yourapplication/releases/code_deploy/test
+permissions:
+  - object: /srv/yourapplication/releases/code_deploy
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
+    type:
+      - directory
+  - object: /srv/yourapplication/releases/code_deploy
+    pattern: "*"
+    owner: ec2-user
+    group: ec2-user
+    mode: 664
+    type:
+      - file
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/install_dependencies
+      timeout: 1800
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start_server
+      timeout: 300
+      runas: root

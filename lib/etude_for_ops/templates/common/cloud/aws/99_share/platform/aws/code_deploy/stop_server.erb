@@ -1,0 +1,4 @@
+#!/bin/bash
+service puma_yourapplication stop
+service active_job_yourapplication stop
+unlink /srv/yourapplication/releases/code_deploy/config/database.yml
