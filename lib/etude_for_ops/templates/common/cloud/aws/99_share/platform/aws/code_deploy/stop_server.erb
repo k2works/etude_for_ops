@@ -1,4 +1,9 @@
 #!/bin/bash
+#!/bin/bash
 service puma_yourapplication stop
 service active_job_yourapplication stop
-unlink /srv/yourapplication/releases/code_deploy/config/database.yml
+
+dir=/srv/yourapplication/releases/code_deploy
+if [ -d $dir ]; then
+unlink $dir/config/database.yml
+fi
