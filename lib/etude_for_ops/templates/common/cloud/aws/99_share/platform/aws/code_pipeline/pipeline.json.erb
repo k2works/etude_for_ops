@@ -1,0 +1,94 @@
+{
+    "pipeline": {
+        "roleArn": "arn:aws:iam::<%= params[:codepipeline_account_id] %>:role/CodePipelineServiceRole",
+        "stages": [
+            {
+                "name": "<%= params[:codepipeline_source_name] %>",
+                "actions": [
+                    {
+                        "inputArtifacts": [], 
+                        "name": "Source", 
+                        "actionTypeId": {
+                            "category": "Source", 
+                            "owner": "ThirdParty", 
+                            "version": "1", 
+                            "provider": "GitHub"
+                        }, 
+                        "outputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ], 
+                        "configuration": {
+                            "Owner": "k2works", 
+                            "Repo": "etude_for_rails", 
+                            "PollForSourceChanges": "false", 
+                            "Branch": "develop", 
+                            "OAuthToken": "<%= params[:codepipeline_source_oauthtoken] %>"
+                        }, 
+                        "runOrder": 1
+                    }
+                ]
+            }, 
+            {
+                "name": "<%= params[:codepipeline_build_name] %>",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ], 
+                        "name": "CodeBuild", 
+                        "actionTypeId": {
+                            "category": "Build", 
+                            "owner": "AWS", 
+                            "version": "1", 
+                            "provider": "CodeBuild"
+                        }, 
+                        "outputArtifacts": [
+                            {
+                                "name": "MyAppBuild"
+                            }
+                        ], 
+                        "configuration": {
+                            "ProjectName": "<%= params[:codepipeline_build_project_name] %>"
+                        }, 
+                        "runOrder": 1
+                    }
+                ]
+            }, 
+            {
+                "name": "<%= params[:codepipeline_deploy_name] %>",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ], 
+                        "name": "<%= params[:codepipeline_deploy_deploymentgroup_name] %>",
+                        "actionTypeId": {
+                            "category": "Deploy", 
+                            "owner": "AWS", 
+                            "version": "1", 
+                            "provider": "CodeDeploy"
+                        }, 
+                        "outputArtifacts": [], 
+                        "configuration": {
+                            "ApplicationName": "<%= params[:codepipeline_deploy_application_name] %>",
+                            "DeploymentGroupName": "<%= params[:codepipeline_deploy_deploymentgroup_name] %>"
+                        }, 
+                        "runOrder": 1
+                    }
+                ]
+            }
+        ], 
+        "artifactStore": {
+            "type": "S3", 
+            "location": "<%= params[:codepipeline_artifactstore_location] %>"
+        }, 
+        "name": "<%= params[:codepipeline_name] %>",
+        "version": 1
+    }
+}

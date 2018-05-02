@@ -21,6 +21,7 @@ module EtudeForOps
       if params[:env] == 'Development'
         params[:organization_name] = "#{config['ops']['share']['organization']}"
         params[:application_name] = "#{config['ops']['share']['application']['name']}"
+        params[:aws_default_region] = config['ops']['staging']['aws_default_region']
 
         params[:default_az1] = config['ops']['development']['aws_az_1']
         params[:default_az2] = config['ops']['development']['aws_az_2']
@@ -60,11 +61,23 @@ module EtudeForOps
         params[:code_build_bucket_file_name] = "#{config['ops']['share']['application']['name']}Development"
         params[:amazon_ecr_repo_name] = "#{config['ops']['share']['ecr_repository']}-development"
         params[:role_name] = config['ops']['development']['codebuild_rol_name']
+
+        params[:codepipeline_account_id] = config['ops']['development']['iam_account_id']
+        params[:codepipeline_name] = config['ops']['development']['codepipeline_name']
+        params[:codepipeline_artifactstore_location] = config['ops']['development']['codepipeline_artifactstore_location']
+        params[:codepipeline_deploy_name] = config['ops']['development']['codepipeline_deploy_name']
+        params[:codepipeline_deploy_application_name] = config['ops']['development']['codepipeline_deploy_application_name']
+        params[:codepipeline_deploy_deploymentgroup_name] = config['ops']['development']['codepipeline_deploy_deploymentgroup_name']
+        params[:codepipeline_build_name] = config['ops']['development']['codepipeline_build_name']
+        params[:codepipeline_build_project_name] = config['ops']['development']['codepipeline_build_project_name']
+        params[:codepipeline_source_name] = config['ops']['development']['codepipeline_source_name']
+        params[:codepipeline_source_oauthtoken] = config['ops']['development']['codepipeline_source_oauthtoken']
       end
 
       if params[:env] == 'Staging'
         params[:organization_name] = "#{config['ops']['share']['organization']}"
         params[:application_name] = "#{config['ops']['share']['application']['name']}"
+        params[:aws_default_region] = config['ops']['staging']['aws_default_region']
 
         params[:default_az1] = config['ops']['staging']['aws_az_1']
         params[:default_az2] = config['ops']['staging']['aws_az_2']
@@ -95,11 +108,32 @@ module EtudeForOps
         params[:opsw_elb_cert_arn] = config['ops']['staging']['opsw_elb_cert_arn']
         params[:opsw_elb_subnet_1] = config['ops']['staging']['opsw_elb_subnet_1']
         params[:opsw_elb_subnet_2] = config['ops']['staging']['opsw_elb_subnet_2']
+
+        params[:code_build_project_name] = config['ops']['staging']['codebuild_project_name']
+        params[:code_build_source_type] = config['ops']['staging']['codebuild_source_type']
+        params[:code_build_source_location] = config['ops']['staging']['codebuild_source_location']
+        params[:code_build_region_id] = config['ops']['staging']['aws_default_region']
+        params[:code_build_account_id] = config['ops']['staging']['iam_account_id']
+        params[:code_build_bucket_file_name] = "#{config['ops']['share']['application']['name']}Development"
+        params[:amazon_ecr_repo_name] = "#{config['ops']['share']['ecr_repository']}-staging"
+        params[:role_name] = config['ops']['staging']['codebuild_rol_name']
+
+        params[:codepipeline_account_id] = config['ops']['staging']['iam_account_id']
+        params[:codepipeline_name] = config['ops']['staging']['codepipeline_name']
+        params[:codepipeline_artifactstore_location] = config['ops']['staging']['codepipeline_artifactstore_location']
+        params[:codepipeline_deploy_name] = config['ops']['staging']['codepipeline_deploy_name']
+        params[:codepipeline_deploy_application_name] = config['ops']['staging']['codepipeline_deploy_application_name']
+        params[:codepipeline_deploy_deploymentgroup_name] = config['ops']['staging']['codepipeline_deploy_deploymentgroup_name']
+        params[:codepipeline_build_name] = config['ops']['staging']['codepipeline_build_name']
+        params[:codepipeline_build_project_name] = config['ops']['staging']['codepipeline_build_project_name']
+        params[:codepipeline_source_name] = config['ops']['staging']['codepipeline_source_name']
+        params[:codepipeline_source_oauthtoken] = config['ops']['staging']['codepipeline_source_oauthtoken']
       end
 
       if params[:env] == 'Production'
         params[:organization_name] = "#{config['ops']['share']['organization']}"
         params[:application_name] = "#{config['ops']['share']['application']['name']}"
+        params[:aws_default_region] = config['ops']['staging']['aws_default_region']
 
         params[:default_az1] = config['ops']['production']['aws_az_1']
         params[:default_az2] = config['ops']['production']['aws_az_2']
@@ -130,6 +164,26 @@ module EtudeForOps
         params[:opsw_elb_cert_arn] = config['ops']['production']['opsw_elb_cert_arn']
         params[:opsw_elb_subnet_1] = config['ops']['production']['opsw_elb_subnet_1']
         params[:opsw_elb_subnet_2] = config['ops']['production']['opsw_elb_subnet_2']
+
+        params[:code_build_project_name] = config['ops']['production']['codebuild_project_name']
+        params[:code_build_source_type] = config['ops']['production']['codebuild_source_type']
+        params[:code_build_source_location] = config['ops']['production']['codebuild_source_location']
+        params[:code_build_region_id] = config['ops']['production']['aws_default_region']
+        params[:code_build_account_id] = config['ops']['production']['iam_account_id']
+        params[:code_build_bucket_file_name] = "#{config['ops']['share']['application']['name']}Development"
+        params[:amazon_ecr_repo_name] = "#{config['ops']['share']['ecr_repository']}-production"
+        params[:role_name] = config['ops']['production']['codebuild_rol_name']
+
+        params[:codepipeline_account_id] = config['ops']['production']['iam_account_id']
+        params[:codepipeline_name] = config['ops']['production']['codepipeline_name']
+        params[:codepipeline_artifactstore_location] = config['ops']['production']['codepipeline_artifactstore_location']
+        params[:codepipeline_deploy_name] = config['ops']['production']['codepipeline_deploy_name']
+        params[:codepipeline_deploy_application_name] = config['ops']['production']['codepipeline_deploy_application_name']
+        params[:codepipeline_deploy_deploymentgroup_name] = config['ops']['production']['codepipeline_deploy_deploymentgroup_name']
+        params[:codepipeline_build_name] = config['ops']['production']['codepipeline_build_name']
+        params[:codepipeline_build_project_name] = config['ops']['production']['codepipeline_build_project_name']
+        params[:codepipeline_source_name] = config['ops']['production']['codepipeline_source_name']
+        params[:codepipeline_source_oauthtoken] = config['ops']['production']['codepipeline_source_oauthtoken']
       end
     end
   end

@@ -1,0 +1,28 @@
+#### CodePipeline
+
+##### サービスロールを作成する
+```
+cd /vagrant/src/ship/aws/code_pipeline
+aws iam create-role --role-name CodePipelineServiceRole --assume-role-policy-document file://create-role.json
+aws iam put-role-policy --role-name CodePipelineServiceRole --policy-name CodePipelineServiceRolePolicy --policy-document file://put-role-policy.json
+```
+
+##### サービスロールの取得
+```
+aws iam get-role --role-name CodePipelineServiceRole --query "Role.Arn" --output text
+```
+
+##### パイプラインを作成
+```
+aws codepipeline create-pipeline --cli-input-json file://pipeline.json
+```
+
+##### 削除
+```
+aws codepipeline delete-pipeline --name ${DEV_CODEPIPELINE_NAME}
+```
+
+##### パイプラインのJSONファイル更新
+```
+aws codepipeline get-pipeline --name ${DEV_CODEPIPELINE_NAME} >pipeline.json
+```
