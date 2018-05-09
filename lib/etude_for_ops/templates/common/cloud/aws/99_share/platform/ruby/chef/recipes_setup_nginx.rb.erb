@@ -1,5 +1,5 @@
 server = node['nginx_app_server']
-app = node['app_name_short']
+app = node['app_name_short'][0]
 
 execute 'install' do
   command 'amazon-linux-extras install nginx1.12'
