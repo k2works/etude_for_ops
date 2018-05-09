@@ -3,7 +3,7 @@
 APP_ID=$<%= params[:opsw_app_job_id] %>
 RAILS_ENV=$<%= params[:opsw_app_env] %>
 SECRET_KEY_BASE=$<%= params[:opsw_app_secret_key_base] %>
-STG_URL=$<%= params[:opsw_app_job_url]%>
+URL=$<%= params[:opsw_app_job_url]%>
 DB_ADAPTER=$<%= params[:opsw_db_adapter]%>
 DB_NAME=$<%= params[:opsw_db_job_name]%>
 DB_USERNAME=$<%= params[:opsw_db_username]%>
@@ -20,7 +20,7 @@ echo REVISION:$REVISION
 echo DB_NAME:$DB_NAME
 echo RAILS_ENV:$RAILS_ENV
 echo SECRET_KEY_BASE:$SECRET_KEY_BASE
-echo APP_URL:$STG_URL
+echo APP_URL:$URL
 echo DB_ADAPTER:$DB_ADAPTER
 echo DB_NAME:$DB_NAME
 echo DB_USERNAME:$DB_USERNAME
@@ -36,6 +36,7 @@ aws opsworks update-app  \
              --region us-east-1   \
              --app-id $APP_ID  \
              --app-source  Url=$REPO_URL,Revision=$REVISION \
+             --domains  $URL \
              --environment Key=RAILS_ENV,Value=$RAILS_ENV,Secure=false \
                            Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
                            Key=APP_URL,Value=$STG_URL,Secure=false \

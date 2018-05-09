@@ -5,7 +5,7 @@ RDS_DB_INSTANCE_ARN=$<%= params[:opsw_rds_db_instance_arn] %>
 DB_NAME=$<%= params[:opsw_rds_db_name] %>
 RAILS_ENV=$<%= params[:opsw_app_env] %>
 SECRET_KEY_BASE=$<%= params[:opsw_app_secret_key_base] %>
-STG_URL=$<%= params[:opsw_app_api_url]%>
+URL=$<%= params[:opsw_app_api_url]%>
 S3_BACKET=$<%= params[:opsw_backet]%>
 REPO_URL=$<%= params[:opsw_app_api_repo_url]%>
 REVISION=$<%= params[:opsw_app_api_revision]%>
@@ -19,7 +19,7 @@ echo RDS_DB_INSTANCE_ARN:$RDS_DB_INSTANCE_ARN
 echo DB_NAME:$DB_NAME
 echo RAILS_ENV:$RAILS_ENV
 echo SECRET_KEY_BASE:$SECRET_KEY_BASE
-echo APP_URL:$STG_URL
+echo URL:$URL
 echo S3_BACKET:$S3_BACKET
 echo REPO_URL:$REPO_URL
 echo REVISION:$REVISION
@@ -32,9 +32,10 @@ aws opsworks update-app  \
              --app-id $APP_ID  \
              --app-source  Url=$REPO_URL,Revision=$REVISION \
              --data-sources Type=RdsDbInstance,Arn=$RDS_DB_INSTANCE_ARN,DatabaseName=$DB_NAME \
+             --domains  $URL \
              --environment Key=RAILS_ENV,Value=$RAILS_ENV,Secure=false \
                            Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
-                           Key=APP_URL,Value=$STG_URL,Secure=false \
+                           Key=APP_URL,Value=$URL,Secure=false \
                            Key=S3_BACKET,Value=$S3_BACKET,Secure=false \
                            Key=S3_ACCESS_KEY,Value=$S3_ACCESS_KEY,Secure=false \
                            Key=S3_SECRET_KEY,Value=$S3_SECRET_KEY,Secure=true
