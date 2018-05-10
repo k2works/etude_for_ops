@@ -39,7 +39,7 @@ aws opsworks update-app  \
              --domains  $URL \
              --environment Key=RAILS_ENV,Value=$RAILS_ENV,Secure=false \
                            Key=SECRET_KEY_BASE,Value=$SECRET_KEY_BASE,Secure=true \
-                           Key=APP_URL,Value=$STG_URL,Secure=false \
+                           Key=APP_URL,Value=$URL,Secure=false \
                            Key=DB_ADAPTER,Value=$DB_ADAPTER,Secure=false \
                            Key=DB_NAME,Value=$DB_NAME,Secure=false \
                            Key=DB_USER,Value=$DB_USERNAME,Secure=false \

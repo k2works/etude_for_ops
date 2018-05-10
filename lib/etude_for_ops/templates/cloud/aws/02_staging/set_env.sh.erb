@@ -30,6 +30,9 @@ export STG_TAGVALUE=$STG_APPLICATION_NAME
 export STG_IAM_USER_NAME=<%= config['ops']['staging']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
 export STG_IAM_SSH_PUBKEY_ID=<%= config['ops']['staging']['iam_ssh_pubkey_id'] %>
 
+export STG_KMS_ARN=<%= config['ops']['staging']['kms_arn'] %>
+export STG_KMS_KEY_ID=<%= config['ops']['staging']['kms_key_id'] %>
+
 export STG_S3_BACKET=${S3_BACKET}-staging
 export STG_ECR_REPOSITORY=<%= config['ops']['share']['ecr_repository'] %>-staging
 

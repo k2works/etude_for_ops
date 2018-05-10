@@ -30,6 +30,9 @@ export DEV_TAGVALUE=$DEV_APPLICATION_NAME
 export DEV_IAM_USER_NAME=<%= config['ops']['development']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
 export DEV_IAM_SSH_PUBKEY_ID=<%= config['ops']['development']['iam_ssh_pubkey_id'] %>
 
+export DEV_KMS_ARN=<%= config['ops']['development']['kms_arn'] %>
+export DEV_KMS_KEY_ID=<%= config['ops']['development']['kms_key_id'] %>
+
 export DEV_S3_BACKET=${S3_BACKET}-development
 export DEV_ECR_REPOSITORY=<%= config['ops']['share']['ecr_repository'] %>-development
 

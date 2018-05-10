@@ -30,6 +30,9 @@ export PRD_TAGVALUE=$PRD_APPLICATION_NAME
 export PRD_IAM_USER_NAME=<%= config['ops']['production']['iam_user_name'] %>@${AWS_DEFAULT_REGION}
 export PRD_IAM_SSH_PUBKEY_ID=<%= config['ops']['production']['iam_ssh_pubkey_id'] %>
 
+export PRD_KMS_ARN=<%= config['ops']['production']['kms_arn'] %>
+export PRD_KMS_KEY_ID=<%= config['ops']['production']['kms_key_id'] %>
+
 export PRD_S3_BACKET=${S3_BACKET}-production
 export PRD_ECR_REPOSITORY=<%= config['ops']['share']['ecr_repository'] %>-production
 

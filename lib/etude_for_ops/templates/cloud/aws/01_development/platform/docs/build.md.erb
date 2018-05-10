@@ -29,9 +29,31 @@ chmod 0755 ./create_stack.sh
 aws cloudformation list-stack-resources --stack-name $DEV_IAM_STACKNAME --output table
 ```
 
+#### CMK (API) を作成する
+```
+aws kms create-key --description ${DEV_APPLICATION_NAME}
+```
+
+ファイル暗号化を確認する
+```
+echo 'Hello, world!' > plaintext-file.txt
+cat plaintext-file.txt
+aws kms generate-data-key --key-id ${DEV_KMS_KEY_ID} --key-spec AES_256 --query 'KeyId'
+
+aws kms encrypt \
+--key-id ${DEV_KMS_ARN} \
+--plaintext fileb://plaintext-file.txt \
+--query CiphertextBlob --output text | \
+base64 --decode > encrypted-file.txt
+
+aws kms decrypt --ciphertext-blob fileb://encrypted-file.txt --query Plaintext --output text | base64 --decode
+rm plaintext-file.txt
+rm encrypted-file.txt
+```
+
 #### S3バケットの作成
 ```bash
-$ aws s3 mb s3://$DEV_S3_BACKET
+aws s3 mb s3://$DEV_S3_BACKET
 ```
 
 #### レポジトリ用秘密鍵と公開鍵の作成
