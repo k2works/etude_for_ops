@@ -14,6 +14,7 @@ module EtudeForOps
 
     def apply_env
       create_ops_yml
+      create_gitignore_file
       create_env_file
       create_readme_file
       create_vagrant_file
@@ -31,6 +32,10 @@ module EtudeForOps
 
     def create_ops_yml
       @environment.create_ops_yml
+    end
+
+    def create_gitignore_file
+      @environment.create_gitignore_file
     end
 
     def create_env_file

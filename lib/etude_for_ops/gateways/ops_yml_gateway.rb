@@ -8,6 +8,10 @@ module EtudeForOps
       "#{@root_dir}/ops.yml"
     end
 
+    def gitignore_file_path
+      "#{@root_dir}/.gitignore"
+    end
+
     def select_all
       YAML.load_file(ops_yml_file_path)
     end

@@ -82,6 +82,22 @@ module EtudeForOps
       end
     end
 
+    def create_gitignore_file
+      unless File.exists?(@ops_yml_gateway.gitignore_file_path)
+        erb_file = "#{template_root_path}/.gitignore.erb"
+        if File.exists?(erb_file)
+          template = File.read(erb_file)
+          erb = ERB.new(template, nil, '%')
+          File.open(@ops_yml_gateway.gitignore_file_path, 'w') do |file|
+            file.puts(erb.result(binding))
+          end
+        else
+          raise ".gitignore.erb is not exist in #{template_root_path}"
+        end
+      end
+    end
+
+
     def create_env_file(file='.env')
       config = @ops_yml_gateway.select_all
       template = File.read("#{template_root_path}/.env.erb")
