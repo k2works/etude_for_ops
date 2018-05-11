@@ -1,3 +1,29 @@
 include_recipe 'ruby_platform::setup'
-include_recipe 'ruby_platform::setup_docker'
+
+yum_package 'docker' do
+  action :install
+  flush_cache [:before]
+end
+
+service "docker" do
+  supports :status => true, :restart => true, :reload => true
+  action [:enable, :start]
+end
+
+members = []
+if node['etc']['passwd']['ec2-uer']
+  members << 'ec2-user'
+end
+if node['etc']['passwd']['jenkins']
+  members << 'jenkins'
+end
+
+unless members.empty?
+  group 'docker' do
+    action [:modify]
+    members members
+    append true
+  end
+end
+
 include_recipe 'ruby_platform::setup_jenkins_ec2'
