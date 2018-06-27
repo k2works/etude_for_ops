@@ -25,3 +25,136 @@ sudo gem install bundler
 sudo gem install rails
 rails new . -d mysql
 ```
+
+### AmazonLinux2のVagrant boxを作成
+
+```bash
+cd /ops/99_share/build
+mkdir 2.0.20180622.1
+cd 2.0.20180622.1
+```
+
+#### イメージをダウンロード
+https://cdn.amazonlinux.com/os-images/latest
+
+```bash
+wget -O amznlinux2.vdi https://cdn.amazonlinux.com/os-images/2.0.20180622.1/virtualbox/amzn2-virtualbox-2.0.20180622.1-x86_64.xfs.gpt.vdi
+wget -O VBoxGuestAddtions.iso http://download.virtualbox.org/virtualbox/5.2.12/VBoxGuestAdditions_5.2.12.iso
+cp amzn2-virtualbox-2.0.20180622.1-x86_64.xfs.gpt.vdi ../amznlinux2.vdi
+```
+
+#### user-dataの作成
+```
+#cloud-config
+users:
+  - default
+  - name: vagrant
+    groups: wheel
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    plain_text_passwd: vagrant
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+    lock_passwd: false
+
+chpasswd:
+  list: |
+    root:vagrant
+  expire: False
+
+
+# VirtualBox Guest Additions のビルドに必要なパッケージをインストール
+packages:
+  - kernel
+  - kernel-devel
+  - kernel-headers
+  - gcc
+  - make
+  - perl
+  - bzip2
+  - mod_ssl
+  - elfutils-libelf-devel
+
+runcmd:
+  # cloud-init による起動時の root のパスワードリセット処理を無効化
+  - sed -i 's/.*root:RANDOM/#&/g' /etc/cloud/cloud.cfg.d/99_onprem.cfg
+
+  # Vagrant によるディストリビューションの識別のための互換設定
+  # Amazon Linux をサポートしていないため、RedHat Enterprise Linux として認識させる
+  - ln -s /etc/system-release /etc/redhat-release
+```
+#### seed.isoの作成
+```bash
+.
+└── cidata
+    ├── meta-data
+    └── user-data
+echo "local-hostname: amznlinux2" > meta-data
+hdiutil makehybrid -iso -joliet -o seed.iso seed -joliet-volume-name cidata
+```
+
+### VMの起動
+```
+VM=vagrant-amznlinux2
+VDI=amznlinux2.vdi
+VGA=/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso
+VBoxManage createvm --name "$VM" --ostype "RedHat_64" --register
+VBoxManage storagectl "$VM" --name "SATA Controller" --add "sata" --controller "IntelAHCI"
+VBoxManage storagectl "$VM" --name "IDE Controller" --add "ide"
+VBoxManage storageattach "$VM" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium $VDI
+VBoxManage storageattach "$VM" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium seed.iso
+VBoxManage modifyvm "$VM" --natpf1 "ssh,tcp,127.0.0.1,2222,,22" --memory 1024 --vram 8 --audio none --usb off
+VBoxManage startvm "$VM" --type headless
+```
+
+### VMにログイン
+```
+# Vagrant insecure private keyのダウンロード
+curl -sL https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant -o vagrant.pem
+chmod 600 vagrant.pem
+
+# VBoxGuestAdditionsイメージをアタッチ
+VBoxManage storageattach "$VM" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $VGA --forceunmount
+
+# ログイン
+ssh -p 2222 vagrant@localhost -i vagrant.pem
+```
+
+#### VirtualBox Guest Additions のインストール
+```bash
+# OSからマウント
+sudo mount -r /dev/cdrom /media
+
+# VBoxGuestAdditionsのインストール
+sudo /media/VBoxLinuxAdditions.run --nox11
+
+# アンマウント
+sudo umount /media
+```
+
+### クリーンアップ
+```bash
+# クリーンアップ
+rm $HOME/.bash_history
+sudo rm -rf /var/cache/yum
+sudo dd if=/dev/zero of=/0 bs=4k
+sudo rm -f /0
+history -c
+
+# シャットダウン
+sudo shutdown -h now
+```
+
+### Vagrant boxの作成と登録
+```bash
+vagrant package --base "$VM"
+vagrant box add --name amazonlinux2 metadata.json
+```
+
+### お試し起動・ログイン
+```bash
+mkdir amznlinux2
+cd amznlinux2
+vagrant init amazonlinux2
+vagrant up
+vagrant ssh
+```
